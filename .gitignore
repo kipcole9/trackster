@@ -1,0 +1,10 @@
+.DS_Store
+log/*.log
+tmp/**/*
+tmp/*
+config/database.yml
+vendor/rails/**/*
+public/track_data
+
+
+/vendor/rails
