@@ -45,14 +45,14 @@ Rails::Initializer.run do |config|
   config.i18n.load_path += Dir[Rails.root.join("#{Rails.root}", 'config', 'locales', '**', '*.{rb,yml}')]
   config.i18n.default_locale = "en-US"
   
-  
+  # Make sure the admin user is all sorted.
+  # On a cold deploy this could fail since the 
+  # schema isn't loaded.  Hence the exception
+  # recovery.
   config.after_initialize do
-    begin
-      Role.ensure_roles_exist
-      Account.ensure_admin_exists
-      User.ensure_admin_exists
-    rescue Mysql::Error
-    end
+    Role.ensure_roles_exist rescue nil
+    Account.ensure_admin_exists rescue nil
+    User.ensure_admin_exists rescue nil
   end
 
   config.action_mailer.delivery_method = :smtp
