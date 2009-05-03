@@ -10,7 +10,7 @@ set :repository, "git@github.com:kipcole9/trackster.git"
 
 # Deploy from master branch by default
 set :branch, "master"
-set :scm_verbose, true
+set :scm_verbose, false
 
 set :user, 'kip'
 ssh_options[:forward_agent] = true
@@ -34,7 +34,8 @@ namespace :deploy do
 end
 
 # Avoid keeping the database.yml configuration in git.
-task :copy_database_yml, :roles => :app do
+after 'deploy:update_code', 'copy_config' 
+task :copy_config, :roles => :app do
   db_config = "#{app_dir}/#{application}/config/database.yml"
   site_keys = "#{app_dir}/#{application}/config/site_keys.rb"
   run "cp #{db_config} #{release_path}/config/database.yml"

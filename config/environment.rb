@@ -22,6 +22,7 @@ Rails::Initializer.run do |config|
   config.gem "file-tail", :lib => 'file/tail'
   config.gem "rubyist-aasm", :lib => 'aasm'  
   config.gem "inifile"
+  config.gem "graticule"
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
@@ -44,10 +45,14 @@ Rails::Initializer.run do |config|
   config.i18n.load_path += Dir[Rails.root.join("#{Rails.root}", 'config', 'locales', '**', '*.{rb,yml}')]
   config.i18n.default_locale = "en-US"
   
+  
   config.after_initialize do
-    Role.ensure_roles_exist
-    Account.ensure_admin_exists
-    User.ensure_admin_exists
+    begin
+      Role.ensure_roles_exist
+      Account.ensure_admin_exists
+      User.ensure_admin_exists
+    rescue Mysql::Error
+    end
   end
 
   config.action_mailer.delivery_method = :smtp
