@@ -5,6 +5,6 @@ tmp/*
 config/database.yml
 vendor/rails/**/*
 public/track_data
+config/initializers/site_keys.rb
+public/systems/**/*
 
-
-/vendor/rails

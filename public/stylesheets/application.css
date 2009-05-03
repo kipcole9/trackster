@@ -1,0 +1,593 @@
+/* Colors for emphasis
+	Light yellow: #FAF8CC
+	Light cyan: #CFECEC
+	Light green (for flash) #bfb
+	Light red (flash error) #fbb
+*/	
+
+body {
+	padding-bottom 0;
+}
+
+input[type="text"] {
+	line-height: 1em;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+
+/* Default rendering of select in safari doesn't allow font-size
+ * using a border turns off using native widgets and we can style 
+ * some more.
+ * Thanks to http://particletree.com/notebook/design-friendly-select-elements-in-safari-3/
+ */
+select {
+	height: 22px;
+	border: 1px solid #999;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 100%;
+}
+
+h4 {
+	font-size: 110%;
+}
+
+/* Thanks to http://camendesign.com/code/uth6_beautiful_css_dates */
+:focus {
+	/* Webkit */
+	outline: auto 5px -webkit-focus-ring-color; 
+	outline-offset: -2px;
+	/* Gecko 
+	-moz-outline: -moz-mac-focusring solid 2px; 
+	-moz-outline-offset: 0; */
+}
+
+/* Specific css for things out of the normal template flow */
+.container_12 {
+	min-width: 860px;
+}
+
+/* New account setup, selecting a sitename */
+div.sitename {
+	display: inline;
+	margin-top: -10px;
+	margin-left: 2px;
+}
+
+div.sitename input[type="text"] {
+	display: inline;
+}
+div.sitename + .prompt, div.sitename div.fieldWithErrors .prompt {
+	margin-top: 3px;
+}
+
+div.sitename div.fieldWithErrors {
+	display: inline;
+	position: relative;
+	top: 0px;
+}
+
+/* branding
+----------------------------------------------- */
+h1#branding {
+	font-weight:normal;
+	font-size:2em;
+	text-align:left;
+	background:#aaa;
+	padding:.5em;
+	margin-bottom:0;
+}
+
+
+/* page heading
+----------------------------------------------- */
+h2#page-heading {
+	font-weight:normal;
+	font-size: 1.5em;
+	padding:.5em;
+	margin:0 0 10px 0;
+	border-bottom:1px solid #ccc;
+}
+
+h1#branding, h2#page-heading {
+	padding-left: 11px;
+}
+
+.block .tab {
+	margin-bottom: 0;
+}
+
+/* Flash */
+div.flash_notice, div.flash_error {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: -3px;
+	background-color: #bfb;
+	border: 1px solid #999;
+}
+
+div.flash_notice img, div.flash_error img {
+	position: relative;
+	top: 0.3em;
+}
+
+div.flash_notice p, div.flash_error p {
+	margin: 0;
+	padding-bottom: 2px;
+}
+
+div.flash_error {
+	background-color: #fbb;
+}
+
+/* The field error message from validations */
+span.field_message {
+	margin-left: 3px;
+	color: #fbb;
+}
+
+/* Field prompts under the input field */
+p.prompt {
+	margin-top: 0.2em;
+	margin-left: 1px;
+	margin-bottom: 0;
+	font-size: 90%;
+	line-height: 1.1em;
+}
+
+/* Form sections */
+form {
+	position: relative;
+	
+	/* To provide some spacing below the form contents
+	to allow for the submit and cancel buttons */
+	padding-bottom: 2.2em;
+}
+
+form .section_left {
+	position: relative;
+	float: left;
+	width: 48%;
+	padding-right: 10px;
+}
+
+form .section_right {
+	position: relative;
+	float: left;
+	width: 48%;
+	padding-left: 10px;
+}
+
+/* Submit button combo */
+form .submit_button {
+	position: absolute;
+	bottom: 0.4em;
+	right: 0px;
+}
+
+form .field_message + select {
+	margin-top: 0.1em;
+}
+
+form img {
+	margin-top: 0.5em;
+}
+textarea {
+	margin: 0;
+	padding: 2px 2px 2px 0;
+	display: block;
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
+}
+
+input[type="file"] {
+	-moz-appearance: textfield;
+	margin: 0;
+	padding: 0;
+}
+
+/* Tags */
+ul.tags {
+	position: relative;
+	list-style: none;
+	margin: 0;
+}
+
+ul.tags li.tag {
+	display: inline-block;
+    list-style: none;
+	margin: 0 0 0 0;
+	padding: 0 5px 1px;
+	background-color: #CFECEC;
+	border: 1px solid #aaa;
+	-webkit-border-radius: 	 5px;  
+  	-moz-border-radius:	5px;
+}
+
+ul.tags li.tag img {
+	position: relative;
+	top: 3px;
+}
+
+ul.tags li.tag a {
+	font-weight: normal;
+}
+
+/* Link for the "show more fields" option */
+span.showOptional {
+	position: absolute;
+	font-weight: normal;
+	line-height: 1em;
+	right: 8px;
+	top: 17px;
+	z-index: 10;
+	color: #999;
+}
+
+span.showOptional input[type="checkbox"] {
+	margin: 0 0 0 3px;
+}
+
+/* Field spacing on forms */
+div.field + div.field {
+	margin-top: 0.3em;
+}
+
+/* Date multi select boxes in line */
+div.date select {
+	display: inline;
+}
+
+/* Help boxes */
+div.help dl {
+	margin-bottom: 5px;
+}
+
+div.help h2 a {
+	background-color: #777;
+}
+
+/* Signup banner */
+h1.signup {
+	text-align: center;
+	font-size: 4em;
+	line-height: 1.5em;
+	color: red;
+	margin-bottom: 30px;
+}
+
+/* For fieldsets */
+legend {
+	padding: 0.2em 0.8em;
+}
+
+/* The add button in fieldsets that represent
+AR associated relations */
+legend img, img.delete {
+	position: relative;
+}
+
+legend img {
+	top: 0.25em;
+	left: 0.4em;
+	margin-top: 0;
+}
+
+img.delete {
+	left: 0.1em;
+	top: 0.32em;
+}
+
+
+div.fieldWithErrors input {
+	border: 1px dashed red;
+}
+
+div.errorExplanation {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+div.errorExplanation ul {
+	margin-bottom: 0;
+}
+
+/* Forms inline display */
+div.inline div, div.inline label, div.inline input, div.inline select, div.inline .fieldWithErrors,
+div.inline textarea {
+	display: inline;
+}
+
+div.inline .fieldWithErrors {
+	top: 0;
+}
+
+div.inline input, div.inline textarea {
+	margin-right: 5px;
+}
+
+div.inline textarea {
+	vertical-align: top;
+	float: right;
+}
+
+div.inline label {
+	margin-right: 3px;
+}
+
+div.inline + div.inline div label, div.address._new label {
+	color: #aaa;
+}
+
+div.inline label {
+	float: left;
+	width: 6em;
+	position: relative;
+	top: 0.65em;
+}
+
+/* Menu transparency */
+ul.main li ul {
+  opacity: 0.9;
+}
+
+div.block {
+	padding-bottom: 5px;
+}
+
+/* Formatting for addresses */
+fieldset#address input, fieldset#address textarea, fieldset#address select {
+	margin-bottom: 0.7em;
+}
+
+fieldset#address textarea, fieldset#address select, fieldset#address span {
+	vertical-align: top;
+	float: left;
+}
+
+fieldset#address textarea {
+	margin-left: 0;
+	line-height: 1.2em;
+}
+
+fieldset#address div {
+	margin-bottom: 0;
+}
+
+form input[type="checkbox"] {
+	margin-right: 0.4em;
+	margin-top: 0.3em;
+}
+
+fieldset#address label {
+	float: left;
+	width: 6em;
+	position: relative;
+	top: 0.25em;
+}
+
+fieldset#address label.street {
+	top: 0.1em;
+}
+
+fieldset#address select {
+	margin: 0 0 0 5px;
+}
+
+fieldset#address img.delete {
+	top: -0.4em;
+	margin-left: 0.25em;
+}
+
+div.address._new {
+	margin-top: 0.6em;
+	padding-top: 1em;
+	border-top: 1px dotted #ccc;
+}
+
+/* Contact card display */
+#contactCards {
+	width: 100%;
+}
+
+div.contactCard {
+	position: relative;
+	float: left;
+	width: 30.5%; 
+	height: 130px;
+	background-color: white;
+	margin-bottom: 10px;
+	margin-right: 1%;
+	padding: 5px;
+	-webkit-box-shadow: 5px 5px 3px #888;
+	-moz-box-shadow: 5px 5px 3px #888;
+	overflow: hidden;
+}
+
+div.contactCard p {
+	font-size: 11px;
+}
+
+div.contactCard:hover {
+	cursor: move;
+}
+
+div.contactCard img.avatar {
+	float: right;
+}
+
+div.contactCard img.icon {
+	position: relative;
+	width: 11px;
+	top: 0.25em;
+}
+
+div.contactCard img.merge {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+div.contactCard img.merge:hover {
+	border: 1px solid #888;
+}
+div.contactCard h3, div.contactCard h4 {
+	font-size: 100%;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+div.contactCard h4 {
+	font-weight: normal;
+	font-size: 11px;
+}
+div.contactCard h3 + p, div.contactCard h4 + p {
+	margin-top: 0.3em;
+}
+div.contactCard p {
+	margin-bottom: 0;
+	line-height: 1.2em;
+	white-space: nowrap;
+	overflow: hidden;
+	overflow: ellipsis;
+	max-width: 95%;	
+}
+
+div.contactCard p.email a, div.contactCard p.website a {
+	font-weight: normal;
+}
+
+/* Pagination */
+
+#contactCards .pagination {
+	margin-left: 5px;
+}
+
+.pagination a, .pagination span.prev_page, .pagination span.next_page, .pagination span.current {
+	position: relative;
+	top: 0px;
+	border: 1px solid #888;
+	display: inline-block;
+	padding: 1px;
+	margin: 1px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	vertical-align: center;
+	line-height: 20px;
+}
+
+.pagination a.next_page, .pagination span.next_page,
+.pagination a.prev_page, .pagination span.prev_page {
+	width: 80px;
+}
+
+.pagination span.prev_page {
+	margin-left: 0;
+}
+
+/* Search */
+form.search  {
+	margin-bottom: 5px;
+	margin-top: -5px;
+	padding: 6px 8px;
+	background-color: #ccc;
+	-webkit-border-radius: 	 5px;  
+  	-moz-border-radius:	5px;	
+}
+
+form.search input[type="text"], form.search input[type="search"] {
+	display: inline-block;
+	width: 70%;	
+}
+
+form.search label {
+	display: inline-block;
+	font-weight: bold;
+	margin-right: 5px;
+	font-size: 110%;
+}
+
+/* tree view; list view */
+ul.tree, ul.list {
+	width: 100%;
+	margin: 0 auto;
+}
+
+ul.tree ul.trees, ul.tree li.treeMember, ul.tree li.root, ul.list li.listMember {
+	position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tree li.root {
+	padding: 0;
+}
+
+/* Actual data visual formatting */
+div.treeItem, div.listItem {
+	border: 1px solid #aaa;
+	background-color: #eee;
+	padding: 5px;
+	-webkit-border-radius: 5px;  
+  	-moz-border-radius:	5px;
+	margin: 0 0 5px 0;
+}
+
+div.treeItem:hover {
+	cursor: move;
+}
+
+div.treeItem div.buttons, div.listItem div.buttons {
+	position: absolute;
+	top: 6px;
+	right: 3px;
+}
+
+div.treeItem.hover, div.listItem.hover {
+	background-color: #FAF8CC;  /* light yellow */
+}
+
+div.treeItem p, div.listItem p {
+	line-height: 1.2em;
+	margin-bottom: 0.5em;
+	margin-top: 0;
+}
+div.treeItem img, div.listItem img {
+	width: 16px;
+	height: 16px;
+}
+div.treeItem img:hover, div.listItem img:hover {
+	cursor: pointer;
+}
+
+
+/* User pick list */
+div.user {
+	border: 1px solid #aaa;
+	background-color: #eee;
+	padding: 5px;
+	-webkit-border-radius: 	 5px;  
+  	-moz-border-radius:	5px;
+	margin: 0 0 5px 0;
+}
+
+div.user:hover {
+	cursor: move;
+}
+
+div.user p {
+	margin-bottom: 0;
+}
+
+div.user h4 {
+	margin-bottom: 0;
+}
+
+div.user img {
+	float: left;
+	margin-right: 5px;
+}

@@ -1,0 +1,54 @@
+/**** TABRICATOR ****/
+.tabricator {
+  display:                   inline-block;
+  height:                    auto!important;
+  height:                    1%;
+  margin-top:				 5px;
+  margin-left:				 -5px;
+  margin-right:				 -9px;
+  }
+
+.tabricator {
+  display:                   block;
+  }
+
+.tabricator .trig {
+  background:                #bbb;
+  border:                    1px solid #666;
+  -webkit-border-top-left-radius: 	 5px; 
+  -webkit-border-top-right-radius: 	 5px; 
+  -moz-border-radius-topleft:	5px;
+  -moz-border-radius-topright:	5px;
+  border-bottom:             0;
+  cursor:                    pointer;
+  display:                   inline;
+  float:                     left;
+  margin:                    2px 0 0 -1px;
+  padding:                   2px 5px;
+  position:                  relative;
+  }
+
+.tabricator .trig:hover {
+  background:                #f5f5f5;
+  }
+
+/* The open tab header */
+.tabricator .open,
+.tabricator .open:hover {
+  background:                #ddd;
+  margin-top:                0;
+  margin-bottom:             -3px;
+  padding-bottom:            5px;
+  position:                  relative;
+  z-index:                   1;
+  }
+
+.tabricator .targ {
+  border-top:                1px solid #666;
+  clear:                     both;
+  margin:                    0 0 0 -5px;
+  padding-top:				 10px;
+  overflow:                  auto;
+  padding-left:              10px;
+  padding-right:			 10px;
+  }

@@ -1,4 +1,29 @@
 ActionController::Routing::Routes.draw do |map|
+  # Redirection tracking
+  map.redirector      '/r/:redirect', :controller => 'redirects', :action => 'redirect'
+  
+  # Authentication and user management
+  map.logout          '/logout', :controller => 'sessions', :action => 'destroy'
+  map.login           '/login', :controller => 'sessions', :action => 'new'
+  map.register        '/register', :controller => 'users', :action => 'create'
+  map.activate        '/activate/:activation_code', :controller => 'users', :action => 'activate'
+  map.change_password '/change_password', :controller => 'users', :action => 'change_password'
+  map.update_password '/update_password', :controller => 'users', :action => 'update_password', :conditions => {:method => :put}
+  map.signup          '/signup', :controller => 'users', :action => 'new'
+  
+  # Dynamic ajax validations
+  map.validate        '/check/:action.:format', :controller => 'validations'
+  
+  map.resources :users
+  map.resources :accounts
+  map.resources :properties
+  map.resources :campaigns
+  map.resources :redirects    # URL redirects
+  map.resources :relates      # Creates relationships between objects
+
+  map.resource :session
+  map.resource :dashboard     # Home paged for logged_in users
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -32,12 +57,18 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
+  map.root :controller => "dashboards"
 
   # See how all your routes lay out with "rake routes"
 
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  
+  # For analytics display
+  map.connect   '/tracks/show', :controller => 'tracks', :action => 'show'
+  map.tracks    '/tracks/:metric.:format', :controller => 'tracks', :action => 'index'
+  
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
 end

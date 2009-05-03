@@ -2,9 +2,100 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
+  include AuthenticatedSystem
+  include RoleRequirementSystem
+
+  helper            :all # include all helpers, all the time
+  helper_method     :current_account
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
+
+  before_filter     :user_logged_in?
+  before_filter     :set_locale
+  before_filter     :set_timezone
+  before_filter     :store_location, :only => [:index, :show]
+
+  layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
+
+  def user_logged_in?
+    if !logged_in? && !logging_in? && !activation? && !redirecting?
+      store_location
+      flash[:error] = t('must_login')
+      redirect_to login_path 
+    end
+  end
+
+  # Prededence:
+  # => :lang parameter, if it can be matched with an available locale
+  # => locale in the user profile, if they're logged in
+  # => priority locale from the Accept-Language header of the request
+  # => The default site locale
+  def set_locale
+    language = params.delete(:lang)
+    locale = I18n.available_locales & [language] if language
+    locale = current_user.locale if logged_in? && !locale
+    locale ||= request.preferred_language_from(I18n.available_locales)
+    I18n.locale = locale || I18n.default_locale
+  end
+
+  def set_timezone
+    Time.zone = logged_in? ? current_user.timezone : browser_timezone
+  end
+
+  def current_account
+    current_user.account if current_user
+  end
+
+  def logging_in?
+    params[:controller] == "sessions"
+  end
+  
+  def activation?
+    params[:controller] == 'users' && params[:action] == 'activate'
+  end
+  
+  def redirecting?
+    params[:controller] == 'redirects' && params[:action] == 'redirect'
+  end
+
+  def access_denied
+    raise "Access denied"
+  end
+  
+  # The browsers give the # of minutes that a local time needs to add to
+  # make it UTC, while TimeZone expects offsets in seconds to add to 
+  # a UTC to make it local.
+  def browser_timezone
+    return nil if cookies[:tzoffset].blank?
+    @browser_timezone = begin
+      cookies[:tzoffset].to_i.hours
+    end
+    @browser_timezone
+  end
+  
+  def users_ip_address
+    request.env["HTTP_X_REAL_IP"] || request.remote_addr || request.remote_ip
+  end
+
+  def browser
+    request.env["HTTP_USER_AGENT"]
+  end
+
+  def protect_against_forgery?
+    request.xhr? ? false : super
+  end
+  
+  # Scope to controller for translation keys
+  # that start with a '.'
+  def t(symbol, options = {})
+    if symbol.to_s.match(/\A\.(.*)/)
+      key = "#{params[:controller]}.#{$1}"
+    else
+      key = symbol
+    end
+    super key, options
+  end  
+
 end

@@ -1,9 +1,9 @@
 class Track < ActiveRecord::Base
-  belongs_to                    :site
-  before_validation_on_create   :create_site_relationship
-  validates_uniqueness_of       :view, :scope => [:site_id, :visitor, :session],
+  belongs_to                    :property
+  before_validation_on_create   :create_property_relationship
+  validates_uniqueness_of       :view, :scope => [:property_id, :visitor, :session],
                                 :if => lambda {|track|
-                                  track.visitor && track.session && track.site_id
+                                  track.visitor && track.session && track.property_id
                                 }
 
   #
@@ -196,9 +196,9 @@ class Track < ActiveRecord::Base
 
 private
 
-  def create_site_relationship
-    return unless self.site_code
-    self.site = Site.find_by_tracker(self.site_code)
+  def create_property_relationship
+    return unless self.property_code
+    self.property = Property.find_by_tracker(self.property_code)
   end
   
 end

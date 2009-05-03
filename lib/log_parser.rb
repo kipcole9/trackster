@@ -15,7 +15,6 @@ class LogParser
   
   NGINX_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
   DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
-  SEARCH_BOTS = /(Googlebot|yahoo! slurp|msnbot|Twiceler|DotBot|friendfeed|MJ12bot|NetNewsWire|CCBot|Technoratibot|Shere Scout|Moreoverbot|BlogPulseLive)/i
   include     CollectiveIdea::RemoteLocation
   
   attr_accessor   :format, :regexp, :column
@@ -34,6 +33,8 @@ class LogParser
     @regexp = Regexp.new(@format)
   end
   
+  # Parses the incoming log record and breaks it up into the 
+  # the relevant attributes in @columns
   def parse_entry(log_entry)
     @column = {}; i = 1;
     if attributes = log_entry.match(regexp)
@@ -44,9 +45,12 @@ class LogParser
     @column
   end
   
+  # This method only scans a file to EOF and invokes the block on each parsed line
+  # If you're reading live log files it will be no good because logs can be rotated.
+  # In this case use log_tailer and friends.
   def parse_log(filename)
     web_analyser = WebAnalytics.new
-    last_log_time = Date.new(2009, 4, 5)
+    last_log_time = Track.try(:last).try(:tracked_at) || Time.now
     RAILS_DEFAULT_LOGGER.debug "Last start time is #{last_log_time}. No entries before that time will be imported."
     File.open(filename, "r") do |infile|
       while (line = infile.gets)
@@ -55,49 +59,54 @@ class LogParser
           if block_given?
             yield entry
           else
-            save_web_analytics!(web_analyser, entry) unless is_search_bot?(entry[:user_agent])
+            save_web_analytics!(web_analyser, entry) unless web_analyser.is_crawler?(entry[:user_agent])
           end
         end
       end
     end
   end
   
-  def save_web_analytics!(web_analyser, entry)
-    row = web_analyser.create(entry[:url])
-    row.referrer = entry[:referer]
-    row.ip_address = entry[:ip_address]
-    row.tracked_at = entry[:datetime]
-    row.user_agent = entry[:user_agent]
-    geocode_location(row)
-    unless row.save
-      RAILS_DEFAULT_LOGGER.warn "Could not save this data."
-      RAILS_DEFAULT_LOGGER.warn row.errors.inspect
+  # Main method for decoding a log file entry for its analytics content.
+  # This method will create the Track, Session and Event objects and serialise
+  # them to the database.  Feed a parsed row from a log file to this
+  # method to save analytics data to the database. See log_tailer.rb for
+  # the most relevant usage example or the method #parse_log above.
+  # option[:geocode] if true will geocode the data.  You most likely want this to
+  # be true since we are no resolving this data from the hostip.info database
+  # locally (no net latency or performance issues).
+  def save_web_analytics!(web_analyser, entry, options = {:geocode => true})
+    row = web_analyser.create(entry)
+    Track.transaction do
+      row.save!
+      session = Session.find_or_create_from_track(row)
+      if session
+        if session.new_record?
+          geocode_location!(session) if options[:geocode]
+          session.save!
+        end
+        if event = Event.create_from_row(session, row)
+          event.save! 
+          session.save!   # Updated viewcount
+        end
+      end
     end
   rescue Mysql::Error => e
-    RAILS_DEFAULT_LOGGER.warn "Could not save this data."
-    RAILS_DEFAULT_LOGGER.warn e.message   
+    Rails.logger.warn "Could not save this data."
+    Rails.logger.warn e.message
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "Invalid record detected (validation error?)"
+    Rails.logger.error e.message
   end    
   
-  def geocode_log(model = Track)
+  def geocode_log(model = Session)
     model.find_each(:conditions => "geocoded_at IS NULL and ip_address IS NOT NULL") do |row|
-      geocode_location(row)
+      geocode_location!(row)
       row.save!
     end
   end
   
-  def geocode_location(row)
-    begin  
-      location = Graticule.service(:host_ip).new.locate(row.ip_address)
-      row.country = location.country
-      row.region = location.region
-      row.locality = location.locality
-      row.latitude = location.latitude
-      row.longitude = location.longitude
-      row.geocoded_at = Time.now()
-    rescue Graticule::Error => e
-      RAILS_DEFAULT_LOGGER.warn "An error occurred while looking up the location of '#{row.ip_address}': #{e.message}"
-      nil
-    end
+  def geocode_location!(row) 
+    IpAddress.reverse_geocode(row.ip_address, row)
   end
 
 private
@@ -115,8 +124,5 @@ private
     @column[:url] = parts[1]
     @column[:protocol] = parts[2]
   end
-  
-  def is_search_bot?(user_agent)
-    user_agent && user_agent =~ SEARCH_BOTS
-  end
+
 end

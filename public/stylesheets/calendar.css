@@ -1,0 +1,42 @@
+/*
+Calendar widget color and formatting
+*/
+
+thead th.monthName, thead th.monthTags {
+  text-align: 		center;
+  padding-top: 		0.3em;
+  padding-bottom:	0.3em;
+  font-weight: 		bold;
+  border: 			none;
+}
+
+table.calendar {
+	border: none;
+}
+
+table.calendar th, table.calendar td {
+	padding: 0;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+}
+
+thead th.monthTags {
+	font-size:		0.9em;
+}
+
+.otherMonth {
+  color: 			#999;
+}
+
+.day, .dayName th {
+  text-align: center;
+}
+
+.weekendDay {
+  background-color: #ddd;
+}
+
+.today {
+  background-color: white;
+  color: 			black;
+}

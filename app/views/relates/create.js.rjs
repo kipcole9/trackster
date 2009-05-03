@@ -1,0 +1,3 @@
+page[list_item(@drop)].down('ul.tags').insert render(:partial => relationship_partial_for(@drag), :locals => {:drop => @drop, :drag => @drag})
+
+

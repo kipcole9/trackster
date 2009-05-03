@@ -1,0 +1,28 @@
+en-US:
+ account_activated : "{{login}} your account has been activated.  Welcome aboard!"
+ account_activation_url_message : "Visit this url to activate your account:"
+ account_created : "Your account has been created."
+ activation_complete_email_subject : 'Your account has been activated!'
+ activation_required_email_subject : 'Please activate your new account'
+ blank_activation_code : "The activation code was missing.  Please follow the URL from your email."
+ bogus_activation_code : "We couldn't find a {{model}} with that activation code -- check your email? Or maybe you've already activated -- try signing in."
+ create_account : "Create account"
+ email : "Email"
+ log_in : "Log In"
+ log_out : "Log Out"
+ logged_in : "Logged in successfully"
+ logged_in_as : "Logged in as {{login}}"
+ logged_out : "You have been logged out."
+ login : "Login"
+ login_failed : "Couldn't log you in as '{{login}}'"
+ new_user_sign_up : "Sign up as a new user"
+ not_logged_in : "Not logged in"
+ password : "Password"
+ password_confirmation : "Confirm Password"
+ remember_me : "Remember me"
+ sign_up : "Sign up"
+ signup_complete : "Signup complete!"
+ signup_complete_and_do_login : "Signup complete! Please sign in to continue."
+ signup_complete_with_activation : "Thanks for signing up!  We're sending you an email with your activation code."
+ signup_problem : "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+

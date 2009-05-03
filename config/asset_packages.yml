@@ -1,0 +1,45 @@
+--- 
+javascripts: 
+- base: 
+    - prototype
+    - lowpro
+    - effects
+    - dragdrop
+    - cookie
+    - controls
+    - concertina
+    - list
+    - inflector
+    - tabricator
+    - swfobject
+    - search     
+    - browser_timezone
+    - autocomplete
+    - application
+- tracker_debug:
+    - tracker_debug
+- tracker:
+    - tracker  
+stylesheets: 
+- base:
+    - reset 
+    - grid
+    - layout
+    - nav
+    - tabricator
+    - text
+    - calendar
+    - autocomplete    
+    - application
+- ie:
+    - reset 
+    - grid
+    - layout
+    - nav
+    - tabricator
+    - text
+    - calendar
+    - autocomplete    
+    - application    
+    - ie
+    - ie6        
