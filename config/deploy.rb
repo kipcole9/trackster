@@ -2,7 +2,7 @@ set :default_stage, "staging"
 set :app_dir, "/u/apps"
 require 'capistrano/ext/multistage'
 
-set :application, "vietools.com"
+set :application, "trackster"
 
 # Use Git source control
 set :scm, :git
@@ -10,11 +10,11 @@ set :repository, "git@github.com:kipcole9/trackster.git"
 
 # Deploy from master branch by default
 set :branch, "master"
-set :deploy_via, :copy
 set :scm_verbose, true
 
 set :user, 'kip'
 ssh_options[:forward_agent] = true
+ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
 role :app, "server.vietools.com"
