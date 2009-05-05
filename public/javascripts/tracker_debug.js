@@ -1,8 +1,8 @@
 function _tks(account)  {
-	this.version		= "0.87";
+	this.version		= "0.88";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "74.63.15.71";
+	this.trackerHost	= "vietools.com:8080";
 	this.trackerImage	= "/_tks.gif";
 	this.parameters 	= new Object();  // Parsed URL parameters
 	// Default campaign parameter names; same as the Google Analytics

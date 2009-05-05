@@ -11,11 +11,6 @@ module PageLayout
   TAGS      = [:div, :a, :img, :script, :meta]
   INDENT    = 2
   
-  # So that capture does the right thing for us
-  #def __in_erb_template
-  #  true
-  #end
-
   def doctype(type = DOCTYPE[:xhtml_strict])
     @doctype = store(type)
   end
@@ -24,10 +19,18 @@ module PageLayout
     store javascript_include_tag(*args)
   end
   
+  def javascript_merged(*args)
+    store javascript_include_merged(*args)
+  end
+  
   def stylesheets(*args)
     store stylesheet_link_tag(*args)
   end
   
+  def stylesheet_merged(*args)
+    store stylesheet_link_merged(*args)
+  end
+    
   def html(language = "en", &block)
     doctype unless @doctype
     with_tag(:html, :xmlns => "http://www.w3.org/1999/xhtml", :"xml:lang" => language, :lang => language) do

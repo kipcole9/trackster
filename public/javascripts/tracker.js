@@ -1,10 +1,10 @@
 function _tks(account)  {
-	this.version		= "0.84";
+	this.version		= "0.88";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "noexpectations.com.au";
-	this.trackerImage	= "/tracker.gif";
-	this.parameters 	= new Object;  // Parsed URL parameters
+	this.trackerHost	= "vietools.com";
+	this.trackerImage	= "/_tks.gif";
+	this.parameters 	= new Object();  // Parsed URL parameters
 	// Default campaign parameter names; same as the Google Analytics
 	// to easy compatibility for campaign tracking, especially if GA is
 	// already installed and working
@@ -13,22 +13,37 @@ function _tks(account)  {
 	this.campaignMedium = "utm_medium";
 	this.campaignContent = "utm_content";
 	// The URL we're tracking
-	this.url = ''
+	this.url = '';
+	
+	// The tracking cookie values
+	this.tdsv = null;
+	this.tdsb = null;
+	this.tdsc = null;
+	
 	// This is the method that actually sends the tracking
 	// request
 	this.trackPageview = function(pageUrl) {
-		this.url = pageUrl || '';
-		// console.log('Track pageview has been requested for ' + self.getUrl());
-		params = []; i = 0; image = new Image(1, 1);
-		var url = location.protocol + '//www.' + this.trackerHost + this.trackerImage + "?";
-		for (p in this.urlParams) {
+		this._track({url: pageUrl});
+	};
+	this._track = function(options) {
+		this.url = options.url || '';
+		// console.log('Track has been requested for ' + self.getUrl());
+		var params = [], i = 0, image = new Image(1, 1);
+		var protocol = (location.protcol == 'https') ? "https:" : "http:";
+		var url = protocol + '//' + this.trackerHost + this.trackerImage + "?";
+		for (var p in this.urlParams) {
 			// Have to separate the next two functions
 			// to work in IE7.  Sigh.
-			f = this.urlParams[p]; value = f();
+			var f = this.urlParams[p]; value = f();
 			if (value != 'undefined' && value && value.length > 0) {
 				params[i++] = p + '=' + value;
-			};
-		};
+			}
+		}
+		for (var o in options) {
+			if (o != 'url' && options[o]) {
+				params[i++] = o + '=' + escape(options[o]);
+			}
+		}
 		url += params.join('&');
 		url += "&uver=" + this.version;
 		// console.log('About to get image: ' + url);
@@ -50,11 +65,11 @@ function _tks(account)  {
 		  	for(var i in m){ 
 		   		if(m[i].httpEquiv && m[i].httpEquiv.match(/content-type/i)) { 
 		     		return m[i].content; 
-		   		}; 
-		  	};
+		   		} 
+		  	}
 			return;
-		};
-		httpEquiv = getMetaHttpEquiv()
+		}
+		httpEquiv = getMetaHttpEquiv();
 		if (httpEquiv) {
 			return httpEquiv.match(/charset=(.*)($|;)/)[1];
 		} else {
@@ -72,7 +87,7 @@ function _tks(account)  {
 	};
 	this.getUrl = function() {
 		var url = '';
-		if (self.url != '') {
+		if (self.url !== '') {
 			url = self.url;
 		} else {
 			url = document.URL;
@@ -102,101 +117,91 @@ function _tks(account)  {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
 			// console.log('New visitor being created.');
-			self.setCookie('_tdsv', newVisitorId() + ".0", 720);
-			return self.getCookie('_tdsv');
-		};
+			self.tdsv = newVisitorId() + ".0";
+			self.setTdsv(self.tdsv);
+			return self.tdsv;
+		}
 		function newVisitorId() {
 			return self.getUuid(15);
-		};
+		}
 		function getTdsv() {
-			var tdsv = self.getCookie('_tdsv');
-			// console.log('Existing visitor: ' + tdsv);
-			if ( tdsv && tdsv.indexOf('.') == -1 ) {
-				// Convert the old style cookie version 1
-				tdsv = tdsv + ".1";
-				// console.log('Upgraded tdsv with visit count: ' + tdsv);
-				self.setCookie("_tdsv", tdsv, 720)				
-			} 
-			if ( tdsv && tdsv.split('.').length == 2) {
-				// Convert the old style cookie version 2
-				tdsv = tdsv + "." + self.sessionId();
-				// console.log('Upgraded tdsv with session: ' + tdsv);
-				self.setCookie("_tdsv", tdsv, 720)
+			if (!self.tdsv) {
+				self.tdsv = self.getCookie('_tdsv');
 			}
-			return tdsv;
-		};
+			// console.log('Found existing visitor: ' + self.tdsv);
+			return self.tdsv;
+		}
 		return (getTdsv() || createTdsv());
 	};
+	this.setTdsv = function(tdsv) {
+		// console.log('Setting visitor to: ' + tdsv);
+		self.setCookie('_tdsv', tdsv, 720);
+		self.tdsv = tdsv;	
+	};	
 	this.incrementVisitCount = function() {
 		// tdsv has several parts:  <visitor>.<visits>.<current_visit_timestamp>.<previous_visit_timestamp>
-		var tdsv = self.getVisitor();
-		var currentSessionTimestamp = self.getCookie('_tdsb').split('.')[0]
-		var parts = tdsv.split('.');
-		if (parts[1]) parts[1]++; else parts[1] = 1;
-		if (parts[2]) parts[3] = parts[2]; 		// Move current session to previous session
+		self.tdsv = self.getVisitor();
+		var currentSessionTimestamp = this.getSession().split('.')[0];
+		var parts = self.tdsv.split('.');
+		if (parts[1]) {parts[1]++;} else {parts[1] = 1;}
+		if (parts[2]) {parts[3] = parts[2];} 		// Move current session to previous session
 		parts[2] = currentSessionTimestamp;		// Save current session
-		var new_tdsv = parts.join('.')
-		// console.log('Incremented visit count to: ' + new_tdsv);
-		self.setCookie('_tdsv', new_tdsv, 720);
-		return new_tdsv;
+		self.tdsv = parts.join('.');
+		// console.log('Incremented visit count to: ' + self.tdsv);
+		self.setTdsv(self.tdsv);
+		return self.tdsv;
 	};
 	this.sessionId = function() {
-		var tdsb = self.getCookie('_tdsb');
-		return tdsb.split('.')[0];
+		return self.getSession().split('.')[0];
 	};
 	this.getSession = function() {
 		function setTdsb(value) {
 			// Session cookie set for 30 minutes
-			self.setCookie('_tdsb', value, 0.5/24);
-		};
+			self.tdsb = value;
+			self.setCookie('_tdsb', self.tdsb, 0.5/24);
+		}
 		function currentSession() {
-			var tdsb, tdsc;
+			if (!self.tdsb) {self.tdsb = self.getCookie('_tdsb');}
+			if (!self.tdsc) {self.tdsc = self.getCookie('_tdsc');}
 
 			// If both cookies then we have an existing session.  Set the _tdsb cookie
 			// again to extend the session further
-			if ((tdsb = self.getCookie('_tdsb')) && (tdsc = self.getCookie('_tdsc'))) {
-				parts = tdsb.split('.');
-				if (parts[1]) {parts[1]++;} else {parts[1] = 1};
-				session_id = parts.join('.')
-				setTdsb(session_id);
-				// console.log('Returning existing session (tdsb): ' + session_id);				
-				return session_id;
-			};
+			if (self.tdsb && self.tdsc) {
+				parts = self.tdsb.split('.');
+				parts[1]++;
+				self.tdsb = parts.join('.');
+				setTdsb(self.tdsb);
+				// console.log('Returning existing session (tdsb): ' + self.tdsb);				
+				return self.tdsb;
+			}
 			return false;
-		};
+		}
 		function createNewSession() {
 			// console.log('Creating new session.');
-			var tdsb = self.getCookie('_tdsb');
-			var tdsc = self.getCookie('_tdsc');
-
-			if (!tdsb) {
-				tdsb = getNewSessionId() + ".1";
-				// console.log('Creating new session (tdsb): ' + tdsb);
-				setTdsb(tdsb); // .1 means new session
-			};
+			if (!self.tdsb) {
+				self.tdsb = getNewSessionId() + ".0";
+				// console.log('Creating new session (tdsb): ' + self.tdsb);
+				setTdsb(self.tdsb); // .1 means new session
+			}
 			// Session cookie deleted at end of browser session
 			// Hence if missing then a new session must be started
-			if (!tdsc) {
-				tdsb = self.getCookie('_tdsb');
-				var parts = tdsb.split('.');
+			if (!self.tdsc) {
+				var parts = self.tdsb.split('.');
 				parts[1] = 1;
-				tdsb = parts.join('.');
-				setTdsb(tdsb);
-				// console.log('Creating new session (tdsc): ' + tdsb);
-				self.setCookie('_tdsc', tdsb);
-			};
+				self.tdsb = parts.join('.');
+				setTdsb(self.tdsb);
+				self.setCookie('_tdsc', self.tdsb);
+			}
 			self.incrementVisitCount();
-			// console.log('Create new session is returning: ' + tdsb);
-			return tdsb;
-		};
+			// console.log('Create new session is returning: ' + self.tdsb);
+			return self.tdsb;
+		}
 		function getNewSessionId() {
 			var time = new Date();
 			var gmtSecs = Math.round(time.getTime() / 1000) + (time.getTimezoneOffset() * 60);
 			return gmtSecs;
-		};
-		var session = currentSession();
-		if (!session) { session = createNewSession() };
-		return session;
+		}
+		return (currentSession() || createNewSession());
 	};
 	/*
 		Copyright (c) Copyright (c) 2007, Carl S. Yestrau All rights reserved.
@@ -344,12 +349,12 @@ function _tks(account)  {
                     }
                 }
             }
-        };
+        }
 		if (self.installed) {
 			return self.major + '.' + self.minor;
 		} else {
 			return '-';
-		};
+		}
 	};
 	this.setCookie = function(name, value, daysToExpire, absolutePath) {  
 		var expire = '';
@@ -360,16 +365,16 @@ function _tks(account)  {
 	      d.setTime(d.getTime() + (86400000 * parseFloat(daysToExpire)));  
 	      expire = '; expires=' + d.toGMTString();  
 	    }
-		if (absolutePath) path = "; path=" + absolutePath;
+		if (absolutePath) {path = "; path=" + absolutePath;}
 		var cookieValue = escape(name) + '=' + escape(value || '') + expire + path;
 		// console.log("Setting cookie: " + cookieValue);
 	    document.cookie = cookieValue;
-		return self.getCookie(name);
+		return;
 	};  
 	this.getCookie = function(name) {
-	    var cookie = document.cookie.match(new RegExp(escape(name) + "\s*=\s*(.*?)(;|$)"));
+	    var cookie = document.cookie.match(new RegExp(escape(name) + "\\s*=\\s*(.*?)(;|$)"));
 		var cookieValue = cookie ? unescape(cookie[1]) : null;
-		// console.log("Getting cookie " + name + ": " + cookieValue)
+		// console.log("Getting cookie " + name + ": " + cookieValue);
 	    return (cookieValue); 
 	};  
 	this.eraseCookie = function(name) {  
@@ -459,7 +464,7 @@ function _tks(account)  {
 	    radix = radix || chars.length;
 	    if (len) {
 	      // Compact form
-	      for (var i = 0; i < len; i++) uuid[i] = chars[0 | rnd()*radix];
+	      for (var i = 0; i < len; i++) {uuid[i] = chars[0 | rnd()*radix];}
 	    } else {
 	      // rfc4122, version 4 form
 	      var r;
@@ -472,9 +477,9 @@ function _tks(account)  {
 	        if (!uuid[i]) {
 	          r = 0 | rnd()*16;
 	          uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r & 0xf];
-	        };
-	      };
-	    };
+	        }
+	      }
+	    }
 	    return uuid.join('');
 	};
 	this.getUniqueRequest = function() {
@@ -496,7 +501,7 @@ function _tks(account)  {
 	};
 	// Track link
 	this.trackLink = function(linkId) {
-		if (!linkId) return;
+		if (!linkId) {return;}
 		tracker = self;
 		element = document.getElementById(linkId);
 		if (element) {
@@ -504,14 +509,14 @@ function _tks(account)  {
 			// console.log("Linking to: " + href);
 			f = function(e) {
 				tracker.trackPageview(href);
-				if (e.preventDefault) e.preventDefault();
+				if (e.preventDefault) {e.preventDefault();}
 				e.stopPropagation();
 				window.location = this.href;
 			};
 			element.onclick = f;
 		} else {
 			// console.log('Element not found in the DOM: ' + linkId);
-		};
+		}
 	};
 	// Form handling - send form fields to tracker
 	this.trackForm = function(form, fieldIds) {
@@ -519,7 +524,12 @@ function _tks(account)  {
 	};
 	// Track Events
 	this.trackEvent = function(category, action, label, value) {
-		
+		data = {};
+		data.utcat = category;
+		data.utact = action;
+		if (label) {data.utlab = label;}
+		if (value) {data.utval = value;}
+		this._track(data);
 	};
 	// Track Transactions
 	this.trackTrans = function() {

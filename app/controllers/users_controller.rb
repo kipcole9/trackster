@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:activate, :change_password, :update_password]
+  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:activate, :change_password, :update_password, :edit, :update]
+  before_filter :set_mailer_url_defaults, :only => [:create, :activate]
+  before_filter :check_edit_permission, :only => [:edit, :update]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
  
   def create
@@ -35,14 +37,12 @@ class UsersController < ApplicationController
     when (!params[:activation_code].blank?) && @user && !@user.active?
       @user.activate!
       flash[:notice] = t('signup_complete')
-      render :action => :change_password
     when params[:activation_code].blank?
-      flash[:error] = t('missing_activation_code')
-      redirect_back_or_default('/')      
+      flash[:error] = t('missing_activation_code')   
     else 
       flash[:error]  = t('unknown_activation_code')
-      redirect_back_or_default('/')
     end
+    redirect_back_or_default('/')    
   end
   
   def change_password
@@ -93,5 +93,13 @@ class UsersController < ApplicationController
 protected
   def find_user
     @user = User.find(params[:id])
+  end
+
+  def set_mailer_url_defaults
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
+  
+  def check_edit_permission
+    access_denied unless params[:id].to_i == current_user.id || current_user.has_role?(Role::ADMIN_ROLE)
   end
 end

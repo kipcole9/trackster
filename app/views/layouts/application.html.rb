@@ -1,10 +1,8 @@
 html do
   head do
-    title "VIE Corp Analytics"
-    stylesheets 'reset.css', 'text.css', 'grid.css', 'layout.css', 'nav.css', 'tabricator.css', 
-                'calendar.css', 'autocomplete.css', 'application.css', :media => "screen, print"
-    javascripts :defaults, 'inflector.js', 'lowpro.js', 'concertina.js', 'tabricator.js', 'browser_timezone.js', 
-                'cookie.js', 'swfobject.js', 'autocomplete.js', 'list.js', 'search.js'
+    title "VideoInEmail Analytics"
+    stylesheet_merged :base
+    javascript_merged :base
     javascript yield(:jstemplates)
   end
   body do

@@ -1,0 +1,8 @@
+development:
+    :banner:    Trackster Development
+    
+staging:
+    :banner:    Trackster Staging
+    
+production:
+    :banner:    Trackster                    

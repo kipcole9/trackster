@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def user_logged_in?
     if !logged_in? && !logging_in? && !activation? && !redirecting?
       store_location
-      flash[:error] = t('must_login')
+      flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
       redirect_to login_path 
     end
   end
@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
   end
 
   def access_denied
-    raise "Access denied"
+    raise Trackster::Unauthorized
   end
   
   # The browsers give the # of minutes that a local time needs to add to

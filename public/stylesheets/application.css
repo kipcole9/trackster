@@ -48,6 +48,10 @@ h4 {
 	min-width: 860px;
 }
 
+div#site_info p {
+	margin-bottom: 10px;
+}
+
 /* New account setup, selecting a sitename */
 div.sitename {
 	display: inline;

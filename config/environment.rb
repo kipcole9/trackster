@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   config.gem "inifile"
   config.gem "graticule"
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
+  config.gem 'daemons'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -56,13 +57,6 @@ Rails::Initializer.run do |config|
   end
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :address        => "mail.videoinemail.com",
-    :port           => 25,
-    :domain         => "videoinemail.com",
-    :authentication => :login,
-    :user           => "activation@videoinemail.com",
-    :secret         => "activation99AB"
-  }
-  
+  config.action_mailer.smtp_settings = YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer']
+
 end

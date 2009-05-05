@@ -1,8 +1,8 @@
 html do
   head do
-    title "VIE Corp Analytics"
-    stylesheets 'reset.css', 'text.css', 'grid.css', 'layout.css', 'nav.css', 'tabricator.css', 
-                'calendar.css', 'autocomplete.css', 'application.css', :media => "screen, print"
+    title "VideoInEmail Analytics"
+    stylesheet_merged :base
+    javascript_merged :base
   end
   body do
     include "prototypes/branding"

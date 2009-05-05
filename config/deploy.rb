@@ -1,8 +1,9 @@
+set :application,   "trackster"
 set :default_stage, "staging"
-set :app_dir, "/u/apps"
+set :app_dir,       "/u/apps"
+set :pid_file,      "#{deploy_to}/shared/#{application}_log_analyser.pid"
 require 'capistrano/ext/multistage'
 
-set :application, "trackster"
 
 # Use Git source control
 set :scm, :git
@@ -10,7 +11,7 @@ set :repository, "git@github.com:kipcole9/trackster.git"
 
 # Deploy from master branch by default
 set :branch, "master"
-set :scm_verbose, false
+#set :scm_verbose, true
 
 set :user, 'kip'
 ssh_options[:forward_agent] = true
@@ -20,6 +21,10 @@ default_run_options[:pty] = true
 role :app, "server.vietools.com"
 role :web, "server.vietools.com"
 role :db,  "server.vietools.com", :primary => true
+
+after 'deploy:update_code', 'update_config' 
+after 'deploy:update_code', 'create_asset_packages'
+after 'deploy:update_code', 'migrate_database'
 
 namespace :deploy do
   desc "Restarting passenger with restart.txt"
@@ -33,11 +38,46 @@ namespace :deploy do
   end
 end
 
-# Avoid keeping the database.yml configuration in git.
-after 'deploy:update_code', 'copy_config' 
-task :copy_config, :roles => :app do
-  db_config = "#{app_dir}/#{application}/config/database.yml"
-  site_keys = "#{app_dir}/#{application}/config/site_keys.rb"
-  run "cp #{db_config} #{release_path}/config/database.yml"
+# Secure config files
+task :update_config, :roles => :app do
+  config_dir = "#{app_dir}/#{application}/config"
+  db_config = "#{config_dir}/database.yml"
+  site_keys = "#{config_dir}/site_keys.rb"
+  mailer_config = "#{config_dir}/mailer.yml"
+  
+  run "cp #{mailer_config} #{release_path}/config/mailer.yml"
+  run "cp #{db_config} #{release_path}/config/database.yml"  
   run "cp #{site_keys} #{release_path}/config/initializers/site_keys.rb"
+end
+
+desc "Create asset packages for production" 
+task :create_asset_packages, :roles => :web do
+  run <<-EOF
+    cd #{current_path} && rake RAILS_ENV=#{rails_env} asset:packager:build_all
+  EOF
+end
+
+desc "Run database migrations"
+task :migrate_database, :roles => :db do
+  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} db:migrate"
+end
+
+desc "Start log analyser"
+task :start_log_analyser, :roles => :web do
+  run <<-EOF
+    export RAILS_ENV=#{rails_env}
+    cd #{current_path} && /usr/sbin/start-stop-daemon -p #{pid_file} --start --startas /usr/local/bin/rake trackster:analyse_log
+  EOF
+end
+
+desc "Stop log analyser"
+task :stop_log_analyser, :roles => :web do
+  run <<-EOF
+    start-stop-daemon -p #{pid_file} --stop
+  EOF
+end
+
+desc "Cleanup analyser pid file"
+task :clean_analyser_pidfile, :roles => :web do
+  run "rm #{pid_file}"
 end

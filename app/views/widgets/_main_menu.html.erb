@@ -22,7 +22,7 @@
 		<li class="secondary">
 			<a name="secondarymenu" href="<%= edit_user_path(current_user) %>">Your Profile</a>
 		</li>		
-		<% if current_user && current_user.has_role?('account holder') %>
+		<% if logged_in? && current_user.has_role?('account holder') %>
   		<li class="secondary">
   			<a name="secondarymenu">Account</a>
   			<ul>
@@ -35,7 +35,7 @@
   			</ul>
   		</li>
   	<% end %>
-		<% if current_user && current_user.has_role?('admin') %>
+		<% if logged_in? && current_user.has_role?('admin') %>
   		<li class="secondary">
   			<a name="secondarymenu">Site Admin</a>
   			<ul>
