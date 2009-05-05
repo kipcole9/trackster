@@ -3056,3 +3056,44 @@ Exception `EOFError' at /Users/kip/.gem/ruby/1.8/gems/file-tail-1.0.3/lib/file/t
 Exception `File::Tail::ReopenException' at /Users/kip/.gem/ruby/1.8/gems/file-tail-1.0.3/lib/file/tail.rb:339 - File::Tail::ReopenException
 Reopening '/Users/kip/Development/Rails/trackster/tmp/test_data/track_data', mode = bottom.
 Exception `Errno::ENOENT' at /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/pidfile.rb:100 - No such file or directory - /Users/kip/Development/Rails/trackster/log/log_analyser.rb.pid
+/Users/kip/Development/Rails/trackster/lib/daemons/log_analyser.rb:4: ".." (RuntimeError)
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load_without_new_constant_marking'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:521:in `new_constants_in'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:176:in `start_load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:257:in `start'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/controller.rb:69:in `run'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons.rb:139:in `run'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `call'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `catch_exceptions'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons.rb:138:in `run'
+	from lib/daemons/log_analyser_ctl:25
+/Users/kip/Development/Rails/trackster/lib/daemons/log_analyser.rb:4: ".." (RuntimeError)
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load_without_new_constant_marking'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:521:in `new_constants_in'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:176:in `start_load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:257:in `start'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/monitor.rb:51:in `watch'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/monitor.rb:51:in `fork'
+	 ... 13 levels...
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `call'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `catch_exceptions'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons.rb:138:in `run'
+	from lib/daemons/log_analyser_ctl:25
+/Users/kip/Development/Rails/trackster/lib/daemons/log_analyser.rb:4: ".." (RuntimeError)
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load_without_new_constant_marking'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:521:in `new_constants_in'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:145:in `load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:176:in `start_load'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/application.rb:257:in `start'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/monitor.rb:51:in `watch'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/monitor.rb:51:in `fork'
+	 ... 13 levels...
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `call'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons/cmdline.rb:105:in `catch_exceptions'
+	from /Library/Ruby/Gems/1.8/gems/daemons-1.0.10/lib/daemons.rb:138:in `run'
+	from lib/daemons/log_analyser_ctl:25
