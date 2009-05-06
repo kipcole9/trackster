@@ -28,7 +28,6 @@ class LogAnalyserDaemon
     default_options = {:forward => 0}
     options = @options.merge(default_options).merge(options) 
     log = File::Tail::Logfile.open(log_file, options)
-    #log.extend(File::Tail)
     log.interval            = 1     # Initial sleep interval when no data
     log.max_interval        = 5     # Maximum sleep interval when no data
     log.reopen_deleted      = true  # is default
@@ -37,20 +36,21 @@ class LogAnalyserDaemon
     
     log.after_reopen do
       if running?
-        ActiveRecord::Base.logger.info "Log analyser has reopened #{log_file}"
+        ActiveRecord::Base.logger.debug "Log analyser has reopened #{log_file}"
       else
-        ActiveRecord::Base.logger.info "Log analyser is terminating"
+        ActiveRecord::Base.logger.warning "Log analyser is terminating"
         log.close
         return
       end
     end
     
     log.tail do |line|  
-      return unless running?  
+      return unless running?
       entry = @log_parser.parse_entry(line)
       if entry[:datetime] > @last_log_entry && entry[:url] =~ TRACK_PATTERN
         @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
       end
+      i += 1
     end
   end 
 

@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "0.89";
+	this.version		= "0.90";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
@@ -181,13 +181,13 @@ function _tks(account)  {
 			if (!self.tdsb) {
 				self.tdsb = getNewSessionId() + ".0";
 				console.log('Creating new session (tdsb): ' + self.tdsb);
-				setTdsb(self.tdsb); // .1 means new session
+				setTdsb(self.tdsb);
 			}
 			// Session cookie deleted at end of browser session
 			// Hence if missing then a new session must be started
 			if (!self.tdsc) {
 				var parts = self.tdsb.split('.');
-				parts[1] = 1;
+				parts[1] = 0;
 				self.tdsb = parts.join('.');
 				setTdsb(self.tdsb);
 				self.setCookie('_tdsc', self.tdsb);

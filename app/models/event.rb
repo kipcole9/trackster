@@ -7,10 +7,15 @@ class Event < ActiveRecord::Base
   
   def self.create_from_row(session, row)
     return nil if !session || row.view.blank?
-    Rails.logger.error "Duplicate event found" if session.events.find_by_sequence(row[:event])
+    if session.events.find_by_sequence(row[:event])
+      Rails.logger.error "Duplicate event found"
+      Rails.logger.error row.inspect
+      return nil
+    end
+    
     event = new_from_row(row.attributes)
     if previous_event = session.events.last
-      previous_event.duration = (event.evented_at - previous_event.evented_at).to_i
+      previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
       previous_event.exit_page = false
       event.entry_page = false
       previous_event.save!
