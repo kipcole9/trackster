@@ -15,7 +15,7 @@ class LogAnalyserDaemon
       when "development"
         "#{Rails.root}/tmp/test_data/track_data"
       when "staging", "production"
-        "#{nginx_log_dir}/tracker_access_#{Rails.env}.log"
+        "#{@nginx_log_dir}/tracker_access_#{Rails.env}.log"
       else
         raise ArgumentError, "Unknown rails environment: #{Rails.env}"
       end
