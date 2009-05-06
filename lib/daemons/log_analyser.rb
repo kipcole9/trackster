@@ -4,7 +4,7 @@
 # Has knowledge of the deployment strategy to work out which
 # environment to load.  We use a layout which is
 # /u/apps/{appname}/{environment}/..........
-env = File.basename(File.expand_path("#{__FILE__}/../../../.."))
+env = File.basename(File.expand_path("#{__FILE__}/../../../../.."))
 if ["staging", "production"].include?(env)
   ENV["RAILS_ENV"] ||= env
 else
