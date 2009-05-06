@@ -1,7 +1,6 @@
 set :application,   "trackster"
 set :default_stage, "staging"
 set :app_dir,       "/u/apps"
-set :pid_file,      "#{deploy_to}/shared/#{application}_log_analyser.pid"
 require 'capistrano/ext/multistage'
 
 
@@ -66,18 +65,13 @@ desc "Start log analyser"
 task :start_log_analyser, :roles => :web do
   run <<-EOF
     export RAILS_ENV=#{rails_env}
-    cd #{current_path} && /usr/sbin/start-stop-daemon -p #{pid_file} --start --startas /usr/local/bin/rake trackster:analyse_log
+    cd #{current_path} && lib/daemons/log_analyser_ctl start
   EOF
 end
 
 desc "Stop log analyser"
 task :stop_log_analyser, :roles => :web do
   run <<-EOF
-    start-stop-daemon -p #{pid_file} --stop
+    cd #{current_path} && lib/daemons/log_analyser_ctl stop
   EOF
-end
-
-desc "Cleanup analyser pid file"
-task :clean_analyser_pidfile, :roles => :web do
-  run "rm #{pid_file}"
 end
