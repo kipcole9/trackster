@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090503063252) do
+ActiveRecord::Schema.define(:version => 20090506070802) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(:version => 20090503063252) do
     t.string   "page_title"
     t.string   "referrer"
     t.datetime "tracked_at"
-    t.integer  "duration",                      :default => 0
     t.boolean  "entry_page",                    :default => true
     t.boolean  "exit_page",                     :default => true
     t.integer  "track_id"

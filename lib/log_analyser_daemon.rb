@@ -47,10 +47,13 @@ class LogAnalyserDaemon
     log.tail do |line|  
       return unless running?
       entry = @log_parser.parse_entry(line)
-      if entry[:datetime] > @last_log_entry && entry[:url] =~ TRACK_PATTERN
-        @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
+      if entry[:datetime]
+        if entry[:datetime] > @last_log_entry && entry[:url] =~ TRACK_PATTERN
+          @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
+        end
+      else
+        ActiveRecord::Base.logger.warning "Skipping badly formatted log entry: #{line}"
       end
-      i += 1
     end
   end 
 

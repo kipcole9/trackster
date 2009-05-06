@@ -15,7 +15,9 @@ class Event < ActiveRecord::Base
     
     event = new_from_row(row.attributes)
     if previous_event = session.events.last
-      previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
+      if event.pageview?
+        previous_event.value = (event.tracked_at - previous_event.tracked_at).to_i
+      end
       previous_event.exit_page = false
       event.entry_page = false
       previous_event.save!
@@ -27,6 +29,10 @@ class Event < ActiveRecord::Base
     event.exit_page = true
     session.ended_at = event.tracked_at
     event
+  end
+  
+  def pageview?
+    self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end
   
 private
