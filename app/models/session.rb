@@ -9,12 +9,13 @@ class Session < ActiveRecord::Base
     if row.visitor && row.visit && row.session
       session = find_by_visitor_and_visit_and_session(row.visitor, row.visit, row.session)
     end
-    session = new_from_row(row.attributes) unless session
+    session = new_from_row(row) unless session
   end
 
 private
-  def self.new_from_row(attrs)
+  def self.new_from_row(row)
     session = new
+    attrs = row.attributes
     
     # Copy the common attributes from the tracker row
     session.attributes.each do |k, v|
@@ -23,10 +24,10 @@ private
     
     # Note session relevant data.  Session must be
     # tied to a site else it's a bogus sesssion
-    session.started_at  = attrs['tracked_at']
-    session.referrer    = attrs['referrer']
+    session.started_at  = row.tracked_at
+    session.referrer    = row.referrer
     session.ended_at    = session.started_at
-    session.property = Property.find_by_tracker(attrs['property_code'])
+    session.property    = row.property
     session.property ? session : nil
   end
   
