@@ -78,16 +78,23 @@ class LogParser
     row = web_analyser.create(entry)
     Track.transaction do
       row.save!
-      session = Session.find_or_create_from_track(row)
-      if session
+      if session = Session.find_or_create_from_track(row)
+        Rails.logger.debug "Session found from row"
         if session.new_record?
           geocode_location!(session) if options[:geocode]
           session.save!
         end
         if event = Event.create_from_row(session, row)
+          Rails.logger.debug "Event was created"
           event.save! 
           session.save!   # Updated viewcount
+        else
+          Rails.logger.error "Event was could not be created"
+          Rails.logger.error row.inspect
         end
+      else
+        Rails.logger.error "Sesssion was not found or created!"
+        Rails.logger.error row.inspect
       end
     end
   rescue Mysql::Error => e

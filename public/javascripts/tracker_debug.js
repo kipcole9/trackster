@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "0.88";
+	this.version		= "0.89";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
@@ -117,7 +117,7 @@ function _tks(account)  {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
 			console.log('New visitor being created.');
-			self.tdsv = newVisitorId() + ".0";
+			self.tdsv = newVisitorId() + ".1";
 			self.setTdsv(self.tdsv);
 			return self.tdsv;
 		}

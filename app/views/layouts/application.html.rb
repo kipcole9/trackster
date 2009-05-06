@@ -19,6 +19,6 @@ html do
     end
     store "<script src=http://vietools.com:8080/_tks.js type=text/javascript />"
     javascript yield(:javascript)
-    javascript "tracker = new _tks('tk-00001-1'); tracker.trackPageview();"
+    javascript "tracker = new _tks('vie-00001-1'); tracker.trackPageview();"
   end
 end
