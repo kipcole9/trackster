@@ -1,4 +1,7 @@
 class LogAnalyserDaemon
+  # Check that a log entry matches a logging record
+  TRACK_PATTERN = /_tks.gif?/
+  
   def initialize(options = {})
     # Configuration options
     @options         = {:forward => 0}
