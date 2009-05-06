@@ -8,4 +8,7 @@ public/track_data
 config/initializers/site_keys.rb
 public/system/**/*
 config/mailer.yml
+public/javascripts/tracker_debug_packaged.js
+public/javascript/tracker_packaged.js
+
 
