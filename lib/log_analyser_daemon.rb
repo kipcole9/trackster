@@ -4,7 +4,7 @@ class LogAnalyserDaemon
   
   def initialize(options = {})
     # Configuration options
-    @options         = {:forward => 0}
+    @options         = options
     @log_parser      = LogParser.new(:nginx)
     @web_analyser    = WebAnalytics.new
     @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
@@ -24,9 +24,11 @@ class LogAnalyserDaemon
       end
   end
   
-  def log_analyser_loop
-    log = File.open(log_file)
-    log.extend(File::Tail)
+  def log_analyser_loop(options = {})
+    default_options = {:forward => 0}
+    options = @options.merge(default_options).merge(options) 
+    log = File::Tail::Logfile.open(log_file, options)
+    #log.extend(File::Tail)
     log.interval            = 1     # Initial sleep interval when no data
     log.max_interval        = 5     # Maximum sleep interval when no data
     log.reopen_deleted      = true  # is default

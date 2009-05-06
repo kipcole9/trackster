@@ -117,7 +117,7 @@ function _tks(account)  {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
 			console.log('New visitor being created.');
-			self.tdsv = newVisitorId() + ".1";
+			self.tdsv = newVisitorId();
 			self.setTdsv(self.tdsv);
 			return self.tdsv;
 		}

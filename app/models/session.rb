@@ -9,7 +9,8 @@ class Session < ActiveRecord::Base
     if row.visitor && row.visit && row.session
       session = find_by_visitor_and_visit_and_session(row.visitor, row.visit, row.session)
     end
-    session = new_from_row(row) unless session
+    session = self.new_from_row(row) unless session
+    session
   end
 
 private
