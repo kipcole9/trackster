@@ -45,7 +45,8 @@ task :update_config, :roles => :app do
   mailer_config = "#{config_dir}/mailer.yml"
   
   run "cp #{mailer_config} #{release_path}/config/mailer.yml"
-  run "cp #{db_config} #{release_path}/config/database.yml"  
+  run "cp #{db_config} #{release_path}/config/database.yml" 
+  run "cp #{release_dir}/config/trackster.god #{config_dir}"    
   run "cp #{site_keys} #{release_path}/config/initializers/site_keys.rb"
 end
 
