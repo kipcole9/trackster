@@ -49,6 +49,7 @@ class LogAnalyserDaemon
       entry = @log_parser.parse_entry(line)
       if entry[:datetime]
         if entry[:datetime] > @last_log_entry && entry[:url] =~ TRACK_PATTERN
+          ActiveRecord::Base.connection.reconnect! unless ActiveRecord::Base.connected?
           @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
         end
       else
