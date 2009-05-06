@@ -52,26 +52,26 @@ end
 desc "Create asset packages for production" 
 task :create_asset_packages, :roles => :web do
   run <<-EOF
-    cd #{current_path} && rake RAILS_ENV=#{rails_env} asset:packager:build_all
+    cd #{release_path} && rake RAILS_ENV=#{rails_env} asset:packager:build_all
   EOF
 end
 
 desc "Run database migrations"
 task :migrate_database, :roles => :db do
-  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} db:migrate"
+  run "cd #{release_path} && rake RAILS_ENV=#{rails_env} db:migrate"
 end
 
 desc "Start log analyser"
 task :start_log_analyser, :roles => :web do
   run <<-EOF
     export RAILS_ENV=#{rails_env}
-    cd #{current_path} && lib/daemons/log_analyser_ctl start
+    cd #{release_path} && lib/daemons/log_analyser_ctl start
   EOF
 end
 
 desc "Stop log analyser"
 task :stop_log_analyser, :roles => :web do
   run <<-EOF
-    cd #{current_path} && lib/daemons/log_analyser_ctl stop
+    cd #{release_path} && lib/daemons/log_analyser_ctl stop
   EOF
 end
