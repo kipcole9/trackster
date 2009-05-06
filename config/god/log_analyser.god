@@ -3,9 +3,9 @@
   God.watch do |w|
     w.name          = "trackster_log_analyser_#{env}"
     w.interval      = 5.seconds # default
-    w.start         = "cd #{app_dir}/#{env}/current; lib/daemons/log_analyser_ctl start"
-    w.stop          = "cd #{app_dir}/#{env}/current; lib/daemons/log_analyser_ctl stop"
-    w.pid_file      = "#{app_dir}/#{env}/current/log/log_analyser.rb.pid"
+    w.start         = "cd #{APP_DIR}/#{env}/current; lib/daemons/log_analyser_ctl start"
+    w.stop          = "cd #{APP_DIR}/#{env}/current; lib/daemons/log_analyser_ctl stop"
+    w.pid_file      = "#{APP_DIR}/#{env}/current/log/log_analyser.rb.pid"
     w.start_grace   = 10.seconds
     w.stop_grace    = 20.seconds
     w.restart_grace = 20.seconds    
