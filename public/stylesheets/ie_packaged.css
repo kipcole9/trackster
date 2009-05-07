@@ -189,6 +189,7 @@ input.search.button {width:28%; margin-left:2%}
 .float-right {padding:10px 20px; float:right}
 .concertina .targ {display: block}
 .accordian-block {padding-bottom:10px}
+  .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 {margin-left: .92%; margin-right: .92%}
   ul.nav, ul.nav * {margin:0;padding:0;}
 ul.nav {position:relative; background:#666; max-width:100%; height:2.5em}
 ul.nav li {cursor:pointer; float:left; text-align:center; list-style-type:none; font-weight:normal}
@@ -282,6 +283,7 @@ input[type="text"] {line-height: 1em; padding-top: 3px; padding-bottom: 3px}
 h4 {font-size: 110%}
  :focus { outline: auto 5px -webkit-focus-ring-color; outline-offset: -2px;  }
  .container_12 {min-width: 860px}
+div#site_info p {margin-bottom: 10px}
  div.sitename {display: inline; margin-top: -10px; margin-left: 2px}
 div.sitename input[type="text"] {display: inline}
 div.sitename + .prompt, div.sitename div.fieldWithErrors .prompt {margin-top: 3px}
@@ -294,7 +296,7 @@ h1#branding, h2#page-heading {padding-left: 11px}
 div.flash_notice img, div.flash_error img {position: relative; top: 0.3em}
 div.flash_notice p, div.flash_error p {margin: 0; padding-bottom: 2px}
 div.flash_error {background-color: #fbb}
- span.field_message {margin-left: 3px; color: #fbb}
+ span.field_message {margin-left: 3px; color: #f00}
  p.prompt {margin-top: 0.2em; margin-left: 1px; margin-bottom: 0; font-size: 90%; line-height: 1.1em}
  form {position: relative;  padding-bottom: 2.2em}
 form .section_left {position: relative; float: left; width: 48%; padding-right: 10px}
@@ -310,7 +312,9 @@ ul.tags li.tag img {position: relative; top: 3px}
 ul.tags li.tag a {font-weight: normal}
  span.showOptional {position: absolute; font-weight: normal; line-height: 1em; right: 8px; top: 17px; z-index: 10; color: #999}
 span.showOptional input[type="checkbox"] {margin: 0 0 0 3px}
- div.field + div.field {margin-top: 0.3em}
+ div.field + div.field {margin-top: 0.5em}
+p {margin: 0}
+.help p, .help li {margin-top: 1em; margin-bottom: 0}
  div.date select {display: inline}
  div.help dl {margin-bottom: 5px}
 div.help h2 a {background-color: #777}
@@ -376,5 +380,3 @@ div.user:hover {cursor: move}
 div.user p {margin-bottom: 0}
 div.user h4 {margin-bottom: 0}
 div.user img {float: left; margin-right: 5px}
-  .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 {margin-left: .92%; margin-right: .92%}
-  .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 {margin-left: .8%; margin-right: .8%}

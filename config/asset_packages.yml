@@ -42,7 +42,7 @@ stylesheets:
     - calendar
     - autocomplete    
     - application    
-- ie6    
+- ie6:    
     - reset 
     - grid
     - layout
