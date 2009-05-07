@@ -2,7 +2,7 @@ html do
   head do
     meta :"http-equiv" => "content-type", :content => "text/html;charset=UTF-8"
     title "VideoInEmail Analytics"
-    internet_explorer? ? stylesheet_merged :ie : stylesheet_merged :base
+    internet_explorer? ? stylesheet_merged(:ie) : stylesheet_merged(:base)
     javascript_merged :base
     javascript yield(:jstemplates)
   end
