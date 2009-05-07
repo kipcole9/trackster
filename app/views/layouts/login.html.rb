@@ -1,7 +1,8 @@
 html do
   head do
     title "VideoInEmail Analytics"
-    stylesheet_merged :base
+    meta :"http-equiv" => "content-type", :content => "text/html;charset=UTF-8"
+    internet_explorer? ? stylesheet_merged(:ie) : stylesheet_merged(:base)
     javascript_merged :base
   end
   body do

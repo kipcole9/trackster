@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   helper            :all # include all helpers, all the time
-  helper_method     :current_account
+  helper_method     :current_account, :internet_explorer?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
@@ -89,6 +89,10 @@ class ApplicationController < ActionController::Base
 
   def protect_against_forgery?
     request.xhr? ? false : super
+  end
+  
+  def internet_explorer?
+    browser =~ /MSIE/
   end
   
   # Scope to controller for translation keys

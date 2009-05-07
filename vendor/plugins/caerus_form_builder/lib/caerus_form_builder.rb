@@ -55,7 +55,7 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
     default_options = {:label_class => "checkbox"}
     with_field(method, default_options.merge(options)) do
-      super(method, default_options.merge(options), checked_value, unchecked_value)
+      super(method, options, checked_value, unchecked_value)
     end
   end
     
@@ -120,6 +120,7 @@ private
   def field_options_from(options)
     field_options = {}
     field_options[:class] = options.delete(:field_class).to_s
+    options.delete(:label_class)
     if options.delete(:optional)
       field_options[:class] += " optional"
       field_options[:style] = "display:none"
@@ -144,7 +145,7 @@ private
   def get_label(field_id, method, options)
     return '' if options.delete(:no_label)
     label_options = {}
-    label_options[:class] = options[:label_class] if options[:label_class]
+    label_options[:class] = options.delete(:label_class) if options[:label_class]
     label_options[:for] = field_id
     @template.content_tag(:label, format_label(method), label_options)
   end

@@ -35,11 +35,21 @@ stylesheets:
     - reset 
     - grid
     - layout
+    - ie    
     - nav
     - tabricator
     - text
     - calendar
     - autocomplete    
     - application    
-    - ie
+- ie6    
+    - reset 
+    - grid
+    - layout
+    - nav
+    - tabricator
+    - text
+    - calendar
+    - autocomplete    
+    - application     
     - ie6        
