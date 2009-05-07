@@ -60,6 +60,12 @@ module PageLayout
       container(&block)
     end
   end
+
+  def meta(args = {})
+    arg_string = []
+    args.each{|k, v| arg_string << "#{k.to_s}=\"#{v.to_s}\""}
+    store "<meta #{arg_string.join(' ')} />"
+  end
   
   def container(args = {}, &block)
     default_options = {:columns => 12, :prefix => "container" }
