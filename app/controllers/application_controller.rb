@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
   def user_logged_in?
-    if !logged_in? && !logging_in? && !activation? && !redirecting?
+    if !logged_in? && !logging_in? && !activation? && !redirecting? && !validating?
       store_location
       flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
       redirect_to login_path 
@@ -58,6 +58,10 @@ class ApplicationController < ActionController::Base
   
   def redirecting?
     params[:controller] == 'redirects' && params[:action] == 'redirect'
+  end
+  
+  def validating?
+    params[:controller] == 'validations'
   end
 
   def access_denied

@@ -59,5 +59,5 @@ Rails::Initializer.run do |config|
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer']
-
+  # puts "Mailer config is: #{YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer'].inspect}"
 end
