@@ -76,6 +76,10 @@ class WebAnalytics
     params_to_hash(split_into_parameters(uri.query))
   end
   
+  # From a parsed log entry, create the Track row
+  # which we keep around for a while in case we need to reprocess
+  # log data.  It's also used as the source of data for
+  # Session and Event entries.
   def create(entry, model = Track)
     row = model.new
     row.referrer    = entry[:referer]
@@ -111,6 +115,8 @@ class WebAnalytics
     end
   end    
   
+  # Based upon the referrer decide is the traffic source is
+  # search, direct or referred
   def get_traffic_source!(row)
     referrer = row.referrer
     if referrer.blank? || referrer == "-" || referrer == 'mhtmlmain:'

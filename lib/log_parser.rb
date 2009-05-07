@@ -72,39 +72,39 @@ class LogParser
   # method to save analytics data to the database. See log_tailer.rb for
   # the most relevant usage example or the method #parse_log above.
   # option[:geocode] if true will geocode the data.  You most likely want this to
-  # be true since we are no resolving this data from the hostip.info database
-  # locally (no net latency or performance issues).
+  # be true since we are now resolving this data from the hostip.info database
+  # locally (no net latency).
   def save_web_analytics!(web_analyser, entry, options = {:geocode => true})
     row = web_analyser.create(entry)
     Track.transaction do
       row.save!
       if session = Session.find_or_create_from_track(row)
-        Rails.logger.debug "Session found from row"
         if session.new_record?
           geocode_location!(session) if options[:geocode]
           session.save!
         end
         if event = Event.create_from_row(session, row)
-          Rails.logger.debug "Event was created"
           event.save! 
-          session.save!   # Updated viewcount
+          session.update_viewcount!
         else
-          Rails.logger.error "Event was could not be created"
+          Rails.logger.error "Event could not be created"
           Rails.logger.error row.inspect
         end
       else
-        Rails.logger.error "Sesssion was not found or created!"
+        Rails.logger.error "Sesssion was not found or created!  Unknown web property?"
         Rails.logger.error row.inspect
       end
     end
   rescue Mysql::Error => e
-    Rails.logger.warn "Could not save this data."
-    Rails.logger.warn e.message
+    Rails.logger.warn "Database could not save this data: #{e.message}"
+    Rails.logger.warn row.inspect
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Invalid record detected (validation error?)"
-    Rails.logger.error e.message
+    Rails.logger.error "Invalid record detected: #{e.message}"
+    Rails.logger.error row.inspect
   end    
   
+  # Will attempt to reverse geocode any uncoded rows.  Useful in the case
+  # where the geocoding data improves.
   def geocode_log(model = Session)
     model.find_each(:conditions => "geocoded_at IS NULL and ip_address IS NOT NULL") do |row|
       geocode_location!(row)
@@ -112,6 +112,8 @@ class LogParser
     end
   end
   
+  # Can be called for Track or Session instances since
+  # they have common attribute names for location data
   def geocode_location!(row) 
     IpAddress.reverse_geocode(row.ip_address, row)
   end

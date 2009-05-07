@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090506222403) do
+ActiveRecord::Schema.define(:version => 20090507202731) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -123,35 +123,36 @@ ActiveRecord::Schema.define(:version => 20090506222403) do
   create_table "sessions", :force => true do |t|
     t.integer  "property_id"
     t.integer  "campaign_id"
-    t.string   "visitor",          :limit => 20
-    t.integer  "visit",                          :default => 0
-    t.string   "session",          :limit => 20
+    t.string   "visitor",           :limit => 20
+    t.integer  "visit",                           :default => 0
+    t.string   "session",           :limit => 20
     t.integer  "event_count"
-    t.string   "browser",          :limit => 20
-    t.string   "browser_version",  :limit => 10
-    t.string   "language",         :limit => 10
-    t.string   "screen_size",      :limit => 10
-    t.integer  "color_depth",      :limit => 2
-    t.string   "charset",          :limit => 10
-    t.string   "os_name",          :limit => 20
-    t.string   "os_version",       :limit => 10
-    t.string   "flash_version",    :limit => 10
-    t.string   "campaign_name",    :limit => 50
+    t.string   "browser",           :limit => 20
+    t.string   "browser_version",   :limit => 10
+    t.string   "language",          :limit => 10
+    t.string   "screen_size",       :limit => 10
+    t.integer  "color_depth",       :limit => 2
+    t.string   "charset",           :limit => 10
+    t.string   "os_name",           :limit => 20
+    t.string   "os_version",        :limit => 10
+    t.string   "flash_version",     :limit => 10
+    t.string   "campaign_name",     :limit => 50
     t.string   "campaign_source"
     t.string   "campaign_medium"
     t.string   "campaign_content"
-    t.string   "ip_address",       :limit => 20
+    t.string   "ip_address",        :limit => 20
     t.string   "locality"
     t.string   "region"
     t.string   "country"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "duration",                       :default => 0
+    t.integer  "duration",                        :default => 0
     t.datetime "started_at"
     t.datetime "ended_at"
     t.datetime "geocoded_at"
     t.datetime "created_at"
     t.integer  "page_views"
+    t.datetime "previous_visit_at"
   end
 
   create_table "tracks", :force => true do |t|

@@ -31,6 +31,11 @@ class Event < ActiveRecord::Base
     event
   end
   
+  def referrer=(r)
+    return if r.blank? || r == '-'
+    super
+  end
+  
   def pageview?
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end

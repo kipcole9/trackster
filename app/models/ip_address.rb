@@ -21,9 +21,9 @@ class IpAddress < ActiveRecord::Base
           row.country = country.name.capitalize unless country.name.blank?
         end
         if city
-          row.locality = URI.decode(city.name) unless city.name.blank?
-          row.region= city.state
-          row.latitude = city.lat
+          row.locality  = URI.decode(city.name) unless city.name.blank?
+          row.region    = city.state unless city.state.blank?
+          row.latitude  = city.lat
           row.longitude = city.lng
         end
         row.geocoded_at = Time.now
