@@ -17,10 +17,13 @@ html do
         include 'widgets/footer'
       end
     end
-    if Rails.env == "development"
-      store "<script src=http://trackster.local/javascripts/tracker_debug.js type=text/javascript>"
-    else
-      store "<script src=http://vietools.com:8080/_tks.js type=text/javascript>"
+    case Rails.env 
+      when "development"
+        store "<script src=http://trackster.local/javascripts/tracker_debug.js type=text/javascript>"
+      when "staging"
+        store "<script src=http://vietools.com:8080/_tks.js type=text/javascript>"
+      else
+        store "<script src=http://vietools.com/_tks.js type=text/javascript>"
     end
     javascript yield(:javascript)
     javascript "tracker = new _tks('vie-00001-1'); tracker.trackPageview();"

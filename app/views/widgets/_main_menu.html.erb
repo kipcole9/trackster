@@ -4,11 +4,14 @@
 			<a name="mainmenu5" href="<%= dashboard_path %>">Dashboard</a>
 		</li>
 		<li>
-			<a name="mainmenu2" href="<%= properties_path %>">Web Properties</a>
+			<a name="mainmenu2">Web Properties</a>
 			<ul>
 				<li>
 					<a name="mainmenu2-submenu1" href="<%= new_property_path %>">Create a new Web Property</a>
 				</li>
+				<li>
+					<a name="mainmenu2-submenu2" href="<%= properties_path %>">Show all Web Properties</a>
+				</li>				
 			</ul>
 		</li>
 		<li>
@@ -27,10 +30,10 @@
   			<a name="secondarymenu">Account</a>
   			<ul>
   				<li>
-  					<a name="secondarymenu-submenu1">Profile</a>
+  					<a name="secondarymenu-submenu1">Show Account Profile</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu2" href="<%= users_path %>">Users</a>
+  					<a name="secondarymenu-submenu2" href="<%= users_path %>">Account Users</a>
   				</li>
   			</ul>
   		</li>
@@ -43,10 +46,10 @@
   					<a name="secondarymenu-submenu3" href="<%= accounts_path %>">Accounts</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu4" href="<%= users_path %>">Users</a>
+  					<a name="secondarymenu-submenu4" href="<%= new_user_path %>">Define new user</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu5" href="<%= users_path %>">Site Status</a>
+  					<a name="secondarymenu-submenu5" href="<%= users_path %>">Show User List</a>
   				</li>  				
   			</ul>
   		</li>
