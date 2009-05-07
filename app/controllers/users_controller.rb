@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     else 
       flash[:error]  = t('unknown_activation_code')
     end
-    redirect_back_or_default('/')    
+    redirect_to login_url 
   end
   
   def change_password

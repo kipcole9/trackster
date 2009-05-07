@@ -1,6 +1,6 @@
 module Trackster
   # Exceptions
-  class TracksterException < Error; end
+  class TracksterException < RuntimeError; end
   class Unauthorized < TracksterException; end
   
   # Loads and makes available config data
