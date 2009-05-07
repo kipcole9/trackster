@@ -7,8 +7,8 @@ class UsersController < ApplicationController
  
   def index
     respond_to do |format|
+      format.html { }      
       format.js   {render :partial => 'user', :collection => @users}
-      format.html { }
     end
   end
   

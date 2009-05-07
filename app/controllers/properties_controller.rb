@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  require_role  ["admin", "account holder"]
+  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE]
   before_filter       :retrieve_property, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_properties, :only => :index
   
@@ -9,22 +9,22 @@ class PropertiesController < ApplicationController
   
   def edit
     respond_to do |format|
+      format.html { }      
       format.js   { render :partial => 'property_form', :locals => {:property => @property} }
-      format.html { }
     end
   end
   
   def index
     respond_to do |format|
-      format.js   { render :partial => 'index', :layout => false }
-      format.html { }
+      format.html {  }
+      format.js   { render :partial => 'index', :layout => false }      
     end
   end
   
   def show
     respond_to do |format|
+      format.html { }      
       format.js   { render_list_item @property, 'property_summary' }
-      format.html { }
     end
   end
   
