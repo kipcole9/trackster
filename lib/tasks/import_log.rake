@@ -1,3 +1,6 @@
+# Convenience task that should be used in development only.
+# The LogAnalyserDaemon object handles this and more in staging
+# or production.
 namespace :trackster do
   desc "Import log for web analytics"
   task(:analyse_log => :environment) do

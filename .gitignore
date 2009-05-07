@@ -10,5 +10,6 @@ public/system/**/*
 config/mailer.yml
 public/javascripts/tracker_debug_packaged.js
 public/javascript/tracker_packaged.js
+vendor/plugins/browscap/lib/browscap.ini
 
 

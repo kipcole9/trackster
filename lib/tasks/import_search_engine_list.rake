@@ -1,3 +1,5 @@
+# The search engine database is maintained in an open source
+# format that we need to refresh from time-to-time
 namespace :trackster do
 
   desc "Import javascript-based search engine database"

@@ -1,3 +1,4 @@
+# Configuration module for Trackster.
 module Trackster
   # Exceptions
   class TracksterException < RuntimeError; end
