@@ -96,7 +96,7 @@ module PageLayout
   end
 
   def panel(title, args = {})
-    default_options = {:class => "box"}
+    default_options = {:class => ["box", args.delete(:class)].join(' ')}
     options = default_options.merge(args)
     include_flash_block = options.delete(:flash)
     errors_on = options.delete(:display_errors)

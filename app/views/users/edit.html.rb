@@ -1,3 +1,4 @@
+@user_sidebar = 'new_user_help'
 panel t('panels.user'), :flash => true, :display_errors => 'user'  do
   block do
     caerus_form_for @user, :html => { :multipart => true } do |user|

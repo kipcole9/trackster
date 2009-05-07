@@ -1,7 +1,9 @@
 panel t('panels.property_index'), :flash => true do  
   block do
     search t("search"), :id => "propertySearch", :replace => "property", :url => properties_url
-    render_list @properties, :partial => 'property_summary', :accepts => :user, :buttons => :all
+    with_tag(:div, :id => 'property') do
+      store render :partial => 'index'
+    end
     store will_paginate
   end
 end

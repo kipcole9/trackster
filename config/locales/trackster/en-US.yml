@@ -32,46 +32,41 @@ en-US:
         login:              "Please log in to access your account"
         property:           "Property"
         property_index:     "Web Property Index"
+        new_user:           "Define a new user"
+        user:               "Update your profile"
     
     
     column_descriptions:
-        email:              "This is the email address for any account-related correspondance. You can change it at any time."
-        login:              "This is the name you will use to log in to the system and to administer your account. <em>It can't be changed later</em>."
-        password:           "Your password for this site.  Keep it secure."
-        locale:             "Your preferred language, which can be changed at any time"
-        timezone:           "The time zone in which you, personally, mostly work. You can change at any time."
-        account:
-            name:           "You'll access your own <em>secure &amp; private</em> system using this account name.  It can be anything you like, as long as it is comprised of <em>letters</em>, <em>numbers</em> or <em>'-'</em> (a dash)."
-        person:
-            honorific_prefix:   "For example 'Mr.', 'Ms.', 'Dr.', 'Rev.'"
-            honorific_suffix:   "For example 'Phd.', 'KCMG'"
-            salutation:         "For example 'Dear Mr. Jones'"
+        email:              "This is the email address for any correspondance. It can be changed any time."
+        login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."
+        locale:             "Your preferred language, which can be changed at any time."
+        timezone:           "The time zone in which you mostly work. You can change it at any time."
+        
+        user:
+            account_id:     "Which account will the new user be part of?"
+            role:           "What role (authority) will the new user have?"
+            photo:          "Can you upload an image as part of your profile.  It will be visible to other people on your account."
+            
+        property:
+            tracker:        "This is the code that uniquely identifies your web property.  It is used in tagged links, javascripts and redirects. It can't be changed."
+            description:    "A description of your web property."
+            url:            "The root (main) url of your web property.  To be tracked correctly, all tracking data must originate from pages that begin with this url."
+            name:           "A name for your web property.  It can be any text that uniquely identifies this web property."
 
-    email_types:            [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
-    website_types:          [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
-    address_types:          [["Work", "work"], ["Home", "home"], ["Mailing", "mailing"], ["Other", "other"]]
-    phone_types:            [["Work", "direct"], ["Home", "home"], ["Mobile", "mobile"], 
-                            ["Skype", "skype"], ["Main", "main"], ["Fax", "fax"], 
-                            ["Pager", "pager"], ["Other", "other"]]
-    affiliations:           [["Family", "family"], ["Friends", "friends"], ["Colleagues", "colleagues"]]
-    gender:                 [["Male", "male"], ["Female", "female"], ["Unknown", "unknown"]]
-    name_order:             [["Given then Family", 'gf'], ["Family then Given", "fg"]]                      
-                
-    accounts:
-        new_account:
-            banner:             "You're 60 seconds from forecast control!"
-            signup:             This is all you need for a new account
-            user_info:          'About you:'
-            account_info:       'About your new account:'
-            preferences:        'Your personal preferences:'
-            request_login_info: 'Your login information:'
-            submit_sign_up:     'Accept terms and create account'
-            created:            'Your new account has been created'
-            creation_error:     'Your account could not be created due to the following errors:'
-        settings:
-            update_calendar:    'Update calendar'
-        edit_account:
-            heading:            'Edit your account settings'
+                    
+    users:
+        new:
+            new_user:       "New user's details"
+            type_of_new_user:   "New user's role"
+        index:
+            user_search:    "Find a user"
+        edit:
+            edit_user:      "Profile details"    
+            
+    properties:
+        property_form:
+            edit_property:  "Update this property's profile"
+            new_property:   "New Web Property details"           
                 
     activerecord:
         # This is where we translate our model and attribute names

@@ -25,8 +25,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
-  validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  validates_length_of       :name,     :maximum => 100
+  validates_format_of       :given_name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
+  validates_length_of       :given_name,     :maximum => 100
+  validates_format_of       :family_name,    :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
+  validates_length_of       :family_name,    :maximum => 100
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
@@ -38,7 +40,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :account, :remember_me?, 
+  attr_accessible :login, :email, :given_name, :family_name, :password, :password_confirmation, :account, :remember_me?, 
                   :locale, :timezone, :role, :photo,
                   # Virtual attributes we use for changing password - make sure we don't interrupt the real data
                   :new_password, :new_password_confirmation, :account_id
@@ -47,7 +49,7 @@ class User < ActiveRecord::Base
   # It may be a good idea to have "admin" roles return true always
   def has_role?(role_in_question)
     @_list ||= self.roles.collect(&:name)
-    return true if @_list.include?("admin")
+    return true if @_list.include?(Role::ADMIN_ROLE)
     (@_list.include?(role_in_question.to_s) )
   end
 
@@ -59,7 +61,7 @@ class User < ActiveRecord::Base
   #
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
-    u = find :first, :conditions => ['login = ? and state = ? or state = ?', login.downcase, 'active', 'changing_password'] # need to get the salt
+    u = find :first, :conditions => ['login = ? and state = ?', login.downcase, 'active'] # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -69,6 +71,10 @@ class User < ActiveRecord::Base
 
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
+  end
+  
+  def name
+    [self.given_name, self.family_name].compact.join(' ')
   end
   
   # When the server starts this method is invoked post-initialization
@@ -81,7 +87,7 @@ class User < ActiveRecord::Base
         :password_confirmation => ADMIN_DEFAULT_PASSWORD, :email => ADMIN_DEFAULT_EMAIL)
       admin.register!
       admin.activate!
-      admin.roles = Role.find_or_create(Role::ADMIN_ROLE)
+      admin.roles << Role.find_or_create(Role::ADMIN_ROLE)
       admin.account = Account.admin_account
       admin.save!
     end

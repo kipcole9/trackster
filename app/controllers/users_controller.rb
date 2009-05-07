@@ -3,7 +3,15 @@ class UsersController < ApplicationController
   before_filter :set_mailer_url_defaults, :only => [:create, :activate]
   before_filter :check_edit_permission, :only => [:edit, :update]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
+  before_filter :find_users, :only => [:index]
  
+  def index
+    respond_to do |format|
+      format.js   {render :partial => 'user', :collection => @users}
+      format.html { }
+    end
+  end
+  
   def create
     @user = User.new(params[:user])
     @user.password = ActiveSupport::SecureRandom.base64(6)
@@ -92,7 +100,11 @@ class UsersController < ApplicationController
 
 protected
   def find_user
-    @user = User.find(params[:id])
+    @user = user_scope.find(params[:id])
+  end
+
+  def find_users
+    @users = user_scope.find(:all, :conditions => conditions_from_params)
   end
 
   def set_mailer_url_defaults
@@ -101,5 +113,19 @@ protected
   
   def check_edit_permission
     access_denied unless params[:id].to_i == current_user.id || current_user.has_role?(Role::ADMIN_ROLE)
+  end
+  
+  def user_scope
+    if current_user.has_role?(Role::ADMIN_ROLE)
+      User
+    else
+      current_user.account.users
+    end
+  end
+  
+  def conditions_from_params
+    return {} if params[:search].blank?
+    search = "%#{params[:search]}%"
+    ['given_name like ? or family_name like ?', search, search ]
   end
 end

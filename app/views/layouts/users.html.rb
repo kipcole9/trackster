@@ -5,7 +5,7 @@ page do
     end
   
     column :width => 4 do
-      include '/users/new_user_help'
+      store yield(:sidebar)
   	end
   end
 end

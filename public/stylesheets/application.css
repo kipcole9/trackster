@@ -128,7 +128,7 @@ div.flash_error {
 /* The field error message from validations */
 span.field_message {
 	margin-left: 3px;
-	color: #fbb;
+	color: #f00;
 }
 
 /* Field prompts under the input field */
@@ -235,7 +235,16 @@ span.showOptional input[type="checkbox"] {
 
 /* Field spacing on forms */
 div.field + div.field {
-	margin-top: 0.3em;
+	margin-top: 0.5em;
+}
+
+p {
+	margin: 0;
+}
+
+.help p, .help li {
+	margin-top: 1em;
+	margin-bottom: 0;
 }
 
 /* Date multi select boxes in line */

@@ -14,6 +14,13 @@ class PropertiesController < ApplicationController
     end
   end
   
+  def index
+    respond_to do |format|
+      format.js   { render :partial => 'index', :layout => false }
+      format.html { }
+    end
+  end
+  
   def show
     respond_to do |format|
       format.js   { render_list_item @property, 'property_summary' }
@@ -48,9 +55,15 @@ private
   end
   
   def retrieve_properties
-    @properties = user_scope.paginate(:page => params[:page])
+    @properties = user_scope.paginate(:page => params[:page], :conditions => conditions_from_params)
   end
   
+  def conditions_from_params
+    return {} if params[:search].blank?
+    search = "%#{params[:search]}%"
+    ['name like ? or url like ?', search, search ]
+  end
+    
   def user_scope
     if current_user.has_role?(Role::ADMIN_ROLE)
       Property

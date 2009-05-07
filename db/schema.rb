@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090506070802) do
+ActiveRecord::Schema.define(:version => 20090506222403) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -204,7 +204,7 @@ ActiveRecord::Schema.define(:version => 20090506070802) do
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
+    t.string   "given_name",                :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
     t.string   "crypted_password",          :limit => 40
     t.string   "salt",                      :limit => 40
@@ -223,6 +223,8 @@ ActiveRecord::Schema.define(:version => 20090506070802) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.string   "family_name",               :limit => 100
+    t.string   "phone_number",              :limit => 50
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
