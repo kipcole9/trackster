@@ -137,7 +137,7 @@ class WebAnalytics
       row.traffic_source = 'referral'      
     end
   rescue
-    Rails.logger.error "Invalid URI detected: #{referrer}"
+    Rails.logger.error "Invalid URI Referrer detected: #{referrer}"
     row.traffic_source = 'referral'
   end
   

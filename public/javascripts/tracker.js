@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "0.88";
+	this.version		= "0.92";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com";
@@ -41,7 +41,7 @@ function _tks(account)  {
 		}
 		for (var o in options) {
 			if (o != 'url' && options[o]) {
-				params[i++] = o + '=' + escape(options[o]);
+				params[i++] = o + '=' + encodeURIComponent(options[o]);
 			}
 		}
 		url += params.join('&');
@@ -92,32 +92,32 @@ function _tks(account)  {
 		} else {
 			url = document.URL;
 		}
-		return escape(url.replace(/\/$/,''));
+		return encodeURIComponent(url.replace(/\/$/,''));
 	};
 	this.getPageTitle = function() {
-		return escape(document.title.replace(/^\s*/,'').replace(/\s*$/,''));
+		return encodeURIComponent(document.title.replace(/^\s*/,'').replace(/\s*$/,''));
 	};
 	this.getReferrer = function() {
-		return escape(document.referrer);
+		return encodeURIComponent(document.referrer);
 	};
 	this.getCampName = function() {
-		return escape(parameters[self.campaignName]);
+		return encodeURIComponent(parameters[self.campaignName]);
 	};
 	this.getCampSource = function() {
-		return escape(parameters[self.campaignSource]);
+		return encodeURIComponent(parameters[self.campaignSource]);
 	};
 	this.getCampMedium = function() {
-		return escape(parameters[self.campaignMedium]);
+		return encodeURIComponent(parameters[self.campaignMedium]);
 	};
 	this.getCampContent = function() {
-		return escape(parameters[self.campaignContent]);
+		return encodeURIComponent(parameters[self.campaignContent]);
 	};
 	this.getVisitor = function() {
 		function createTdsv() {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
 			// console.log('New visitor being created.');
-			self.tdsv = newVisitorId() + ".0";
+			self.tdsv = newVisitorId();
 			self.setTdsv(self.tdsv);
 			return self.tdsv;
 		}
@@ -178,20 +178,9 @@ function _tks(account)  {
 		}
 		function createNewSession() {
 			// console.log('Creating new session.');
-			if (!self.tdsb) {
-				self.tdsb = getNewSessionId() + ".0";
-				// console.log('Creating new session (tdsb): ' + self.tdsb);
-				setTdsb(self.tdsb); // .1 means new session
-			}
-			// Session cookie deleted at end of browser session
-			// Hence if missing then a new session must be started
-			if (!self.tdsc) {
-				var parts = self.tdsb.split('.');
-				parts[1] = 1;
-				self.tdsb = parts.join('.');
-				setTdsb(self.tdsb);
-				self.setCookie('_tdsc', self.tdsb);
-			}
+			self.tdsb = getNewSessionId() + ".0";
+			setTdsb(self.tdsb);
+			self.setCookie('_tdsc', self.tdsb);
 			self.incrementVisitCount();
 			// console.log('Create new session is returning: ' + self.tdsb);
 			return self.tdsb;
