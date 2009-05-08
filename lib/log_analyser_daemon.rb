@@ -38,7 +38,7 @@ class LogAnalyserDaemon
       if running?
         ActiveRecord::Base.logger.debug "Log analyser has reopened #{log_file}"
       else
-        ActiveRecord::Base.logger.warning "Log analyser is terminating"
+        ActiveRecord::Base.logger.info "Log analyser is terminating"
         log.close
         return
       end
@@ -53,7 +53,7 @@ class LogAnalyserDaemon
           @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
         end
       else
-        ActiveRecord::Base.logger.warning "Skipping badly formatted log entry: #{line}"
+        ActiveRecord::Base.logger.info "Skipping badly formatted log entry: #{line}"
       end
     end
   end 

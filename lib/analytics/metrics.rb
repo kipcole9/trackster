@@ -2,11 +2,15 @@ module Analytics
   module Metrics
     def self.included(base)
       base.class_eval do
+        
+        # Pages_views is derived directly from session data
         named_scope :page_views, {}
 
         # Can only count sessions that have visitors (ie. view javascript)
         named_scope :visitors,
-          :select => "DISTINCT visitor", :conditions => "visitor IS NOT NULL"
+          :select => :visitor,
+          :conditions => "visitor IS NOT NULL",
+          :group => :visitor
 
         # Each session is a visit
         named_scope :visits, {}
@@ -19,19 +23,22 @@ module Analytics
         # Without further scoping this is meaningless - but the #between scope
         # needs to see this first
         named_scope :repeat_visitors,
-          :conditions => "previous_session IS NOT NULL AND duration IS NOT NULL", 
+          :select => :visitor,
+          :conditions => "previous_visit_at IS NOT NULL", 
           :group => :visitor
 
         named_scope :repeat_visits,
-          :conditions => "previous_session IS NOT NULL AND duration IS NOT NULL"
+          :conditions => "previous_visit_at IS NOT NULL"
 
         # Visitors who visited before the current period and have now returned
+        # Needs to be scoped with previous_visit_at before a relevant period
         named_scope :return_visitors,
-          :conditions => "visit > 1 AND previous_session IS NOT NULL AND duration IS NOT NULL", 
+          :select => :visitor,
+          :conditions => "previous_visit_at IS NOT NULL", 
           :group => :visitor
 
         named_scope :return_visits,   
-          :conditions => "visit > 1 AND previous_session IS NOT NULL AND duration IS NOT NULL"
+          :conditions => "visit > 1 AND previous_visit_at IS NOT NULL"
 
         # Entry page is marked in the events table
         named_scope :entry_pages,
