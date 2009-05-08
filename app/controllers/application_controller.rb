@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
   end
   
   def internet_explorer?
-    browser =~ /MSIE/
+    browser =~ /.*MSIE.*/
   end
   
   # Scope to controller for translation keys

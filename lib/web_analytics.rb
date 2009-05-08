@@ -125,7 +125,7 @@ class WebAnalytics
     end
     
     begin
-      uri = URI.parse(referrer)
+      uri = URI.parse(referrer) rescue puts("Invalid URI detected: #{referrer}")
       if search_engine = SearchEngine.find_by_host(uri.host)
         params = parse_url_parameters(uri.query)
         row.referrer_host = uri.host
@@ -136,7 +136,7 @@ class WebAnalytics
         row.traffic_source = 'referral'      
       end
     rescue URI::InvalidURIError => e
-      Rails.logger.error "Invalid URI detected: #{e.message}: #{referrer}"
+      Rails.logger.error "Invalid URI detected: #{referrer}"
       row.traffic_source = 'referral'
     end
   end
