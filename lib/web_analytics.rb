@@ -1,5 +1,4 @@
 class WebAnalytics
-  require 'uri'
   VALID_PARAMS = {
                   # The tracking code, linked to an account
                   # Needs to be on each tracking request or URL
@@ -74,6 +73,9 @@ class WebAnalytics
   def parse_url_parameters(url)
     uri = URI.parse(url)
     params_to_hash(split_into_parameters(uri.query))
+  rescue URI::InvalidURIError
+    Rails.logger.error "Invalid URI detected: #{url}"
+    {}
   end
   
   # From a parsed log entry, create the Track row
@@ -124,21 +126,19 @@ class WebAnalytics
       return
     end
     
-    begin
-      uri = URI.parse(referrer) rescue puts("Invalid URI detected: #{referrer}")
-      if search_engine = SearchEngine.find_by_host(uri.host)
-        params = parse_url_parameters(uri.query)
-        row.referrer_host = uri.host
-        row.search_terms = params[search_engine.query_param]
-        row.traffic_source = 'search'
-      else
-        row.referrer_host = uri.host
-        row.traffic_source = 'referral'      
-      end
-    rescue URI::InvalidURIError => e
-      Rails.logger.error "Invalid URI detected: #{referrer}"
-      row.traffic_source = 'referral'
+    uri = URI::parse(referrer)
+    if search_engine = SearchEngine.find_by_host(uri.host)
+      params = parse_url_parameters(uri.query)
+      row.referrer_host = uri.host
+      row.search_terms = params[search_engine.query_param]
+      row.traffic_source = 'search'
+    else
+      row.referrer_host = uri.host
+      row.traffic_source = 'referral'      
     end
+  rescue
+    Rails.logger.error "Invalid URI detected: #{referrer}"
+    row.traffic_source = 'referral'
   end
   
 private

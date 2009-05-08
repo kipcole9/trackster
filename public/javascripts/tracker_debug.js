@@ -41,7 +41,7 @@ function _tks(account)  {
 		}
 		for (var o in options) {
 			if (o != 'url' && options[o]) {
-				params[i++] = o + '=' + escape(options[o]);
+				params[i++] = o + '=' + encodeURIComponent(options[o]);
 			}
 		}
 		url += params.join('&');
@@ -92,25 +92,25 @@ function _tks(account)  {
 		} else {
 			url = document.URL;
 		}
-		return escape(url.replace(/\/$/,''));
+		return encodeURIComponent(url.replace(/\/$/,''));
 	};
 	this.getPageTitle = function() {
-		return escape(document.title.replace(/^\s*/,'').replace(/\s*$/,''));
+		return encodeURIComponent(document.title.replace(/^\s*/,'').replace(/\s*$/,''));
 	};
 	this.getReferrer = function() {
-		return escape(document.referrer);
+		return encodeURIComponent(document.referrer);
 	};
 	this.getCampName = function() {
-		return escape(parameters[self.campaignName]);
+		return encodeURIComponent(parameters[self.campaignName]);
 	};
 	this.getCampSource = function() {
-		return escape(parameters[self.campaignSource]);
+		return encodeURIComponent(parameters[self.campaignSource]);
 	};
 	this.getCampMedium = function() {
-		return escape(parameters[self.campaignMedium]);
+		return encodeURIComponent(parameters[self.campaignMedium]);
 	};
 	this.getCampContent = function() {
-		return escape(parameters[self.campaignContent]);
+		return encodeURIComponent(parameters[self.campaignContent]);
 	};
 	this.getVisitor = function() {
 		function createTdsv() {

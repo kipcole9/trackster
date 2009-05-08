@@ -30,10 +30,10 @@ private
     end
     session.started_at  = row.tracked_at
     session.referrer    = row.referrer
-    session.ended_at    = session.started_at    
+    session.ended_at    = session.started_at 
     
     # See if there was a previous session
-    if session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
+    if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
       session.previous_visit_at = previous_visit.started_at
     end
     
