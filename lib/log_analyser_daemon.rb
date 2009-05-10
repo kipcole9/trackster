@@ -24,10 +24,15 @@ class LogAnalyserDaemon
       end
   end
   
+  def log_was_rotated?
+    (new_file = File.stat(log_file).ino) != @log_inode ? new_file : false
+  end
+  
   def log_analyser_loop(options = {})
     default_options = {:forward => 0}
     options = @options.merge(default_options).merge(options) 
-    log = File::Tail::Logfile.open(log_file, options)
+    log     = File::Tail::Logfile.open(log_file, options)
+    @log_inode  = File.stat(log_file).ino
     log.interval            = 1     # Initial sleep interval when no data
     log.max_interval        = 5     # Maximum sleep interval when no data
     log.reopen_deleted      = true  # is default
@@ -37,6 +42,10 @@ class LogAnalyserDaemon
     log.after_reopen do
       if running?
         ActiveRecord::Base.logger.debug "Log analyser has reopened #{log_file}"
+        if new_file_inode = log_was_rotated?
+          log.forward
+          @log_inode = new_file_inode
+        end
       else
         ActiveRecord::Base.logger.info "Log analyser is terminating"
         log.close
