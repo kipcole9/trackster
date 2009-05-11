@@ -6,14 +6,14 @@ class Event < ActiveRecord::Base
   VIEW_ACTION = "view"
   
   def self.create_from_row(session, row)
-    return nil if !session || row.view.blank?
-    if session.events.find_by_sequence(row[:event])
+    return nil if !session || row[:view].blank?
+    if session.events.find_by_sequence(row[:view])
       Rails.logger.error "Duplicate event found"
       Rails.logger.error row.inspect
       return nil
     end
     
-    event = new_from_row(row.attributes)
+    event = new_from_row(row)
     if previous_event = session.events.last
       if event.pageview?
         previous_event.value = (event.tracked_at - previous_event.tracked_at).to_i
@@ -24,7 +24,6 @@ class Event < ActiveRecord::Base
     else
       event.entry_page = true
     end
-    event.track = row
     event.session = session
     event.exit_page = true
     session.ended_at = event.tracked_at
@@ -44,9 +43,9 @@ private
   def self.new_from_row(attrs)
     event = new
     event.attributes.each do |k, v|
-      event.send("#{k.to_s}=",  attrs[k])
+      event.send("#{k.to_s}=",  attrs[k.to_sym])
     end
-    event.sequence = attrs['view']
+    event.sequence = attrs[:view]
     
     # All actions, include page views, are events
     # If no event data is provided then it's a pageview

@@ -4,7 +4,9 @@ module Analytics
       base.class_eval do
         
         # Pages_views is derived directly from session data
-        named_scope :page_views, {}
+        named_scope :page_views,
+          :select => "sum(page_views) as page_views",
+          :include => :events
 
         # Can only count sessions that have visitors (ie. view javascript)
         named_scope :visitors,

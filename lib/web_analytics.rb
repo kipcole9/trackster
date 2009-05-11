@@ -78,29 +78,19 @@ class WebAnalytics
     {}
   end
   
-  # From a parsed log entry, create the Track row
-  # which we keep around for a while in case we need to reprocess
-  # log data.  It's also used as the source of data for
+  # From a parsed log entry create the source of data for
   # Session and Event entries.
-  def create(entry, model = Track)
-    row = model.new
-    row.referrer    = entry[:referer]
-    row.ip_address  = entry[:ip_address]
-    row.tracked_at  = entry[:datetime]
-    row.user_agent  = entry[:user_agent]
-    parse_url_parameters(entry[:url]).each do |k, v|
-      row.send "#{VALID_PARAMS[k].to_s}=", v
-    end
+  def create(entry)
+    row = parse_url_parameters(entry[:url])
+    get_log_data!(row, entry)
     get_traffic_source!(row)
-    get_platform_info!(row)    
+    get_platform_info!(row)
+    get_visitor!(row)
+    get_session!(row)
+    geocode!(row)
     row
   end
-  
-  def save(url, model = Track)
-    row = create(url, model)
-    row.save!
-  end
-  
+
   def is_crawler?(user_agent)
     if browser = browscap.query(user_agent)
       browser.crawler
@@ -110,10 +100,10 @@ class WebAnalytics
   end
   
   def get_platform_info!(row)
-    if agent = browscap.query(row.user_agent)
-      row.browser = agent.browser
-      row.browser_version = agent.version
-      row.os_name = agent.platform
+    if agent = browscap.query(row[:user_agent])
+      row[:browser] = agent.browser
+      row[:browser_version] = agent.version
+      row[:os_name] = agent.platform
     end
   end    
   
@@ -122,26 +112,66 @@ class WebAnalytics
   def get_traffic_source!(row)
     referrer = row.referrer
     if referrer.blank? || referrer == "-" || referrer == 'mhtmlmain:'
-      row.traffic_source = 'direct'
+      row[:traffic_source] = 'direct'
       return
     end
     
     uri = URI::parse(referrer)
     if search_engine = SearchEngine.find_by_host(uri.host)
       params = parse_url_parameters(uri.query)
-      row.referrer_host = uri.host
-      row.search_terms = params[search_engine.query_param]
-      row.traffic_source = 'search'
+      row[:referrer_host] = uri.host
+      row[:search_terms] = params[search_engine.query_param]
+      row[:traffic_source] = 'search'
     else
-      row.referrer_host = uri.host
-      row.traffic_source = 'referral'      
+      row[:referrer_host] = uri.host
+      row[:traffic_source] = 'referral'      
     end
   rescue
     Rails.logger.error "Invalid URI Referrer detected: #{referrer}"
-    row.traffic_source = 'referral'
+    row[:traffic_source] = 'referral'
   end
   
 private
+  def geocode!(row)
+    IpAddress.reverse_geocode(row[:ip_address], row)
+  end
+  
+  def get_log_data!(row, entry)
+    row[:referrer]    = entry[:referer]
+    row[:ip_address]  = entry[:ip_address]
+    row[:tracked_at]  = entry[:datetime]
+    row[:user_agent]  = entry[:user_agent]
+  end    
+  
+  # Visitor may have several parts when imported from the tracking system
+  # => 0: Visitor id
+  # => 1: Number of visits
+  # => 2: Current session timestamp
+  # => 3: Previous session timestamp
+  def get_visitor!(row)
+    return if row[:visitor].blank?
+    parts = row[:visitor].split('.')
+    raise "Track: Badly formed visitor variable: '#{v}" if parts.size > 4
+    row[:visitor] = parts[0]
+    row[:visit] = parts[1] if parts[1]
+    row[:previous_visit_at] = to_time(parts[3]) if parts[3]
+  end
+
+  # Session has two possible parts
+  # => Session id (a timestamp)
+  # => A pageview count incremented on each pageview for this session
+  def get_session!(row)
+    return if row[:session].blank?
+    parts = row[:session].split('.')
+    row[:session] = parts[0]
+    row[:view] = parts[1] if parts[1]    
+  end
+
+  def to_time(timestamp)
+    return nil unless timestamp
+    the_time = timestamp.size > 10 ? (timestamp.to_i / 1000) : timestamp.to_i
+    Time.at(the_time) if the_time
+  end
 
   def split_into_parameters(query_string)
     return {} if query_string.blank?
@@ -153,7 +183,7 @@ private
     params.delete_if do |p|
       var, value = p.split('=')
       if value
-        VALID_PARAMS[var.to_sym] ? result[var.to_sym] = URI.unescape(value) : false
+        VALID_PARAMS[var.to_sym] ? result[VALID_PARAMS[var.to_sym]] = URI.unescape(value) : false
       end
     end if params
     result

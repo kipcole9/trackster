@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090507202731) do
+ActiveRecord::Schema.define(:version => 20090510232123) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -153,54 +153,6 @@ ActiveRecord::Schema.define(:version => 20090507202731) do
     t.datetime "created_at"
     t.integer  "page_views"
     t.datetime "previous_visit_at"
-  end
-
-  create_table "tracks", :force => true do |t|
-    t.integer  "property_id"
-    t.string   "property_code",    :limit => 20
-    t.string   "visitor",          :limit => 20
-    t.string   "session",          :limit => 20
-    t.string   "page_title"
-    t.string   "screen_size",      :limit => 10
-    t.string   "color_depth",      :limit => 5
-    t.string   "language",         :limit => 10
-    t.string   "charset",          :limit => 10
-    t.string   "flash_version",    :limit => 10
-    t.string   "unique_request",   :limit => 20
-    t.string   "campaign_name"
-    t.string   "campaign_source"
-    t.string   "campaign_medium"
-    t.string   "campaign_content"
-    t.string   "url"
-    t.string   "ip_address",       :limit => 20
-    t.string   "referrer"
-    t.string   "user_agent"
-    t.string   "browser"
-    t.string   "browser_version"
-    t.string   "country",          :limit => 20
-    t.string   "region",           :limit => 20
-    t.string   "locality",         :limit => 20
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "tracked_at"
-    t.datetime "geocoded_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "count"
-    t.integer  "duration"
-    t.boolean  "outbound",                        :default => false
-    t.integer  "visit"
-    t.integer  "view"
-    t.datetime "previous_session"
-    t.string   "category"
-    t.string   "action"
-    t.string   "label"
-    t.float    "value"
-    t.string   "referrer_host",    :limit => 100
-    t.string   "search_terms"
-    t.string   "traffic_source",   :limit => 10
-    t.string   "os_name",          :limit => 10
-    t.string   "crm_contact"
   end
 
   create_table "users", :force => true do |t|

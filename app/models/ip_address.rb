@@ -13,20 +13,23 @@ class IpAddress < ActiveRecord::Base
   end
   
   def self.reverse_geocode(ip_address, row = nil)
+    if ip_address.blank?
+      raise row.inspect
+    end
     if lookup = find(:first, :conditions => ['ip = ?', convert_to_integer_cidr24(ip_address)])
       country = Country.find(:first, :conditions => ['id = ?', lookup.country])
       city = City.find(:first, :conditions => ['country = ? AND city = ?', lookup.country, lookup.city])
       if row 
         if country
-          row.country = country.name.capitalize unless country.name.blank?
+          row[:country] = country.name.capitalize unless country.name.blank?
         end
         if city
-          row.locality  = URI.decode(city.name) unless city.name.blank?
-          row.region    = city.state unless city.state.blank?
-          row.latitude  = city.lat
-          row.longitude = city.lng
+          row[:locality]  = URI.decode(city.name) unless city.name.blank?
+          row[:region]    = city.state unless city.state.blank?
+          row[:latitude]  = city.lat
+          row[:longitude] = city.lng
         end
-        row.geocoded_at = Time.now
+        row[:geocoded_at] = Time.now
       end
     end
   end

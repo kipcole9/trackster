@@ -15,8 +15,6 @@ class LogParser
   
   NGINX_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
   DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
-  include     CollectiveIdea::RemoteLocation
-  
   attr_accessor   :format, :regexp, :column
   
   def initialize(*args)
@@ -44,28 +42,7 @@ class LogParser
     end
     @column
   end
-  
-  # This method only scans a file to EOF and invokes the block on each parsed line
-  # If you're reading live log files it will be no good because logs can be rotated.
-  # In this case use log_tailer and friends.
-  def parse_log(filename)
-    web_analyser = WebAnalytics.new
-    last_log_time = Track.try(:last).try(:tracked_at) || Time.now
-    RAILS_DEFAULT_LOGGER.debug "Last start time is #{last_log_time}. No entries before that time will be imported."
-    File.open(filename, "r") do |infile|
-      while (line = infile.gets)
-        entry = parse_entry(line)
-        if entry[:datetime] && entry[:datetime] > last_log_time
-          if block_given?
-            yield entry
-          else
-            save_web_analytics!(web_analyser, entry) unless web_analyser.is_crawler?(entry[:user_agent])
-          end
-        end
-      end
-    end
-  end
-  
+
   # Main method for decoding a log file entry for its analytics content.
   # This method will create the Track, Session and Event objects and serialise
   # them to the database.  Feed a parsed row from a log file to this
@@ -74,15 +51,11 @@ class LogParser
   # option[:geocode] if true will geocode the data.  You most likely want this to
   # be true since we are now resolving this data from the hostip.info database
   # locally (no net latency).
-  def save_web_analytics!(web_analyser, entry, options = {:geocode => true})
+  def save_web_analytics!(web_analyser, entry, options = {})
     row = web_analyser.create(entry)
-    Track.transaction do
-      row.save!
+    Session.transaction do
       if session = Session.find_or_create_from_track(row)
-        if session.new_record?
-          geocode_location!(session) if options[:geocode]
-          session.save!
-        end
+        session.save! if session.new_record?
         if event = Event.create_from_row(session, row)
           event.save! 
           session.update_viewcount!
@@ -102,21 +75,6 @@ class LogParser
     Rails.logger.error "Invalid record detected: #{e.message}"
     Rails.logger.error row.inspect
   end    
-  
-  # Will attempt to reverse geocode any uncoded rows.  Useful in the case
-  # where the geocoding data improves.
-  def geocode_log(model = Session)
-    model.find_each(:conditions => "geocoded_at IS NULL and ip_address IS NOT NULL") do |row|
-      geocode_location!(row)
-      row.save!
-    end
-  end
-  
-  # Can be called for Track or Session instances since
-  # they have common attribute names for location data
-  def geocode_location!(row) 
-    IpAddress.reverse_geocode(row.ip_address, row)
-  end
 
 private
   def validate_args!(args)
