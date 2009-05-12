@@ -12,7 +12,8 @@ class TableFormatter
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
-        unless results.try(:first).try(:class).try(:descends_from_active_record?)
+        unless  results.try(:first).try(:class).try(:descends_from_active_record?) ||
+                results.is_a?(ActiveRecord::NamedScope::Scope)
     @klass = results.first.class
     @rows = results
     @merged_options = options.merge(DEFAULT_OPTIONS)
@@ -38,7 +39,10 @@ class TableFormatter
 
   # Outputs one row
   def output_row(row, count, options)
-    html.tr :class => (count.even? ? options[:even_row] : options[:odd_row]), :id => row_id(row) do
+    html_options = {}
+    html_options[:class] = (count.even? ? options[:even_row] : options[:odd_row])
+    html_options[:id] = row_id(row) if row[klass.primary_key]
+    html.tr html_options  do
       table_columns.each {|column| output_cell(row, column, options) }
     end
   end
@@ -58,7 +62,8 @@ class TableFormatter
 
   def render_table
     options = merged_options
-    html.table (:summary => options[:summary]) do
+    table_options = options[:summary] ? {:summary => options[:summary]} : {}
+    html.table table_options do
       html.caption options[:caption] if options[:caption]
       output_table_headings(options)
       html.tbody do
@@ -73,7 +78,7 @@ class TableFormatter
 private
   # Craft a CSS id
   def row_id(row)
-    "#{klass.name.underscore}_#{row['id']}"
+    "#{klass.name.underscore}_#{row[klass.primary_key]}"
   end
   
   def default_formatter(data)

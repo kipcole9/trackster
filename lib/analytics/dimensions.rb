@@ -2,7 +2,6 @@ module Analytics
   module Dimensions
     def self.included(base)
       base.class_eval do
-
         named_scope :between, lambda {|*args|
           return {} unless args.last
           range = args.last
@@ -49,12 +48,12 @@ module Analytics
               select << "date_format(tracked_at, '%Y/%m/%d %k:00:00') as tracked_at"
               group << "day(tracked_at), hour(tracked_at)"
             else
-              Session.respond_to?(dimension) ? select << dimension.to_s : select << "#{dimension.to_s}"
+              select << dimension.to_s
               group << dimension.to_s      
             end
           end
-          select << "count(*) as id"
-          {:joins => :events, :select => select.join(', '), :group => group.join(', ')}
+          # select << "count(*) as count"
+          {:select => select.join(', '), :group => group.join(', ')}
         }
 
         # => Campaign scoping
@@ -68,7 +67,11 @@ module Analytics
 
         named_scope   :medium, lambda {|method|
           {:conditions => {:campaign_medium => method}}
-        } 
+        }
+        
+        named_scope   :label, lambda {|label|
+          {:conditions => {:label => label}}
+        }
 
         non_metrics_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium].freeze
         def self.available_metrics

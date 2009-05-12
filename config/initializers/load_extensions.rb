@@ -3,7 +3,7 @@ require 'log_parser'
 require 'web_analytics'
 require 'flash_chart'
 require 'page_layout'
-
+require 'with_scope'
 
 # Small hack to let us play with
 # proxy options in other named scopes
@@ -18,3 +18,4 @@ module ActiveRecord
     end
   end
 end
+

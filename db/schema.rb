@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090510232123) do
+ActiveRecord::Schema.define(:version => 20090511224826) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(:version => 20090510232123) do
     t.datetime "tracked_at"
     t.boolean  "entry_page",                    :default => true
     t.boolean  "exit_page",                     :default => true
-    t.integer  "track_id"
     t.datetime "created_at"
     t.string   "category"
     t.string   "action"
@@ -153,6 +152,57 @@ ActiveRecord::Schema.define(:version => 20090510232123) do
     t.datetime "created_at"
     t.integer  "page_views"
     t.datetime "previous_visit_at"
+    t.integer  "count"
+  end
+
+  create_table "tracks", :force => true do |t|
+    t.integer  "property_id"
+    t.integer  "campaign_id"
+    t.string   "visitor",           :limit => 20
+    t.integer  "visit",                            :default => 0
+    t.string   "session",           :limit => 20
+    t.integer  "event_count"
+    t.string   "browser",           :limit => 20
+    t.string   "browser_version",   :limit => 10
+    t.string   "language",          :limit => 10
+    t.string   "screen_size",       :limit => 10
+    t.integer  "color_depth",       :limit => 2
+    t.string   "charset",           :limit => 10
+    t.string   "os_name",           :limit => 20
+    t.string   "os_version",        :limit => 10
+    t.string   "flash_version",     :limit => 10
+    t.string   "campaign_name",     :limit => 50
+    t.string   "campaign_source"
+    t.string   "campaign_medium"
+    t.string   "campaign_content"
+    t.string   "ip_address",        :limit => 20
+    t.string   "locality"
+    t.string   "region"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "duration",                         :default => 0
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "geocoded_at"
+    t.integer  "page_views"
+    t.datetime "previous_visit_at"
+    t.integer  "count"
+    t.integer  "session_id"
+    t.integer  "sequence"
+    t.string   "url"
+    t.string   "page_title"
+    t.string   "referrer"
+    t.datetime "tracked_at"
+    t.boolean  "entry_page",                       :default => true
+    t.boolean  "exit_page",                        :default => true
+    t.string   "category"
+    t.string   "action"
+    t.string   "label"
+    t.float    "value"
+    t.string   "traffic_source",    :limit => 10
+    t.string   "search_terms"
+    t.string   "referrer_host",     :limit => 100
   end
 
   create_table "users", :force => true do |t|

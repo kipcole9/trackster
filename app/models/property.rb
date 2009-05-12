@@ -1,6 +1,7 @@
 class Property < ActiveRecord::Base
   has_many    :campaigns
   has_many    :sessions
+  has_many    :tracks
   belongs_to  :account
   
   has_many    :property_users

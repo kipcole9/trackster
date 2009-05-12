@@ -6,7 +6,6 @@ namespace :trackster do
   task(:analyse_log => :environment) do
     Rails.logger.info "Starting import of tracking log."    
     if Rails.env == "development"
-      Track.delete_all
       Session.delete_all
       Event.delete_all
       $RUNNING = true

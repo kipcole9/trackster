@@ -3,7 +3,7 @@ class Session < ActiveRecord::Base
   belongs_to    :property
   before_save   :update_session_time
   before_save   :update_event_count
-  attr_accessor :referrer
+  attr_accessor :referrer  
   
   def self.find_or_create_from_track(row)
     if row[:visitor] && row[:visit] && row[:session]
