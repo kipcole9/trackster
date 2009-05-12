@@ -3,6 +3,7 @@ class ReviseTracksView < ActiveRecord::Migration
     #Create Tracks as a join of Session and Event - remove duplicate columns that add no 
     #value in retrieval data
     #execute "drop view tracks"
+    execute "drop view tracks"
     column = []
     Session.columns.each do |a| 
       unless ['created_at', 'updated_at', 'id'].include?(a.name)
