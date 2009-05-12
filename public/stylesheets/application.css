@@ -18,6 +18,17 @@ input[type="text"] {
 /* Tables in panels */
 div.block table {
 	margin-bottom: 10px;
+	table-layout: fixed;	
+}
+
+div.block table * td {
+	empty-cells: show;
+	overflow: hidden;
+	width: 100%;
+}
+
+col.count {
+	width: 5em;
 }
 
 /* Default rendering of select in safari doesn't allow font-size
