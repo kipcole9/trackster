@@ -15,6 +15,10 @@ input[type="text"] {
 	padding-bottom: 3px;
 }
 
+/* Tables in panels */
+div.block table {
+	margin-bottom: 10px;
+}
 
 /* Default rendering of select in safari doesn't allow font-size
  * using a border turns off using native widgets and we can style 
