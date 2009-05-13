@@ -1,5 +1,6 @@
 class Redirect < ActiveRecord::Base
   belongs_to                    :account
+  belongs_to                    :property
   before_validation_on_create   :create_redirect_url 
   
   validates_presence_of     :name
@@ -15,7 +16,8 @@ class Redirect < ActiveRecord::Base
   
 private
   # Create a random token for the redirect url
-  # and ensure it is not in use already.
+  # and ensure it is not in use already. This will probably
+  # never loop, but just to be sure......
   def create_redirect_url
     token = nil
     until token && !self.class.find_by_redirect_url(token)

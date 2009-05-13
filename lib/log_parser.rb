@@ -52,7 +52,7 @@ class LogParser
   # be true since we are now resolving this data from the hostip.info database
   # locally (no net latency).
   def save_web_analytics!(web_analyser, entry, options = {})
-    row = web_analyser.create(entry)
+    return unless row = web_analyser.create(entry)
     Session.transaction do
       if session = Session.find_or_create_from_track(row)
         session.save! if session.new_record?

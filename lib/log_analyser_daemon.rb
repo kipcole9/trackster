@@ -1,6 +1,8 @@
 class LogAnalyserDaemon
   # Check that a log entry matches a logging record
-  TRACK_PATTERN = /\A\/_tks.gif\/?/
+  # First kind is a regular .gif request.
+  # The second is a redirect record
+  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry
   
   def initialize(options = {})
     # Configuration options
@@ -38,10 +40,10 @@ class LogAnalyserDaemon
     # Main log loop
     log.tail do |line|  
       ActiveRecord::Base.connection.reconnect! unless ActiveRecord::Base.connected?      
-      entry = @log_parser.parse_entry(line)
+      entry = log_parser.parse_entry(line)
       if entry[:datetime]
-        if entry[:datetime] > @last_log_entry && entry[:url] =~ TRACK_PATTERN
-          @log_parser.save_web_analytics!(@web_analyser, entry) unless @web_analyser.is_crawler?(entry[:user_agent])
+        if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
+          log_parser.save_web_analytics!(web_analyser, entry)
         end
       else
         ActiveRecord::Base.logger.info "Skipping badly formatted log entry: #{line}"

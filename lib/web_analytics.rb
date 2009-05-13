@@ -1,4 +1,6 @@
 class WebAnalytics
+  REDIRECT_URL = /\A\/r\//
+  TRACKER_URL  = /\A\/_tks.gif\?/
   VALID_PARAMS = {
                   # The tracking code, linked to an account
                   # Needs to be on each tracking request or URL
@@ -72,33 +74,45 @@ class WebAnalytics
   # parameters.  That might need to change.
   def parse_url_parameters(url)
     uri = URI.parse(url)
-    params_to_hash(split_into_parameters(uri.query))
+    row = params_to_hash(split_into_parameters(uri.query))
+    row[:path] = uri.path
+    row
   rescue URI::InvalidURIError
     Rails.logger.error "Invalid URI detected: #{url}"
     {}
   end
   
+  # A redirect URL. Parameters are kept in the 
+  # Redirects table
+  def parse_redirect_parameters(url)
+    return nil unless row = parse_url_parameters(url)    
+    return nil unless redirect = Redirect.find_by_redirect_url(row[:path])
+    [:category, :event, :label, :value, :url].each do |attrib|
+      row[attrib] = redirect.send(attrib) unless row[attrib]
+    end
+    row[:property_code] = redirect.property.tracker unless row[:property_code]
+    row
+  end
+  
   # From a parsed log entry create the source of data for
   # Session and Event entries.
   def create(entry)
-    row = parse_url_parameters(entry[:url])
-    get_log_data!(row, entry)
-    get_traffic_source!(row)
-    get_platform_info!(row)
-    get_visitor!(row)
-    get_session!(row)
-    geocode!(row)
+    if entry[:url] =~ REDIRECT_URL
+      row = parse_redirect_parameters(entry[:url])
+    else
+      row = parse_url_parameters(entry[:url])
+    end
+    if row
+      get_log_data!(row, entry)
+      get_traffic_source!(row)
+      get_platform_info!(row)
+      get_visitor!(row)
+      get_session!(row)
+      geocode!(row)
+    end
     row
   end
-
-  def is_crawler?(user_agent)
-    if browser = browscap.query(user_agent)
-      browser.crawler
-    else
-      nil
-    end
-  end
-  
+ 
   def get_platform_info!(row)
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
@@ -116,7 +130,7 @@ class WebAnalytics
       return
     end
     
-    uri = URI::parse(referrer)
+    uri = URI.parse(referrer)
     if search_engine = SearchEngine.find_by_host(uri.host)
       params = parse_url_parameters(uri.query)
       row[:referrer_host] = uri.host
@@ -129,6 +143,18 @@ class WebAnalytics
   rescue
     Rails.logger.error "Invalid URI Referrer detected: #{referrer}"
     row[:traffic_source] = 'referral'
+  end
+
+  def is_crawler?(user_agent)
+    if browser = browscap.query(user_agent)
+      browser.crawler
+    else
+      nil
+    end
+  end
+  
+  def is_tracker?(url)
+    url && (url =~ REDIRECT_URL || url =~ TRACKER_URL)
   end
   
 private
