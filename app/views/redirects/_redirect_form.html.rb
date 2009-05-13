@@ -6,10 +6,10 @@ caerus_form_for redirect do |redirect|
     unless redirect.object.new_record?
       p "Redirection url is: #{link_to redirector_url(redirect.object.redirect_url),redirector_url(redirect.object.redirect_url) }"
     end
-    redirect.text_field     :event_category
-    redirect.text_field     :event_action
-    redirect.text_field     :event_label
-    redirect.text_field     :event_value
+    redirect.text_field     :category
+    redirect.text_field     :action
+    redirect.text_field     :label
+    redirect.text_field     :value
   end
   submit_combo
 end
