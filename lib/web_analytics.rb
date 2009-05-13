@@ -85,7 +85,8 @@ class WebAnalytics
   # A redirect URL. Parameters are kept in the 
   # Redirects table
   def parse_redirect_parameters(url)
-    return nil unless row = parse_url_parameters(url)    
+    return nil unless row = parse_url_parameters(url)
+    puts "Row path: #{row[:path].sub(REDIRECT_URL, '')}"
     return nil unless redirect = Redirect.find_by_redirect_url(row[:path])
     [:category, :event, :label, :value, :url].each do |attrib|
       row[attrib] = redirect.send(attrib) unless row[attrib]

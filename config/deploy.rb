@@ -39,15 +39,17 @@ end
 
 # Secure config files
 task :update_config, :roles => :app do
-  config_dir = "#{app_dir}/#{application}/config"
-  db_config = "#{config_dir}/database.yml"
-  site_keys = "#{config_dir}/site_keys.rb"
+  config_dir    = "#{app_dir}/#{application}/config"
+  db_config     = "#{config_dir}/database.yml"
+  site_keys     = "#{config_dir}/site_keys.rb"
   mailer_config = "#{config_dir}/mailer.yml"
+  browscap      = "#{config_dir}/browscap.ini"
   
-  run "cp #{mailer_config} #{release_path}/config/mailer.yml"
-  run "cp #{db_config} #{release_path}/config/database.yml" 
-  run "cp #{release_path}/config/trackster.god #{config_dir}"    
-  run "cp #{site_keys} #{release_path}/config/initializers/site_keys.rb"
+  run "ln -s #{mailer_config} #{release_path}/config/mailer.yml"
+  run "ln -s #{db_config} #{release_path}/config/database.yml" 
+  run "ln -s #{release_path}/config/trackster.god #{config_dir}"    
+  run "ln -s #{site_keys} #{release_path}/config/initializers/site_keys.rb"
+  run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
 end
 
 desc "Create asset packages for production" 
