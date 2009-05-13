@@ -5,7 +5,7 @@
 # - ID? For table at least
 
 class TableFormatter
-  attr_accessor     :html, :table_columns, :klass, :merged_options, :rows
+  attr_accessor     :html, :table_columns, :klass, :merged_options, :rows, :totals
   include           ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
@@ -14,11 +14,29 @@ class TableFormatter
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
         unless  results.try(:first).try(:class).try(:descends_from_active_record?) ||
                 results.is_a?(ActiveRecord::NamedScope::Scope)
-    @klass = results.first.class
-    @rows = results
+    @klass  = results.first.class
+    @rows   = results
+    @column_order   = 0
     @merged_options = options.merge(DEFAULT_OPTIONS)
-    @table_columns = initialise_columns(rows, klass, merged_options)
+    @table_columns  = initialise_columns(rows, klass, merged_options)
+    @totals         = initialise_totalling(rows, table_columns)
     @html = Builder::XmlMarkup.new(:indent => 2)
+  end
+
+  # Main method for rendering a table
+  def render_table
+    options = merged_options
+    table_options = options[:summary] ? {:summary => options[:summary]} : {}
+    html.table table_options do
+      html.caption options[:caption] if options[:caption]
+      output_table_headings(options)
+      output_table_footers(options)
+      html.tbody do
+        rows.each_with_index do |row, index|
+          output_row(row, index, options)
+        end
+      end
+    end 
   end
 
   # Outputs colgroups and column headings
@@ -47,32 +65,36 @@ class TableFormatter
     end
   end
 
-  # Outputs one cell
-  def output_cell(row, column, options)
-    html.td column[:formatter].call(row[column[:name]]), (column[:class] ? {:class => column[:class]} : {})
+  # And table footers
+  def output_table_footers(options)
+    output_table_totals(options)
   end
 
   # Output totals (calculations)
   def output_table_totals(options)
-  end
-
-  # And table footers
-  def output_table_footers(options)
-  end
-
-  def render_table
-    options = merged_options
-    table_options = options[:summary] ? {:summary => options[:summary]} : {}
-    html.table table_options do
-      html.caption options[:caption] if options[:caption]
-      output_table_headings(options)
-      html.tbody do
-        rows.each_with_index do |row, index|
-          output_row(row, index, options)
+    return unless table_has_totals?
+    html.tfoot do
+      totals.each do |total, values|
+        next if values.empty?
+        html.tr do
+          first_column = true
+          table_columns.each do |column| 
+            value = first_column ? I18n.t(total) : values[column[:name].to_s]
+            output_cell_value(:th, value, column)
+            first_column = false
+          end
         end
       end
-      output_table_footers(options)
-    end 
+    end    
+  end
+
+  # Outputs one cell
+  def output_cell(row, column, options = {})
+    output_cell_value(:td, row[column[:name]], column, options)
+  end
+  
+  def output_cell_value(cell_type, value, column, options = {})
+    html.__send__(cell_type, column[:formatter].call(value), (column[:class] ? {:class => column[:class]} : {}))
   end
 
 private
@@ -85,6 +107,10 @@ private
     data
   end
   
+  def table_has_totals?
+    totals.all?{|t| !t.empty?}
+  end
+  
   def initialise_columns(rows, model, options)
     columns = []
     options[:include] = options[:include].map(&:to_s) if options[:include]
@@ -93,19 +119,47 @@ private
     columns_hash = model.columns_hash
     requested_columns.each do |requested_column|
       column = columns_hash[requested_column]
-      columns << column_template(column) if include_column?(column, options)
+      columns << column_definition(column) if include_column?(column, options)
     end
-    columns
+    columns.sort{|a, b| a[:order] <=> b[:order] }
   end
 
-  def column_template(column)
-    css_class, formatter = get_column_formatter(column)
+  # Return a hash of hashes
+  # :sum => {:column_name_1 => value, :column_name_2 => value}
+  def initialise_totalling(rows, columns)
+    totals = {:sum => {}, :average => {}, :count => {}}
+    columns.each do |column|
+      next unless column[:total]
+      total = column[:total].is_a?(Array) ? column[:total] : [column[:total]]
+      total.each do |t|
+        case t
+          when :sum
+            totals[:sum][column[:name]] = rows.sum(column[:name])
+          when :mean, :average, :avg
+            totals[:average][column[:name]] = rows.mean(column[:name])
+          when :count
+            totals[:count][column[:name]] = rows.count(column[:name])
+        end
+      end
+    end
+    puts totals.inspect
+    totals    
+  end
+  
+  def column_definition(column)
+    @column_order += 1
     @default_formatter ||= procify(:default_formatter)
-    template = {
+    
+    css_class, formatter = get_column_formatter(column)
+    column_order = klass.format_of(column.name)[:order] || @column_order
+    totals = klass.format_of(column.name)[:total]
+    {
       :name       => column.name,
       :label      => klass.human_attribute_name(column.name),
       :formatter  => formatter || @default_formatter,
-      :class      => css_class
+      :class      => css_class,
+      :order      => column_order,
+      :total      => totals
     }
   end
   
@@ -116,7 +170,7 @@ private
   end
   
   def get_column_formatter(column)
-    format = klass.format(column.name)
+    format = klass.format_of(column.name)
     case format
     when Symbol
       formatter = procify(format)

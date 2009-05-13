@@ -13,12 +13,11 @@ module ColumnFormats
   end
   
   module ClassMethods
-    def formats(options)
-      @default_formats ||= default_formats
-      @attr_formats = (@attr_formats || @default_formats).merge(options).stringify_keys!
+    def table_format(method, options)
+      @attr_formats = (@attr_formats || default_formats).deep_merge({method.to_s => options})
     end
     
-    def format(name)
+    def format_of(name)
       @attr_formats ||= default_formats
       @attr_formats[name]
     end

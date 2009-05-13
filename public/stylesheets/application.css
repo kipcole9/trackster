@@ -31,6 +31,10 @@ col.count {
 	width: 5em;
 }
 
+.right {
+	text-align: right;
+}
+
 /* Default rendering of select in safari doesn't allow font-size
  * using a border turns off using native widgets and we can style 
  * some more.

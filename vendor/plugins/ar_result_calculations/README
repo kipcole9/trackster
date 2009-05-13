@@ -1,0 +1,12 @@
+ArResultCalculations
+====================
+
+Provides array calculations for activerecord result sets
+
+Example
+=======
+
+Example goes here.
+
+
+Copyright (c) 2009 Kip Cole, released under the MIT license
