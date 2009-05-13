@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090513060133) do
+ActiveRecord::Schema.define(:version => 20090513074355) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20090513060133) do
     t.string   "traffic_source", :limit => 10
     t.string   "search_terms"
     t.string   "referrer_host",  :limit => 100
+    t.integer  "redirect_id"
   end
 
   create_table "ip4", :id => false, :force => true do |t|
@@ -88,10 +89,10 @@ ActiveRecord::Schema.define(:version => 20090513060133) do
     t.integer  "account_id"
     t.string   "name"
     t.string   "url"
-    t.string   "event_category", :default => "page"
-    t.string   "event_action",   :default => "view"
-    t.string   "event_label"
-    t.string   "event_value",    :default => "0"
+    t.string   "category",     :default => "page"
+    t.string   "action",       :default => "view"
+    t.string   "label"
+    t.string   "value",        :default => "0"
     t.string   "redirect_url"
     t.datetime "created_at"
     t.datetime "updated_at"

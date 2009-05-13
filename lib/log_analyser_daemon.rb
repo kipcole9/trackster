@@ -28,10 +28,10 @@ class LogAnalyserDaemon
     # of EOF detections)
     log.after_reopen do
       if running?
-        ActiveRecord::Base.logger.debug "Log analyser has reopened #{log_file}"
+        ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
-        ActiveRecord::Base.logger.info "Log analyser is terminating as requested (after log reopen)"
+        ActiveRecord::Base.logger.info "[Log analyser daemon] Log analyser is terminating as requested (after log reopen)"
         log.close
         return
       end
@@ -46,12 +46,12 @@ class LogAnalyserDaemon
           log_parser.save_web_analytics!(web_analyser, entry)
         end
       else
-        ActiveRecord::Base.logger.info "Skipping badly formatted log entry: #{line}"
+        ActiveRecord::Base.logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
       end
     end
     
     unless running?
-      ActiveRecord::Base.logger.info "Log analyser is terminating as requested (there may be unprocessed log entries)"
+      ActiveRecord::Base.logger.info "[Log analyser daemon] Log analyser is terminating as requested (there may be unprocessed log entries)"
       log.close
       return
     end    
@@ -82,7 +82,7 @@ private
   
   def check_if_log_was_rotated  
     if new_file_inode = log_was_rotated?
-      ActiveRecord::Base.logger.debug "Log analyser has detected a probable log rotation, moved to new logfile."
+      ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has detected a probable log rotation, moved to new logfile."
       log.forward
       @log_inode = new_file_inode
     end

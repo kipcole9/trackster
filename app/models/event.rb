@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   belongs_to        :session
-  belongs_to        :track
+  belongs_to        :redirect
   
   PAGE_CATEGORY   = "page"
   VIEW_ACTION     = "view"
@@ -43,7 +43,7 @@ class Event < ActiveRecord::Base
   
 private
   def self.duplicate_event?(session, row)
-    # If no view then it's an open email, which is OK
+    # If no view then it's an open email or a redirect, which is OK
     return false if !row[:view]
     if session.events.find_by_sequence(row[:view])
       Rails.logger.error "Duplicate event found"
@@ -55,9 +55,13 @@ private
   end
       
   def self.unknown_event?(row)
-    row[:view].blank? && !email_opening_event?(row)
+    row[:view].blank? && !email_opening_event?(row) && !redirect?(row)
   end
     
+  def self.redirect?(row)
+    row[:redirect]
+  end
+  
   def self.email_opening_event?(row)
     row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
   end 

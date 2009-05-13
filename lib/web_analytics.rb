@@ -78,7 +78,7 @@ class WebAnalytics
     row[:path] = uri.path
     row
   rescue URI::InvalidURIError
-    Rails.logger.error "Invalid URI detected: #{url}"
+    Rails.logger.error "[Web Analytics] Invalid URI detected: #{url}"
     {}
   end
   
@@ -86,12 +86,14 @@ class WebAnalytics
   # Redirects table
   def parse_redirect_parameters(url)
     return nil unless row = parse_url_parameters(url)
-    puts "Row path: #{row[:path].sub(REDIRECT_URL, '')}"
-    return nil unless redirect = Redirect.find_by_redirect_url(row[:path])
-    [:category, :event, :label, :value, :url].each do |attrib|
+    return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
+    [:category, :action, :label, :value, :url].each do |attrib|
       row[attrib] = redirect.send(attrib) unless row[attrib]
     end
     row[:property_code] = redirect.property.tracker unless row[:property_code]
+    row[:redirect_id] = redirect['id']
+    row[:page_title] = redirect.name
+    row[:redirect] = true
     row
   end
   
@@ -142,7 +144,7 @@ class WebAnalytics
       row[:traffic_source] = 'referral'      
     end
   rescue
-    Rails.logger.error "Invalid URI Referrer detected: #{referrer}"
+    Rails.logger.error "[Web Analytics] Invalid URI Referrer detected: #{referrer}"
     row[:traffic_source] = 'referral'
   end
 
@@ -178,7 +180,7 @@ private
   def get_visitor!(row)
     return if row[:visitor].blank?
     parts = row[:visitor].split('.')
-    raise "Track: Badly formed visitor variable: '#{v}" if parts.size > 4
+    raise "[Web Analytics] Badly formed visitor variable: '#{v}" if parts.size > 4
     row[:visitor] = parts[0]
     row[:visit] = parts[1] if parts[1]
     row[:previous_visit_at] = to_time(parts[3]) if parts[3]

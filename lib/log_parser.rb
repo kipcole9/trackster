@@ -52,7 +52,12 @@ class LogParser
   # be true since we are now resolving this data from the hostip.info database
   # locally (no net latency).
   def save_web_analytics!(web_analyser, entry, options = {})
-    return unless row = web_analyser.create(entry)
+    unless row = web_analyser.create(entry)
+      Rails.logger.error "[log_parser] Row could not be created from log data:"
+      Rails.logger.error entry.inspect
+      return nil
+    end
+    
     Session.transaction do
       if session = Session.find_or_create_from_track(row)
         session.save! if session.new_record?
@@ -60,25 +65,26 @@ class LogParser
           event.save! 
           session.update_viewcount!
         else
-          Rails.logger.error "Event could not be created"
+          puts "No event"
+          Rails.logger.error "[log_parser] Event could not be created"
           Rails.logger.error row.inspect
         end
       else
-        Rails.logger.error "Sesssion was not found or created!  Unknown web property?"
+        Rails.logger.error "[log_parser] Sesssion was not found or created!  Unknown web property?"
         Rails.logger.error row.inspect
       end
     end
   rescue Mysql::Error => e
-    Rails.logger.warn "Database could not save this data: #{e.message}"
+    Rails.logger.warn "[log_parser] Database could not save this data: #{e.message}"
     Rails.logger.warn row.inspect
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Invalid record detected: #{e.message}"
+    Rails.logger.error "[log_parser] Invalid record detected: #{e.message}"
     Rails.logger.error row.inspect
   end    
 
 private
   def validate_args!(args)
-    args.each {|arg| raise(ArgumentError, "Unknown log attribute ':#{arg}'.") unless ATTRIBS[arg]}
+    args.each {|arg| raise(ArgumentError, "[log_parser] Unknown log attribute ':#{arg}'.") unless ATTRIBS[arg]}
   end
   
   def parse_datetime!
