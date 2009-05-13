@@ -35,6 +35,13 @@ en-US:
         property_index:     "Web Property Index"
         new_user:           "Define a new user"
         user:               "Update your profile"
+        
+    dashboards:
+        referrer_top_10:    "Top 10 Referrers"
+        search_terms_top_10:    "Top 10 Search Terms"
+        page_views_top_10:  "Top 10 Pages Viewed"
+        pageview_graph:     "Page Views Trend"
+        no_search_terms_found: "No search terms found."    
     
     
     column_descriptions:
