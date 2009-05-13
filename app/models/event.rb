@@ -1,21 +1,16 @@
 class Event < ActiveRecord::Base
   belongs_to        :session
   belongs_to        :track
-  after_save        :update_video_play_time
   
-  PAGE_CATEGORY = "page"
-  VIEW_ACTION = "view"
-  VIDEO_CATEGORY = 'video'
-  VIDEO_MAXPLAY = 'max play'
+  PAGE_CATEGORY   = "page"
+  VIEW_ACTION     = "view"
+  VIDEO_CATEGORY  = 'video'
+  VIDEO_MAXPLAY   = 'max play'
+  EMAIL_CATEGORY  = 'email'
+  OPEN_ACTION     = 'open'
   
   def self.create_from_row(session, row)
-    return nil if !session || row[:view].blank?
-    if session.events.find_by_sequence(row[:view])
-      Rails.logger.error "Duplicate event found"
-      Rails.logger.error row.inspect
-      return nil
-    end
-    
+    return nil if !session || unknown_event?(row) || duplicate_event?(session, row)
     event = new_from_row(row)
     if previous_event = session.events.last
       if event.pageview?
@@ -38,11 +33,35 @@ class Event < ActiveRecord::Base
     super
   end
   
+  def url=(uri)
+    super(URI.unescape(uri)) unless uri.blank?
+  end
+  
   def pageview?
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end
   
 private
+  def self.duplicate_event?(session, row)
+    # If no view then it's an open email, which is OK
+    return false if !row[:view]
+    if session.events.find_by_sequence(row[:view])
+      Rails.logger.error "Duplicate event found"
+      Rails.logger.error row.inspect
+      true
+    else
+      false
+    end
+  end
+      
+  def self.unknown_event?(row)
+    row[:view].blank? && !email_opening_event?(row)
+  end
+    
+  def self.email_opening_event?(row)
+    row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
+  end 
+  
   def self.new_from_row(attrs)
     event = new
     event.attributes.each do |k, v|
@@ -60,24 +79,5 @@ private
     end
     event
   end
-  
-  def update_video_play_time
-    return unless video_max_play_event?
-    max_play_event = Event.find_by_session_id_and_category_and_action(self.session_id, VIDEO_CATEGORY, VIDEO_MAXPLAY) || Event.new
-    if max_play_event.new_record?
-      max_play_event.attributes = self.attributes
-      max_play_event.value = 0
-      max_play_event.category = VIDEO_CATEGORY
-      max_play_event.action = VIDEO_MAXPLAY
-    end
-    if self.value && self.value >= max_play_event.value
-      max_play_event.value = self.value
-      max_play_event.tracked_at = self.tracked_at
-      max_play_event.save!      
-    end
-  end 
-    
-  def video_max_play_event?
-    self.category == VIDEO_CATEGORY && (action == 'pause' || action == 'end')
-  end
+
 end

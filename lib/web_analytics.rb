@@ -110,7 +110,7 @@ class WebAnalytics
   # Based upon the referrer decide is the traffic source is
   # search, direct or referred
   def get_traffic_source!(row)
-    referrer = row.referrer
+    referrer = row[:referrer]
     if referrer.blank? || referrer == "-" || referrer == 'mhtmlmain:'
       row[:traffic_source] = 'direct'
       return

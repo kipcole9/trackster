@@ -1,6 +1,7 @@
 class Session < ActiveRecord::Base
   has_many      :events
   belongs_to    :property
+  belongs_to    :account
   before_save   :update_session_time
   before_save   :update_event_count
   attr_accessor :referrer  
@@ -37,7 +38,9 @@ private
     
     # Note session relevant data.  Session must be
     # tied to a site else it's a bogus sesssion
-    session.property = Property.find_by_tracker(row[:property_code])
+    if session.property = Property.find_by_tracker(row[:property_code])
+      session.account = session.property.account
+    end
     session.property ? session : nil
   end
   

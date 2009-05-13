@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090511224826) do
+ActiveRecord::Schema.define(:version => 20090513035739) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(:version => 20090511224826) do
     t.integer  "page_views"
     t.datetime "previous_visit_at"
     t.integer  "count"
+    t.integer  "account_id"
   end
 
   create_table "tracks", :force => true do |t|

@@ -1,9 +1,3 @@
-# TODO
-# - Format spec in AR
-# - Format outputs properly
-# - odss and evens
-# - ID? For table at least
-
 class TableFormatter
   attr_accessor     :html, :table_columns, :klass, :merged_options, :rows, :totals
   include           ::ActionView::Helpers::NumberHelper
@@ -65,7 +59,7 @@ class TableFormatter
     end
   end
 
-  # And table footers
+  # Table footers
   def output_table_footers(options)
     output_table_totals(options)
   end
@@ -142,7 +136,6 @@ private
         end
       end
     end
-    puts totals.inspect
     totals    
   end
   
