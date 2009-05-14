@@ -1,7 +1,6 @@
 require 'flex_stuff'
 require 'log_parser'
 require 'web_analytics'
-require 'flash_chart'
 require 'page_layout'
 require 'with_scope'
 

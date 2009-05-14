@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "0.92";
+	this.version		= "0.93";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
@@ -532,7 +532,7 @@ function _tks(account)  {
 		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor,
 		"utmdt": this.getPageTitle,	"utmsr": this.getScreenSize, "utmsc": this.getColorDepth, 
 		"utmul": this.getLanguage, "utmcs": this.getCharset, "utmfl": this.getFlashVersion, 
-		"utmn": this.getUniqueRequest,
+		"utmn": this.getUniqueRequest, "utref:" this.getReferrer,
 		"utm_campaign": this.getCampName, "utm_source": this.getCampSource,
 		"utm_medium": this.getCampMedium, "utm_content": this.getCampContent,
 		"utmp": this.getUrl
