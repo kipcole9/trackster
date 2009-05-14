@@ -121,6 +121,7 @@ class WebAnalytics
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
       row[:browser_version] = agent.version
+      row[:mobile_device] = agent.is_mobile_device
       row[:os_name] = agent.platform
     end
   end    

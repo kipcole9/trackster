@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090513074355) do
+ActiveRecord::Schema.define(:version => 20090514070940) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20090513074355) do
     t.datetime "updated_at"
   end
 
-  create_table "cities", :primary_key => "city", :force => true do |t|
+  create_table "cityByCountry", :primary_key => "city", :force => true do |t|
     t.integer "country",                :default => 0,  :null => false
     t.string  "name",    :limit => 200, :default => "", :null => false
     t.float   "lat"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20090513074355) do
     t.string  "state",   :limit => 64,  :default => "", :null => false
   end
 
-  add_index "cities", ["country"], :name => "kCountry"
-  add_index "cities", ["name"], :name => "kName"
+  add_index "cityByCountry", ["country"], :name => "kCountry"
+  add_index "cityByCountry", ["name"], :name => "kName"
 
   create_table "countries", :force => true do |t|
     t.string "name", :limit => 48, :default => "", :null => false
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20090513074355) do
     t.datetime "previous_visit_at"
     t.integer  "count"
     t.integer  "account_id"
+    t.boolean  "mobile_device"
   end
 
   create_table "tracks", :force => true do |t|
