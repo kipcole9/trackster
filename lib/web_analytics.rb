@@ -19,7 +19,8 @@ class WebAnalytics
                   :utmcs        =>  :charset, 
                   :utmfl        =>  :flash_version, 
                   :utmn         =>  :unique_request,
-                  :utmp         =>  :url,                  
+                  :utmp         =>  :url,
+                  :utref        =>  :referrer,                
                   
                   # User defined (in a link)
                   # Campaign data may or may not be included
@@ -166,7 +167,6 @@ private
   end
   
   def get_log_data!(row, entry)
-    row[:referrer]    = entry[:referer]
     row[:ip_address]  = entry[:ip_address]
     row[:tracked_at]  = entry[:datetime]
     row[:user_agent]  = entry[:user_agent]
