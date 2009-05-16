@@ -1,5 +1,5 @@
 panel t('dashboards.pageview_graph')  do
   block do
-    store "A nice graph of pageviews over the specified period......"
+    store Property.all.to_chart(:a, :b)
   end
 end

@@ -11,11 +11,11 @@ javascripts:
     - list
     - inflector
     - tabricator
-    - swfobject
     - search     
     - browser_timezone
     - autocomplete
-    - application
+    - application    
+    - swfobject  
 - tracker_debug:
     - tracker_debug
 - tracker:
