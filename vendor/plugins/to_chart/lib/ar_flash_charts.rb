@@ -14,7 +14,7 @@ module Trackster
                         :grid_division      => 5
                       }
       
-    def initialize(data_source, x, y, options = {})
+    def initialize(data_source, column, labels = nil, options = {})
       options = DEFAULT_OPTIONS.merge(options)
       div_name = options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
       data = graph_data(data_source, x, y, options)
@@ -25,8 +25,8 @@ module Trackster
       @graph
     end
 
-    def graph_data(data_source, x, y, options)
-      data_set          = data_source.map(&x.to_sym)
+    def graph_data(data_source, column, labels, options)
+      data_set          = data_source.map(&column.to_sym)
       series            = options[:type].new
       series.text       = options[:text] if options[:text]
       series.width      = options[:width]
