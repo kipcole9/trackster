@@ -28,6 +28,20 @@ module ActiveRecord
           column = column.to_sym unless column.is_a?(Symbol)          
           inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + 1 }
         end
+        
+        def max(column = nil)
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
+          column = column.to_sym unless column.is_a?(Symbol)   
+          self.map(&column).max
+        end
+        alias :maximum :max
+        
+        def min(column = nil)
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
+          column = column.to_sym unless column.is_a?(Symbol)   
+          self.map(&column).min
+        end
+        alias :minimum :min
       end
 
       module ClassMethods
