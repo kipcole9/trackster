@@ -10,7 +10,7 @@ module Trackster
     end
   
     module InstanceMethods
-      def to_chart(x, y, options = {})
+      def to_chart(x, y = nil, options = {})
         default_options = {}
         merged_options = default_options.merge(options)
         @chart = Trackster::FlashChart.new(self, x, y, merged_options)

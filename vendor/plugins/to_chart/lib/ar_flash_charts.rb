@@ -4,64 +4,54 @@ module Trackster
     include OpenFlashChart::View
     include OpenFlashChart::Controller
     include OpenFlashChart  
+    
+    DEFAULT_OPTIONS = { :type               => Line, 
+                        :width              => 4, 
+                        :dot_size           => 5, 
+                        :colour             => '#DFC329',
+                        :background_colour  => '#dddddd',
+                        :grid_colour        => '#ffffff',
+                        :grid_division      => 5
+                      }
       
     def initialize(data_source, x, y, options = {})
-      @graph = open_flash_chart_embedded("100%","200","TestDiv", line_code)
+      options = DEFAULT_OPTIONS.merge(options)
+      div_name = options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
+      data = graph_data(data_source, x, y, options)
+      @graph = open_flash_chart_embedded("100%","200", div_name, data.to_s)
     end
     
     def render_chart
       @graph
     end
 
-    def graph_code
-      #title     = Title.new("MY TITLE")
-      #bar       = BarGlass.new
-      bar = AreaHollow.new
-      bar.set_values([2,4,7,23,9,56,4,5,6,7,8,5,3,45,7,8,6,2,3,4,6,8,5,45,43,7,5,24])
-      
-      y = YAxis.new
-      y.set_range(0,60,20)
-      y.set_grid_colour( '#aaaaaa' )
-      y.set_offset(0)
-      
-      chart     = OpenFlashChart.new
-      chart.set_bg_colour("#dddddd")
-      chart.y_axis = y
-      #chart.set_title(title)
-      chart.add_element(bar)
-      chart.to_s
-    end
-
-    def line_code
-      # based on this example - http://teethgrinder.co.uk/open-flash-chart-2/data-lines-2.php
-      #title = Title.new("AreaLine")
-      
-      data1 = [2,4,7,23,9,56,4,5,6,7,8,5,3,45,7,8,6,2,3,4,6,8,5,45,43,7,5,24]
-
-      line_dot = Line.new
-      line_dot.text = "Opened"
-      line_dot.width = 4
-      line_dot.colour = '#DFC329'
-      line_dot.dot_size = 5
-      line_dot.set_values(data1)
+    def graph_data(data_source, x, y, options)
+      data_set          = data_source.map(&x.to_sym)
+      series            = options[:type].new
+      series.text       = options[:text] if options[:text]
+      series.width      = options[:width]
+      series.colour     = options[:colour]
+      series.dot_size   = options[:dot_size]
+      series.set_values(data_set)
 
       y = YAxis.new
-      y.set_range(0,60,20)
-      y.set_grid_colour( '#ffffff' )
+      y_max = data_set.max
+      y_min = [data_set.min, 0].min
+      y.set_range(y_min, y_max, (y_max / options[:grid_division]).to_i)
+      y.set_grid_colour(options[:grid_colour])
 
       x = XAxis.new
       #x.labels = series_1.dup.map(&:tracked_at)
-      x.set_grid_colour( '#ffffff' );
+      x.set_grid_colour(options[:grid_colour]);
 
       chart = OpenFlashChart.new
-      chart.set_bg_colour("#dddddd")
+      chart.set_bg_colour(options[:background_colour])
       chart.y_axis = y
       chart.x_axis = x
       
       # The data series
-      chart.add_element(line_dot)
-
-      chart.to_s
+      chart.add_element(series)
+      chart
     end
   end
 end    
