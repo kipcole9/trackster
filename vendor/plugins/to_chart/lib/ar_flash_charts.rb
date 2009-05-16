@@ -17,7 +17,7 @@ module Trackster
     def initialize(data_source, column, labels = nil, options = {})
       options = DEFAULT_OPTIONS.merge(options)
       div_name = options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
-      data = graph_data(data_source, x, y, options)
+      data = graph_data(data_source, column, labels, options)
       @graph = open_flash_chart_embedded("100%","200", div_name, data.to_s)
     end
     
