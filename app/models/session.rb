@@ -17,6 +17,11 @@ class Session < ActiveRecord::Base
   def update_viewcount!
     self.save!
   end
+  
+  def referrer=(r)
+    return if r.blank? || r == '-'
+    super
+  end
 
 private
   def self.new_from_row(row)

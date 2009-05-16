@@ -60,6 +60,7 @@ en-US:
             description:    "A description of your web property."
             url:            "The root (main) url of your web property.  To be tracked correctly, all tracking data must originate from pages that begin with this url."
             name:           "A name for your web property.  It can be any text that uniquely identifies this web property."
+            search_parameter: "The parameter on this property's URLs that indicate an internal search request.  For example in http://www.yoursite.com?q='widget', the search parameter would be 'q' (without the quotes).  Consult your webmaster if in doubt or simply leave the field blank."
 
                     
     users:

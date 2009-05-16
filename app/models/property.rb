@@ -18,6 +18,8 @@ class Property < ActiveRecord::Base
   validates_uniqueness_of   :url
   validates_format_of       :url,     :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix
 
+  validates_format_of       :search_parameter, :with => /[a-z0-9]+/i, :allow_nil => true
+  
 private
   def create_tracker_code
     sequence = "%05d" % self['id']

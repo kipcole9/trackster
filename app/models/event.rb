@@ -27,12 +27,7 @@ class Event < ActiveRecord::Base
     session.ended_at = event.tracked_at
     event
   end
-  
-  def referrer=(r)
-    return if r.blank? || r == '-'
-    super
-  end
-  
+ 
   def url=(uri)
     super(URI.unescape(uri)) unless uri.blank?
   end
@@ -77,11 +72,11 @@ private
     # If no event data is provided then it's a pageview
     # event
     unless event.category && event.action
-      event.category = PAGE_CATEGORY
-      event.action = VIEW_ACTION
-      event.label = event.page_title
+      event.category  = PAGE_CATEGORY
+      event.action    = VIEW_ACTION
+      event.label     = event.page_title
     end
     event
   end
-
+  
 end

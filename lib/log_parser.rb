@@ -13,13 +13,13 @@ class LogParser
     :forwarded_for  => "\"(.+?)\""
   }
   
-  NGINX_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
+  COMMON_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
   DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
   attr_accessor   :format, :regexp, :column
   
   def initialize(*args)
-    if args.empty? || args.last == :nginx
-      @args = NGINX_LOG
+    if args.empty? || args.last == :nginx || args.last == :common
+      @args = COMMON_LOG
     else
       @args = args
     end
@@ -61,11 +61,11 @@ class LogParser
     Session.transaction do
       if session = Session.find_or_create_from_track(row)
         session.save! if session.new_record?
+        extract_internal_search_terms!(row, session)
         if event = Event.create_from_row(session, row)
           event.save! 
           session.update_viewcount!
         else
-          puts "No event"
           Rails.logger.error "[log_parser] Event could not be created"
           Rails.logger.error row.inspect
         end
@@ -96,6 +96,34 @@ private
     @column[:method] = parts[0]
     @column[:url] = parts[1]
     @column[:protocol] = parts[2]
+  end
+  
+  def extract_internal_search_terms!(row, session)
+    return unless search_param = session.property.search_parameter
+    internal_search = internal_search_terms(search_param, row[:url])
+    row[:internal_search_terms] = internal_search if internal_search
+  end
+  
+  def internal_search_terms(search_param, url)
+    uri = URI.parse(url)
+    params_to_hash(split_into_parameters(uri.query))[search_param]
+  rescue URI::InvalidURIError
+    Rails.logger.error "[Log Parser] Invalid URI detected: #{url}"
+    {}
+  end
+  
+  def split_into_parameters(query_string)
+    return {} if query_string.blank?
+    query_string.split('&')
+  end
+  
+  def params_to_hash(params)
+    result = {}
+    params.each do |p|
+      var, value = p.split('=')
+      result[var] = URI.unescape(value)
+    end if params
+    result
   end
 
 end
