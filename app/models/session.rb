@@ -4,7 +4,6 @@ class Session < ActiveRecord::Base
   belongs_to    :account
   before_save   :update_session_time
   before_save   :update_event_count
-  attr_accessor :referrer  
   
   def self.find_or_create_from_track(row)
     if row[:visitor] && row[:visit] && row[:session]
@@ -28,7 +27,6 @@ private
       session.send("#{k.to_s}=",  row[k.to_sym])
     end
     session.started_at  = row[:tracked_at]
-    session.referrer    = row[:referrer]
     session.ended_at    = session.started_at 
     
     # See if there was a previous session
