@@ -145,11 +145,9 @@ class WebAnalytics
     end
     
     uri = URI.parse(referrer)
-    host = uri.host.sub(/\Awww\./,'')
-    if search_engine = SearchEngine.find_by_host(host)
-      puts "Found #{host}"
+    if search_engine = SearchEngine.find_by_host(host.sub(/\Awww\./,''))
       params = params_to_hash(uri.query)
-      row[:referrer_host] = host
+      row[:referrer_host] = uri.host
       row[:search_terms] = params[search_engine.query_param]
       row[:traffic_source] = 'search'
     else

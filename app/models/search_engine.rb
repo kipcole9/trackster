@@ -16,8 +16,8 @@ class SearchEngine < ActiveRecord::Base
         country = engine.host.split('.')
         if country.size > 1 && !GENERIC_TLDS.include?(country.last)
           engine.country = country.last
-          engine.save!
         end
+        engine.save!
       end
     end
   end
