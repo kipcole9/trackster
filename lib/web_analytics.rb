@@ -73,11 +73,20 @@ class WebAnalytics
   # parameters.  We assume that there is not overlap
   # between the referer parameters and the GA
   # parameters.  That might need to change.
-  def parse_url_parameters(url)
+  def parse_tracker_url_parameters(url)
     uri = URI.parse(url)
-    row = params_to_hash(split_into_parameters(uri.query))
+    row = tracker_params_to_hash(uri.query)
     row[:path] = uri.path
     row
+  rescue URI::InvalidURIError
+    Rails.logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
+    {}
+  end
+  
+  # Parse any url parameters (no tracker specific)
+  def parse_url_parameters(url)
+    uri = URI.parse(url)
+    params_to_hash(uri.query)
   rescue URI::InvalidURIError
     Rails.logger.error "[Web Analytics] Invalid URI detected: #{url}"
     {}
@@ -86,7 +95,7 @@ class WebAnalytics
   # A redirect URL. Parameters are kept in the 
   # Redirects table
   def parse_redirect_parameters(url)
-    return nil unless row = parse_url_parameters(url)
+    return nil unless row = parse_tracker_url_parameters(url)
     return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
     [:category, :action, :label, :value, :url].each do |attrib|
       row[attrib] = redirect.send(attrib) unless row[attrib]
@@ -104,7 +113,7 @@ class WebAnalytics
     if entry[:url] =~ REDIRECT_URL
       row = parse_redirect_parameters(entry[:url])
     else
-      row = parse_url_parameters(entry[:url])
+      row = parse_tracker_url_parameters(entry[:url])
     end
     if row
       get_log_data!(row, entry)
@@ -136,9 +145,11 @@ class WebAnalytics
     end
     
     uri = URI.parse(referrer)
-    if search_engine = SearchEngine.find_by_host(uri.host)
-      params = parse_url_parameters(uri.query)
-      row[:referrer_host] = uri.host
+    host = uri.host.sub(/\Awww\./,'')
+    if search_engine = SearchEngine.find_by_host(host)
+      puts "Found #{host}"
+      params = params_to_hash(uri.query)
+      row[:referrer_host] = host
       row[:search_terms] = params[search_engine.query_param]
       row[:traffic_source] = 'search'
     else
@@ -208,13 +219,22 @@ private
     query_string.split('&')
   end
   
-  def params_to_hash(params)
+  def tracker_params_to_hash(params)
     result = {}
-    params.delete_if do |p|
+    split_into_parameters(params).delete_if do |p|
       var, value = p.split('=')
       if value
         VALID_PARAMS[var.to_sym] ? result[VALID_PARAMS[var.to_sym]] = URI.unescape(value) : false
       end
+    end if params
+    result
+  end
+  
+  def params_to_hash(params)
+    result = {}
+    split_into_parameters(params).each do |p|
+      var, value = p.split('=')
+      result[var] = CGI.unescape(value)
     end if params
     result
   end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090516224845) do
+ActiveRecord::Schema.define(:version => 20090517221048) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -42,14 +42,13 @@ ActiveRecord::Schema.define(:version => 20090516224845) do
     t.string   "url"
     t.string   "page_title"
     t.datetime "tracked_at"
-    t.boolean  "entry_page",                          :default => true
-    t.boolean  "exit_page",                           :default => true
+    t.boolean  "entry_page",            :default => true
+    t.boolean  "exit_page",             :default => true
     t.datetime "created_at"
     t.string   "category"
     t.string   "action"
     t.string   "label"
     t.float    "value"
-    t.string   "traffic_source",        :limit => 10
     t.string   "internal_search_terms"
     t.integer  "redirect_id"
   end
@@ -112,7 +111,7 @@ ActiveRecord::Schema.define(:version => 20090516224845) do
 
   create_table "search_engines", :force => true do |t|
     t.string   "host"
-    t.string   "query_param", :limit => 10
+    t.string   "query_param", :limit => 50
     t.string   "country",     :limit => 10
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -159,6 +158,7 @@ ActiveRecord::Schema.define(:version => 20090516224845) do
     t.string   "referrer"
     t.string   "referrer_host",     :limit => 100
     t.string   "search_terms"
+    t.string   "traffic_source",    :limit => 50
   end
 
   create_table "tracks", :force => true do |t|
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(:version => 20090516224845) do
     t.string   "referrer"
     t.string   "referrer_host",         :limit => 100
     t.string   "search_terms"
+    t.string   "traffic_source",        :limit => 50
     t.integer  "session_id"
     t.integer  "sequence"
     t.string   "url"
@@ -210,7 +211,6 @@ ActiveRecord::Schema.define(:version => 20090516224845) do
     t.string   "action"
     t.string   "label"
     t.float    "value"
-    t.string   "traffic_source",        :limit => 10
     t.string   "internal_search_terms"
     t.integer  "redirect_id"
   end

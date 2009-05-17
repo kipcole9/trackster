@@ -61,7 +61,7 @@ class LogParser
     Session.transaction do
       if session = Session.find_or_create_from_track(row)
         session.save! if session.new_record?
-        extract_internal_search_terms!(row, session)
+        extract_internal_search_terms!(row, session, web_analyser)
         if event = Event.create_from_row(session, row)
           event.save! 
           session.update_viewcount!
@@ -98,32 +98,14 @@ private
     @column[:protocol] = parts[2]
   end
   
-  def extract_internal_search_terms!(row, session)
+  def extract_internal_search_terms!(row, session, web_analyser)
     return unless search_param = session.property.search_parameter
-    internal_search = internal_search_terms(search_param, row[:url])
+    internal_search = internal_search_terms(search_param, row[:url], web_analyser)
     row[:internal_search_terms] = internal_search if internal_search
   end
   
-  def internal_search_terms(search_param, url)
-    uri = URI.parse(url)
-    params_to_hash(split_into_parameters(uri.query))[search_param]
-  rescue URI::InvalidURIError
-    Rails.logger.error "[Log Parser] Invalid URI detected: #{url}"
-    {}
-  end
-  
-  def split_into_parameters(query_string)
-    return {} if query_string.blank?
-    query_string.split('&')
-  end
-  
-  def params_to_hash(params)
-    result = {}
-    params.each do |p|
-      var, value = p.split('=')
-      result[var] = URI.unescape(value)
-    end if params
-    result
+  def internal_search_terms(search_param, url, web_analyser)
+    web_analyser.parse_url_parameters(url)[search_param]
   end
 
 end
