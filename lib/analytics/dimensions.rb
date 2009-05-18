@@ -5,7 +5,7 @@ module Analytics
         named_scope :between, lambda {|*args|
           return {} unless args.last
           range = args.last
-          this_scope = "tracked_at BETWEEN '#{range.first.to_s(:db)}' AND '#{range.last.to_s(:db)}'"
+          this_scope = "started_at BETWEEN '#{range.first.to_s(:db)}' AND '#{range.last.to_s(:db)}'"
           parent_scope = self.scoped_methods.last[:find]
           if parent_scope == self.repeat_visitors.proxy_options ||
              parent_scope == self.repeat_visits.proxy_options
@@ -30,30 +30,16 @@ module Analytics
           # argument to both the SELECT and GROUP.  This simplifies reporting
           # on either aggregate events (ie. 43 page views this month) versus
           # more fine-grained reporting.
-  
           select = []
           group = []
+          joins = []
           args.each do |dimension|
-            case dimension.to_sym
-            when :day
-              select << "date(tracked_at) as tracked_at"
-              group << "date(tracked_at)"
-            when :month
-              select << "date_format(tracked_at, '%Y/%m/1') as tracked_at"
-              group << "year(tracked_at), month(tracked_at)"
-            when :year
-              select << "date_format(tracked_at, '%Y/1/1') as tracked_at"
-              group << "year(tracked_at)"
-            when :hour
-              select << "date_format(tracked_at, '%Y/%m/%d %k:00:00') as tracked_at"
-              group << "day(tracked_at), hour(tracked_at)"
-            else
-              select << dimension.to_s
-              group << dimension.to_s      
-            end
+            select << dimension.to_s
+            group << dimension.to_s
+            joins << :events if Event.columns_hash[dimension.to_s]
           end
           # select << "count(*) as count"
-          {:select => select.join(', '), :group => group.join(', ')}
+          {:select => select.join(', '), :group => group.join(', '), :joins => joins}
         }
 
         # => Campaign scoping

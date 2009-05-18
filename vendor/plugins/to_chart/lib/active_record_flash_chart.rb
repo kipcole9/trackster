@@ -1,7 +1,7 @@
 # Adds method to Array to allow output of flash-based charts from
 # active record result sets
-module Trackster
-  module FlashCharts
+module ActiveRecord
+  module FlashChart
     def self.included(base)
       base.class_eval do
         # extend ClassMethods
@@ -10,10 +10,10 @@ module Trackster
     end
   
     module InstanceMethods
-      def to_chart(column, labels = nil, options = {})
+      def to_chart(column, labels = nil, options = {}, &block)
         default_options = {}
         merged_options = default_options.merge(options)
-        @chart = Trackster::FlashChart.new(self, column, labels, merged_options)
+        @chart = Trackster::FlashChart.new(self, column, labels, merged_options, &block)
         @chart.render_chart
       end
     end

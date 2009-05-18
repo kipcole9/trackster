@@ -27,7 +27,7 @@ div.block table * td {
 	width: 100%;
 }
 
-col.count {
+col.count, col.page_views {
 	width: 5em;
 }
 

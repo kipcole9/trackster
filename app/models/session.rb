@@ -2,6 +2,7 @@ class Session < ActiveRecord::Base
   has_many      :events
   belongs_to    :property
   belongs_to    :account
+  before_create :update_time_metrics
   before_save   :update_session_time
   before_save   :update_event_count
   
@@ -23,6 +24,15 @@ class Session < ActiveRecord::Base
     super
   end
 
+  def update_time_metrics
+    self.date   = self.started_at.to_date
+    self.week   = self.date.cweek
+    self.hour   = self.started_at.hour
+    self.day    = self.started_at.day
+    self.month  = self.started_at.month
+    self.year   = self.started_at.year
+  end
+  
 private
   def self.new_from_row(row)
     session = new
@@ -56,5 +66,5 @@ private
     self.duration = (self.ended_at - self.started_at).to_i
   end
 
-
+  
 end

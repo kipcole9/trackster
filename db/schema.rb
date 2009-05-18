@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090517221048) do
+ActiveRecord::Schema.define(:version => 20090518043803) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -159,6 +159,12 @@ ActiveRecord::Schema.define(:version => 20090517221048) do
     t.string   "referrer_host",     :limit => 100
     t.string   "search_terms"
     t.string   "traffic_source",    :limit => 50
+    t.date     "date"
+    t.integer  "day"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "hour"
+    t.integer  "week"
   end
 
   create_table "tracks", :force => true do |t|

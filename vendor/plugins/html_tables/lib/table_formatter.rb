@@ -110,10 +110,9 @@ private
     options[:include] = options[:include].map(&:to_s) if options[:include]
     options[:exclude] = options[:exclude].map(&:to_s) if options[:exclude]
     requested_columns = columns_from_row(rows.first)
-    columns_hash = model.columns_hash
-    requested_columns.each do |requested_column|
-      column = columns_hash[requested_column]
-      columns << column_definition(column) if include_column?(column, options)
+    columns_hash = rows.first.attributes
+    requested_columns.each do |column, value|
+      columns << column_definition(column, value) if include_column?(column, options)
     end
     columns.sort{|a, b| a[:order] <=> b[:order] }
   end
@@ -139,16 +138,16 @@ private
     totals    
   end
   
-  def column_definition(column)
+  def column_definition(column, value)
     @column_order += 1
     @default_formatter ||= procify(:default_formatter)
     
-    css_class, formatter = get_column_formatter(column)
-    column_order = klass.format_of(column.name)[:order] || @column_order
-    totals = klass.format_of(column.name)[:total]
+    css_class, formatter = get_column_formatter(column.to_s, value)
+    column_order = klass.format_of(column)[:order] || @column_order
+    totals = klass.format_of(column)[:total]
     {
-      :name       => column.name,
-      :label      => klass.human_attribute_name(column.name),
+      :name       => column,
+      :label      => klass.human_attribute_name(column),
       :formatter  => formatter || @default_formatter,
       :class      => css_class,
       :order      => column_order,
@@ -162,8 +161,8 @@ private
     columns
   end
   
-  def get_column_formatter(column)
-    format = klass.format_of(column.name)
+  def get_column_formatter(column, value)
+    format = klass.format_of(column)
     case format
     when Symbol
       formatter = procify(format)
@@ -187,9 +186,10 @@ private
 
   # Decide if the given column is to be displayed in the table
   def include_column?(column, options)
-    return options[:include].include?(column.name) if options[:include]
-    return false if options[:exclude] && options[:exclude].include?(column.name)
-    return false if options[:exclude_ids] && column.name.match(/_id\Z/)  
+    puts column.inspect
+    return options[:include].include?(column) if options[:include]
+    return false if options[:exclude] && options[:exclude].include?(column)
+    return false if options[:exclude_ids] && column.match(/_id\Z/)  
     true
   end
 end

@@ -83,8 +83,6 @@ module OpenFlashChart
     end
     alias_method "tooltip=", :set_tooltip
 
-
-
     def method_missing(method_name, *args, &blk)
       case method_name.to_s
       when /(.*)=/   # i.e., if it is something x_legend=

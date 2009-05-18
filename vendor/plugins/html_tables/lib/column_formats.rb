@@ -19,7 +19,7 @@ module ColumnFormats
     
     def format_of(name)
       @attr_formats ||= default_formats
-      @attr_formats[name]
+      @attr_formats[name] || {}
     end
     
   private

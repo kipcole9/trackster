@@ -99,7 +99,9 @@ en-US:
             website:
                 url:            Address
             track:
-                ip_address:     IP Address    
+                ip_address:     IP Address
+                page_views:     Views
+                url:            Page  
                 
                 
                 

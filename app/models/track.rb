@@ -1,4 +1,8 @@
 class Track < ActiveRecord::Base
+  set_table_name :sessions
+  has_many       :events, :foreign_key => :session_id
+  belongs_to     :campaigns
+  
   include Analytics::Metrics
   include Analytics::Dimensions
   
@@ -15,6 +19,7 @@ class Track < ActiveRecord::Base
   }
   
   table_format :count, :total => :sum
+  table_format :page_views, :total => :sum, :class => 'count right'
   
   named_scope :limit, lambda {|limit| {:limit => limit} }
   named_scope :order, lambda {|order| {:order => order} }       
