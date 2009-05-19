@@ -9,7 +9,6 @@ module Trackster
     DEFAULT_OPTIONS = { :type               => Line, 
                         :line_width         => 4, 
                         :dot_size           => 5, 
-                        :text               => '',
                         :colour             => '#DFC329',
                         :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
@@ -22,7 +21,8 @@ module Trackster
     def initialize(data_source, column, label = nil, options = {})
       @options = DEFAULT_OPTIONS.merge(options)
       @div_name = @options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
-      @chart = graph_data(data_source, column, label, @options) 
+      @options[:text] = data_source.first.class.human_attribute_name(column.to_s) if @options[:text].blank?
+      @chart = graph_data(data_source, column, label, @options)      
     end
     
     def render_chart
