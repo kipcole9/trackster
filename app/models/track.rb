@@ -6,21 +6,11 @@ class Track < ActiveRecord::Base
   include Analytics::Metrics
   include Analytics::Dimensions
   
-  table_format :tracked_at, :formatter => lambda{ |value|
-      if value.day == 1 && value.hour == 0 && value.min == 0 && value.sec == 0
-        # It's a month
-        value.strftime("%B %Y")
-      elsif value.hour == 0 && value.min == 0 && value.sec == 0
-        # It's a day
-        value.strftime("%Y/%m/%d")      
-      else
-        value.strftime("%d/%m/%Y %H:%M:%S")
-      end
-  }
-  
-  table_format :count, :total => :sum
-  table_format :page_views, :total => :sum, :class => 'count right'
-  
+  table_format :count,      :total => :sum
+  table_format :page_views, :total => :sum, :class => 'page_views right'
+  table_format :visits,     :total => :sum, :class => 'visits right'
+  table_format :visitors,   :total => :sum, :class => 'visitors right'
+      
   named_scope :limit, lambda {|limit| {:limit => limit} }
   named_scope :order, lambda {|order| {:order => order} }       
   named_scope :filter, lambda {|conditions| {:conditions => conditions} }

@@ -12,7 +12,7 @@ module ActiveRecord
         def sum(column = nil)
           return super unless column && first && first.class.respond_to?(:descends_from_active_record?)
           column = column.to_sym unless column.is_a?(Symbol)
-          inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + x[column] }
+          inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + numeric_value(x[column]) }
         end
         
         def mean(column = nil)
@@ -42,6 +42,11 @@ module ActiveRecord
           self.map(&column).min
         end
         alias :minimum :min
+      end
+      
+      def numeric_value(value)
+        return value if value.is_a?(Fixnum) || value.is_a?(Float) || value.is_a?(Integer) || value.is_a?(Bignum)
+        value.to_i
       end
 
       module ClassMethods
