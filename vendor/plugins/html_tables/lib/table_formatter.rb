@@ -44,7 +44,11 @@ class TableFormatter
     html.thead do
       html.tr(options[:heading], :colspan => columns.length) if options[:heading]
       html.tr do
-        table_columns.each {|column| html.th(column[:label], :class => column[:class]) }
+        table_columns.each do |column| 
+          html_options = {}
+          html_options[:class] = column[:class] if column[:class]
+          html.th(column[:label], html_options)
+        end
       end
     end
   end

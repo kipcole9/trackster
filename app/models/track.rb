@@ -10,7 +10,11 @@ class Track < ActiveRecord::Base
   table_format :page_views, :total => :sum, :class => 'page_views right'
   table_format :visits,     :total => :sum, :class => 'visits right'
   table_format :visitors,   :total => :sum, :class => 'visitors right'
-      
+  
+  #chart_format :date,      :formatter => lambda{|date| "#{date.day} #{I18n.t('date.abbr_month_names')[date.month]}"}
+  #chart_format :month,     :formatter => lambda{|month| I18n.t('date.abbr_month_names')[month]}
+  #chart_format :day,       :formatter => lambda{|day| I18n.t('date.abbr_day_names')[day]}       
+  
   named_scope :limit, lambda {|limit| {:limit => limit} }
   named_scope :order, lambda {|order| {:order => order} }       
   named_scope :filter, lambda {|conditions| {:conditions => conditions} }

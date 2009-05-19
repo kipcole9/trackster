@@ -59,7 +59,7 @@ module Trackster
 
       x = XAxis.new
       x.labels = data_source.inject([]) do |label_array, item|
-        label_array << ((label_array.size % options[:label_modulus] == 0) ? item[label] : '')
+        label_array << ((label_array.size % options[:label_modulus] == 0) ? format_label(item, label) : '')
       end if label
       x.set_grid_colour(options[:grid_colour]);
 
@@ -72,6 +72,26 @@ module Trackster
       chart.add_element(series)
       chart.add_element(regression) if regression
       chart
+    end
+    
+    def format_label(item, label)
+      value = item[label]  
+      case label
+        when :date
+          "#{value.day} #{I18n.t('date.abbr_month_names')[value.month]}"
+        when :day
+          I18n.t('date.abbr_day_names')[day]
+        when :month
+          I18n.t('date.abbr_month_names')[month]
+        when :week, :year, :hour
+          value.to_s
+        else case value
+          when Integer, Fixnum, Bignum, Float
+            number_with_delimeter(value)
+          else
+            value.to_s
+        end  
+      end
     end
   end
 end    
