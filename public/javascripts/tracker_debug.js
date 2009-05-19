@@ -1,9 +1,10 @@
 function _tks(account)  {
-	this.version		= "0.93";
+	this.version		= "0.94";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
 	this.trackerImage	= "/_tks.gif";
+	this.videoPlayer	= "xrdPlayer"
 	this.parameters 	= new Object();  // Parsed URL parameters
 	// Default campaign parameter names; same as the Google Analytics
 	// to easy compatibility for campaign tracking, especially if GA is
@@ -524,6 +525,17 @@ function _tks(account)  {
 	this.trackTrans = function() {
 		
 	};
+	// Get flash movie 
+	this.getFlashApp = function(appName) {
+       if (navigator.appName.indexOf ("Microsoft") != -1) {
+           return window[appName];
+       } else {
+           return document[appName];
+       }
+    };
+    this.callFlexApp = function(appName) {
+    	this.getFlashApp(appName || this.videoPlayer).FlexCall();
+    };
 	// Constructor
 	this.account = account;
 	parameters = this.parseParameters();

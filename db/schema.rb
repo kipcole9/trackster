@@ -9,11 +9,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090518043803) do
+ActiveRecord::Schema.define(:version => 20090519074409) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campaigns", :force => true do |t|
+    t.integer  "property_id"
+    t.integer  "account_id"
+    t.string   "name"
+    t.text     "description"
+    t.text     "design_html"
+    t.text     "production_html"
+    t.integer  "cost"
+    t.integer  "distribution"
+    t.integer  "bounces"
+    t.integer  "unsubscribes"
+    t.integer  "code"
+    t.integer  "impressions"
+    t.integer  "clicks_through"
+    t.datetime "results_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

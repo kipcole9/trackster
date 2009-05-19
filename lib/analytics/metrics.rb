@@ -80,8 +80,12 @@ module Analytics
 
         named_scope :bounces,
           :select => 'count(*) as bounces',
-          :conditions => 'duration = 0'  do
-        end
+          :conditions => 'duration = 0'
+          
+        named_scope :impressions,
+          :select => 'count(*) as impressions',
+          :conditions => "category = 'email' AND action = 'open'",
+          :joins => :events
       end
     end
   end
