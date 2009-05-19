@@ -15,7 +15,8 @@ module Trackster
                         :grid_division      => 5,
                         :label_modulus      => 1,
                         :width              => '100%',
-                        :height             => '200'
+                        :height             => '200',
+                        :regression         => false
                       }
       
     def initialize(data_source, column, label = nil, options = {})
@@ -38,9 +39,21 @@ module Trackster
       series.colour     = options[:colour]
       series.dot_size   = options[:dot_size]
       
+      # Linear regression option (create basic trend line)
+      if options[:regression]
+        regression          = Line.new
+        regression.colour   = '#555555'
+        regression.text     = "#{options[:text]} trend"
+        regression.values   = regression_data = LinearRegression.new(data_set).fit
+      end
+      
       y = YAxis.new
       y_max = data_set.max
       y_min = [data_set.min, 0].min
+      if regression
+        y_max = [y_max, regression_data.max].max
+        y_min = [y_min, regression_data.min].min
+      end
       y.set_range(y_min, y_max, (y_max / options[:grid_division]).to_i)
       y.set_grid_colour(options[:grid_colour])
 
@@ -57,6 +70,7 @@ module Trackster
       
       # The data series
       chart.add_element(series)
+      chart.add_element(regression) if regression
       chart
     end
   end
