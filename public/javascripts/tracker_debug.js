@@ -540,7 +540,9 @@ function _tks(account)  {
     this.callFlexApp = function(appName) {
 		var player = appName || self.videoPlayer;
 		console.log('Player is ' + player);
-    	self.getFlashApp(player).FlexCall();
+    	var playerApp = self.getFlashApp(player);
+		console.log('Player app is ' + playerApp);
+		//.FlexCall();
     };
 	// Constructor
 	this.account = account;
