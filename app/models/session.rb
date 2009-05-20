@@ -68,7 +68,7 @@ private
   end
 
   def update_traffic_source
-    if self.referrer_host && source = self.account.traffic_sources.find_by_host(self.referrer_host)
+    if self.referrer_host && self.account && source = self.account.traffic_sources.find_by_host(self.referrer_host)
       self.traffic_source = source.source_type
     end
   end
