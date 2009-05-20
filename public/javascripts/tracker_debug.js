@@ -1,11 +1,12 @@
 function _tks(account)  {
-	this.version		= "0.94";
+	this.version		= "0.95";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
 	this.trackerImage	= "/_tks.gif";
 	this.videoPlayer	= "xrdPlayer"
 	this.parameters 	= new Object();  // Parsed URL parameters
+	
 	// Default campaign parameter names; same as the Google Analytics
 	// to easy compatibility for campaign tracking, especially if GA is
 	// already installed and working
@@ -13,6 +14,7 @@ function _tks(account)  {
 	this.campaignSource = "utm_source";
 	this.campaignMedium = "utm_medium";
 	this.campaignContent = "utm_content";
+	
 	// The URL we're tracking
 	this.url = '';
 	
@@ -102,16 +104,16 @@ function _tks(account)  {
 		return encodeURIComponent(document.referrer);
 	};
 	this.getCampName = function() {
-		return encodeURIComponent(parameters[self.campaignName]);
+		return encodeURIComponent(self.parameters[self.campaignName]);
 	};
 	this.getCampSource = function() {
-		return encodeURIComponent(parameters[self.campaignSource]);
+		return encodeURIComponent(self.parameters[self.campaignSource]);
 	};
 	this.getCampMedium = function() {
-		return encodeURIComponent(parameters[self.campaignMedium]);
+		return encodeURIComponent(self.parameters[self.campaignMedium]);
 	};
 	this.getCampContent = function() {
-		return encodeURIComponent(parameters[self.campaignContent]);
+		return encodeURIComponent(self.parameters[self.campaignContent]);
 	};
 	this.getVisitor = function() {
 		function createTdsv() {
@@ -380,16 +382,16 @@ function _tks(account)  {
 	    return (this.eraseCookie('_test') === '1');  
 	}; 	
 	this.setCampName = function(name) {
-		campaignName = name;
+		self.campaignName = name;
 	};
 	this.setCampSource = function(name) {
-		campaignSource = name;
+		self.campaignSource = name;
 	};
 	this.setCampMedium = function(name) {
-		campaignMedium = name;
+		self.campaignMedium = name;
 	};
 	this.setCampContent = function(name) {
-		campaignContent = name;
+		self.campaignContent = name;
 	};
 	/*
 	File: Math.uuid.js
@@ -538,7 +540,7 @@ function _tks(account)  {
     };
 	// Constructor
 	this.account = account;
-	parameters = this.parseParameters();
+	this.parameters = this.parseParameters();
 	this.urlParams = {
 		// &utses must be before &utvis
 		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor,

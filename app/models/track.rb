@@ -6,10 +6,10 @@ class Track < ActiveRecord::Base
   include Analytics::Metrics
   include Analytics::Dimensions
   
-  table_format :count,      :total => :sum
-  table_format :page_views, :total => :sum, :class => 'page_views right'
-  table_format :visits,     :total => :sum, :class => 'visits right'
-  table_format :visitors,   :total => :sum, :class => 'visitors right'
+  table_format :count,      :total => :sum, :order => 99
+  table_format :page_views, :total => :sum, :class => 'page_views right', :order => 99
+  table_format :visits,     :total => :sum, :class => 'visits right', :order => 99
+  table_format :visitors,   :total => :sum, :class => 'visitors right', :order => 99
   
   #chart_format :date,      :formatter => lambda{|date| "#{date.day} #{I18n.t('date.abbr_month_names')[date.month]}"}
   #chart_format :month,     :formatter => lambda{|month| I18n.t('date.abbr_month_names')[month]}

@@ -24,6 +24,10 @@ class CreateCampaigns < ActiveRecord::Migration
       t.integer         :clicks_through   # Clicks through
       t.datetime        :results_at       # When this data was last updated
       
+      # Ownership
+      t.integer         :created_by       # Who created the campaign
+      t.integer         :updated_by       # and who updated it
+      
       t.timestamps
     end
   end

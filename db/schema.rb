@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(:version => 20090519074409) do
     t.integer  "impressions"
     t.integer  "clicks_through"
     t.datetime "results_at"
+    t.integer  "created_by"
+    t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
