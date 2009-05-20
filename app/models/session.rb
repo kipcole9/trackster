@@ -1,5 +1,5 @@
 class Session < ActiveRecord::Base
-  has_many      :events
+  has_many      :events, :dependent => :destroy
   belongs_to    :property
   belongs_to    :account
   before_create :update_time_metrics

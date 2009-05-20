@@ -9,7 +9,7 @@ module Analytics
         named_scope :page_views, lambda{ |*args|
           if args.first && args.first == :with_events
             {:select => "count(*) as page_views",
-            :conditions => "url IS NOT NULL",
+            :conditions => "category = 'page' AND action = 'view' AND url IS NOT NULL",
             :joins => :events}
           else
             {:select => "sum(page_views) as page_views"}
