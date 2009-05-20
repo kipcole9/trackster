@@ -125,7 +125,7 @@ class WebAnalytics
     end
     row
   end
- 
+  
   def get_platform_info!(row)
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
@@ -145,13 +145,12 @@ class WebAnalytics
     end
     
     uri = URI.parse(referrer)
+    row[:referrer_host] = uri.host
     if search_engine = SearchEngine.find_by_host(host.sub(/\Awww\./,''))
       params = params_to_hash(uri.query)
-      row[:referrer_host] = uri.host
       row[:search_terms] = params[search_engine.query_param]
       row[:traffic_source] = 'search'
     else
-      row[:referrer_host] = uri.host
       row[:traffic_source] = 'referral'      
     end
   rescue

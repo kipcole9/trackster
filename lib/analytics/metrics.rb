@@ -6,10 +6,15 @@ module Analytics
         # Pages_views calculated because following dimensions may include
         # events anyway and the cross-product of the two tables will
         # mess up totals.
-        named_scope :page_views,
-          :select => "count(*) as page_views",
-          :conditions => "entry_page = 1 AND url IS NOT NULL",
-          :joins => :events
+        named_scope :page_views, lambda{ |*args|
+          if args.first && args.first == :with_events
+            {:select => "count(*) as page_views",
+            :conditions => "entry_page = 1 AND url IS NOT NULL",
+            :joins => :events}
+          else
+            {:select => "sum(page_views) as page_views"}
+          end
+        }
 
         named_scope :video_views,
           :select => "count(*) as video_views",
@@ -20,6 +25,7 @@ module Analytics
         named_scope :video_playtime,
           :select => "max(value) as value",
           :conditions => "category = 'video' and (action = 'pause' or action = 'end')",
+          :joins => :events,
           :group => "session_id"
 
         # Can only count sessions that have visitors

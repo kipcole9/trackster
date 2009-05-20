@@ -3,6 +3,7 @@ class Session < ActiveRecord::Base
   belongs_to    :property
   belongs_to    :account
   before_create :update_time_metrics
+  before_create :update_traffic_source
   before_save   :update_session_time
   before_save   :update_event_count
   
@@ -66,5 +67,9 @@ private
     self.duration = (self.ended_at - self.started_at).to_i
   end
 
-  
+  def update_traffic_source
+    if self.referrer_host && source = self.account.traffic_sources.find_by_host(self.referrer_host)
+      self.traffic_source = source.source_type
+    end
+  end
 end
