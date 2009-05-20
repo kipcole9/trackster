@@ -538,9 +538,9 @@ function _tks(account)  {
 		}
     };
     this.callFlexApp = function(appName) {
-		var player = appName || this.videoPlayer;
+		var player = appName || self.videoPlayer;
 		console.log('Player is ' + player);
-    	this.getFlashApp(player).FlexCall();
+    	self.getFlashApp(player).FlexCall();
     };
 	// Constructor
 	this.account = account;
