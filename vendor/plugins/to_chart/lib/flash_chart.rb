@@ -44,7 +44,7 @@ module Trackster
         regression          = Line.new
         regression.colour   = '#555555'
         regression.text     = "#{options[:text]} trend"
-        regression.values   = regression_data = LinearRegression.new(data_set).fit
+        regression.values   = regression_data = data_set.regression
       end
       
       y = YAxis.new

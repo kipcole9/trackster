@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20090519074409) do
     t.text     "description"
     t.text     "design_html"
     t.text     "production_html"
+    t.text     "landing_page_html"
     t.integer  "cost"
     t.integer  "distribution"
     t.integer  "bounces"

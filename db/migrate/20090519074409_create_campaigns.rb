@@ -9,6 +9,7 @@ class CreateCampaigns < ActiveRecord::Migration
       # HTML from the designer, then with link tagging
       t.text            :design_html      # From the designer
       t.text            :production_html  # After link tagging
+      t.text            :landing_page_html
       
       # Metrics manually entered from original sources
       t.integer         :cost             # Customer cost of campaign
