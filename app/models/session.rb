@@ -60,7 +60,7 @@ private
   
   def update_event_count
     self.event_count = self.events.count
-    self.page_views = self.events.count(:conditions => ["category = 'page' AND action = 'view'"])
+    self.page_views = self.events.count(:conditions => ["category = 'page' AND action = 'view' AND url IS NOT NULL"])
   end
   
   def update_session_time
