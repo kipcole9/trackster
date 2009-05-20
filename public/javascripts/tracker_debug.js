@@ -529,14 +529,18 @@ function _tks(account)  {
 	};
 	// Get flash movie 
 	this.getFlashApp = function(appName) {
-       if (navigator.appName.indexOf ("Microsoft") != -1) {
-           return window[appName];
-       } else {
-           return document[appName];
-       }
+		if (navigator.appName.indexOf ("Microsoft") != -1) { 
+			console.log('Microsoft: App is ' + window[appName]);
+			return window[appName];
+		} else {
+			console.log('Not Microsoft: App is ' + document[appName]);
+			return document[appName];
+		}
     };
     this.callFlexApp = function(appName) {
-    	this.getFlashApp(appName || this.videoPlayer).FlexCall();
+		var player = appName || this.videoPlayer;
+		console.log('Player is ' + player);
+    	this.getFlashApp(player).FlexCall();
     };
 	// Constructor
 	this.account = account;

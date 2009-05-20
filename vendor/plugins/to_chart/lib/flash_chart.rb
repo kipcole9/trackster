@@ -43,6 +43,7 @@ module Trackster
       if options[:regression]
         regression          = Line.new
         regression.colour   = '#555555'
+        regression.tooltip  = "#{I18n.t('estimate', :default => 'Estimate')} #val#"
         regression.text     = "#{options[:text]} trend"
         regression.values   = regression_data = data_set.regression
       end

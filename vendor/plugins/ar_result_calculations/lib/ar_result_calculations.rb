@@ -66,7 +66,7 @@ module ActiveRecord
           def initialize dx, dy=nil
             @size = dx.size
             dy,dx = dx,axis() unless dy  # make 2D if given 1D
-            raise "arguments not same length!" unless @size == dy.size
+            raise ArgumentError, "arguments not same length!" unless @size == dy.size
             sxx = sxy = sx = sy = 0
             dx.zip(dy).each do |x,y|
               sxy += x*y
