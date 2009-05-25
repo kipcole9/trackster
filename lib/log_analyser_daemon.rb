@@ -38,15 +38,23 @@ class LogAnalyserDaemon
     end
     
     # Main log loop
-    log.tail do |line|  
-      ActiveRecord::Base.connection.reconnect! unless ActiveRecord::Base.connected?      
-      entry = log_parser.parse_entry(line)
-      if entry[:datetime]
-        if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
-          log_parser.save_web_analytics!(web_analyser, entry)
+    log.tail do |line|
+      begin
+        entry = log_parser.parse_entry(line)
+        if entry[:datetime]
+          if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
+            log_parser.save_web_analytics!(web_analyser, entry)
+          end
+        else
+          ActiveRecord::Base.logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
         end
-      else
-        ActiveRecord::Base.logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
+      rescue ActiveRecord::StatementInvalid => e
+        if e.to_s =~ /away/
+          ActiveRecord::Base.logger.info "[Log analyser daemon] Recovering from MySql 'gone away' timeout."
+          ActiveRecord::Base.connection.reconnect! && retry
+        else
+          raise e
+        end
       end
     end
     
