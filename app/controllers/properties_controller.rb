@@ -2,6 +2,7 @@ class PropertiesController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE]
   before_filter       :retrieve_property, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_properties, :only => :index
+  layout              :select_layout
   
   def new
     render :action => 'edit'
@@ -48,8 +49,24 @@ class PropertiesController < ApplicationController
       render :action => 'edit'
     end
   end
-    
+  
+  def destroy
+    @property.destroy
+    respond_to do |format|
+      format.html { redirect_back_or_default('/') }      
+      format.js   { head :status => :ok }
+    end
+  end
+  
 private
+  def select_layout
+    if params[:action] == 'show'
+      'dashboards'
+    else
+      'properties'
+    end
+  end
+  
   def retrieve_property
     @property = user_scope.find(params[:id])
   end

@@ -56,7 +56,7 @@ module Analytics
         }
         
         named_scope   :label, lambda {|label|
-          {:conditions => {:label => label}}
+          {:conditions => ["events.label = ?", label]}
         }
 
         non_metrics_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium].freeze

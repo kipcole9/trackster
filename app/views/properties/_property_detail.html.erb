@@ -29,5 +29,5 @@ for these situations.  Within the html body of the email add the following line 
 the data for analysis.</p>
 <h4>Tracking links in emails</h4>
 <p>In order to track which links a user clicks in an email we use another technique called redirection.  A special link is inserted
-into the email which, when clicked, will track the users action and then redirect to the required location.  The <%= link_to 'campaigns', campaigns_path -%>
+into the email which, when clicked, will track the users action and then redirect to the required location.  The <%= link_to 'campaigns', property_campaigns_path(property) -%>
  page has further information as well as a tool to help you build and manage these links.</p>

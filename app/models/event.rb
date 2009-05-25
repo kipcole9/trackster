@@ -1,18 +1,25 @@
 class Event < ActiveRecord::Base
   belongs_to        :session
   belongs_to        :redirect
+  after_save        :update_video_maxplay
   
   PAGE_CATEGORY   = "page"
   VIEW_ACTION     = "view"
+  
   VIDEO_CATEGORY  = 'video'
-  VIDEO_MAXPLAY   = 'max play'
+  VIDEO_MAXPLAY   = 'max_play'
+  VIDEO_PLAY      = 'play'
+  VIDEO_PAUSE     = 'pause'
+  VIDEO_END       = 'end'
+  VIDEO_EXIT      = 'exit'
+  
   EMAIL_CATEGORY  = 'email'
   OPEN_ACTION     = 'open'
   
   def self.create_from_row(session, row)
     return nil if !session || unknown_event?(row) || duplicate_event?(session, row)
     event = new_from_row(row)
-    if previous_event = session.events.last
+    if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       if event.pageview?
         previous_event.value = (event.tracked_at - previous_event.tracked_at).to_i
       end
@@ -77,6 +84,25 @@ private
       event.label     = event.page_title
     end
     event
+  end
+  
+  def update_video_maxplay
+    return unless self.category == VIDEO_CATEGORY && (self.action == VIDEO_PAUSE || self.action == VIDEO_END || self.action == VIDEO_EXIT)
+    maxplay_event = find_video_maxplay_event(self) || create_video_maxplay_from(self)
+    if self.value && (maxplay_event.value.nil? || self.value > maxplay_event.value)
+      maxplay_event.value = self.value 
+      maxplay_event.save!
+    end
+    self
+  end
+  
+  def find_video_maxplay_event(event)
+    self.class.find(:first, :conditions => ['session_id = ? AND category = ? AND action = ? AND label = ?', event.session_id, VIDEO_CATEGORY, VIDEO_MAXPLAY, event.label])
+  end
+  
+  def create_video_maxplay_from(event)
+    self.class.new(:session_id => event.session_id, :category => VIDEO_CATEGORY, :action => VIDEO_MAXPLAY, :label => event.label,
+                   :entry_page => false, :exit_page => false)
   end
   
 end

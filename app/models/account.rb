@@ -2,6 +2,7 @@ class Account < ActiveRecord::Base
   has_many        :properties
   has_many        :traffic_sources
   has_many        :sessions
+  has_many        :campaigns
   has_many        :users
   
   ADMIN_ACCOUNT     = "Admin"

@@ -25,6 +25,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule"
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'daemons'
+  config.gem 'why-hpricot', :lib => 'hpricot'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -47,7 +48,7 @@ Rails::Initializer.run do |config|
   config.i18n.default_locale = "en-US"
   
   # Make sure the admin user is all sorted.
-  # On a cold deploy this could fail since the 
+  # On an initial deploy this could fail since the 
   # schema isn't loaded.  Hence the exception
   # recovery.
   config.after_initialize do
@@ -59,5 +60,4 @@ Rails::Initializer.run do |config|
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer']
-  # puts "Mailer config is: #{YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer'].inspect}"
 end

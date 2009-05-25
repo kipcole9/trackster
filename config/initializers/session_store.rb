@@ -5,7 +5,7 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_trackster_session',
+  :key         => '_tks',
   :secret      => 'a2b637ac383ad085a1775e5b013e9078922ccb6503f31c2abe693ddd693254e2d24141a508a9de6fa064486bddd02feb1cbeafe3817971c3c49437143f4cf89c'
 }
 

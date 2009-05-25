@@ -9,7 +9,7 @@ module Analytics
         named_scope :page_views, lambda{ |*args|
           if args.first && args.first == :with_events
             {:select => "count(*) as page_views",
-            :conditions => "category = 'page' AND action = 'view' AND url IS NOT NULL",
+            :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
             :joins => :events}
           else
             {:select => "sum(page_views) as page_views"}
@@ -18,15 +18,14 @@ module Analytics
 
         named_scope :video_views,
           :select => "count(*) as video_views",
-          :conditions => "category = 'video' and action = 'play'",
+          :conditions => "events.category = '#{Event::VIDEO_CATEGORY}' and events.action = '#{Event::VIDEO_PLAY}'",
           :joins => :events
             
         # Maximum view time of a video
         named_scope :video_playtime,
-          :select => "max(value) as value",
-          :conditions => "category = 'video' and (action = 'pause' or action = 'end')",
-          :joins => :events,
-          :group => "session_id"
+          :select => "max(events.value) as maxplay",
+          :conditions => "events.category = '#{Event::VIDEO_CATEGORY}' AND events.action = '#{Event::VIDEO_MAXPLAY}'",
+          :joins => :events
 
         # Can only count sessions that have visitors
         named_scope :visitors,
@@ -90,7 +89,11 @@ module Analytics
           
         named_scope :impressions,
           :select => 'count(*) as impressions',
-          :conditions => "category = 'email' AND action = 'open'",
+          :conditions => "category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}'",
+          :joins => :events
+
+        named_scope :latency, 
+          :select => "CAST(AVG(time_to_sec(events.created_at) - time_to_sec(tracked_at)) AS signed) AS latency",
           :joins => :events
       end
     end

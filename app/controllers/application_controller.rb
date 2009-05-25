@@ -111,4 +111,15 @@ class ApplicationController < ActionController::Base
     super key, options
   end  
 
+  def user_scope(model, user)
+    klass = model.to_s.classify.constantize
+    if user.has_role?(Role::ADMIN_ROLE)
+      klass
+    elsif user.has_role?(Role::ACCOUNT_ROLE)
+      user.account.scope[model]
+    else
+      klass.user(user)
+    end
+  end
+
 end

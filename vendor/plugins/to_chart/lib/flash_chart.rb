@@ -13,10 +13,11 @@ module Trackster
                         :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
                         :grid_division      => 5,
-                        :label_modulus      => 1,
+                        :label_steps        => 2,
                         :width              => '100%',
                         :height             => '200',
-                        :regression         => false
+                        :regression         => false,             # Also produce a regression series?
+                        :offset             => true               # Offset x-axis from y?
                       }
       
     def initialize(data_source, column, label = nil, options = {})
@@ -32,7 +33,7 @@ module Trackster
 
     def graph_data(data_source, column, label, options, &block)
       series            = options[:type].new
-      series.values     = data_set = data_source.inject([]){|result_array, item| result_array << item[column]}
+      series.values     = data_set = series_from_data(data_source, column, options)
       series.tooltip    = options[:tooltip] if options[:tooltip]        
       series.text       = options[:text] if options[:text]
       series.width      = options[:line_width]
@@ -55,13 +56,12 @@ module Trackster
         y_max = [y_max, regression_data.max].max
         y_min = [y_min, regression_data.min].min
       end
-      y.set_range(y_min, y_max, (y_max / options[:grid_division]).to_i)
+      y.set_range(y_min, y_max, ((y_max - y_min) / options[:grid_division]).to_i)
       y.set_grid_colour(options[:grid_colour])
 
       x = XAxis.new
-      x.labels = data_source.inject([]) do |label_array, item|
-        label_array << ((label_array.size % options[:label_modulus] == 0) ? format_label(item, label) : '')
-      end if label
+      x.offset = options[:offset]
+      x.labels = labels_from_data(data_source, label, options)
       x.set_grid_colour(options[:grid_colour]);
 
       chart = OpenFlashChart.new
@@ -73,6 +73,21 @@ module Trackster
       chart.add_element(series)
       chart.add_element(regression) if regression
       chart
+    end
+    
+    def series_from_data(data_source, column, options)
+      data_source.inject([]){|result_array, item| result_array << item[column]}
+    end
+    
+    def labels_from_data(data_source, label, options)
+      data_source.inject([]) do |label_array, item|
+        label_array << label_from_row(item, label, label_visible?(label_array, options[:label_steps]))
+      end
+    end
+          
+    def label_from_row(item, attrib, visible)
+      label = format_label(item, attrib)
+      {:text => label, :visible => visible, :justify => 'center'}
     end
     
     def format_label(item, label)
@@ -93,6 +108,10 @@ module Trackster
             value.to_s
         end  
       end
+    end
+    
+    def label_visible?(array, modulus)
+      (array.size % modulus == 0)
     end
   end
 end    

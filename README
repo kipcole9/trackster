@@ -2,24 +2,10 @@
 
 A simple (and only in early development) web analytics server.
 
-Internal search
-	Configure a parameter for the web property that represents the internal search result
-	In analyser, check the url for that parameter and use as internal search terms;
-	Can't use existing search terms because that's how you found this page - so could be
-	both external and internal search terms for a given page
-	
-to_chart(x, y, options)
-x and y represent methods called on the result set
-use formatters if they exist for their formatting
-applies to tooltips and labels
 
-options
-:type =>
-:title
-:height
-:width
-
-Some way to fill in a data series	ie. fill the gaps where data does not exist
-
-
-Import email, recode anchors, auto-create redirects (part of campaign management)
+Controllers:
+	1.  Controller should have short and long form (of belongs_to), detect and behave appropriately
+		ie.  /properties/24/campaign/35 OR /campaign/35 only difference is to know which owner
+		
+	2.	Scoping need to be finished.  Can be have a generalised scoper for the three different
+		user classes? (Admin, Account Owner, User)

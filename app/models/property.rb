@@ -2,11 +2,12 @@ class Property < ActiveRecord::Base
   has_many    :campaigns
   has_many    :sessions
   has_many    :tracks
-  belongs_to  :account
-  
+  has_many    :redirects
   has_many    :property_users
   has_many    :users, :through => :property_users
   
+  belongs_to  :account
+
   after_create              :create_tracker_code 
   
   validates_presence_of     :name

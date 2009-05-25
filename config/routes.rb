@@ -16,9 +16,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resources :accounts
-  map.resources :properties
   map.resources :campaigns
-  map.resources :redirects    # URL redirects
+  map.resources :redirects
+  map.resources :properties, :has_many => [:campaigns, :redirects]
   map.resources :relates      # Creates relationships between objects
 
   map.resource :session
@@ -70,6 +70,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect   '/tracks/show', :controller => 'tracks', :action => 'show'
   map.tracks    '/tracks/:metric.:format', :controller => 'tracks', :action => 'index'
   
-  #map.connect ':controller/:action/:id'
-  #map.connect ':controller/:action/:id.:format'
+  if Rails.env == "development"
+    map.connect ':controller/:action/:id'
+    map.connect ':controller/:action/:id.:format'
+  end
 end

@@ -100,7 +100,7 @@ class WebAnalytics
     [:category, :action, :label, :value, :url].each do |attrib|
       row[attrib] = redirect.send(attrib) unless row[attrib]
     end
-    row[:property_code] = redirect.property.tracker unless row[:property_code]
+    row[:property_code] = redirect.property.tracker unless !redirect.property || row[:property_code]
     row[:redirect_id] = redirect['id']
     row[:page_title] = redirect.name
     row[:redirect] = true
