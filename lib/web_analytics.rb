@@ -123,6 +123,7 @@ class WebAnalytics
       get_visitor!(row)
       get_session!(row)
       geocode!(row)
+      time_zone_from_longitude!(row) if row[:longitude] && !row[:timezone]
     end
     row
   end
@@ -174,6 +175,17 @@ class WebAnalytics
 private
   def geocode!(row)
     IpAddress.reverse_geocode(row[:ip_address], row)
+  end
+  
+  # 15 degrees is one hour of time difference
+  # Rounded to nearest hour.  Which is not strictly accurate
+  # especially for some places (India, Adelaide, ...) that 
+  # actually have 30 minute TZ variances
+  # We store timezone in minutes
+  def time_zone_from_longitude!(row)
+    if row[:longitude] && !row[:timezone]
+      row[:timezone] = (row[:longitude] / 15).round * 60
+    end
   end
   
   def get_log_data!(row, entry)
