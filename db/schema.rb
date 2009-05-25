@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090520062105) do
+ActiveRecord::Schema.define(:version => 20090525053401) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(:version => 20090520062105) do
     t.integer  "month"
     t.integer  "hour"
     t.integer  "week"
+    t.integer  "day_of_week",       :limit => 1
+    t.integer  "timezone",          :limit => 3
   end
 
   create_table "tracks", :force => true do |t|

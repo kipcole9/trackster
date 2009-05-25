@@ -73,6 +73,10 @@ module Analytics
         named_scope :landing_pages,
           :select => 'count(*) as landing_pages',
           :conditions => "entry_page = 1 and url IS NOT NULL and campaign_name IS NOT NULL"
+          
+        named_scope :clicks_through,
+          :select => 'count(*) as clicks_through',
+          :conditions => "campaign_medium = 'email' AND campaign_name IS NOT NULL"
 
         named_scope :exit_pages,
           :select => 'count(*) as exit_pages',

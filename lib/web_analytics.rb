@@ -12,6 +12,7 @@ class WebAnalytics
                   # in a url
                   :utvis        =>  :visitor,
                   :utses        =>  :session,
+                  :uttz         =>  :timezone,
                   :utmdt        =>  :page_title,	
                   :utmsr        =>  :screen_size, 
                   :utmsc        =>  :color_depth, 
@@ -190,9 +191,9 @@ private
     return if row[:visitor].blank?
     parts = row[:visitor].split('.')
     raise "[Web Analytics] Badly formed visitor variable: '#{v}" if parts.size > 4
-    row[:visitor] = parts[0]
-    row[:visit] = parts[1] if parts[1]
-    row[:previous_visit_at] = to_time(parts[3]) if parts[3]
+    row[:visitor]           = parts[0]
+    row[:visit]             = parts[1] if parts[1]
+    row[:previous_visit_at] = to_time(parts[3]) unless parts[3].blank?
   end
 
   # Session has two possible parts
@@ -224,6 +225,7 @@ private
         VALID_PARAMS[var.to_sym] ? result[VALID_PARAMS[var.to_sym]] = URI.unescape(value) : false
       end
     end if params
+    result[:timezone] = result[:timezone].to_i if result[:timezone]
     result
   end
   
