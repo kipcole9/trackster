@@ -26,6 +26,8 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'daemons'
   config.gem 'why-hpricot', :lib => 'hpricot'
+  
+  ENV['LD_LIBRARY_PATH'] = '/usr/local/lib'
   config.gem 'sparklines'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
