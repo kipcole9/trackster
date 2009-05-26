@@ -18,8 +18,11 @@ class Track < ActiveRecord::Base
   named_scope :limit, lambda {|limit| {:limit => limit} }
   named_scope :order, lambda {|order| {:order => order} }       
   named_scope :filter, lambda {|conditions| {:conditions => conditions} }
-  
   named_scope :property, lambda {|property|
-    { :conditions => ["property_id = ?", Property.find_by_name(property).try(:id)] } 
+    if property.is_a?(Property)
+      { :conditions => ["property_id = ?", property.id] } 
+    else
+      { :conditions => ["property_id = ?", Property.find_by_name(property).try(:id)] } 
+    end
   }
 end

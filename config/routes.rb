@@ -59,6 +59,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
   map.root :controller => "dashboards"
   map.media '/media/:action', :controller => 'media'
+  map.sparklines '/sparklines', :controller => 'sparklines'
 
   # See how all your routes lay out with "rake routes"
 
