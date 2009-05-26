@@ -33,8 +33,6 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = user_create_scope.create(params[:campaign])
-    Rails.logger.info @campaign.inspect
-    Rails.logger.info @campaign.property.inspect
     if @campaign.valid?
       flash[:notice] = t('.campaign_created')
       redirect_back_or_default('/')

@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE]
+  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:index, :show]
   before_filter       :retrieve_property, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_properties, :only => :index
   layout              :select_layout
@@ -30,7 +30,7 @@ class PropertiesController < ApplicationController
   end
   
   def create
-    @property = user_scope.create(params[:property])
+    @property = user_create_scope.create(params[:property])
     if @property.valid?
       flash[:notice] = t('.property_created')
       redirect_back_or_default('/')
@@ -81,4 +81,11 @@ private
     ['name like ? or url like ?', search, search ]
   end
   
+  def user_create_scope
+    if current_user.has_role?(Role::ADMIN_ROLE)
+      Property
+    else
+      current_user.account.properties
+    end
+  end
 end
