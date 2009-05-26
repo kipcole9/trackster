@@ -1,4 +1,4 @@
-panel t('dashboards.page_views_top_10')  do
+panel t('dashboards.page_views_top_10'), :class => 'table'  do
   block do
     page_views = @property.tracks.page_views(:with_events).by(:url).limit(10).order('page_views DESC').all
     if page_views.empty?

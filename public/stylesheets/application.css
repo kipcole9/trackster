@@ -17,8 +17,17 @@ input[type="text"] {
 
 /* Tables in panels */
 div.block table {
-	margin-bottom: 10px;
-	table-layout: fixed;	
+	table-layout: fixed;
+	margin-bottom: 10px;	
+}
+
+/* Table panels */
+div.box.table, div.box.table .block {
+	padding: 0;
+}
+
+div.box.table h2 {
+	margin: 0;
 }
 
 div.block table * td {

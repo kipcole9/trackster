@@ -1,4 +1,4 @@
-panel t('dashboards.referrer_top_10')  do
+panel t('dashboards.referrer_top_10'), :class => 'table'  do
   block do
     referrers = @property.tracks.visits.by(:referrer_host).filter('referrer_host IS NOT NULL').limit(10).order('visits DESC').all
     if referrers.empty?
