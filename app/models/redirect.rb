@@ -4,6 +4,12 @@ class Redirect < ActiveRecord::Base
   has_many                      :events
   before_validation_on_create   :create_redirect_url 
   
+  validates_associated      :account
+  validates_presence_of     :account_id
+  
+  validates_associated      :property
+  validates_presence_of     :property_id
+  
   validates_presence_of     :name
   validates_length_of       :name,    :within => 3..40
   validates_uniqueness_of   :name,    :scope => :account_id

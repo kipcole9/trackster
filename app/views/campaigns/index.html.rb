@@ -1,7 +1,9 @@
 panel t('panels.campaign_index'), :flash => true do  
   block do
-    search t("search"), :id => "campaignSearch", :replace => "campaign", :url => campaign_url
-    render_list @campaigns, :partial => 'campaign_summary', :buttons => :all
+    search t("search"), :id => "campaignSearch", :replace => "campaign", :url => campaigns_url
+    with_tag(:div, :id => 'campaign') do
+      store render :partial => 'index'
+    end
     store will_paginate
   end
 end

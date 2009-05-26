@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090525053401) do
+ActiveRecord::Schema.define(:version => 20090526014111) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -30,10 +30,7 @@ ActiveRecord::Schema.define(:version => 20090525053401) do
     t.integer  "distribution"
     t.integer  "bounces"
     t.integer  "unsubscribes"
-    t.integer  "code"
-    t.integer  "impressions"
-    t.integer  "clicks_through"
-    t.datetime "results_at"
+    t.string   "code",              :limit => 10
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"

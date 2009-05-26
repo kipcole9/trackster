@@ -2,9 +2,13 @@ class Session < ActiveRecord::Base
   has_many      :events, :dependent => :destroy
   belongs_to    :property
   belongs_to    :account
+  belongs_to    :campaign
+  
   before_create :update_traffic_source
   before_save   :update_session_time
   before_save   :update_event_count
+  
+  EMAIL_CLICK   = 'email'
   
   def self.find_or_create_from_track(row)
     if row[:visitor] && row[:visit] && row[:session]
@@ -34,7 +38,12 @@ class Session < ActiveRecord::Base
     self.year   = self.started_at.year
     self.timezone = row[:timezone] if row[:timezone]
   end
-
+  
+  def create_campaign_association(row)
+    return unless row[:campaign_name]
+    self.campaign = Campaign.find_by_code(row[:campaign_name])
+  end
+  
 private
   def self.new_from_row(row)
     session = new
@@ -57,6 +66,7 @@ private
       session.account = session.property.account
     end
     session.save_time_metrics(row)
+    session.create_campaign_association(row)
     session.property ? session : nil
   end
 

@@ -1,9 +1,12 @@
 class CampaignsController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:show, :index]
   before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show]
+  before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
 
   def new
+    @campaign = user_create_scope.new
+    @campaign.property = @property
     render :action => 'edit'
   end
 
@@ -11,6 +14,13 @@ class CampaignsController < ApplicationController
     respond_to do |format|
       format.js   { render :partial => 'campaign_form', :locals => {:campaign => @campaign} }
       format.html { }
+    end
+  end
+  
+  def index
+    respond_to do |format|
+      format.html {  }
+      format.js   { render :partial => 'index', :layout => false }      
     end
   end
 
@@ -25,7 +35,7 @@ class CampaignsController < ApplicationController
     @campaign = user_create_scope.create(params[:campaign])
     if @campaign.valid?
       flash[:notice] = t('.campaign_created')
-      campaign_back_or_default('/')
+      redirect_back_or_default('/')
     else
       flash[:error] = t('.campaign_not_created')
       render :action => 'edit'
@@ -35,7 +45,7 @@ class CampaignsController < ApplicationController
   def update
     if @campaign.update_attributes(params[:campaign])
       flash[:notice] = t('.campaign_updated')
-      campaign_back_or_default('/')
+      redirect_back_or_default('/')
     else
       flash[:error] = t('.campaign_not_updated')
       render :action => 'edit'
@@ -46,13 +56,23 @@ private
   def retrieve_campaign
     @campaign = user_scope(:campaign, current_user).find(params[:id])
   end
+  
+  def retrieve_property
+    @property = user_scope(:property, current_user).find(params[:property_id]) if params[:property_id]
+  end
 
   def retrieve_campaigns
-    @campaigns = user_scope(:campaign, current_user).paginate(:page => params[:page])
+    @campaigns = user_scope(:campaign, current_user).paginate(:page => params[:page], :conditions => conditions_from_params)
   end
 
   def user_create_scope
     current_user.account.campaigns
+  end
+
+  def conditions_from_params
+    return {} if params[:search].blank?
+    search = "%#{params[:search]}%"
+    ['name like ? or description like ?', search, search ]
   end
 
   

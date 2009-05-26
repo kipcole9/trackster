@@ -50,7 +50,14 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
     with_field(method, options) do
       super(method, choices, options, default_html_options.merge(html_options))
     end
-  end  
+  end
+  
+  def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+    default_html_options = {}
+    with_field(method, options) do
+      super(method, collection, value_method, text_method, options = {}, default_html_options.merge(html_options))
+    end
+  end
    
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
     default_options = {:label_class => "checkbox"}

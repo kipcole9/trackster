@@ -16,6 +16,8 @@ class Event < ActiveRecord::Base
   EMAIL_CATEGORY  = 'email'
   OPEN_ACTION     = 'open'
   
+  EMAIL_OPENINGS  = "events.category = '#{EMAIL_CATEGORY}' AND events.action = '#{OPEN_ACTION}'"
+  
   def self.create_from_row(session, row)
     return nil if !session || unknown_event?(row) || duplicate_event?(session, row)
     event = new_from_row(row)

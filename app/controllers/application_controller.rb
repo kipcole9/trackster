@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   helper            :all # include all helpers, all the time
-  helper_method     :current_account, :internet_explorer?, :browser
+  helper_method     :current_account, :internet_explorer?, :browser, :user_scope
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
@@ -111,12 +111,14 @@ class ApplicationController < ActionController::Base
     super key, options
   end  
 
+  # Scope any finder with the appropriate constraints
+  # based upon user's role
   def user_scope(model, user)
     klass = model.to_s.classify.constantize
     if user.has_role?(Role::ADMIN_ROLE)
       klass
     elsif user.has_role?(Role::ACCOUNT_ROLE)
-      user.account.scope[model]
+      user.account.scope[model.to_s.pluralize]
     else
       klass.user(user)
     end

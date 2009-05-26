@@ -68,25 +68,17 @@ private
   end
   
   def retrieve_property
-    @property = user_scope.find(params[:id])
+    @property = user_scope(:properties, current_user).find(params[:id])
   end
   
   def retrieve_properties
-    @properties = user_scope.paginate(:page => params[:page], :conditions => conditions_from_params)
+    @properties = user_scope(:properties, current_user).paginate(:page => params[:page], :conditions => conditions_from_params)
   end
   
   def conditions_from_params
     return {} if params[:search].blank?
     search = "%#{params[:search]}%"
     ['name like ? or url like ?', search, search ]
-  end
-    
-  def user_scope
-    if current_user.has_role?(Role::ADMIN_ROLE)
-      Property
-    else
-      current_user.account.properties
-    end
   end
   
 end

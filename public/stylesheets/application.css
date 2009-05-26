@@ -596,6 +596,9 @@ div.treeItem img:hover, div.listItem img:hover {
 	cursor: pointer;
 }
 
+div.listItem h4 {
+	margin-bottom: 0.3em;
+}
 
 /* User pick list */
 div.user {
