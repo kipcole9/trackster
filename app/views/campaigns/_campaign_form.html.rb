@@ -1,6 +1,10 @@
 caerus_form_for campaign, :html => {:multipart => true} do |campaign|
   fieldset campaign.object.new_record? ? t('.new_campaign') : t('.edit_campaign', :name => campaign.object.name) do
-    campaign.hidden_field   :account_id
+    if current_user.has_role?(Role::ADMIN_ROLE)
+      campaign.collection_select :account_id, Account.all, :id, :name
+    else
+      campaign.hidden_field   :account_id
+    end
     if @property || !campaign.object.new_record?
       campaign.hidden_field :property_id
     else
