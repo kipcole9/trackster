@@ -50,7 +50,7 @@ private
     # If no view then it's an open email or a redirect, which is OK
     return false if !row[:view]
     if session.events.find_by_sequence(row[:view])
-      Rails.logger.error "[Event] Duplicate event found"
+      Rails.logger.error "[Event] Duplicate event found for sequence #{row[:view]}"
       Rails.logger.error row.inspect
       true
     else
@@ -60,8 +60,7 @@ private
       
   def self.unknown_event?(row)
     if unknown = row[:view].blank? && !email_opening_event?(row) && !redirect?(row)
-      Rails.logger.info "[Event] Unknown event detected"
-      Rails.logger.info row.inspect
+      Rails.logger.error "[Event] Unknown event detected (no view sequence number; not an email open event; not a redirect)"
     end
     unknown
   end
