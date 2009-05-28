@@ -5,6 +5,7 @@ class Track < ActiveRecord::Base
   
   include Analytics::Metrics
   include Analytics::Dimensions
+  include Analytics::ParamParser
   
   table_format :count,      :total => :sum, :order => 99
   table_format :page_views, :total => :sum, :class => 'page_views right', :order => 99

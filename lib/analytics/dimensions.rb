@@ -59,11 +59,15 @@ module Analytics
           {:conditions => ["events.label = ?", label]}
         }
 
-        non_metrics_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium].freeze
         def self.available_metrics
+          @@non_metric_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium, :source, :order, :label, :filter].freeze unless defined?(@@non_metric_keys)
           @@available_metrics = nil unless defined?(@@available_metrics)
           return  @@available_metrics || 
-                  @@available_metrics = self.scopes.keys.reject{|k| non_metric_keys.include? k }.map(&:to_s)
+                  @@available_metrics = self.scopes.keys.reject{|k| @@non_metric_keys.include? k }.map(&:to_s)
+        end
+        
+        def self.valid_metric?(key)
+          self.available_metrics.include?(key.to_s)
         end
       end
     end
