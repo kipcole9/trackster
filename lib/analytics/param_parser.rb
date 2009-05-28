@@ -4,8 +4,9 @@
 # Format of query parameters:
 # => by=dim1,dim2,dim3    dimensions
 # => metric=metric1       a metric (only one at this time)
-# => for= m, m-1, m+1, w ....
-# => 
+# => from=
+# => to=
+
 module Analytics
   module ParamParser
     def self.included(base)
@@ -42,7 +43,7 @@ module Analytics
       end
       
       def date_from_param(date, default)
-        return options[:default] unless date
+        return default unless date
         Time.parse(date) rescue default
       end
     end
