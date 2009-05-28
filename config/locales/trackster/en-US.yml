@@ -14,6 +14,7 @@ en-US:
     submit:                 Submit
     show_all_fields:        Show all fields?
     unknown_activation_code: The activation code you provided is not known.
+    sum:                    Total
     
             
     users:
