@@ -15,12 +15,6 @@ input[type="text"] {
 	padding-bottom: 3px;
 }
 
-/* Tables in panels */
-div.block table {
-	table-layout: fixed;
-	margin: 0;	
-}
-
 /* Table panels */
 div.box.table, div.box.table .block {
 	padding: 0;
@@ -30,10 +24,13 @@ div.box.table h2 {
 	margin: 0;
 }
 
+div.block table {
+	table-layout: fixed;
+}
+
 div.block table * td {
 	empty-cells: show;
 	overflow: hidden;
-	width: 100%;
 }
 
 div.block table thead th {

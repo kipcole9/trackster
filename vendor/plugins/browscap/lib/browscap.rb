@@ -76,8 +76,13 @@ class Browscap
 		
 		@@user_agent_regexps.each do |section, regexp|
 		  # Find the longest regexp that matches the given user_agent_string. The length check is needed since multiple reg-exps may match the user_agent_string.
-		  if regexp.match(user_agent) && section.length > matching_section.length
-		    matching_section = section
+		  if regexp.match(user_agent) 
+		    if section.length > matching_section.length
+		      Rails.logger.debug "[Browscap] Matched '#{user_agent}' to '#{regexp}"
+		      matching_section = section
+	      else
+	        Rails.logger.debug "[Browscap] Discarded match '#{regexp}"
+	      end
 		  end
 		end
 		
