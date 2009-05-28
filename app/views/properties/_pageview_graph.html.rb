@@ -1,6 +1,6 @@
 panel t('dashboards.pageview_graph')  do
   block do
-    page_views = @property.tracks.page_views.by(:date).between(1.month.ago..Time.now).all
+    page_views = @property.tracks.page_views.by(:date).between(Track.period_from_params(params)).all
     if page_views.empty?
       store t('.no_page_views_yet')
     else

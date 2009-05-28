@@ -32,7 +32,7 @@ module Trackster
       data_source.inject([]){|result_array, item| result_array << item[column].to_i}
     end
     
-  	def sparkline_tag(results=[], options={})		
+  	def sparkline_tag(results=[], options={})
   		url = { :controller => 'sparklines', :results => results.join(',') }
   		options = url.merge(options)
   		"<img src=\"#{ sparklines_path options }\" class=\"#{options[:class] || 'sparkline'}\" alt=\"Sparkline Graph\" />"
