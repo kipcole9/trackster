@@ -12,8 +12,8 @@ class Track < ActiveRecord::Base
   table_format :page_views, :total => :sum, :class => 'page_views right', :order => 99
   table_format :visits,     :total => :sum, :class => 'visits right', :order => 99
   table_format :visitors,   :total => :sum, :class => 'visitors right', :order => 99
-  table_format :percent_of_visits, :total => :sum, :class => 'visits right', :order => 98, :formatter => lambda{|num| self.number_to_percentage(num, :precision => 1) }
-  table_format :percent_of_page_views, :total => :sum, :class => 'page_views right', :order => 98, :formatter => lambda{|num| self.number_to_percentage(num, :precision => 1) }
+  table_format :percent_of_visits, :total => :sum, :class => 'visits right', :order => 98, :formatter => lambda{|num, cell_type| self.number_to_percentage(num, :precision => 1) }
+  table_format :percent_of_page_views, :total => :sum, :class => 'page_views', :order => 98, :formatter => lambda{|num, cell_type| self.bar_formatter(num, cell_type) }
     
   #chart_format :date,      :formatter => lambda{|date| "#{date.day} #{I18n.t('date.abbr_month_names')[date.month]}"}
   #chart_format :month,     :formatter => lambda{|month| I18n.t('date.abbr_month_names')[month]}
@@ -29,4 +29,13 @@ class Track < ActiveRecord::Base
       { :conditions => ["property_id = ?", Property.find_by_name(property).try(:id)] } 
     end
   }
+  
+  def self.bar_formatter(value, cell_type)
+    if cell_type == :td
+      bar = "<div class=\"hbar\" style=\"width:#{value}%\">&nbsp;</div>"
+      bar + "<div>" + self.number_to_percentage(value, :precision => 1) + "</div>"
+    else
+      self.number_to_percentage(value, :precision => 1)
+    end
+  end
 end

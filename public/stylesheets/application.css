@@ -3,6 +3,7 @@
 	Light cyan: #CFECEC
 	Light green (for flash) #bfb
 	Light red (flash error) #fbb
+	Mid blue: rgb(25,135,213)
 */	
 
 body {
@@ -41,8 +42,12 @@ col.count, col.page_views, col.visits {
 	width: 5em;
 }
 
-col.percent_of_visits, col.percent_of_page_views {
+col.percent_of_visits { 
 	width: 8em;
+}
+
+col.percent_of_page_views {
+	width: 20em;
 }
 
 .right {
@@ -639,4 +644,14 @@ div.user h4 {
 div.user img {
 	float: left;
 	margin-right: 5px;
+}
+
+/* Horizontal Bar Graph */
+div.hbar {
+	float: left;
+	margin-right: 0.5em;
+	height: 13px;
+	position: relative;
+	top: 3px;
+	background-color: rgb(25,135,213);
 }

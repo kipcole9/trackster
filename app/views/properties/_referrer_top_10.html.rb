@@ -1,7 +1,7 @@
 panel t('dashboards.referrer_top_10'), :class => 'table'  do
   block do
     total_referrers = @property.tracks.visits.filter('referrer_host IS NOT NULL').between(Track.period_from_params(params)).first.visits
-    referrers = @property.tracks.visits.by(:referrer_host).filter('referrer_host IS NOT NULL').limit(10).order('visits DESC').between(Track.period_from_params(params)).all
+    referrers = @property.tracks.visits.by(:referrer_host).limit(10).between(Track.period_from_params(params)).all
     if referrers.empty?
       store t('.no_referrers_found')
     else

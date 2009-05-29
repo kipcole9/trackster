@@ -10,9 +10,23 @@ module Analytics
           if args.first && args.first == :with_events
             {:select => "count(*) as page_views",
             :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
-            :joins => :events}
+            :joins => :events,
+            :order => 'page_views DESC'}
           else
-            {:select => "sum(page_views) as page_views"}
+            {:select => "sum(page_views) as page_views",
+             :order => 'page_views DESC'}
+          end
+        }
+        
+        named_scope :page_views_per_visit, lambda{ |*args|
+          if args.first && args.first == :with_events
+            {:select => "avg(*) as page_views_per_visit",
+            :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
+            :joins => :events,
+            :order => 'page_views DESC'}
+          else
+            {:select => "avg(page_views) as page_views_per_visit",
+             :order => 'page_views DESC'}
           end
         }
 
@@ -34,7 +48,8 @@ module Analytics
 
         # Each session is a visit
         named_scope :visits,
-          :select => 'count(*) as visits'
+          :select => 'count(*) as visits',
+          :order => 'visits DESC'
 
         # Visitors for whom this was their first visit
         named_scope :new_visitors,

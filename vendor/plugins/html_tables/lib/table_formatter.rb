@@ -93,7 +93,10 @@ class TableFormatter
   end
   
   def output_cell_value(cell_type, value, column, options = {})
-    html.__send__(cell_type, column[:formatter].call(value), (column[:class] ? {:class => column[:class]} : {}))
+    result = column[:formatter].call(value, cell_type)
+    html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
+      html << result
+    end
   end
 
 private
@@ -102,7 +105,7 @@ private
     "#{klass.name.underscore}_#{row[klass.primary_key]}"
   end
   
-  def default_formatter(data)
+  def default_formatter(data, cell_type)
     data
   end
   

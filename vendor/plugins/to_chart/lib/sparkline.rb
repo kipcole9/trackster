@@ -6,7 +6,7 @@ module Trackster
                         :type               => 'area', 
                         :height             => '40', 
                         :background_color   => '#ddd', 
-                        :above_color        => 'blue', 
+                        :above_color        => 'rgb(25,135,213)', 
                         :upper              => '0'
                       }
       

@@ -33,13 +33,15 @@ module Analytics
           select = []
           group = []
           joins = []
-          args.each do |dimension|
-            select << dimension.to_s
-            group << dimension.to_s
+          conditions = []
+          args.each do |dim|
+            dimension = dim.to_s
+            select << dimension
+            group << dimension
+            conditions << "#{dimension} IS NOT NULL" if non_null_dimensions.include?(dim)
             joins << :events if Event.columns_hash[dimension.to_s]
           end
-          # select << "count(*) as count"
-          {:select => select.join(', '), :group => group.join(', '), :joins => joins}
+          {:select => select.join(', '), :conditions => conditions.join(' AND '), :group => group.join(', '), :joins => joins}
         }
 
         # => Campaign scoping
@@ -59,6 +61,11 @@ module Analytics
           {:conditions => ["events.label = ?", label]}
         }
 
+        def self.non_null_dimensions
+          @@non_null_dimensions = [:referrer, :search_terms, :referrer_host] unless defined?(@@non_null_dimensions)
+          @@non_null_dimensions
+        end
+        
         def self.available_metrics
           @@non_metric_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium, :source, :order, :label, :filter].freeze unless defined?(@@non_metric_keys)
           @@available_metrics = nil unless defined?(@@available_metrics)
