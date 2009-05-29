@@ -3,6 +3,7 @@ class TableFormatter
   include           ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
+  CALCULATED_COLUMNS = /(percent|difference)_of_(.*)/
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
@@ -113,8 +114,9 @@ private
     columns = []
     options[:include] = options[:include].map(&:to_s) if options[:include]
     options[:exclude] = options[:exclude].map(&:to_s) if options[:exclude]
+    add_calculated_columns_to_rows(rows, options)
     requested_columns = columns_from_row(rows.first)
-    columns_hash = rows.first.attributes
+    #columns_hash = rows.first.attributes
     requested_columns.each do |column, value|
       columns << column_definition(column, value) if include_column?(column, options)
     end
@@ -196,4 +198,23 @@ private
     return false if options[:exclude_ids] && column.match(/_id\Z/)  
     true
   end
+  
+  def add_calculated_columns_to_rows(rows, options)
+    options.each do |k, v|
+      if match = k.to_s.match(CALCULATED_COLUMNS)
+        rows.each do |row|
+          row[k.to_s] = case match[1]
+            when 'percent'
+              Rails.logger.info "HTML TABLES: method = #{match[2]}; value is: #{row[match[2]]}"
+              row[match[2]].to_f / v.to_f * 100
+            when 'difference'
+              row[match[2]].to_f - v.to_f
+            else
+              raise ArgumentError, "[html_tables] Invalid calculated column '#{match[2]}"
+          end
+        end
+      end
+    end  
+  end
+
 end
