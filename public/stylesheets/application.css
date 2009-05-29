@@ -41,6 +41,10 @@ col.count, col.page_views, col.visits {
 	width: 5em;
 }
 
+col.percent_of_visits, col.percent_of_page_views {
+	width: 8em;
+}
+
 .right {
 	text-align: right;
 }

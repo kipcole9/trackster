@@ -101,9 +101,11 @@ en-US:
             website:
                 url:            Address
             track:
-                ip_address:     IP Address
-                page_views:     Views
-                url:            Page  
+                ip_address:             IP Address
+                page_views:             Views
+                url:                    Page
+                percent_of_page_views:  % Views
+                percent_of_visits:      % Visits
                 
                 
                 
