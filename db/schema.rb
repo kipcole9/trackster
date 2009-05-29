@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090529065956) do
+ActiveRecord::Schema.define(:version => 20090529075341) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -189,6 +189,8 @@ ActiveRecord::Schema.define(:version => 20090529065956) do
     t.string   "user_agent"
     t.integer  "local_hour",        :limit => 2
     t.boolean  "lon_local_time",                   :default => false
+    t.string   "device",            :limit => 50
+    t.string   "device_vendor",     :limit => 50
   end
 
   create_table "tracks", :force => true do |t|

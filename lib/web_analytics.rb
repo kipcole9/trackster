@@ -50,23 +50,30 @@ class WebAnalytics
                   :ucms         =>  :crm_contact
                 }
                   
-  attr_accessor :params, :browscap
+  attr_accessor :params, :browscap, :device
   
-  # Wrapper class to store resolved browser capabilities
-  # Currently "umlimited" caching - probably needs refinement.
-  class CacheBrowscap
+  class MobileDevice
     def initialize
-      @browscap = Browscap.new
-      @cache = {}
+      @device_atlas = DeviceAtlas.new
+      @tree = @device_atlas.getTreeFromFile("#{Rails.root}/lib/analytics/device_atlas.json")
+      @cached_entries = {}
     end
     
-    def query(agent)
-      @cache[agent] || @cache[agent] = @browscap.query(agent)
+    def get_device_from_user_agent(user_agent)
+      device = {}
+      return device if device = @cached_entries[user_agent]
+      device = @device_atlas.getProperties(@tree, user_agent)
+      if device['model']
+        @cached_entries[user_agent] = device
+      end
+      device
     end
   end
+    
 
   def initialize
-    @browscap = CacheBrowscap.new
+    @browscap = Browscap.new
+    @device = MobileDevice.new
   end
   
   # Parse the analytics url.  We recognise that the 
@@ -120,6 +127,7 @@ class WebAnalytics
       get_log_data!(row, entry)
       get_traffic_source!(row)
       get_platform_info!(row)
+      get_mobile_device_info!(row)
       get_visitor!(row)
       get_session!(row)
       geocode!(row)
@@ -132,10 +140,18 @@ class WebAnalytics
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
       row[:browser_version] = agent.version
-      row[:mobile_device] = agent.is_mobile_device
       row[:os_name] = agent.platform
+      row[:mobile_device] = agent.is_mobile_device    
     end
-  end    
+  end
+  
+  def get_mobile_device_info!(row)
+    mobile_device = device.get_device_from_user_agent(row[:user_agent])
+    if mobile_device['model']
+      row[:device] = mobile_device['model']
+      row[:device_vendor] = mobile_device['vendor']
+    end
+  end  
   
   # Based upon the referrer decide is the traffic source is
   # search, direct or referred
