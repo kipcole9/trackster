@@ -7,10 +7,11 @@ module Trackster
     include ActiveSupport::CoreExtensions::String::Inflections
     include ActionView::Helpers::NumberHelper    
     
-    DEFAULT_OPTIONS = { :type               => Line, 
+    DEFAULT_OPTIONS = { :type               => AreaLine, 
                         :line_width         => 4, 
                         :dot_size           => 5, 
-                        :colour             => '#DFC329',
+                        :colour             => '#E41B17', #'#1987D5',
+                        :fill_colour        => '#CFECEC',
                         :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
                         :grid_division      => 5,
@@ -43,6 +44,7 @@ module Trackster
       series.tooltip    = options[:tooltip] if options[:tooltip]        
       series.text       = options[:text] if options[:text]
       series.width      = options[:line_width]
+      series.fill       = options[:fill_colour]
       series.colour     = options[:colour]
       series.dot_size   = options[:dot_size]
       

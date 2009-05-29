@@ -3,7 +3,7 @@
 	Light cyan: #CFECEC
 	Light green (for flash) #bfb
 	Light red (flash error) #fbb
-	Mid blue: rgb(25,135,213)
+	Mid blue: rgb(25,135,213); #1987D5
 */	
 
 body {
@@ -19,6 +19,7 @@ input[type="text"] {
 /* Table panels */
 div.box.table, div.box.table .block {
 	padding: 0;
+
 }
 
 div.box.table h2 {
@@ -27,6 +28,7 @@ div.box.table h2 {
 
 div.block table {
 	table-layout: fixed;
+	margin: 0;
 }
 
 div.block table * td {
@@ -649,9 +651,9 @@ div.user img {
 /* Horizontal Bar Graph */
 div.hbar {
 	float: left;
+	margin-top: 3px;
+	margin-bottom: 3px;
 	margin-right: 0.5em;
 	height: 13px;
-	position: relative;
-	top: 3px;
 	background-color: rgb(25,135,213);
 }
