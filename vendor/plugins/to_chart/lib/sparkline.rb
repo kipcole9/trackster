@@ -4,7 +4,7 @@ module Trackster
     
     DEFAULT_OPTIONS = { 
                         :type               => 'bar', 
-                        :height             => '30', 
+                        :height             => '20', 
                         :background_color   => '#ddd', 
                         :above_color        => 'rgb(25,135,213)', 
                         :upper              => '0'
