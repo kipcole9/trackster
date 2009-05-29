@@ -27,7 +27,6 @@ Rails::Initializer.run do |config|
   config.gem 'daemons'
   config.gem 'why-hpricot', :lib => 'hpricot'
   config.gem 'sparklines'
-  config.gem 'json'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

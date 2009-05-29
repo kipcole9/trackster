@@ -54,6 +54,7 @@ class WebAnalytics
   
   class MobileDevice
     def initialize
+      require 'json'
       @device_atlas = DeviceAtlas.new
       @tree = @device_atlas.getTreeFromFile("#{Rails.root}/lib/analytics/device_atlas.json")
       @cached_entries = {}
