@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>getTreeFromString (DeviceAtlas)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/device_atlas.rb, line 34</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">getTreeFromString</span>(<span class="ruby-identifier">string</span>)
+    <span class="ruby-identifier">tree</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">:max_nesting</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>).<span class="ruby-identifier">parse</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">JsonException</span>, <span class="ruby-value str">&quot;Unable to load Json data.&quot;</span>) <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">tree</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">tree</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>))
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">JsonException</span>, <span class="ruby-value str">&quot;Bad data loaded into the tree&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">tree</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value str">&quot;$&quot;</span>)
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">JsonException</span>, <span class="ruby-value str">&quot;DeviceAtlas json file must be v0.7 or greater. Please download a more recent version.&quot;</span>) <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">tree</span>[<span class="ruby-value str">&quot;$&quot;</span>][<span class="ruby-value str">&quot;Ver&quot;</span>].<span class="ruby-identifier">to_f</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span><span class="ruby-value">.7</span>)
+    
+    <span class="ruby-identifier">pr</span> = {}
+    <span class="ruby-identifier">pn</span> = {}
+    <span class="ruby-identifier">tree</span>[<span class="ruby-value str">'p'</span>].<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>,<span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">pr</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>
+      <span class="ruby-identifier">pn</span>[<span class="ruby-identifier">key</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">key</span>.<span class="ruby-identifier">size</span>]] = <span class="ruby-identifier">value</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">tree</span>[<span class="ruby-value str">'pr'</span>] = <span class="ruby-identifier">pr</span>
+    <span class="ruby-identifier">tree</span>[<span class="ruby-value str">'pn'</span>] = <span class="ruby-identifier">pn</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">patricia</span> = <span class="ruby-identifier">tree</span>
+    <span class="ruby-identifier">tree</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
