@@ -3,7 +3,7 @@ class TableFormatter
   include           ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
-  CALCULATED_COLUMNS = /(percent|difference)_of_(.*)/
+  CALCULATED_COLUMNS = /(percent|percentage|difference|diff)_of_(.*)/
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
@@ -93,7 +93,7 @@ class TableFormatter
   end
   
   def output_cell_value(cell_type, value, column, options = {})
-    result = column[:formatter].call(value, cell_type)
+    result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
     end
@@ -105,8 +105,8 @@ private
     "#{klass.name.underscore}_#{row[klass.primary_key]}"
   end
   
-  def default_formatter(data, cell_type)
-    data
+  def default_formatter(data, options)
+    data.to_s
   end
   
   def table_has_totals?
@@ -119,7 +119,6 @@ private
     options[:exclude] = options[:exclude].map(&:to_s) if options[:exclude]
     add_calculated_columns_to_rows(rows, options)
     requested_columns = columns_from_row(rows.first)
-    #columns_hash = rows.first.attributes
     requested_columns.each do |column, value|
       columns << column_definition(column, value) if include_column?(column, options)
     end
@@ -190,7 +189,7 @@ private
   # we have on calling interface in the output_cell method
   # - partially for clarity and partially for performance
   def procify(sym)
-    proc { |*args| send(sym, *args) }
+    proc { |val, options| send(sym, val, options) }
   end
 
   # Decide if the given column is to be displayed in the table
@@ -207,10 +206,9 @@ private
       if match = k.to_s.match(CALCULATED_COLUMNS)
         rows.each do |row|
           row[k.to_s] = case match[1]
-            when 'percent'
-              Rails.logger.info "HTML TABLES: method = #{match[2]}; value is: #{row[match[2]]}"
+            when 'percent' || 'percentage'
               row[match[2]].to_f / v.to_f * 100
-            when 'difference'
+            when 'difference' || 'diff'
               row[match[2]].to_f - v.to_f
             else
               raise ArgumentError, "[html_tables] Invalid calculated column '#{match[2]}"

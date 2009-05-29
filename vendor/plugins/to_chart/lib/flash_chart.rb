@@ -10,8 +10,9 @@ module Trackster
     DEFAULT_OPTIONS = { :type               => AreaLine, 
                         :line_width         => 4, 
                         :dot_size           => 5, 
-                        :colour             => '#E41B17', #'#1987D5',
-                        :fill_colour        => '#CFECEC',
+                        :colour             => '#1987D5', #'#E41B17'
+                        :fill_colour        => '#1987D5', #'#CFECEC',
+                        :fill_alpha         => 0.2,
                         :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
                         :grid_division      => 5,
@@ -44,8 +45,9 @@ module Trackster
       series.tooltip    = options[:tooltip] if options[:tooltip]        
       series.text       = options[:text] if options[:text]
       series.width      = options[:line_width]
-      series.fill       = options[:fill_colour]
       series.colour     = options[:colour]
+      series.fill       = options[:fill_colour]
+      series.fill_alpha = options[:fill_alpha]
       series.dot_size   = options[:dot_size]
       
       # Linear regression option (create basic trend line)
