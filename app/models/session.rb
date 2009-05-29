@@ -5,6 +5,7 @@ class Session < ActiveRecord::Base
   belongs_to    :campaign
   
   before_create :update_traffic_source
+  before_create :update_local_hour
   before_save   :update_session_time
   before_save   :update_event_count
   
@@ -74,6 +75,10 @@ private
     self.event_count = self.events.count
     self.page_views = self.events.count(:conditions => ["category = 'page' AND action = 'view' AND url IS NOT NULL"])
   end
+  
+  def update_local_hour
+    self.local_hour = (self.started_at + self.timezone.minutes).hour if self.timezone
+  end    
   
   def update_session_time
     self.duration = (self.ended_at - self.started_at).to_i

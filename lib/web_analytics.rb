@@ -183,9 +183,8 @@ private
   # actually have 30 minute TZ variances
   # We store timezone in minutes
   def time_zone_from_longitude!(row)
-    if row[:longitude] && !row[:timezone]
-      row[:timezone] = (row[:longitude] / 15).round * 60
-    end
+    row[:timezone] = (row[:longitude] / 15).round * 60
+    row[:lon_local_time] = true
   end
   
   def get_log_data!(row, entry)
