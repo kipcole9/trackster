@@ -10,11 +10,9 @@ module Analytics
           if args.first && args.first == :with_events
             {:select => "count(*) as page_views",
             :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
-            :joins => :events,
-            :order => 'page_views DESC'}
+            :joins => :events}
           else
-            {:select => "sum(page_views) as page_views",
-             :order => 'page_views DESC'}
+            {:select => "sum(page_views) as page_views"}
           end
         }
         
@@ -22,11 +20,9 @@ module Analytics
           if args.first && args.first == :with_events
             {:select => "avg(*) as page_views_per_visit",
             :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
-            :joins => :events,
-            :order => 'page_views DESC'}
+            :joins => :events}
           else
-            {:select => "avg(page_views) as page_views_per_visit",
-             :order => 'page_views DESC'}
+            {:select => "avg(page_views) as page_views_per_visit"}
           end
         }
 
