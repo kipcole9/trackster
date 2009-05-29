@@ -3,8 +3,8 @@ module Trackster
     include ActionController::UrlWriter
     
     DEFAULT_OPTIONS = { 
-                        :type               => 'area', 
-                        :height             => '40', 
+                        :type               => 'bar', 
+                        :height             => '30', 
                         :background_color   => '#ddd', 
                         :above_color        => 'rgb(25,135,213)', 
                         :upper              => '0'
