@@ -73,7 +73,7 @@ module PageLayout
     with_tag(:div, :class => "#{options[:prefix]}_#{options[:columns]}", &block)
     clear
   end
-  
+
   def column(args, &block)
     default_options = {:width => 3}
     options = default_options.merge(args)
@@ -132,7 +132,7 @@ module PageLayout
     return unless content
     @level ||= 0
     spacing = " " * (@level * INDENT)
-    @template.concat(spacing + content + "\n")
+    concat(spacing + content + "\n")
     content
   end
   alias :s :store
@@ -167,10 +167,17 @@ module PageLayout
     with_tag(:p, options) do
       store text
     end
+    nil
+  end
+  
+  def link(*args)
+    store link_to(*args)
+    nil
   end
   
   def img(*args)
     store image_tag(*args)
+    nil
   end
   
   def search(title = t('search'), options = {})
@@ -216,6 +223,7 @@ private
     klass << "grid_" + options.delete(:width).to_s if options[:width]
     klass << ("prefix_" + options.delete(:before).to_s) if options[:before]
     klass << ("suffix_" + options.delete(:after).to_s) if options[:after]
+    klass << options[:class] if options[:class]
     klass.join(' ')
   end
   

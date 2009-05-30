@@ -16,46 +16,6 @@ input[type="text"] {
 	padding-bottom: 3px;
 }
 
-/* Table panels */
-div.box.table, div.box.table .block {
-	padding: 0;
-
-}
-
-div.box.table h2 {
-	margin: 0;
-}
-
-div.block table {
-	table-layout: fixed;
-	margin: 0;
-}
-
-div.block table * td {
-	empty-cells: show;
-	overflow: hidden;
-}
-
-div.block table thead th {
-	padding-top: 0.2em;
-}
-
-col.count, col.page_views, col.visits {
-	width: 5em;
-}
-
-col.percent_of_visits { 
-	width: 8em;
-}
-
-col.percent_of_page_views {
-	width: 20em;
-}
-
-.right {
-	text-align: right;
-}
-
 /* Default rendering of select in safari doesn't allow font-size
  * using a border turns off using native widgets and we can style 
  * some more.
@@ -71,6 +31,16 @@ select {
 
 h4 {
 	font-size: 110%;
+}
+
+/* Main content grid */
+.main {
+	margin-left: 0.4%;
+}
+
+#nav_block {
+	margin: 0 0 0 -1%;
+	width: 25.6%;
 }
 
 /* Thanks to http://camendesign.com/code/uth6_beautiful_css_dates */
@@ -646,6 +616,58 @@ div.user h4 {
 div.user img {
 	float: left;
 	margin-right: 5px;
+}
+
+/* Concertina panels */
+div.box.accordian {
+  padding: 0;
+}
+
+div.box.accordian .block {
+	padding: 5px 3px;
+}
+
+div.box.accordian h2 {
+	margin: 0;
+}
+
+/* Table panels */
+div.box.table, div.box.table .block {
+	padding: 0;
+}
+
+div.box.table h2 {
+	margin: 0;
+}
+
+div.block table {
+	table-layout: fixed;
+	margin: 0;
+}
+
+div.block table * td {
+	empty-cells: show;
+	overflow: hidden;
+}
+
+div.block table thead th {
+	padding-top: 0.2em;
+}
+
+col.count, col.page_views, col.visits {
+	width: 5em;
+}
+
+col.percent_of_visits { 
+	width: 8em;
+}
+
+col.percent_of_page_views {
+	width: 20em;
+}
+
+.right {
+	text-align: right;
 }
 
 /* Horizontal Bar Graph */

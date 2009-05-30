@@ -468,11 +468,16 @@ input.search.button {
 }
 .concertina .trig {
   display:                   block;
+  cursor:                    pointer;
   }
+
+.concertina .trig img {
+  width: 13px;
+}
 
 .concertina .open {
   background:                #fff;
-  cursor:                    pointer;
+  cursor:					 default;
   }
 
 .concertina .targ {
@@ -494,7 +499,7 @@ input.search.button {
 	line-height:1.2em;
 }
 .concertina .targ p {
-	margin: 0;
+	margin: 0 0 0 0.5em;
 	padding: 4px;
 }
 .float-right {
@@ -504,7 +509,3 @@ input.search.button {
 .concertina .targ {
   display:                   block;
   }
-
-.accordian-block {
-	padding-bottom:10px;
-}

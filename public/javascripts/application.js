@@ -33,7 +33,7 @@ Event.addBehavior({
 
 // Initialize accordians
 Event.addBehavior({
-	'.accordian' : function(e) {
+	'.concertina' : function(e) {
 		new Concertina(this, // The root element ID or object
             false,          // Create Nested Concertinas?
             true,           // Set a Uniform Height?

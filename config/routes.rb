@@ -18,9 +18,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :accounts
   map.resources :campaigns
   map.resources :redirects
-  map.resources :properties, :has_many => [:campaigns, :redirects]
+  map.resources :properties,  :has_many => [:campaigns, :redirects]
+  map.property_report '/properties/:id/:action.:format', :controller => 'properties'
+                  
   map.resources :relates      # Creates relationships between objects
-
   map.resource :session
   map.resource :dashboard     # Home paged for logged_in users
 
@@ -66,10 +67,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  
-  # For analytics display
-  map.connect   '/tracks/show', :controller => 'tracks', :action => 'show'
-  map.tracks    '/tracks/:metric.:format', :controller => 'tracks', :action => 'index'
   
   if Rails.env == "development"
     map.connect ':controller/:action/:id'

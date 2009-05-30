@@ -4,6 +4,9 @@ module ApplicationHelper
   
   TAB             = "tab"
   TAB_ITEM        = "tabItem"
+  ACCORDIAN       = 'concertina'
+  ACCORDIAN_ITEM  = 'targ'
+  ACCORDIAN_ITEM_HEADING  = 'trig'
   
   # Tab creation methods, using the tabulator.js script from
   # http://www.cyber-sandbox.com/
@@ -29,10 +32,25 @@ module ApplicationHelper
   def tab_item(heading, options = {}, &block)
     default_dd_options = { :class => TAB_ITEM }
     default_dt_options = {}
-    @template.concat @template.content_tag(:dt, tt(heading), default_dd_options)
+    @template.concat @template.content_tag(:dt, heading, default_dd_options)
     @template.concat @template.content_tag(:dd, @template.capture(&block), default_dd_options.merge(options))    
   end
-
+  
+  # Accordian (concertina) formatting
+  def accordian(id = 'accordian', options = {}, &block)
+    default_options = { :class => ACCORDIAN }
+    options = default_options.merge(options).merge(:id => id)
+    @template.concat @template.content_tag(:div, @template.capture(&block), options)
+  end
+  
+  def accordian_item(heading, options = {}, &block)
+    default_h3_options = { :class => ACCORDIAN_ITEM_HEADING }
+    default_div_options = { :class => ACCORDIAN_ITEM }
+    @template.concat @template.content_tag(:h3, heading, default_h3_options)
+    @template.concat @template.content_tag(:div, @template.capture(&block), default_div_options.merge(options))    
+  end
+  
+  # Fieldset used to wrap form sections
   def fieldset(legend = '', options = {}, &block)
     default_options = {}
     legend    = @template.content_tag(:legend, legend + buttons_from(options)) unless legend.blank?

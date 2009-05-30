@@ -45,7 +45,7 @@ class WebAnalytics
                   # An identifier of this user in a customer
                   # cms system. Must be manually added through
                   # tracker.trackContact() or added to the tracking
-                  # url as &cms=contact_code_of_some_kind.  The system
+                  # url as &utcm=contact_code_of_some_kind.  The system
                   # only stores this info, it cannot interpret it.
                   :ucms         =>  :crm_contact
                 }
@@ -53,10 +53,10 @@ class WebAnalytics
   attr_accessor :params, :browscap, :device
   
   class MobileDevice
-    def initialize
+    def initialize(file = "#{Rails.root}/lib/analytics/device_atlas.json")
       require 'json'
       @device_atlas = DeviceAtlas.new
-      @tree = @device_atlas.getTreeFromFile("#{Rails.root}/lib/analytics/device_atlas.json")
+      @tree = @device_atlas.getTreeFromFile(file)
       @cached_entries = {}
     end
     
@@ -71,10 +71,30 @@ class WebAnalytics
     end
   end
     
-
   def initialize
     @browscap = Browscap.new
     @device = MobileDevice.new
+  end
+  
+  # From a parsed log entry create the source of data for
+  # Session and Event entries.
+  def create(entry)
+    if entry[:url] =~ REDIRECT_URL
+      row = parse_redirect_parameters(entry[:url])
+    else
+      row = parse_tracker_url_parameters(entry[:url])
+    end
+    if row
+      get_log_data!(row, entry)
+      get_traffic_source!(row)
+      get_platform_info!(row)
+      get_mobile_device_info!(row)
+      get_visitor!(row)
+      get_session!(row)
+      geocode!(row)
+      time_zone_from_longitude!(row) if row[:longitude] && !row[:timezone]
+    end
+    row
   end
   
   # Parse the analytics url.  We recognise that the 
@@ -115,28 +135,7 @@ class WebAnalytics
     row[:redirect] = true
     row
   end
-  
-  # From a parsed log entry create the source of data for
-  # Session and Event entries.
-  def create(entry)
-    if entry[:url] =~ REDIRECT_URL
-      row = parse_redirect_parameters(entry[:url])
-    else
-      row = parse_tracker_url_parameters(entry[:url])
-    end
-    if row
-      get_log_data!(row, entry)
-      get_traffic_source!(row)
-      get_platform_info!(row)
-      get_mobile_device_info!(row)
-      get_visitor!(row)
-      get_session!(row)
-      geocode!(row)
-      time_zone_from_longitude!(row) if row[:longitude] && !row[:timezone]
-    end
-    row
-  end
-  
+
   def get_platform_info!(row)
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
