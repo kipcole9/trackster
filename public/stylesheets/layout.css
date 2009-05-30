@@ -457,13 +457,13 @@ input.search.button {
 .concertina .trig {
 	color: #222;
 	margin: 0;
-	padding: 2px 5px;
+	padding: 3px 5px;
 	background: #eee;
 	border-bottom: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	border-top: 1px solid #f5f5f5;
 	border-left: 1px solid #f5f5f5;
-	font-size:1.1em;
+	font-size:1em;
 	font-weight: normal;
 }
 .concertina .trig {
@@ -473,6 +473,8 @@ input.search.button {
 
 .concertina .trig img {
   width: 13px;
+  position: relative;
+  top: 2px;
 }
 
 .concertina .open {

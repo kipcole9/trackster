@@ -38,7 +38,13 @@ class Event < ActiveRecord::Base
   end
  
   def url=(uri)
-    super(URI.unescape(uri)) unless uri.blank?
+    parsed_uri = URI.parse(uri) rescue nil
+    if parsed_uri
+      path = parsed_uri.path.blank? ? '/' : parsed_uri.path 
+      super URI.unescape(path)
+    else
+      super(URI.unescape(uri)) unless uri.blank?
+    end
   end
   
   def pageview?
