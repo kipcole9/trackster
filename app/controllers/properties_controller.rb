@@ -5,7 +5,11 @@ class PropertiesController < ApplicationController
   layout              :select_layout
   
   def page_title
-    "#{@property.name}"
+    if @property
+      "#{@property.name}"
+    else
+      super
+    end
   end
   
   def new

@@ -30,6 +30,8 @@ en-US:
             edit_user:      "Profile details"    
 
     properties:
+        index:
+            name:           "Web Properties"
         property_form:
             edit_property:  "Update this property's profile"
             new_property:   "New Web Property details"        

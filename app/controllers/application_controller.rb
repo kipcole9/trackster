@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
   def page_title
-    "Page title"
+    I18n.t("#{params['controller']}.index.name")
   end
   
   def user_logged_in?
