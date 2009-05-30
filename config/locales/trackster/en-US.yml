@@ -14,18 +14,38 @@ en-US:
     submit:                 Submit
     show_all_fields:        Show all fields?
     unknown_activation_code: The activation code you provided is not known.
-    sum:                    Total
+    total:                  Total
     no_data_for_chart:      No Data Available
-    
-            
+    not_set:                (Not Set)
+    unknown:                (Unknown)
+    bits:                   bits
+
     users:
+        new:
+            new_user:       "New user's details"
+            type_of_new_user:   "New user's role"
         index:
-            user_search:    Search
-   
+            user_search:    "Find a user"
+        edit:
+            edit_user:      "Profile details"    
+
     properties:
+        property_form:
+            edit_property:  "Update this property's profile"
+            new_property:   "New Web Property details"        
         edit:
             new_property:   "Enter the new web property's details"
             edit_property:  "Update the '{{name}}' web property"
+        site_summary:
+            country:        Countries
+            browser:        Browsers
+            language:       Languages
+            os_name:        Operating Systems
+            device:         Device types
+            color_depth:    Color Depth
+            screen_size:    Screen Sizes
+        visits_graph:    
+            visit_graph:    Visits
                     
     panels:
         emails_opened:      "Emails opened"
@@ -37,6 +57,7 @@ en-US:
         property_index:     "Web Property Index"
         new_user:           "Define a new user"
         user:               "Update your profile"
+        navigation:         "Metrics & Dimensions"
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"
@@ -63,21 +84,7 @@ en-US:
             url:            "The root (main) url of your web property.  To be tracked correctly, all tracking data must originate from pages that begin with this url."
             name:           "A name for your web property.  It can be any text that uniquely identifies this web property."
             search_parameter: "The parameter on this property's URLs that indicate an internal search request.  For example in http://www.yoursite.com?q='widget', the search parameter would be 'q' (without the quotes).  Consult your webmaster if in doubt or simply leave the field blank."
-
-                    
-    users:
-        new:
-            new_user:       "New user's details"
-            type_of_new_user:   "New user's role"
-        index:
-            user_search:    "Find a user"
-        edit:
-            edit_user:      "Profile details"    
-            
-    properties:
-        property_form:
-            edit_property:  "Update this property's profile"
-            new_property:   "New Web Property details"           
+           
                 
     activerecord:
         # This is where we translate our model and attribute names
@@ -106,6 +113,8 @@ en-US:
                 url:                    Page
                 percent_of_page_views:  % Views
                 percent_of_visits:      % Visits
+                new_visit_rate:         % New Visits
+                page_views_per_visit:   Pages/Visit
                 
                 
                 

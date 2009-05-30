@@ -12,7 +12,8 @@ module Analytics
             :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
             :joins => :events}
           else
-            {:select => "sum(page_views) as page_views"}
+            {:select => "sum(page_views) as page_views",
+             :conditions => "session IS NOT NULL"}
           end
         }
         
@@ -39,19 +40,19 @@ module Analytics
 
         # Can only count sessions that have visitors
         named_scope :visitors,
-          :select => 'count(DISTINCT visitor) as visitors',
-          :conditions => "visitor IS NOT NULL"
+          :select => 'count(DISTINCT visitor) as visitors'
 
         # Each session is a visit
         named_scope :visits,
-          :select => 'count(*) as visits',
-          :order => 'visits DESC'
+          :select => 'count(visit) as visits'
 
         # Visitors for whom this was their first visit
-        named_scope :new_visitors,
-          :select => 'count(*) as new_visitors',
-          :conditions => "visit = 1"
+        named_scope :new_visits,
+          :select => 'count(if(visit=1,1,null)) as new_visits'
 
+        named_scope :new_visit_rate,
+          :select => 'count(if(visit=1,1,null)) / count(*) as new_visit_rate'
+        
         # Visitors who have visited more than once in the current period
         # Without further scoping this is meaningless - but the #between scope
         # needs to see this first
@@ -70,37 +71,37 @@ module Analytics
           :conditions => "previous_visit_at IS NOT NULL"
 
         named_scope :return_visits,
-          :select => 'count(*) as return_visits',
-          :conditions => "visit > 1 AND previous_visit_at IS NOT NULL"
+          :select => 'count(if(visit > 1,1,null)) as return_visits'
 
         # Entry page is marked in the events table
         named_scope :entry_pages,
-          :select => 'count(*) as entry_pages',
-          :conditions => 'entry_page = 1',
+          :select => 'count(if(entry_page=1,1,null)) as entry_pages',
           :joins => :events
     
+        named_scope :exit_pages,
+          :select => 'count(if(exit_page=1,1,null)) as exit_pages',
+          :joins => :events
+
         # Landing page is the same as an entry page - but in a campaign
         # context
         named_scope :landing_pages,
           :select => 'count(*) as landing_pages',
-          :conditions => "entry_page = 1 and url IS NOT NULL and campaign_name IS NOT NULL"
-          
+          :conditions => "entry_page = 1 and url IS NOT NULL and campaign_name IS NOT NULL",
+          :joins => :events
+                 
         named_scope :clicks_through,
           :select => 'count(*) as clicks_through',
           :conditions => "campaign_medium = 'email' AND campaign_name IS NOT NULL"
-
-        named_scope :exit_pages,
-          :select => 'count(*) as exit_pages',
-          :conditions => "exit_page = 1",
-          :joins => :events
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
           :select => 'avg(duration) as duration'
 
         named_scope :bounces,
-          :select => 'count(*) as bounces',
-          :conditions => 'duration = 0'
+          :select => 'count(if(duration=0,1,null)) AS bounces'
+          
+        named_scope :bounce_rate,
+          :select => 'count(if(duration=0,1,null)) / count(*) as bounce_rate'
           
         named_scope :impressions,
           :select => 'count(*) as impressions',
@@ -111,6 +112,7 @@ module Analytics
           :select => "CAST(AVG(time_to_sec(events.created_at) - time_to_sec(tracked_at)) AS signed) AS latency",
           :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',
           :joins => :events
+                   
       end
     end
   end

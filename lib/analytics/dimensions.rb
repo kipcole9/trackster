@@ -62,15 +62,22 @@ module Analytics
         }
 
         def self.non_null_dimensions
-          @@non_null_dimensions = [:referrer, :search_terms, :referrer_host] unless defined?(@@non_null_dimensions)
-          @@non_null_dimensions
+          self::NON_NULL_DIMENSIONS
+        end
+        
+        # Dimensions that are based only on the sessions table
+        # Used in site reporting
+        def self.session_dimensions
+          unless defined?(@@session_dimensions)
+            @@session_dimensions = self.columns_hash.inject([]) { |array, item| array << item.first }
+            @@session_dimensions.reject{|k| k =~ /(_(id|at)|id|user_agent|referrer|event_count|page_views)\Z/ }
+          end
+          @@session_dimensions
         end
         
         def self.available_metrics
-          @@non_metric_keys = [:scoped, :source, :between, :by, :duration, :campaign, :medium, :source, :order, :label, :filter].freeze unless defined?(@@non_metric_keys)
           @@available_metrics = nil unless defined?(@@available_metrics)
-          return  @@available_metrics || 
-                  @@available_metrics = self.scopes.keys.reject{|k| @@non_metric_keys.include? k }.map(&:to_s)
+          @@available_metrics || @@available_metrics = self.scopes.keys.reject{|k| NON_METRIC_KEYS.include? k }.map(&:to_s)
         end
         
         def self.valid_metric?(key)

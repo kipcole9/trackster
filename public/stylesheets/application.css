@@ -35,7 +35,7 @@ h4 {
 
 /* Main content grid */
 .main {
-	margin-left: 0.4%;
+	margin-left: 0.35%;
 }
 
 #nav_block {
@@ -654,14 +654,14 @@ div.block table thead th {
 	padding-top: 0.2em;
 }
 
-col.count, col.page_views, col.visits {
+col.count, col.page_views {
 	width: 5em;
 }
 
-col.percent_of_visits { 
-	width: 8em;
+col.new_visit_rate, col.bounce_rate, col.visits, col.duration, col.percent_of_visits,
+col.page_views_per_visit {
+	width: 9em;
 }
-
 col.percent_of_page_views {
 	width: 20em;
 }

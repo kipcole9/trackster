@@ -12,6 +12,10 @@ class IpAddress < ActiveRecord::Base
     result = (octets[0] * 16777216) + (octets[1] * 65536) + (octets[2] * 256)
   end
   
+  # Formatting of geo data is tuned to fit
+  # the ideosyncracies of the hostip data.  ie
+  # some localities have ', state' in them
+  # some country names are inconsistently formatted for case
   def self.reverse_geocode(ip_address, row = nil)
     if ip_address.blank?
       raise row.inspect
@@ -21,10 +25,10 @@ class IpAddress < ActiveRecord::Base
       city = City.find(:first, :conditions => ['country = ? AND city = ?', lookup.country, lookup.city])
       if row 
         if country
-          row[:country] = country.name.capitalize unless country.name.blank?
+          row[:country] = country.name.titleize unless country.name.blank?
         end
         if city
-          row[:locality]  = URI.decode(city.name) unless city.name.blank?
+          row[:locality]  = URI.decode(city.name.split(',').first.strip) unless city.name.blank?
           row[:region]    = city.state unless city.state.blank?
           row[:latitude]  = city.lat
           row[:longitude] = city.lng

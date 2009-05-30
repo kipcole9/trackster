@@ -3,9 +3,9 @@ panel t('panels.navigation'), :class => 'accordian'  do
     accordian do
       accordian_item "#{image_tag '/images/icons/group.png'} Visitors" do  
         p link_to("Overview")
-        p link_to("Geography", property_report_path(@property, 'geography'))
+        p link_to("Geography", property_report_path(@property, 'country'))
         p link_to("New vs Returning")
-        p link_to("Languages")
+        p link_to("Languages", property_report_path(@property, 'language'))
       end
       accordian_item "#{image_tag '/images/icons/heart.png'} Loyalty"  do
         p link_to("Overview")
@@ -38,12 +38,12 @@ panel t('panels.navigation'), :class => 'accordian'  do
       end 
       accordian_item "#{image_tag '/images/icons/phone.png'} Platforms & Devices" do  
         p link_to("Overview")
-        p link_to("Mobile devices")
-        p link_to("Browsers")
-        p link_to("Operating systems")
-        p link_to("Screen colors")
-        p link_to("Screen resolutions")
-        p link_to("Flash versions")
+        p link_to("Mobile devices", property_report_path(@property, 'device'))
+        p link_to("Browsers", property_report_path(@property, 'browser'))
+        p link_to("Operating systems", property_report_path(@property, 'os_name'))
+        p link_to("Screen colors", property_report_path(@property, 'color_depth'))
+        p link_to("Screen resolutions", property_report_path(@property, 'screen_size'))
+        p link_to("Flash versions", property_report_path(@property, 'flash_version'))
       end    
     end
   end

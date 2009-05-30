@@ -10,14 +10,14 @@ module ActiveRecord
 
       module InstanceMethods
         def sum(column = nil)
-          return super unless column && first && first.class.respond_to?(:descends_from_active_record?)
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
           column = column.to_sym unless column.is_a?(Symbol)
-          inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + numeric_value(x[column]) }
+          inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + x[column] }
         end
         
         def mean(column = nil)
-          return super unless column && first && first.class.respond_to?(:descends_from_active_record?)
-          (size > 0) ? sum(column).to_f / size : 0
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
+          (length > 0) ? sum(column) / length : 0
         end
         alias :avg  :mean
         alias :average  :mean
@@ -51,12 +51,21 @@ module ActiveRecord
           Array::LinearRegression.new(series || self).fit
         end
         
+        def make_numeric(column)
+          return self unless column && first && first.class.respond_to?(:descends_from_active_record?)
+          each do |row|
+            next if row[column].is_a?(Fixnum) || row[column].is_a?(Float) || row[column].is_a?(Integer) || row[column].is_a?(Bignum)
+            if row[column] =~ /[-+]?[0-9]+(\.[0-9]+)/
+              row[column] = row[column].to_f
+            else
+              row[column] = row[column].to_i
+            end
+          end
+          self
+        end        
       end
       
-      def numeric_value(value)
-        return value if value.is_a?(Fixnum) || value.is_a?(Float) || value.is_a?(Integer) || value.is_a?(Bignum)
-        value.to_i
-      end
+
       
       module ClassMethods
         # Courtesy of http://blog.internautdesign.com/2008/4/21/simple-linear-regression-best-fit

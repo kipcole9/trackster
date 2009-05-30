@@ -1,8 +1,12 @@
 class PropertiesController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:index, :show]
-  before_filter       :retrieve_property, :only => [:edit, :update, :destroy, :show]
+  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :only => [:create, :new, :update, :destroy]
+  before_filter       :retrieve_property, :except => [:index, :create, :new]
   before_filter       :retrieve_properties, :only => :index
   layout              :select_layout
+  
+  def page_title
+    "#{@property.name}"
+  end
   
   def new
     render :action => 'edit'
@@ -58,12 +62,22 @@ class PropertiesController < ApplicationController
     end
   end
   
+  # Here's where we implement most of the reporting.  Since reporting
+  # is quite consistent but based upon different dimensions we can
+  # generalise the solutions
+  def method_missing(method, *args)
+    return super unless Track.session_dimensions.include?(params[:action])
+    @site_summary = @property.tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
+                              .having('visits > 0').order('visits DESC').between(Track.period_from_params(params)).all
+    render :action => 'site_summary'
+  end
+  
 private
   def select_layout
-    if params[:action] == 'show'
-      'dashboards'
-    else
+    if ['index','create','edit','destroy','update','new'].include?(params[:action])
       'properties'
+    else
+      'dashboards'
     end
   end
   

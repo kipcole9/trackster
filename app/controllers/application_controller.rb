@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   helper            :all # include all helpers, all the time
-  helper_method     :current_account, :internet_explorer?, :browser, :user_scope
+  helper_method     :current_account, :internet_explorer?, :current_user_agent, :user_scope
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
@@ -19,8 +19,12 @@ class ApplicationController < ActionController::Base
 
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
+  def page_title
+    "Page title"
+  end
+  
   def user_logged_in?
-    if browser =~ /W3C_Validator/ && Rails.env == "development"
+    if current_user_agent =~ /W3C_Validator/ && Rails.env == "development"
       self.current_user = User.find_by_login('admin')
       return true
     end
@@ -88,7 +92,7 @@ class ApplicationController < ActionController::Base
     request.env["HTTP_X_REAL_IP"] || request.remote_addr || request.remote_ip
   end
 
-  def browser
+  def current_user_agent
     request.env["HTTP_USER_AGENT"]
   end
 
@@ -97,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
   
   def internet_explorer?
-    browser =~ /.*MSIE.*/
+    current_user_agent =~ /.*MSIE.*/
   end
   
   # Scope to controller for translation keys

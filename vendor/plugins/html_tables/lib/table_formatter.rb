@@ -73,15 +73,12 @@ class TableFormatter
   def output_table_totals(options)
     return unless table_has_totals?
     html.tfoot do
-      totals.each do |total, values|
-        next if values.empty?
-        html.tr do
-          first_column = true
-          table_columns.each do |column| 
-            value = first_column ? I18n.t(total) : values[column[:name].to_s]
-            output_cell_value(:th, value, column)
-            first_column = false
-          end
+      html.tr do
+        first_column = true
+        table_columns.each do |column| 
+          value = first_column ? I18n.t('total') : totals[column[:name].to_s]
+          output_cell_value(:th, value, column)
+          first_column = false
         end
       end
     end    
@@ -94,6 +91,7 @@ class TableFormatter
   
   def output_cell_value(cell_type, value, column, options = {})
     result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
+    result = result.nil? ? I18n.t('not_set') : result
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
     end
@@ -110,7 +108,7 @@ private
   end
   
   def table_has_totals?
-    totals.all?{|t| !t.empty?}
+    !totals.empty?
   end
   
   def initialise_columns(rows, model, options)
@@ -128,19 +126,17 @@ private
   # Return a hash of hashes
   # :sum => {:column_name_1 => value, :column_name_2 => value}
   def initialise_totalling(rows, columns)
-    totals = {:sum => {}, :average => {}, :count => {}}
+    totals = {}
     columns.each do |column|
       next unless column[:total]
-      total = column[:total].is_a?(Array) ? column[:total] : [column[:total]]
-      total.each do |t|
-        case t
-          when :sum
-            totals[:sum][column[:name]] = rows.sum(column[:name])
-          when :mean, :average, :avg
-            totals[:average][column[:name]] = rows.mean(column[:name])
-          when :count
-            totals[:count][column[:name]] = rows.count(column[:name])
-        end
+      case column[:total]
+        when :sum
+          totals[column[:name]] = rows.make_numeric(column[:name]).sum(column[:name])
+        when :mean, :average, :avg
+          totals[column[:name]] = rows.make_numeric(column[:name]).mean(column[:name])
+          Rails.logger.info "======> Average for #{column[:name]}: #{totals[column[:name]].inspect}"
+        when :count
+          totals[column[:name]] = rows.make_numeric(column[:name]).count(column[:name])
       end
     end
     totals    
