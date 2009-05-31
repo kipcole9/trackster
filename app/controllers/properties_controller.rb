@@ -66,6 +66,10 @@ class PropertiesController < ApplicationController
     end
   end
   
+  def overview
+    
+  end
+  
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can
   # generalise the solutions
@@ -78,7 +82,7 @@ class PropertiesController < ApplicationController
   
 private
   def select_layout
-    if ['index','create','edit','destroy','update','new'].include?(params[:action])
+    if ['index','create','edit','destroy','update','new','show'].include?(params[:action])
       'properties'
     else
       'dashboards'

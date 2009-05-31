@@ -35,14 +35,27 @@ module Analytics
           joins = []
           conditions = []
           args.each do |dim|
-            dimension = dim.to_s
-            select << dimension
-            group << dimension
-            conditions << "#{dimension} IS NOT NULL" if non_null_dimensions.include?(dim)
-            joins << :events if Event.columns_hash[dimension.to_s]
+            if self.respond_to?(dim)
+              # It's a named scope
+              scope_options = self.send(dim).proxy_options
+              select << scope_options[:select]  if scope_options[:select]
+              group << scope_options[:group]    if scope_options[:group]
+              conditions << scope_options[:conditions] if scope_options[:conditions]
+              joins << scope_options[:joins]    if scope_options[:joins]
+            else
+              dimension = dim.to_s
+              select << dimension
+              group << dimension
+              conditions << "#{dimension} IS NOT NULL" if non_null_dimensions.include?(dim)
+              joins << :events if Event.columns_hash[dimension.to_s]
+            end
           end
           {:select => select.join(', '), :conditions => conditions.join(' AND '), :group => group.join(', '), :joins => joins}
         }
+        
+        named_scope   :new_v_returning,
+          :select => "if(visit=1,'new','returning') AS visit_type",
+          :group => "visit_type"
 
         # => Campaign scoping
         named_scope   :campaign, lambda {|campaign|
@@ -71,6 +84,8 @@ module Analytics
           unless defined?(@@session_dimensions)
             @@session_dimensions = self.columns_hash.inject([]) { |array, item| array << item.first }
             @@session_dimensions.reject{|k| k =~ /(_(id|at)|id|user_agent|referrer|event_count|page_views)\Z/ }
+            @@session_dimensions << ['new_v_returning', 'campaign', 'source', 'medium', 'label']
+            @@session_dimensions.flatten!
           end
           @@session_dimensions
         end

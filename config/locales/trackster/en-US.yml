@@ -46,6 +46,9 @@ en-US:
             device:         Device types
             color_depth:    Color Depth
             screen_size:    Screen Sizes
+            new:            New
+            returning:      Returning
+            new_v_returning: New versus Returning Visitors
         visits_graph:    
             visit_graph:    Visits
                     
@@ -117,6 +120,7 @@ en-US:
                 percent_of_visits:      % Visits
                 new_visit_rate:         % New Visits
                 page_views_per_visit:   Pages/Visit
+                new_v_returning:        New vs. Returning
                 
                 
                 

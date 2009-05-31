@@ -134,7 +134,6 @@ private
           totals[column[:name]] = rows.make_numeric(column[:name]).sum(column[:name])
         when :mean, :average, :avg
           totals[column[:name]] = rows.make_numeric(column[:name]).mean(column[:name])
-          Rails.logger.info "======> Average for #{column[:name]}: #{totals[column[:name]].inspect}"
         when :count
           totals[column[:name]] = rows.make_numeric(column[:name]).count(column[:name])
       end

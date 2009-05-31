@@ -19,7 +19,9 @@ class Track < ActiveRecord::Base
                :formatter => lambda {|val, options| val.blank? ? I18n.t('not_set') : val}               
   table_format :browser,    :order => -1,
                :formatter => lambda {|val, options| val.blank? ? I18n.t('unknown') : val}
-                      
+  table_format :visit_type,  :order => -1,
+               :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("properties.site_summary.#{val}") }
+      
   table_format :count,      :total => :sum, :order => 99
   table_format :page_views, :total => :sum, :class => 'page_views right', :order => 99
   table_format :visits,     :total => :sum, :class => 'right', :order => 50, :formatter => lambda{|num, options| num.to_i.to_s}

@@ -2,9 +2,9 @@ panel t('panels.navigation'), :class => 'accordian'  do
   block do
     accordian do
       accordian_item "#{image_tag '/images/icons/group.png'} Visitors" do  
-        p link_to("Overview")
+        p link_to("Overview", property_report_path(@property, 'overview'))
         p link_to("Geography", property_report_path(@property, 'country'))
-        p link_to("New vs Returning")
+        p link_to("New vs Returning", property_report_path(@property, 'new_v_returning'))
         p link_to("Languages", property_report_path(@property, 'language'))
       end
       accordian_item "#{image_tag '/images/icons/heart.png'} Loyalty"  do
