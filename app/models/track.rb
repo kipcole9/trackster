@@ -17,6 +17,7 @@ class Track < ActiveRecord::Base
   table_format :duration,       :total => :avg, :order => 90, :class => 'right', :formatter => :seconds_to_time
   
   table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
+  table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
   table_format :language,       :order => -1, :formatter => :not_set_on_blank
   table_format :country,        :order => -1, :formatter => :not_set_on_blank
   table_format :os_name,        :order => -1, :formatter => :not_set_on_blank 
