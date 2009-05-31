@@ -660,15 +660,19 @@ div.block table thead th {
 }
 
 col.count, col.page_views, col.traffic_source, col.visits {
-	width: 5em;
+	width: 10%;
 }
 
-col.new_visit_rate, col.bounce_rate, col.duration, col.percent_of_visits,
+col.new_visit_rate, col.bounce_rate, col.duration, 
 col.page_views_per_visit {
-	width: 7em;
+	width: 15%;
+}
+
+col.percent_of_visits {
+	width: 16%;
 }
 col.percent_of_page_views {
-	width: 20em;
+	width: 40%;
 }
 
 .right {
