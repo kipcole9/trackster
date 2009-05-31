@@ -34,7 +34,13 @@ class Track < ActiveRecord::Base
                }
   
   table_format :color_depth, :class => 'left',
-               :formatter => lambda{|val, options| val.blank? ? I18n.t('unknown') : "#{val} #{I18n.t('bits')}"}
+               :formatter => lambda{ |val, options| 
+                  if options[:cell_type] == :th
+                    val
+                  else
+                    val.blank? ? I18n.t('unknown') : "#{val} #{I18n.t('bits')}"
+                  end
+                }
   
   table_format :device, :class => 'left',
                :formatter => lambda{|val, options| val.blank? ? I18n.t('not_set') : val}             
