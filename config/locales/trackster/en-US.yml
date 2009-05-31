@@ -59,6 +59,7 @@ en-US:
             entry_page:     Entry pages
             exit_page:      Exit pages
             bounce_page:    Bounce pages
+            page_title:     Page title
         visits_graph:    
             visit_graph:    Visits
         pageview_graph:
