@@ -35,7 +35,8 @@ module Analytics
           joins = []
           conditions = []
           args.each do |dim|
-            if self.respond_to?(dim)
+            dim = dim.to_sym
+            if self.scopes[dim]
               # It's a named scope
               scope_options = self.send(dim).proxy_options
               select << scope_options[:select]  if scope_options[:select]
@@ -57,22 +58,18 @@ module Analytics
           :select => "if(visit=1,'new','returning') AS visit_type",
           :group => "visit_type"
 
-        # => Campaign scoping
-        named_scope   :campaign, lambda {|campaign|
-          {:conditions => {:campaign_name => campaign}}
-        }
-          
-        named_scope   :source, lambda {|source|
-          {:conditions => {:campaign_source => source}}
-        }         
-
-        named_scope   :medium, lambda {|method|
-          {:conditions => {:campaign_medium => method}}
-        }
-        
         named_scope   :label, lambda {|label|
           {:conditions => ["events.label = ?", label]}
         }
+        
+        named_scope   :traffic_source,
+          :select => 'referrer_host, traffic_source',
+          :group => 'referrer_host, traffic_source'
+          
+        named_scope   :keywords,
+          :select => 'search_terms',
+          :conditions => 'search_terms IS NOT NULL',
+          :group => 'search_terms'
 
         def self.non_null_dimensions
           self::NON_NULL_DIMENSIONS
@@ -84,7 +81,7 @@ module Analytics
           unless defined?(@@session_dimensions)
             @@session_dimensions = self.columns_hash.inject([]) { |array, item| array << item.first }
             @@session_dimensions.reject{|k| k =~ /(_(id|at)|id|user_agent|referrer|event_count|page_views)\Z/ }
-            @@session_dimensions << ['new_v_returning', 'campaign', 'source', 'medium', 'label']
+            @@session_dimensions << ['new_v_returning','traffic_source','label','keywords']
             @@session_dimensions.flatten!
           end
           @@session_dimensions

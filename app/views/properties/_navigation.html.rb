@@ -15,11 +15,11 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Depth of visit")        
       end
       accordian_item "#{image_tag '/images/icons/arrow_in.png'} Traffic Sources" do
-        p link_to("Overview")
+        p link_to("Overview", property_report_path(@property, 'traffic_source'))
         p link_to("Direct traffic")
         p link_to("Referrals")
         p link_to("Search engines")
-        p link_to("Keywords")
+        p link_to("Keywords", property_report_path(@property, 'keywords'))
       end
       accordian_item "#{image_tag '/images/icons/magnifier.png'} Campaigns" do
         p link_to("Overview")

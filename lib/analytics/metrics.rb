@@ -51,7 +51,7 @@ module Analytics
           :select => 'count(if(visit=1,1,null)) as new_visits'
 
         named_scope :new_visit_rate,
-          :select => 'count(if(visit=1,1,null)) / count(*) as new_visit_rate'
+          :select => 'count(if(visit=1,1,null)) / count(*) * 100 as new_visit_rate'
         
         # Visitors who have visited more than once in the current period
         # Without further scoping this is meaningless - but the #between scope
@@ -101,7 +101,7 @@ module Analytics
           :select => 'count(if(duration=0,1,null)) AS bounces'
           
         named_scope :bounce_rate,
-          :select => 'count(if(duration=0,1,null)) / count(*) as bounce_rate'
+          :select => 'count(if(duration=0,1,null)) / count(*) * 100 as bounce_rate'
           
         named_scope :impressions,
           :select => 'count(*) as impressions',

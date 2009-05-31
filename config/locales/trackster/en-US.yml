@@ -49,6 +49,13 @@ en-US:
             new:            New
             returning:      Returning
             new_v_returning: New versus Returning Visitors
+            traffic_source: Type
+            referrer_host:  Source
+            direct:         Direct
+            search:         Search
+            referral:       Referral
+            keywords:       Keywords
+            no_data_yet:    No Data available for this report.
         visits_graph:    
             visit_graph:    Visits
                     
@@ -118,9 +125,12 @@ en-US:
                 url:                    Page
                 percent_of_page_views:  % Views
                 percent_of_visits:      % Visits
-                new_visit_rate:         % New Visits
+                new_visit_rate:         % New 
                 page_views_per_visit:   Pages/Visit
                 new_v_returning:        New vs. Returning
+                referrer_host:          Referrer
+                traffic_source:         Source
+                bounce_rate:            % Bounce
                 
                 
                 

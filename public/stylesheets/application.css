@@ -640,6 +640,11 @@ div.box.table h2 {
 	margin: 0;
 }
 
+div.box.table h3 {
+	font-size: 100%;
+	padding: 1em;
+}
+
 div.block table {
 	table-layout: fixed;
 	margin: 0;
@@ -654,13 +659,13 @@ div.block table thead th {
 	padding-top: 0.2em;
 }
 
-col.count, col.page_views {
+col.count, col.page_views, col.traffic_source, col.visits {
 	width: 5em;
 }
 
-col.new_visit_rate, col.bounce_rate, col.visits, col.duration, col.percent_of_visits,
+col.new_visit_rate, col.bounce_rate, col.duration, col.percent_of_visits,
 col.page_views_per_visit {
-	width: 9em;
+	width: 7em;
 }
 col.percent_of_page_views {
 	width: 20em;

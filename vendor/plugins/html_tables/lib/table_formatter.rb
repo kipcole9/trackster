@@ -187,6 +187,38 @@ private
     proc { |val, options| send(sym, val, options) }
   end
 
+  def not_set_on_blank(val, options)
+    val.blank? ? I18n.t('not_set') : val
+  end
+
+  def unknown_on_blank(val, options)
+    val.blank? ? I18n.t('unknown') : val
+  end
+
+  def seconds_to_time(val, options)
+    minutes = val / 60
+    hours = val / 3600
+    seconds = val - (hours * 3600) - (minutes * 60)
+    "#{"%02d" % hours}:#{"%02d" % minutes}:#{"%02d" % seconds}"
+  end
+  
+  def percentage(val, options)
+    number_to_percentage(val ? val.to_f : 0, :precision => 1)
+  end
+  
+  def float_with_precision(val, options)
+    number_with_precision(val.to_f, :precision => 1)
+  end
+  
+  def bar_and_percentage(val, options)
+    if options[:cell_type] == :td
+      bar = "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>"
+      bar + "<div>" + number_to_percentage(val, :precision => 1) + "</div>"
+    else
+      number_to_percentage(val, :precision => 1)
+    end
+  end 
+     
   # Decide if the given column is to be displayed in the table
   def include_column?(column, options)
     puts column.inspect

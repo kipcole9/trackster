@@ -28,6 +28,16 @@ class Session < ActiveRecord::Base
     return if r.blank? || r == '-'
     super
   end
+  
+  def flash_version=(r)
+    return if r.blank? || r == '-'
+    super
+  end
+
+  def language=(l)
+    return if l.blank?
+    super(l.downcase)
+  end
 
   def save_time_metrics(row)
     self.date   = self.started_at.to_date
