@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
-  def page_title
+  def _page_title
     I18n.t("#{params['controller']}.index.name")
   end
   

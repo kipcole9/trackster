@@ -13,7 +13,8 @@ class Track < ActiveRecord::Base
   table_format :count,          :total => :sum, :order => 99
   table_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
   table_format :visits,         :total => :sum, :order => 50, :class => 'right'
-  table_format :duration,       :total => :avg, :order => 60, :class => 'right', :formatter => :seconds_to_time
+  table_format :page_views,     :total => :sum, :order => 50, :class => 'right'
+  table_format :duration,       :total => :avg, :order => 90, :class => 'right', :formatter => :seconds_to_time
   
   table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
   table_format :language,       :order => -1, :formatter => :not_set_on_blank
@@ -27,6 +28,8 @@ class Track < ActiveRecord::Base
   table_format :percent_of_visits,      :total => :sum, :order => 98, :class => 'right', :formatter => :percentage
   table_format :percent_of_page_views,  :total => :sum, :order => 98, :class => 'page_views', :formatter => :bar_and_percentage 
   table_format :bounce_rate,            :total => :avg, :order => 101, :class => 'right', :formatter => :percentage
+  table_format :exit_rate,              :total => :avg, :order => 97, :class => 'right', :formatter => :percentage  
+  table_format :entry_rate,             :total => :avg, :order => 96, :class => 'right', :formatter => :percentage
   table_format :new_visit_rate,         :total => :avg, :order => 100, :class => 'right', :formatter => :percentage
   table_format :page_views_per_visit,   :total => :avg, :order => 99, :class => 'right', :formatter => :float_with_precision  
     

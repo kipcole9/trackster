@@ -57,7 +57,22 @@ module Analytics
         named_scope   :new_v_returning,
           :select => "if(visit=1,'new','returning') AS visit_type",
           :group => "visit_type"
+          
+        named_scope   :entry_page,
+          :select => 'url',
+          :conditions => 'entry_page = 1 and exit_page = 0',
+          :group => 'url'
 
+        named_scope   :exit_page,
+          :select => 'url',
+          :conditions => 'entry_page = 0 and exit_page = 1',
+          :group => 'url'
+
+        named_scope   :bounce_page,
+          :select => 'url',
+          :conditions => 'entry_page = 1 and exit_page = 1',
+          :group => 'url'
+          
         named_scope   :label, lambda {|label|
           {:conditions => ["events.label = ?", label]}
         }
@@ -74,7 +89,7 @@ module Analytics
         def self.non_null_dimensions
           self::NON_NULL_DIMENSIONS
         end
-        
+
         # Dimensions that are based only on the sessions table
         # Used in site reporting
         def self.session_dimensions
@@ -85,6 +100,17 @@ module Analytics
             @@session_dimensions.flatten!
           end
           @@session_dimensions
+        end
+        
+        # Dimensions that require joining the events table
+        def self.event_dimensions
+          unless defined?(@@event_dimensions)
+            @@event_dimensions = Event.columns_hash.inject([]) { |array, item| array << item.first }
+            @@event_dimensions.reject{|k| k =~ /(_(id|at)|id)\Z/ }
+            @@event_dimensions << ['bounce_page']
+            @@event_dimensions.flatten!         
+          end
+          @@event_dimensions          
         end
         
         def self.available_metrics

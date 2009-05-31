@@ -56,8 +56,13 @@ en-US:
             referral:       Referral
             keywords:       Keywords
             no_data_yet:    No Data available for this report.
+            entry_page:     Entry pages
+            exit_page:      Exit pages
+            bounce_page:    Bounce pages
         visits_graph:    
             visit_graph:    Visits
+        pageview_graph:
+            pageview_graph: Page views
                     
     panels:
         emails_opened:      "Emails opened"
@@ -131,6 +136,8 @@ en-US:
                 referrer_host:          Referrer
                 traffic_source:         Source
                 bounce_rate:            % Bounce
+                entry_rate:             % Entry
+                exit_rate:              % Exit
                 
                 
                 

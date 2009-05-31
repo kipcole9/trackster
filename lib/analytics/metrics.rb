@@ -77,11 +77,19 @@ module Analytics
         named_scope :entry_pages,
           :select => 'count(if(entry_page=1,1,null)) as entry_pages',
           :joins => :events
+          
+        named_scope :entry_rate,
+          :select => 'count(if(entry_page = 1 AND exit_page = 0,1,NULL)) / count(*) * 100 as entry_rate',
+          :joins => :events      
     
         named_scope :exit_pages,
           :select => 'count(if(exit_page=1,1,null)) as exit_pages',
           :joins => :events
 
+        named_scope :exit_rate,
+          :select => 'count(if(exit_page=1 AND entry_page = 0,1,NULL)) / count(*) * 100 as exit_rate',
+          :joins => :events
+          
         # Landing page is the same as an entry page - but in a campaign
         # context
         named_scope :landing_pages,
@@ -95,13 +103,16 @@ module Analytics
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
-          :select => 'avg(duration) as duration'
+          :select => 'avg(sessions.duration) as duration'
+          
+        named_scope :page_duration,
+          :select => 'avg(events.duration) as duration'
 
         named_scope :bounces,
-          :select => 'count(if(duration=0,1,null)) AS bounces'
+          :select => 'count(if(sessions.duration=0,1,null)) AS bounces'
           
         named_scope :bounce_rate,
-          :select => 'count(if(duration=0,1,null)) / count(*) * 100 as bounce_rate'
+          :select => 'count(if(sessions.duration=0,1,null)) / count(*) * 100 as bounce_rate'
           
         named_scope :impressions,
           :select => 'count(*) as impressions',

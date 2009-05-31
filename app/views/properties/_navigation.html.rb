@@ -21,7 +21,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Search engines")
         p link_to("Keywords", property_report_path(@property, 'keywords'))
       end
-      accordian_item "#{image_tag '/images/icons/magnifier.png'} Campaigns" do
+      accordian_item "#{image_tag '/images/icons/money_dollar.png'} Campaigns" do
         p link_to("Overview")
         p link_to("Impressions")
         p link_to("Clicks-through")
@@ -29,11 +29,17 @@ panel t('panels.navigation'), :class => 'accordian'  do
       end      
       accordian_item "#{image_tag '/images/icons/newspaper.png'} Content" do 
         p link_to("Overview")
-        p link_to("Top content")
+        p link_to("Content by URL", property_report_path(@property, 'url'))
+        p link_to("Content by page title", property_report_path(@property, 'page_title'))
+        p link_to("Top entry pages", property_report_path(@property, 'entry_page'))
+        p link_to("Top exit pages", property_report_path(@property, 'entry_page'))
+        p link_to("Top bounce pages", property_report_path(@property, 'bounce_page'))
+      end
+      accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
         p link_to("Video content")
         p link_to("Content drill-down")
-        p link_to("Top landing pages")
-        p link_to("Top exit pages")
+      end
+      accordian_item "#{image_tag '/images/icons/magnifier.png'} Internal Search" do         
         p link_to("Internal search")
       end 
       accordian_item "#{image_tag '/images/icons/phone.png'} Platforms & Devices" do  

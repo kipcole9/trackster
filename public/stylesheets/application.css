@@ -658,14 +658,16 @@ div.block table * td {
 div.block table thead th {
 	padding-top: 0.2em;
 }
-
-col.count, col.page_views, col.traffic_source, col.visits {
+col.page_views {
 	width: 10%;
+}
+col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate {
+	width: 13%;
 }
 
 col.new_visit_rate, col.bounce_rate, col.duration, 
 col.page_views_per_visit {
-	width: 15%;
+	width: 13%;
 }
 
 col.percent_of_visits {

@@ -4,14 +4,6 @@ class PropertiesController < ApplicationController
   before_filter       :retrieve_properties, :only => :index
   layout              :select_layout
   
-  def page_title
-    if @property
-      "#{@property.name}"
-    else
-      super
-    end
-  end
-  
   def new
     render :action => 'edit'
   end
@@ -74,10 +66,25 @@ class PropertiesController < ApplicationController
   # is quite consistent but based upon different dimensions we can
   # generalise the solutions
   def method_missing(method, *args)
-    return super unless Track.session_dimensions.include?(params[:action])
-    @site_summary = @property.tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
-                              .having('visits > 0').order('visits DESC').between(Track.period_from_params(params)).all
-    render :action => 'site_summary'
+    if Track.session_dimensions.include?(params[:action])
+      @site_summary = @property.tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
+                          .having('visits > 0').order('visits DESC').between(Track.period_from_params(params)).all
+      render :action => 'site_summary'
+    elsif Track.event_dimensions.include?(params[:action])
+      @site_summary = @property.tracks.page_views(:with_events).page_duration.bounce_rate.exit_rate.entry_rate.by(params[:action])\
+                        .order('page_views DESC').between(Track.period_from_params(params)).all
+      render :action => 'content_summary'
+    else
+      super
+    end
+  end
+
+  def _page_title
+    if @property
+      "#{@property.name}"
+    else
+      super
+    end
   end
   
 private
