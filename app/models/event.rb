@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
         previous_event.value = (event.tracked_at - previous_event.tracked_at).to_i
       end
       previous_event.exit_page = false
+      previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
       event.entry_page = false
       previous_event.save!
     else

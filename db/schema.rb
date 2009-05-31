@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090529075341) do
+ActiveRecord::Schema.define(:version => 20090531035145) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20090529075341) do
     t.float    "value"
     t.string   "internal_search_terms"
     t.integer  "redirect_id"
+    t.integer  "duration"
   end
 
   create_table "ip4", :id => false, :force => true do |t|
