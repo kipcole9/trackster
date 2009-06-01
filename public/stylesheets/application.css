@@ -658,7 +658,7 @@ div.block table * td {
 div.block table thead th {
 	padding-top: 0.2em;
 }
-col.page_views {
+col.page_views, col.event_count {
 	width: 10%;
 }
 col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate {
@@ -670,10 +670,7 @@ col.page_views_per_visit {
 	width: 13%;
 }
 
-col.percent_of_visits {
-	width: 16%;
-}
-col.percent_of_page_views {
+col.percent_of_page_views, col.percent_of_visits {
 	width: 40%;
 }
 

@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
       super(URI.unescape(uri)) unless uri.blank?
     end
   end
-  
+
   def pageview?
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end

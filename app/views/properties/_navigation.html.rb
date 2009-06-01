@@ -3,7 +3,8 @@ panel t('panels.navigation'), :class => 'accordian'  do
     accordian do
       accordian_item "#{image_tag '/images/icons/group.png'} Visitors" do  
         p link_to("Overview", property_report_path(@property, 'overview'))
-        p link_to("Geography", property_report_path(@property, 'country'))
+        p link_to("Country", property_report_path(@property, 'country'))
+        p link_to("Locality", property_report_path(@property, 'locality'))        
         p link_to("New vs Returning", property_report_path(@property, 'new_v_returning'))
         p link_to("Languages", property_report_path(@property, 'language'))
       end
@@ -11,7 +12,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Overview")
         p link_to("Loyalty")
         p link_to("Recency")
-        p link_to("Length of visit")
+        p link_to("Length of visit", property_report_path(@property, 'length_of_visit'))
         p link_to("Depth of visit")        
       end
       accordian_item "#{image_tag '/images/icons/arrow_in.png'} Traffic Sources" do

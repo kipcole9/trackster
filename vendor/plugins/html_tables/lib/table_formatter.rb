@@ -15,6 +15,7 @@ class TableFormatter
     @merged_options = options.merge(DEFAULT_OPTIONS)
     @table_columns  = initialise_columns(rows, klass, merged_options)
     @totals         = initialise_totalling(rows, table_columns)
+    results.sort(options[:sort]) if options[:sort] && options[:sort].is_a?(Proc)
     @html = Builder::XmlMarkup.new(:indent => 2)
   end
 
@@ -91,7 +92,7 @@ class TableFormatter
   
   def output_cell_value(cell_type, value, column, options = {})
     result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
-    result = result.nil? ? I18n.t('not_set') : result
+    result = result.nil? ? '' : result
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
     end
@@ -188,11 +189,19 @@ private
   end
 
   def not_set_on_blank(val, options)
-    val.blank? ? I18n.t('not_set') : val
+    if options[:cell_type] == :th
+      val
+    else
+      val.blank? ? I18n.t('not_set') : val
+    end
   end
 
   def unknown_on_blank(val, options)
-    val.blank? ? I18n.t('unknown') : val
+    if options[:cell_type] == :th
+      val
+    else    
+      val.blank? ? I18n.t('unknown') : val
+    end
   end
 
   def seconds_to_time(val, options)

@@ -60,10 +60,14 @@ en-US:
             exit_page:      Exit pages
             bounce_page:    Bounce pages
             page_title:     Page title
+            localityregioncountry: Locality with Region and Country
         visits_graph:    
             visit_graph:    Visits
         pageview_graph:
             pageview_graph: Page views
+        visit_summary:
+            length_of_visit:    Length of Visit
+            depth_of_visit:     Depth of Visit
                     
     panels:
         emails_opened:      "Emails opened"
@@ -139,6 +143,8 @@ en-US:
                 bounce_rate:            % Bounce
                 entry_rate:             % Entry
                 exit_rate:              % Exit
+                depth_of_visit:         Depth of visit (pages)
+                event_count:            Events
                 
                 
                 

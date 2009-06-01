@@ -1,6 +1,6 @@
 html do
   head do
-    meta :"http-equiv" => "content-type", :content => "text/html;charset=UTF-8"
+    meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
     title "VideoInEmail Analytics"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     javascript_merged :base

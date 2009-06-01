@@ -46,6 +46,10 @@ module Analytics
         named_scope :visits,
           :select => 'count(visit) as visits'
 
+        # Named to avoid name class with association
+        named_scope :event_count,
+          :select => 'count(if(page_views - event_count > 0,1,NULL)) as event_count'
+
         # Visitors for whom this was their first visit
         named_scope :new_visits,
           :select => 'count(if(visit=1,1,null)) as new_visits'

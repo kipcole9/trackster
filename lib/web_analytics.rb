@@ -249,7 +249,7 @@ private
     split_into_parameters(params).delete_if do |p|
       var, value = p.split('=')
       if value
-        VALID_PARAMS[var.to_sym] ? result[VALID_PARAMS[var.to_sym]] = URI.unescape(value) : false
+        VALID_PARAMS[var.to_sym] ? result[VALID_PARAMS[var.to_sym]] = URI.decode(value) : false
       end
     end if params
     result[:timezone] = result[:timezone].to_i if result[:timezone]
