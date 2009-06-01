@@ -21,8 +21,8 @@ role :app, "server.vietools.com"
 role :web, "server.vietools.com"
 role :db,  "server.vietools.com", :primary => true
 
+after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'
-after 'deploy:update_code', 'update_config' 
 after 'deploy:update_code', 'create_asset_packages'
 after 'deploy:update_code', 'migrate_database'
 
@@ -50,6 +50,7 @@ task :create_production_tracker, :roles => :web do
     end
   rescue Exception => e
     puts "Could not create production tracker: '#{e.message}"
+    run "ls #{release_path}/public/javascripts"
   end
 end
 
