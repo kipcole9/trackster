@@ -41,15 +41,18 @@ end
 # Take the debug tracker code, comment out the console.log
 # statements.  Do this before asset_packager kicks in.
 task :create_production_tracker, :roles => :web do
+  tracker_debug = 'tracker_debug.js'
+  tracker_production = 'tracker.js'
+  tracker_directory = "#{release_path}/public/javascripts"
   begin
-    production_code = File.read("#{release_path}/public/javascripts/tracker_debug.js")
+    production_code = File.read("#{tracker_directory}/#{tracker_debug}")
     production_code.gsub!('console.log','//console.log')
     production_code.sub!('vietools.com:8080','vietools.com')
-    File.open("#{release_path}/public/javascripts/tracker.js", 'w') do |production_tracker|
+    File.open("#{tracker_directory}/#{tracker_production}", 'w') do |production_tracker|
       production_tracker.write(production_code)
     end
   rescue Exception => e
-    puts "Could not create production tracker: '#{e.message}"
+    puts "Could not create production tracker: '#{e.message}'"
     run "ls #{release_path}/public/javascripts"
   end
 end
