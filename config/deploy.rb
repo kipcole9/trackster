@@ -53,7 +53,7 @@ task :create_production_tracker, :roles => :web do
     end
   rescue Exception => e
     puts "Could not create production tracker: '#{e.message}'"
-    run "ls #{release_path}/public/javascripts"
+    run "ls -al #{tracker_directory}"
   end
 end
 
