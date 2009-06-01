@@ -21,6 +21,7 @@ role :app, "server.vietools.com"
 role :web, "server.vietools.com"
 role :db,  "server.vietools.com", :primary => true
 
+after 'deploy:update_code', 'create_production_tracker'
 after 'deploy:update_code', 'update_config' 
 after 'deploy:update_code', 'create_asset_packages'
 after 'deploy:update_code', 'migrate_database'
@@ -34,6 +35,17 @@ namespace :deploy do
   [:start, :stop].each do |t|
     desc "#{t} task is a no-op with passenger"
     task t, :roles => :app do ; end
+  end
+end
+
+# Take the debug tracker code, comment out the console.log
+# statements.  Do this before asset_packager kicks in.
+task :create_production_tracker, :roles => :web do
+  production_code = File.read("#{release_path}/public/javascripts/tracker_debug.js")
+  production_code.gsub!('console.log','//console.log')
+  production_code.sub!('vietools.com:8080','vietools.com')
+  File.open("#{release_path}/public/javascripts/tracker.js", 'w') do |production_tracker|
+    production_tracker.write(production_code)
   end
 end
 
