@@ -28,7 +28,7 @@ class IpAddress < ActiveRecord::Base
           row[:country] = country.name.titleize unless country.name.blank?
         end
         if city
-          row[:locality]  = URI.decode(city.name.split(',').first.strip) unless city.name.blank?
+          row[:locality]  = Iconv.iconv('utf8','iso-8859-1', URI.decode(city.name.split(',').first.strip)).first unless city.name.blank?
           row[:region]    = city.state unless city.state.blank?
           row[:latitude]  = city.lat
           row[:longitude] = city.lng
