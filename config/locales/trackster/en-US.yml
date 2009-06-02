@@ -61,6 +61,7 @@ en-US:
             bounce_page:    Bounce pages
             page_title:     Page title
             localityregioncountry: Locality with Region and Country
+            url:            URL (web page address)
         visits_graph:    
             visit_graph:    Visits
         pageview_graph:

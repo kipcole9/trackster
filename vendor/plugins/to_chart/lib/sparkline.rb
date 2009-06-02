@@ -1,4 +1,4 @@
-module Trackster
+module Charting
   class Sparkline
     include ActionController::UrlWriter
     

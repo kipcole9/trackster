@@ -13,14 +13,14 @@ module ActiveRecord
       def to_chart(column, labels = nil, options = {}, &block)
         default_options = {}
         merged_options = default_options.merge(options)
-        @chart = Trackster::FlashChart.new(self, column, labels, merged_options, &block)
+        @chart = Charting::FlashChart.new(self, column, labels, merged_options, &block)
         @chart.render_chart
       end
       
       def to_sparkline(column, options = {}, &block)
         default_options = {}
         merged_options = default_options.merge(options)
-        @chart = Trackster::Sparkline.new(self, column, merged_options, &block)
+        @chart = Charting::Sparkline.new(self, column, merged_options, &block)
         @chart.render_chart
       end
     end
