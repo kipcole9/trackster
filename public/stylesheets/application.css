@@ -16,6 +16,11 @@ input[type="text"] {
 	padding-bottom: 3px;
 }
 
+/* Primarily because we put code inside pre */
+pre {
+	overflow: auto;
+}
+
 /* Default rendering of select in safari doesn't allow font-size
  * using a border turns off using native widgets and we can style 
  * some more.

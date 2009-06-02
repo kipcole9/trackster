@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :user_logged_in?
+  before_filter     :login_status_ok?
   before_filter     :set_locale
   before_filter     :set_timezone
   before_filter     :store_location, :only => [:index, :show]
@@ -21,15 +21,15 @@ class ApplicationController < ActionController::Base
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
   def _page_title
-    I18n.t("#{params['controller']}.index.name")
+    I18n.t("#{params['controller']}.index.name", :default => params[:controller].titleize)
   end
 
-  def user_logged_in?
+  def login_status_ok?
     if current_user_agent =~ /W3C_Validator/ && Rails.env == "development"
       self.current_user = User.find_by_login('admin')
       return true
     end
-    !logged_in? && !logging_in? && !activation? && !redirecting? && !validating?
+    logged_in? || logging_in? || activation? || redirecting? || validating?
   end
 
   # Prededence:

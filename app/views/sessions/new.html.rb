@@ -1,4 +1,7 @@
-column :width => 6, :before => 3, :after => 3 do
+column :width => 3 do
+  p "&nbsp;"
+end
+column :width => 6 do
   @user = User.new
   panel t('panels.login'), :flash => true  do
     block do
@@ -13,5 +16,7 @@ column :width => 6, :before => 3, :after => 3 do
       end
     end
   end
-
+end
+column :width => 3 do
+  p "&nbsp;"
 end
