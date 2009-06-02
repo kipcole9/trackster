@@ -1,10 +1,10 @@
 class Track < ActiveRecord::Base
   set_table_name :sessions
   has_many       :events, :foreign_key => :session_id
-  belongs_to     :campaigns
+  belongs_to     :campaign
 
   NON_METRIC_KEYS = [:scoped, :source, :between, :by, :duration, :order, :label, :filter, :limit, :having]
-  NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name]
+  NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name, :local_hour]
     
   include Analytics::Metrics
   include Analytics::Dimensions
@@ -12,11 +12,17 @@ class Track < ActiveRecord::Base
   
   table_format :count,          :total => :sum, :order => 99
   table_format :event_count,    :order => 20
+  table_format :impressions,    :total => :sum, :order => 1, :class => 'right', :formatter => :number_with_delimiter
+  table_format :clicks_through, :total => :sum, :order => 2, :class => 'right', :formatter => :number_with_delimiter
+  table_format :distribution,   :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+  table_format :bounces,        :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+  table_format :unsubscribes,   :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
   table_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
   table_format :visits,         :total => :sum, :order => 50, :class => 'right'
   table_format :page_views,     :total => :sum, :order => 50, :class => 'right'
   table_format :duration,       :total => :avg, :order => 90, :class => 'right', :formatter => :seconds_to_time
-  
+  table_format :hour,           :total => :avg, :order => 90, :class => 'right', :formatter => :hours_to_time
+    
   table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
   table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
   table_format :language,       :order => -1, :formatter => :not_set_on_blank

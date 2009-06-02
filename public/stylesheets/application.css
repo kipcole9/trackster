@@ -671,7 +671,8 @@ col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate {
 }
 
 col.new_visit_rate, col.bounce_rate, col.duration, 
-col.page_views_per_visit {
+col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
+col.bounces {
 	width: 13%;
 }
 

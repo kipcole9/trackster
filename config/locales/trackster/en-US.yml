@@ -38,6 +38,10 @@ en-US:
         edit:
             new_property:   "Enter the new web property's details"
             edit_property:  "Update the '{{name}}' web property"
+        campaign_impressions_graph:
+            impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
+        campaign_summary:
+            campaign_overview: Campaign summary   
         site_summary:
             country:        Countries
             browser:        Browsers

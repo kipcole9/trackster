@@ -104,6 +104,8 @@ module Charting
       case label
         when :date
           "#{value.day} #{I18n.t('date.abbr_month_names')[value.month]}"
+        when :hour, :local_hour
+          "#{"%02d" % value}:00"
         when :day_of_week
           I18n.t('date.abbr_day_names')[value]
         when :month

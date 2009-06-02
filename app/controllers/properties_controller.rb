@@ -71,6 +71,9 @@ class PropertiesController < ApplicationController
       @site_summary = @property.tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
                           .having('visits > 0').order('visits DESC').between(Track.period_from_params(params)).all
       render :action => 'site_summary'
+    elsif Track.campaign_dimensions.include?(params[:action])
+      @campaign_summary = @property.tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name).between(Track.period_from_params(params)).all
+      render :action => 'campaign_summary'      
     elsif Track.loyalty_dimensions.include?(params[:action])
       @visit_summary = @property.tracks.visits.event_count.by(params[:action]).between(Track.period_from_params(params)).all.sort{|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
       render :action => 'visit_summary'      

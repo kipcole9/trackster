@@ -102,8 +102,7 @@ module Analytics
           :joins => :events
                  
         named_scope :clicks_through,
-          :select => 'count(*) as clicks_through',
-          :conditions => "campaign_medium = 'email' AND campaign_name IS NOT NULL"
+          :select => "count(if(campaign_medium = 'email' AND campaign_name IS NOT NULL,1,NULL)) as clicks_through"
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
@@ -119,10 +118,22 @@ module Analytics
           :select => 'count(if(sessions.duration=0,1,null)) / count(*) * 100 as bounce_rate'
           
         named_scope :impressions,
-          :select => 'count(*) as impressions',
-          :conditions => "category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}'",
+          :select => "count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL)) as impressions",
           :joins => :events
 
+        named_scope :campaign_bounces,
+          :select => 'bounces',
+          :joins => :campaign
+          
+        named_scope :unsubscribes,
+          :select => 'unsubscribes',
+          :joins => :campaign
+
+        named_scope :distribution,
+          :select => 'distribution',
+          :joins => :campaign
+
+        # How long between the even and it turning up in the log
         named_scope :latency, 
           :select => "CAST(AVG(time_to_sec(events.created_at) - time_to_sec(tracked_at)) AS signed) AS latency",
           :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',

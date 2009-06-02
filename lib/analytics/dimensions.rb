@@ -110,6 +110,11 @@ module Analytics
           {:select => visit_sql, :group => :depth_of_visit, :order => :depth_of_visit}
         }
 
+        named_scope   :campaign_name,
+          :select => 'name as campaign_name',
+          :joins => :campaign,
+          :group => 'campaign_name'
+          
         def self.non_null_dimensions
           self::NON_NULL_DIMENSIONS
         end
@@ -144,6 +149,13 @@ module Analytics
           end
           @@loyalty_dimensions          
         end
+        
+        def self.campaign_dimensions
+          unless defined?(@@campaign_dimensions)
+            @@campaign_dimensions = ['campaign_overview']     
+          end
+          @@campaign_dimensions          
+        end        
         
         def self.available_metrics
           @@available_metrics = nil unless defined?(@@available_metrics)

@@ -211,8 +211,16 @@ private
     "#{"%02d" % hours}:#{"%02d" % minutes}:#{"%02d" % seconds}"
   end
   
+  def hours_to_time(val, options)
+    "#{"%02d" % val}:00"
+  end
+  
   def percentage(val, options)
     number_to_percentage(val ? val.to_f : 0, :precision => 1)
+  end
+  
+  def integer_with_delimiter(val, options)
+    number_with_delimiter(val.to_i)
   end
   
   def float_with_precision(val, options)
