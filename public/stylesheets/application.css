@@ -100,8 +100,15 @@ h1#branding {
 
 #branding img {
 	position: relative;
-	height: 30px;
-	top: 5px;
+	float: right;
+	top: -3px;
+	right: 2px;
+	height: 41px;
+}
+
+#branding a {
+	position: relative;
+	top: 3px;
 }
 
 /* page heading
