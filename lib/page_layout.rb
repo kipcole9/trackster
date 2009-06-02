@@ -66,7 +66,13 @@ module PageLayout
     args.each{|k, v| arg_string << "#{k.to_s}=\"#{v.to_s}\""}
     store "<meta #{arg_string.join(' ')} />"
   end
-  
+
+  def link(args = {})
+    arg_string = []
+    args.each{|k, v| arg_string << "#{k.to_s}=\"#{v.to_s}\""}
+    store "<link #{arg_string.join(' ')} />"
+  end  
+
   def container(args = {}, &block)
     default_options = {:columns => 12, :prefix => "container" }
     options = default_options.merge(args)
@@ -170,7 +176,7 @@ module PageLayout
     nil
   end
   
-  def link(*args)
+  def a(*args)
     store link_to(*args)
     nil
   end
