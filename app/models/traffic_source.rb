@@ -14,7 +14,9 @@ class TrafficSource < ActiveRecord::Base
       elsif engine.host =~ /yahoo/i
         ts.source_type = 'yahoo'
       elsif engine.host =~ /live\.com/i
-        ts.source_type = 'live'
+        ts.source_type = 'microsoft'
+      elsif engine.host =~ /bing\.com/i
+        ts.source_type = 'microsoft'
       else
         ts.source_type = 'search'
       end

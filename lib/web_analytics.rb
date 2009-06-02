@@ -246,10 +246,8 @@ private
       row[:browser] = 'iPhone Mail'
     elsif row[:user_agent] =~ /AppleWebKit\/3/
       row[:browser] = 'Apple Mail'
-      row[:browser_version] = "1"
     elsif row[:user_agent] =~ /AppleWebKit\/5/
       row[:browser] = 'Apple Mail'
-      row[:browser_version] = "3"
     elsif row[:user_agent] =~ /Thunderbird/
       row[:browser] = "Thunderbird"
     elsif row[:user_agent] =~ /MSIE/
