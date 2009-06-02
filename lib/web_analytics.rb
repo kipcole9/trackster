@@ -232,8 +232,10 @@ private
 
   # This needs to be rewritten as a proper analyser
   def get_email_client!(row)
+    original_browser = row[:browser]
     if row[:referrer] =~ /mail\.google.*\/mail/
       row[:browser] = "GMail"
+      row[:traffice_source] = 'email'
     elsif row[:referrer] =~ /\.hotmail\./
       row[:browser] = 'Hotmail'
     elsif row[:referrer] =~ /mail\.yahoo\./
@@ -254,7 +256,11 @@ private
       row[:browser] = 'Outlook'
     else
       Rails.logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}"
-    end     
+    end
+    unless row[:browser] == original_browser
+      row[:traffic_source] = 'email'
+      row[:referrer_category] = 'email'
+    end
   end
   
   def to_time(timestamp)
