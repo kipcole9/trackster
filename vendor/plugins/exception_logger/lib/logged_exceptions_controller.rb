@@ -1,7 +1,7 @@
 class LoggedExceptionsController < ApplicationController
   cattr_accessor :application_name
   layout nil
-  session :session_key => '_tks'
+  # session :session_key => '_tks'
   self.application_name = Trackster::Config.banner
   require_role  [Role::ADMIN_ROLE]
   

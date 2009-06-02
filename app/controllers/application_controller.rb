@@ -31,9 +31,16 @@ class ApplicationController < ActionController::Base
     end
     
     if !logged_in? && !logging_in? && !activation? && !redirecting? && !validating?
-      store_location
-      flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
-      redirect_to login_path 
+      respond_to do |format|
+        format.html {
+          store_location
+          flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
+          redirect_to login_path
+        }
+        format.rss {
+          head :status => :unauthorized
+        }
+      end
     end
   end
 
@@ -75,9 +82,21 @@ class ApplicationController < ActionController::Base
   end
 
   def access_denied
-    raise Trackster::Unauthorized
+    respond_to do |format|
+      format.html do
+        store_location
+        redirect_to new_session_path
+      end
+      # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
+      # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
+      # the 'format.any' block incorrectly. See http://bit.ly/ie6_borken or http://bit.ly/ie6_borken2
+      # for a workaround.)
+      format.any(:json, :xml, :rss) do
+        request_http_basic_authentication 'Web Password'
+      end
+    end
   end
-  
+    
   # The browsers give the # of minutes that a local time needs to add to
   # make it UTC, while TimeZone expects offsets in seconds to add to 
   # a UTC to make it local.
