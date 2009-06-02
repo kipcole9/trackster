@@ -94,10 +94,15 @@ h1#branding {
 	font-size:2em;
 	text-align:left;
 	background:#aaa;
-	padding:.5em;
-	margin-bottom:0;
+	padding:.2em 0 .5em 0;
+	margin-bottom: 0;
 }
 
+#branding img {
+	position: relative;
+	height: 30px;
+	top: 5px;
+}
 
 /* page heading
 ----------------------------------------------- */
