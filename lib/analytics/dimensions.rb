@@ -140,9 +140,9 @@ module Analytics
         # Dimensions that require joining the events table
         def self.loyalty_dimensions
           unless defined?(@@loyalty_dimensions)
-            @@event_dimensions = ['length_of_visit','recency_of_visit','depth_of_visit','loyalty']     
+            @@loyalty_dimensions = ['length_of_visit','recency_of_visit','depth_of_visit','loyalty']     
           end
-          @@event_dimensions          
+          @@loyalty_dimensions          
         end
         
         def self.available_metrics
