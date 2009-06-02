@@ -24,6 +24,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :relates      # Creates relationships between objects
   map.resource :session
   map.resource :dashboard     # Home paged for logged_in users
+  
+  map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"
 
   # The priority is based upon order of creation: first created -> highest priority.
 

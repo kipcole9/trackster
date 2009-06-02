@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  include ExceptionLoggable
   include AuthenticatedSystem
   include RoleRequirementSystem
 
@@ -21,6 +22,11 @@ class ApplicationController < ActionController::Base
 
   def _page_title
     I18n.t("#{params['controller']}.index.name")
+  end
+  
+  def local_request?
+    Rails.logger.debug "=====> Local request check!!!!"
+    false
   end
   
   def user_logged_in?

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090531035145) do
+ActiveRecord::Schema.define(:version => 20090601231204) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -84,6 +84,17 @@ ActiveRecord::Schema.define(:version => 20090531035145) do
   add_index "ip4", ["country"], :name => "kCountry"
   add_index "ip4", ["cron"], :name => "kcron"
   add_index "ip4", ["ip"], :name => "kIP"
+
+  create_table "logged_exceptions", :force => true do |t|
+    t.string   "exception_class"
+    t.string   "controller_name"
+    t.string   "action_name"
+    t.text     "message"
+    t.text     "backtrace"
+    t.text     "environment"
+    t.text     "request"
+    t.datetime "created_at"
+  end
 
   create_table "properties", :force => true do |t|
     t.integer  "account_id"

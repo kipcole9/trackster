@@ -27,6 +27,7 @@ Rails::Initializer.run do |config|
   config.gem 'daemons'
   config.gem 'why-hpricot', :lib => 'hpricot'
   config.gem 'sparklines'
+  config.gem 'RedCloth'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -56,7 +57,7 @@ Rails::Initializer.run do |config|
     Role.ensure_roles_exist rescue nil
     Account.ensure_admin_exists rescue nil
     User.ensure_admin_exists rescue nil
-    Synthesis::AssetPackage.merge_environments = ["staging", "production"]    
+    Synthesis::AssetPackage.merge_environments = ["staging", "production"]
   end
 
   config.action_mailer.delivery_method = :smtp

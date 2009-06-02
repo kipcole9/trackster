@@ -5,4 +5,5 @@ staging:
     :banner:    Trackster Staging
     
 production:
-    :banner:    Trackster                    
+    :banner:    Trackster
+                    

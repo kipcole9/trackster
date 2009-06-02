@@ -16,6 +16,7 @@ class PropertiesController < ApplicationController
   end
   
   def index
+    raise "MY ERROR"
     respond_to do |format|
       format.html {  }
       format.js   { render :partial => 'index', :layout => false }      
