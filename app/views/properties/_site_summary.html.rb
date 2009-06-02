@@ -1,7 +1,7 @@
 panel t(".#{params[:action]}"), :class => 'table'  do
   block do
     if @site_summary.empty?
-      h3 t('.no_data_yet')
+      h3 t('no_data_yet')
     else
       store @site_summary.to_table
     end

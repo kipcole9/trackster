@@ -18,6 +18,7 @@ en-US:
     no_data_for_chart:      No Data Available
     not_set:                (Not Set)
     unknown:                (Unknown)
+    no_data_yet:            No Data available for this report.    
     bits:                   bits
 
     users:
@@ -41,7 +42,7 @@ en-US:
         campaign_impressions_graph:
             impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
         campaign_summary:
-            campaign_overview: Campaign summary   
+            campaign_overview: Campaign summary
         site_summary:
             country:        Countries
             browser:        Browsers
@@ -59,7 +60,6 @@ en-US:
             search:         Search
             referral:       Referral
             keywords:       Keywords
-            no_data_yet:    No Data available for this report.
             entry_page:     Entry pages
             exit_page:      Exit pages
             bounce_page:    Bounce pages
