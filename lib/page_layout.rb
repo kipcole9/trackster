@@ -67,7 +67,7 @@ module PageLayout
     store "<meta #{arg_string.join(' ')} />"
   end
 
-  def link(args = {})
+  def header_link(args = {})
     arg_string = []
     args.each{|k, v| arg_string << "#{k.to_s}=\"#{v.to_s}\""}
     store "<link #{arg_string.join(' ')} />"
@@ -176,7 +176,7 @@ module PageLayout
     nil
   end
   
-  def a(*args)
+  def link(*args)
     store link_to(*args)
     nil
   end

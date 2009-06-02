@@ -1,7 +1,7 @@
 html do
   head do
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
-  	link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/vie.ico"
+  	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/vie.ico"
     title "VideoInEmail Analytics"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     javascript_merged :base
