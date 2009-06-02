@@ -29,16 +29,7 @@ class ApplicationController < ActionController::Base
       self.current_user = User.find_by_login('admin')
       return true
     end
-    
-    if !logged_in? && !logging_in? && !activation? && !redirecting? && !validating?
-      respond_to do |format|
-        format.html {
-          store_location
-          flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
-          redirect_to login_path
-        }
-      end
-    end
+    !logged_in? && !logging_in? && !activation? && !redirecting? && !validating?
   end
 
   # Prededence:
@@ -82,7 +73,8 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         store_location
-        redirect_to new_session_path
+        flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
+        redirect_to login_path
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
       # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
