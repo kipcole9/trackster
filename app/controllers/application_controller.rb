@@ -23,12 +23,7 @@ class ApplicationController < ActionController::Base
   def _page_title
     I18n.t("#{params['controller']}.index.name")
   end
-  
-  def local_request?
-    Rails.logger.debug "=====> Local request check!!!!"
-    false
-  end
-  
+
   def user_logged_in?
     if current_user_agent =~ /W3C_Validator/ && Rails.env == "development"
       self.current_user = User.find_by_login('admin')
