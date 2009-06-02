@@ -52,6 +52,10 @@ class Event < ActiveRecord::Base
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end
   
+  def self.email_opening?(row)
+    row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
+  end
+  
 private
   def self.duplicate_event?(session, row)
     # If no view then it's an open email or a redirect, which is OK

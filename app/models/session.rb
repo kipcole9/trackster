@@ -49,12 +49,12 @@ class Session < ActiveRecord::Base
     self.year   = self.started_at.year
     self.timezone = row[:timezone] if row[:timezone]
   end
-  
+
   def create_campaign_association(row)
     return unless row[:campaign_name]
     self.campaign = Campaign.find_by_code(row[:campaign_name])
   end
-  
+
 private
   def self.new_from_row(row)
     session = new
@@ -96,7 +96,7 @@ private
 
   def update_traffic_source
     if self.referrer_host && self.account && source = self.account.traffic_sources.find_by_host(self.referrer_host)
-      self.traffic_source = source.source_type
+      self.referrer_category = source.source_type
     end
   end
 end

@@ -143,6 +143,7 @@ class WebAnalytics
       row[:os_name] = agent.platform
       row[:mobile_device] = agent.is_mobile_device    
     end
+    get_email_client!(row) if Event.email_opening?(row)
   end
   
   def get_mobile_device_info!(row)
@@ -177,11 +178,7 @@ class WebAnalytics
   end
 
   def is_crawler?(user_agent)
-    if browser = browscap.query(user_agent)
-      browser.crawler
-    else
-      nil
-    end
+    (browser = browscap.query(user_agent)) ? browser.crawler : nil
   end
   
   def is_tracker?(url)
@@ -233,6 +230,33 @@ private
     row[:view] = parts[1] if parts[1]    
   end
 
+  # This needs to be rewritten as a proper analyser
+  def get_email_client!(row)
+    if row[:referrer] =~ /mail\.google.*\/mail/
+      row[:browser] = "GMail"
+    elsif row[:referrer] =~ /\.hotmail\./
+      row[:browser] = 'Hotmail'
+    elsif row[:referrer] =~ /mail\.yahoo\./
+      row[:browser] = 'Yahoo Mail'
+    elsif row[:user_agent] =~ /iPod/
+      row[:browser] = 'iPod Mail'
+    elsif row[:user_agent] =~ /iPhone/
+      row[:browser] = 'iPhone Mail'
+    elsif row[:user_agent] =~ /AppleWebKit\/3/
+      row[:browser] = 'Apple Mail'
+      row[:browser_version] = "1"
+    elsif row[:user_agent] =~ /AppleWebKit\/5/
+      row[:browser] = 'Apple Mail'
+      row[:browser_version] = "3"
+    elsif row[:user_agent] =~ /Thunderbird/
+      row[:browser] = "Thunderbird"
+    elsif row[:user_agent] =~ /MSIE/
+      row[:browser] = 'Outlook'
+    else
+      Rails.logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}"
+    end     
+  end
+  
   def to_time(timestamp)
     return nil unless timestamp
     the_time = timestamp.size > 10 ? (timestamp.to_i / 1000) : timestamp.to_i
@@ -264,4 +288,5 @@ private
     end if params
     result
   end
+
 end
