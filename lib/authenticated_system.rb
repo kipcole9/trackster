@@ -105,15 +105,12 @@ module AuthenticatedSystem
 
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
-      Rails.logger.info "Logging in from session"
       self.current_user = User.find_by_id(session[:user_id]) if session[:user_id]
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.
-    def login_from_basic_auth
-      Rails.logger.info "Logging in from http basic"   
-      authenticate_or_request_with_http_basic do |login, password|
-        Rails.logger.info "HTTP_BASIC: Login: '#{login}'; Password: '#{password}'"
+    def login_from_basic_auth   
+      authenticate_with_http_basic do |login, password|
         self.current_user = User.authenticate(login, password)
       end
     end
