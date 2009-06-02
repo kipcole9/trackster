@@ -37,9 +37,6 @@ class ApplicationController < ActionController::Base
           flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
           redirect_to login_path
         }
-        format.rss {
-          head :status => :unauthorized
-        }
       end
     end
   end
