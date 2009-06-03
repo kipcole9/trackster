@@ -16,7 +16,13 @@ class Event < ActiveRecord::Base
   EMAIL_CATEGORY  = 'email'
   OPEN_ACTION     = 'open'
   
-  EMAIL_OPENINGS  = "events.category = '#{EMAIL_CATEGORY}' AND events.action = '#{OPEN_ACTION}'"
+  AD_CATEGORY     = 'ad'
+  SERVE_ACTION    = 'serve'
+  
+  EMAIL_OPENING   = "events.category = '#{EMAIL_CATEGORY}' AND events.action = '#{OPEN_ACTION}'"
+  AD_VIEW         = "events.category = '#{AD_CATEGORY}' AND events.action = '#{SERVE_ACTION}'"
+  PAGE_VIEW       = "category = '#{PAGE_CATEGORY}' AND action = '#{VIEW_ACTION}' AND url IS NOT NULL"
+  IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
   def self.create_from_row(session, row)
     return nil if !session || unknown_event?(row) || duplicate_event?(session, row)

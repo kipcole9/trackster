@@ -2,7 +2,6 @@ module Analytics
   module Metrics
     def self.included(base)
       base.class_eval do
-
         # Pages_views calculated because following dimensions may include
         # events anyway and the cross-product of the two tables will
         # mess up totals.
@@ -101,16 +100,32 @@ module Analytics
           :select => 'count(*) as landing_pages',
           :conditions => "entry_page = 1 and url IS NOT NULL and campaign_name IS NOT NULL",
           :joins => :events
-                 
+        
+        @@bounces = "if(sessions.duration=0,1,null))"
+        named_scope :bounces,
+          :select => "count(#{@@bounces}) AS bounces"
+                  
+        named_scope :bounce_rate,
+          :select => "count(#{@@bounces}/ count(visit) * 100 as bounce_rate"
+
+        @@impressions = "sum(impressions)"
+        named_scope :impressions,
+          :select => "#{@@impressions} as impressions"
+                             
+        @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL))"                    
         named_scope :clicks_through,
-          :select => "count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) as clicks_through"
+          :select => "#{@@clicks_through} as clicks_through"
           
         named_scope :click_through_rate,
-          :select => "(count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) / " + \
-                     "count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL))) as click_through_rate"
-                     
+          :select => "(#{@@clicks_through} / #{@@impressions}) as click_through_rate"
+
+        @@cost =  'avg(cost)'    
+        named_scope :cost,
+          :select => "#{@@cost} as cost",
+          :joins => :campaign
+          
         named_scope :cost_per_click,
-          :select => "sum(cost) / count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) as cost_per_click"
+          :select => "(#{@@cost} / #{@@clicks_through}) as cost_per_click"
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
@@ -119,26 +134,12 @@ module Analytics
         named_scope :page_duration,
           :select => 'avg(events.duration) as duration'
 
-        named_scope :bounces,
-          :select => 'count(if(sessions.duration=0,1,null)) AS bounces'
-          
-        named_scope :bounce_rate,
-          :select => 'count(if(sessions.duration=0,1,null)) / count(*) * 100 as bounce_rate'
-          
-        named_scope :impressions,
-          :select => "count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL)) as impressions",
-          :joins => :events
-          
         named_scope :deliveries,
           :select => 'avg(distribution - bounces - unsubscribes) as deliveries',
           :joins => :campaign
-          
-        named_scope :cost,
-          :select => 'avg(cost) as cost',
-          :joins => :campaign
-          
+
         named_scope :cost_per_impression,
-          :select => "(avg(cost)/avg(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL))) as cost_per_impression"
+          :select => "(#{@@cost}/#{@@impressions}) as cost_per_impression"
 
         named_scope :campaign_bounces,
           :select => 'avg(bounces) as bounces',

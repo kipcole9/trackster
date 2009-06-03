@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090602220657) do
+ActiveRecord::Schema.define(:version => 20090603102921) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(:version => 20090602220657) do
     t.string   "device",            :limit => 50
     t.string   "device_vendor",     :limit => 50
     t.string   "referrer_category", :limit => 50
+    t.integer  "impressions"
   end
 
   create_table "tracks", :force => true do |t|

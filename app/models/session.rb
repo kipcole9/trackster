@@ -83,7 +83,8 @@ private
 
   def update_event_count
     self.event_count = self.events.count
-    self.page_views = self.events.count(:conditions => ["category = 'page' AND action = 'view' AND url IS NOT NULL"])
+    self.page_views = self.events.count(:conditions => Event::PAGE_VIEW)
+    self.impressions = self.events.count(:conditions => Event::IMPRESSIONS)
   end
   
   def update_local_hour
