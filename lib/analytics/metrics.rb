@@ -44,7 +44,7 @@ module Analytics
 
         # Each session is a visit
         named_scope :visits,
-          :select => 'count(visit) as visits'
+          :select => 'count(if(visit>0,1,NULL)) as visits'
 
         # Named to avoid name class with association
         named_scope :event_count,
@@ -55,7 +55,7 @@ module Analytics
           :select => 'count(if(visit=1,1,null)) as new_visits'
 
         named_scope :new_visit_rate,
-          :select => 'count(if(visit=1,1,null)) / count(*) * 100 as new_visit_rate'
+          :select => 'count(if(visit=1,1,null)) / count(if(visit>0,1,NULL)) * 100 as new_visit_rate'
         
         # Visitors who have visited more than once in the current period
         # Without further scoping this is meaningless - but the #between scope
@@ -75,7 +75,7 @@ module Analytics
           :conditions => "previous_visit_at IS NOT NULL"
 
         named_scope :return_visits,
-          :select => 'count(if(visit > 1,1,null)) as return_visits'
+          :select => 'count(if(visit>1,1,null)) as return_visits'
 
         # Entry page is marked in the events table
         named_scope :entry_pages,

@@ -250,9 +250,7 @@ private
       row[:browser] = 'iPod Mail'
     elsif row[:user_agent] =~ /iPhone/
       row[:browser] = 'iPhone Mail'
-    elsif row[:user_agent] =~ /AppleWebKit\/3/
-      row[:browser] = 'Apple Mail'
-    elsif row[:user_agent] =~ /AppleWebKit\/5/
+    elsif row[:user_agent] =~ /AppleWebKit/
       row[:browser] = 'Apple Mail'
     elsif row[:user_agent] =~ /Thunderbird/
       row[:browser] = "Thunderbird"
