@@ -13,7 +13,7 @@ module Analytics
             :joins => :events}
           else
             {:select => "sum(page_views) as page_views",
-             :conditions => "session IS NOT NULL"}
+              :conditions => 'visit IS NOT NULL'}
           end
         }
         
@@ -44,7 +44,8 @@ module Analytics
 
         # Each session is a visit
         named_scope :visits,
-          :select => 'count(if(visit>0,1,NULL)) as visits'
+          :select => 'count(visit) as visits',
+          :conditions => 'visit IS NOT NULL'
 
         # Named to avoid name class with association
         named_scope :event_count,
