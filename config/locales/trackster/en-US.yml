@@ -74,6 +74,7 @@ en-US:
             no_visits_yet:  No visits currently recorded.
         pageview_graph:
             pageview_graph: Page views
+            no_page_views_yet: No page views currently recorded.
         visit_summary:
             length_of_visit:    Length of Visit
             depth_of_visit:     Depth of Visit
