@@ -117,7 +117,7 @@ module Analytics
           :select => "#{@@clicks_through} as clicks_through"
           
         named_scope :click_through_rate,
-          :select => "(#{@@clicks_through} / #{@@impressions}) as click_through_rate"
+          :select => "(#{@@clicks_through} / #{@@impressions} * 100) as click_through_rate"
 
         @@cost =  'avg(cost)'    
         named_scope :cost,

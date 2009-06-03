@@ -8,13 +8,7 @@ clear do
     clear do
       column :width => 12 do
         include "campaign_summary"
-      end
-    end
-    clear do
-      column :width => 6 do
-        include "campaign_impressions"
-      end
-      column :width => 6 do
+        include "campaign_impressions"                
         include "campaign_clicks"
       end
     end

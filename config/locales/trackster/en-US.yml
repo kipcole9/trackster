@@ -159,6 +159,13 @@ en-US:
                 exit_rate:              % Exit
                 depth_of_visit:         Depth of visit (pages)
                 event_count:            Events
+                cost_per_impression:    CPI
+                campaign_name:          Campaign
+                deliveries:             Delivered
+                cost_per_click:         CPC
+                clicks_through:         Clicks
+                click_through_rate:     CTR
+                impressions:            Impressions
                 
                 
                 

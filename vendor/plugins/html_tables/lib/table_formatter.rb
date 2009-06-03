@@ -227,6 +227,10 @@ private
     number_with_precision(val.to_f, :precision => 1)
   end
   
+  def currency_no_sign(val, options)
+    number_with_precision(val.to_f, :precision => 2)
+  end
+  
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
       bar = "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>"

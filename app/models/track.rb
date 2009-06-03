@@ -22,7 +22,17 @@ class Track < ActiveRecord::Base
   table_format :page_views,     :total => :sum, :order => 50, :class => 'right'
   table_format :duration,       :total => :avg, :order => 90, :class => 'right', :formatter => :seconds_to_time
   table_format :hour,           :total => :avg, :order => 90, :class => 'right', :formatter => :hours_to_time
-    
+
+  table_format :campaign_name,  :order => -1
+  table_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
+  table_format :impressions,    :total => :sum, :order => 20, :class => 'right', :formatter => :integer_with_delimiter 
+  table_format :cost,           :total => :sum, :order => 30, :class => 'right', :formatter => :integer_with_delimiter 
+  table_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_no_sign
+  
+  table_format :clicks_through,  :total => :sum, :order => 22, :class => 'right', :formatter => :integer_with_delimiter
+  table_format :click_through_rate, :total => :avg, :order => 25, :class => 'right', :formatter => :percentage
+  table_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_no_sign
+  
   table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
   table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
   table_format :language,       :order => -1, :formatter => :not_set_on_blank
