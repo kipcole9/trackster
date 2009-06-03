@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def force_login_if_required
-    redirect_to login_path unless login_status_ok?
+    access_denied unless login_status_ok?
   end
   
   def login_status_ok?
