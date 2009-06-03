@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :login_status_ok?
+  before_filter     :force_login_if_required
   before_filter     :set_locale
   before_filter     :set_timezone
   before_filter     :store_location, :only => [:index, :show]
@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     I18n.t("#{params['controller']}.index.name", :default => params[:controller].titleize)
   end
 
+  def force_login_if_required
+    redirect_to login_path unless login_status_ok?
+  end
+  
   def login_status_ok?
     if current_user_agent =~ /W3C_Validator/ && Rails.env == "development"
       self.current_user = User.find_by_login('admin')
