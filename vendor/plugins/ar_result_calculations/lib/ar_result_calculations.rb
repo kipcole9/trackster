@@ -83,7 +83,7 @@ module ActiveRecord
               sx  += x
               sy  += y
             end
-            @slope = ( @size * sxy - sx*sy ) / ( @size * sxx - sx * sx )
+            @slope = ( @size * sxy - sx*sy ) / ( @size * sxx - sx * sx ) rescue 0
             @offset = (sy - @slope*sx) / @size
           end
 
