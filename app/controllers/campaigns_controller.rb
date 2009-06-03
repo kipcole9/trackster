@@ -3,7 +3,7 @@ class CampaignsController < ApplicationController
   before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
-  layout              'dashboards', :only => :show
+  layout              :choose_layout
 
   def new
     @campaign = user_create_scope.new
@@ -91,5 +91,11 @@ private
     ['name like ? or description like ?', search, search ]
   end
 
-  
+  def choose_layout
+    if params[:action] == 'show'
+      'dashboards'
+    else
+      'campaigns'
+    end
+  end
 end
