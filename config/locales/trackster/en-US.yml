@@ -43,9 +43,10 @@ en-US:
             edit_campaign:  Basic campaign information
             html:           Campaign HTML
         campaign_impressions_graph:
-            impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
+            impressions_graph_by_local_hour: Impressions by hour of viewing
         campaign_overview:
-            campaign_overview: Campaign summary
+            campaign_overview: Campaign Summary
+            show:           Campaign summary
         campaign_impressions:
             campaign_impressions: Campaign impressions
         campaign_clicks:
