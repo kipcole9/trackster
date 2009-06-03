@@ -71,6 +71,7 @@ en-US:
             url:            URL (web page address)
         visits_graph:    
             visit_graph:    Visits
+            no_visits_yet:  No visits currently recorded.
         pageview_graph:
             pageview_graph: Page views
         visit_summary:
