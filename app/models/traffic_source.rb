@@ -9,16 +9,14 @@ class TrafficSource < ActiveRecord::Base
     account = Account.admin_account
     SearchEngine.all.each do |engine|
       ts = account.traffic_sources.find_or_create_by_host(engine.host)
-      if engine.host =~ /google/i 
-        ts.source_type = 'google'
-      elsif engine.host =~ /yahoo/i
-        ts.source_type = 'yahoo'
-      elsif engine.host =~ /live\.com/i
-        ts.source_type = 'microsoft'
-      elsif engine.host =~ /bing\.com/i
-        ts.source_type = 'microsoft'
+      if engine.host =~ /\Amaps search\./i 
+        ts.source_type = 'map'
+      elsif engine.host =~ /\Aimages\./ 
+        ts.source_type = 'image search'        
+      elsif engine.host =~ /\Ablogsearch\./ 
+        ts.source_type = 'blog search'        
       else
-        ts.source_type = 'search'
+        ts.source_type = 'organic search'
       end
       ts.save
     end

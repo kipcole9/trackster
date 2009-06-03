@@ -165,9 +165,14 @@ class WebAnalytics
     
     uri = URI.parse(referrer)
     row[:referrer_host] = uri.host
-    if search_engine = SearchEngine.find_by_host(uri.host.sub(/\Awww\./,''))
+    if search_engine = SearchEngine.find_from_host(uri.host)
       params = params_to_hash(uri.query)
       row[:search_terms] = params[search_engine.query_param]
+      if search_engine.query_param == 'prev'
+        # Hack for google images.  Search terms are the q param within the prev param.
+        revised_terms = params_to_hash(row[:search_terms].sub(/\A.*\?/,''))
+        row[:search_terms] = revised_terms['q']
+      end
       row[:traffic_source] = 'search'
     else
       row[:traffic_source] = 'referral'      
@@ -233,9 +238,10 @@ private
   # This needs to be rewritten as a proper analyser
   def get_email_client!(row)
     original_browser = row[:browser]
-    if row[:referrer] =~ /mail\.google.*\/mail/
+    if row[:user_agent] =~ /MSOffice 12/i
+      row[:browser] = "Outlook 2007"
+    elsif row[:referrer] =~ /mail\.google.*\/mail/
       row[:browser] = "GMail"
-      row[:traffice_source] = 'email'
     elsif row[:referrer] =~ /\.hotmail\./
       row[:browser] = 'Hotmail'
     elsif row[:referrer] =~ /mail\.yahoo\./
@@ -257,7 +263,7 @@ private
     end
     unless row[:browser] == original_browser
       row[:traffic_source] = 'email'
-      row[:referrer_category] = 'email'
+      row[:referrer_category] = 'campaign'
     end
   end
   
@@ -288,7 +294,7 @@ private
     result = {}
     split_into_parameters(params).each do |p|
       var, value = p.split('=')
-      result[var] = CGI.unescape(value)
+      result[var] = CGI.unescape(value) unless value.blank?
     end if params
     result
   end

@@ -8,6 +8,7 @@ namespace :trackster do
     `curl http://www.antezeta.com/j/gase.js > #{destination}`
     `cat #{Rails.root}/lib/analytics/search_engines_base.js >>#{destination}`
     SearchEngine.import_javascript_list(destination)
+    TrafficSource.import_search_engines
   end
   
   

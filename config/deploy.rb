@@ -89,8 +89,13 @@ task :migrate_database, :roles => :db do
   run "cd #{release_path} && rake RAILS_ENV=#{rails_env} db:migrate"
 end
 
+desc "Update search engines"
+task :update_search_engines, :roles => :app do
+  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_search_engine_list"
+end
+
 desc "Start log analyser"
-task :start_log_analyser, :roles => :web do
+task :start_log_analyser, :roles => :app do
   run <<-EOF
     export RAILS_ENV=#{rails_env}
     cd #{release_path} && lib/daemons/log_analyser_ctl start
@@ -98,7 +103,7 @@ task :start_log_analyser, :roles => :web do
 end
 
 desc "Stop log analyser"
-task :stop_log_analyser, :roles => :web do
+task :stop_log_analyser, :roles => :app do
   run <<-EOF
     cd #{release_path} && lib/daemons/log_analyser_ctl stop
   EOF

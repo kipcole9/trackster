@@ -22,5 +22,9 @@ class SearchEngine < ActiveRecord::Base
     end
   end
   
+  def self.find_from_host(host)
+    search_host = host.sub(/\Awww\./,'').sub(/\Amaps\.google\./,'google.')
+    find_by_host(search_host)
+  end
   
 end
