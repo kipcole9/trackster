@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090603102921) do
+ActiveRecord::Schema.define(:version => 20090603214651) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -23,8 +23,7 @@ ActiveRecord::Schema.define(:version => 20090603102921) do
     t.integer  "account_id"
     t.string   "name"
     t.text     "description"
-    t.text     "design_html"
-    t.text     "production_html"
+    t.text     "email_html"
     t.text     "landing_page_html"
     t.integer  "cost"
     t.integer  "distribution"
@@ -35,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20090603102921) do
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "landing_html"
   end
 
   create_table "cityByCountry", :primary_key => "city", :force => true do |t|

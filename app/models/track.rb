@@ -4,6 +4,8 @@ class Track < ActiveRecord::Base
   belongs_to     :campaign
 
   NON_METRIC_KEYS = [:scoped, :source, :between, :by, :duration, :order, :label, :filter, :limit, :having]
+  
+  # Dimensions here will automatically have IS NOT NULL appended to their conditions
   NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name, :local_hour]
     
   include Analytics::Metrics
@@ -30,7 +32,7 @@ class Track < ActiveRecord::Base
   table_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_no_sign
   
   table_format :clicks_through,  :total => :sum, :order => 22, :class => 'right', :formatter => :integer_with_delimiter
-  table_format :click_through_rate, :total => :avg, :order => 25, :class => 'right', :formatter => :percentage
+  table_format :click_through_rate, :total => :avg, :order => 25, :formatter => :bar_and_percentage
   table_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_no_sign
   
   table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   

@@ -3,6 +3,7 @@ class CampaignsController < ApplicationController
   before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
+  layout              'dashboards', :only => :show
 
   def new
     @campaign = user_create_scope.new
@@ -27,7 +28,9 @@ class CampaignsController < ApplicationController
   def show
     respond_to do |format|
       format.js   { render_list_item @campaign, 'campaign_summary' }
-      format.html { }
+      format.html { 
+        @campaign_summary = @campaign.tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name).between(Track.period_from_params(params)).all
+        render 'properties/campaign_summary' }
     end
   end
 
@@ -50,6 +53,15 @@ class CampaignsController < ApplicationController
       flash[:error] = t('.campaign_not_updated')
       render :action => 'edit'
     end
+  end
+  
+  def destroy
+    if @campaign.destroy
+      flash[:notice] = t('.campaign_deleted')
+    else
+      flash[:error] = t('.campaign_not_deleted')
+    end
+    redirect_back_or_default('/')    
   end
 
 private

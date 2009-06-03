@@ -32,7 +32,15 @@ en-US:
         index:
             user_search:    "Find a user"
         edit:
-            edit_user:      "Profile details"    
+            edit_user:      "Profile details"
+            
+    campaigns:
+        campaign_deleted:   Campaign deleted
+        campaign_updated:   Campaign updated
+        campaign_form:
+            distribution:   Distribution
+            coding:         Link code
+            edit_campaign:  Edit campaign
 
     properties:
         index:
@@ -96,6 +104,8 @@ en-US:
         new_user:           "Define a new user"
         user:               "Update your profile"
         navigation:         "Metrics & Dimensions"
+        campaign_index:     "Campaigns"
+        campaign:           Campaign
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"

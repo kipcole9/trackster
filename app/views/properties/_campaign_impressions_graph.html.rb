@@ -1,6 +1,6 @@
 panel t('.impressions_graph_by_local_hour')  do
   block do
-    impressions = @property.tracks.impressions.by(:hour).between(Track.period_from_params(params)).all
+    impressions = (@campaign || @property).tracks.impressions.by(:hour).between(Track.period_from_params(params)).all
     if impressions.empty?
       h3 t('no_impressions_yet')
     else

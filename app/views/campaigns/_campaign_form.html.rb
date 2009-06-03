@@ -19,8 +19,8 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
   end
   fieldset t('.coding') do
     campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?
-    campaign.file_field     :design_html
-    campaign.file_field     :landing_html
+    campaign.file_field     :email_html, :accept => 'text/html'
+    campaign.file_field     :landing_page_html, :accept => 'text/html'
   end
   submit_combo
 end
