@@ -22,6 +22,7 @@ en-US:
     no_search_terms_found:  No search terms currently recorded.
     no_page_views_yet:      No page views currently recorded.
     no_referrers_found:     No referrers currently recorded.
+    no_impressions_yet:     No impressions currently recorded.
     bits:                   bits
 
     users:
@@ -46,6 +47,10 @@ en-US:
             impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
         campaign_summary:
             campaign_overview: Campaign summary
+        campaign_impressions:
+            campaign_impressions: Campaign impressions
+        campaign_clicks:
+            campaign_clicks:    Campaign clicks              
         site_summary:
             country:        Countries
             browser:        Browsers

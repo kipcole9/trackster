@@ -104,6 +104,13 @@ module Analytics
                  
         named_scope :clicks_through,
           :select => "count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) as clicks_through"
+          
+        named_scope :click_through_rate,
+          :select => "count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) / " + \
+                     "count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL)) as click_through_rate"
+                     
+        named_scope :cost_per_click,
+          :select => "sum(cost) / count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL))"
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
@@ -121,17 +128,28 @@ module Analytics
         named_scope :impressions,
           :select => "count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL)) as impressions",
           :joins => :events
+          
+        named_scope :deliveries,
+          :select => 'sum(distribution - bounces - unsubscribes) as deliveries',
+          :joins => :campaign
+          
+        named_scope :cost,
+          :select => 'sum(cost) as cost',
+          :joins => :campaign
+          
+        named_scope :cost_per_impression,
+          :select => "(sum(cost)/count(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL))) as cost_per_impression"
 
         named_scope :campaign_bounces,
-          :select => 'bounces',
+          :select => 'sum(bounces) as bounces',
           :joins => :campaign
           
         named_scope :unsubscribes,
-          :select => 'unsubscribes',
+          :select => 'sum(unsubscribes) as unsubscribes',
           :joins => :campaign
 
         named_scope :distribution,
-          :select => 'distribution',
+          :select => 'sum(distribution) as distribution',
           :joins => :campaign
 
         # How long between the even and it turning up in the log
