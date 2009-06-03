@@ -4,7 +4,7 @@ panel t('.pageview_graph')  do
     if page_views.empty? || (page_views.size == 1 && page_views.first.page_views == "0")
       h3 t('no_page_views_yet')
     else
-      store page_views.to_chart(:page_views, :date, :tooltip => "Date: #x_label#\nViews: #val#")
+      store page_views.to_chart(:page_views, :date, :tooltip => "Date: #x_label#\nViews: #val#", :regression => true)
     end
   end
 end
