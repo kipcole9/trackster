@@ -130,26 +130,26 @@ module Analytics
           :joins => :events
           
         named_scope :deliveries,
-          :select => 'sum(distribution - bounces - unsubscribes) as deliveries',
+          :select => 'avg(distribution - bounces - unsubscribes) as deliveries',
           :joins => :campaign
           
         named_scope :cost,
-          :select => 'sum(cost) as cost',
+          :select => 'avg(cost) as cost',
           :joins => :campaign
           
         named_scope :cost_per_impression,
-          :select => "(sum(cost)/sum(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL))) as cost_per_impression"
+          :select => "(avg(cost)/avg(if(category = '#{Event::EMAIL_CATEGORY}' AND action = '#{Event::OPEN_ACTION}',1,NULL))) as cost_per_impression"
 
         named_scope :campaign_bounces,
-          :select => 'sum(bounces) as bounces',
+          :select => 'avg(bounces) as bounces',
           :joins => :campaign
           
         named_scope :unsubscribes,
-          :select => 'sum(unsubscribes) as unsubscribes',
+          :select => 'avg(unsubscribes) as unsubscribes',
           :joins => :campaign
 
         named_scope :distribution,
-          :select => 'sum(distribution) as distribution',
+          :select => 'avg(distribution) as distribution',
           :joins => :campaign
 
         # How long between the even and it turning up in the log

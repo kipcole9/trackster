@@ -1,4 +1,4 @@
-panel t('.campaign_clicks')  do
+panel t('.campaign_clicks'), :class => 'table'  do
   block do
     impressions_summary = @property.tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).all
     if impressions_summary.empty?
