@@ -38,9 +38,18 @@ en-US:
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
         campaign_form:
-            distribution:   Distribution
-            coding:         Link code
-            edit_campaign:  Edit campaign
+            distribution:   Campaign distribution
+            coding:         Link tagging
+            edit_campaign:  Basic campaign information
+            html:           Campaign HTML
+        campaign_impressions_graph:
+            impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
+        campaign_overview:
+            campaign_overview: Campaign summary
+        campaign_impressions:
+            campaign_impressions: Campaign impressions
+        campaign_clicks:
+            campaign_clicks:    Campaign clicks            
 
     properties:
         index:
@@ -50,15 +59,7 @@ en-US:
             new_property:   "New Web Property details"        
         edit:
             new_property:   "Enter the new web property's details"
-            edit_property:  "Update the '{{name}}' web property"
-        campaign_impressions_graph:
-            impressions_graph_by_local_hour: Impressions by UTC hour of viewing (summary of all campaigns)
-        campaign_summary:
-            campaign_overview: Campaign summary
-        campaign_impressions:
-            campaign_impressions: Campaign impressions
-        campaign_clicks:
-            campaign_clicks:    Campaign clicks              
+            edit_property:  "Update the '{{name}}' web property"             
         site_summary:
             country:        Countries
             browser:        Browsers
@@ -124,6 +125,15 @@ en-US:
             role:           "What role (authority) will the new user have?"
             photo:          "Can you upload an image as part of your profile.  It will be visible to other people on your account."
             
+        campaign:
+            cost:           "Total campaign cost, used to measure campaign performance"
+            distribution:   "What is the size of the distribution list for the campaign?"
+            bounces:        "How many emails were undeliverable?"
+            unsubscribes:   "How many people unsubscribed?"
+            code:           "This is your campaign code.  It's used to tag links so that campaign tracking data is correctly assigned. This code is automatically generated and cannot be changed."
+            email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  
+            landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
+            
         property:
             tracker:        "This is the code that uniquely identifies your web property.  It is used in tagged links, javascripts and redirects. It can't be changed."
             description:    "A description of your web property."
@@ -153,6 +163,9 @@ en-US:
                 address:        Address
             website:
                 url:            Address
+            campaign:
+                code:           Campaign tracking code
+                cost:           Total Cost
             track:
                 ip_address:             IP Address
                 page_views:             Views

@@ -73,7 +73,7 @@ class PropertiesController < ApplicationController
       render :action => 'site_summary'
     elsif Track.campaign_dimensions.include?(params[:action])
       @campaign_summary = @property.tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name).between(Track.period_from_params(params)).all
-      render :action => 'campaigns/campaign_summary'      
+      render 'campaigns/campaign_summary'      
     elsif Track.loyalty_dimensions.include?(params[:action])
       @visit_summary = @property.tracks.visits.event_count.by(params[:action]).between(Track.period_from_params(params)).all.sort{|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
       render :action => 'visit_summary'      

@@ -11,14 +11,14 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
     campaign.text_field     :name
     campaign.text_area      :description
     campaign.text_field     :cost,          :validate => :validations
+    campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?
   end
   fieldset t('.distribution') do
     campaign.text_field     :distribution,  :validate => :validations
     campaign.text_field     :bounces,       :validate => :validations
     campaign.text_field     :unsubscribes,  :validate => :validations
   end
-  fieldset t('.coding') do
-    campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?
+  fieldset t('.html') do
     campaign.file_field     :email_html, :accept => 'text/html'
     campaign.file_field     :landing_page_html, :accept => 'text/html'
   end
