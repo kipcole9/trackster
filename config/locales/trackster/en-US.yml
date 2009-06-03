@@ -15,11 +15,13 @@ en-US:
     show_all_fields:        Show all fields?
     unknown_activation_code: The activation code you provided is not known.
     total:                  Total
-    no_data_for_chart:      No Data Available
+    no_data_for_chart:      No data available for this chart.
     not_set:                (Not Set)
     unknown:                (Unknown)
-    no_data_yet:            No Data available for this report.
-    no_search_terms_found:  No search terms found.   
+    no_data_yet:            No data available for this report.
+    no_search_terms_found:  No search terms currently recorded.
+    no_page_views_yet:      No page views currently recorded.
+    no_referrers_found:     No referrers currently recorded.
     bits:                   bits
 
     users:
@@ -74,7 +76,6 @@ en-US:
             no_visits_yet:  No visits currently recorded.
         pageview_graph:
             pageview_graph: Page views
-            no_page_views_yet: No page views currently recorded.
         visit_summary:
             length_of_visit:    Length of Visit
             depth_of_visit:     Depth of Visit

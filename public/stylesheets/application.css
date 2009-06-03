@@ -98,18 +98,6 @@ h1#branding {
 	margin-bottom: 0;
 }
 
-#branding img {
-	position: relative;
-	float: right;
-	top: -3px;
-	right: 2px;
-	height: 41px;
-}
-
-#branding a {
-	position: relative;
-	top: 3px;
-}
 
 /* page heading
 ----------------------------------------------- */
@@ -657,11 +645,19 @@ div.box.table h2 {
 	margin: 0;
 }
 
-div.box.table h3 {
+/* This to format a "nothing here" message in blocks
+but having two types doesn't help */
+div.main div.box .block h3 {
 	font-size: 100%;
 	padding: 1em;
+	margin: -10px -10px -5px -10px;
 }
 
+div.main div.box.table h3 {
+	margin: 0;
+}
+
+/* Table layouts for generated content in to_table */
 div.block table {
 	table-layout: fixed;
 	margin: 0;
