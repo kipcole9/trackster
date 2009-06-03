@@ -88,11 +88,7 @@ class PropertiesController < ApplicationController
   end
 
   def _page_title
-    if @property
-      "#{@property.name}"
-    else
-      super
-    end
+    @property ? @property.name : super
   end
   
 private

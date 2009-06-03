@@ -30,7 +30,7 @@ class CampaignsController < ApplicationController
       format.js   { render_list_item @campaign, 'campaign_summary' }
       format.html { 
         @campaign_summary = @campaign.tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name).between(Track.period_from_params(params)).all
-        render 'properties/campaign_summary' }
+        render 'campaign_summary' }
     end
   end
 
@@ -62,6 +62,10 @@ class CampaignsController < ApplicationController
       flash[:error] = t('.campaign_not_deleted')
     end
     redirect_back_or_default('/')    
+  end
+  
+  def _page_title
+    @campaign ? @campaign.name : super
   end
 
 private
