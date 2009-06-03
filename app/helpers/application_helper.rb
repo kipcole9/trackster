@@ -2,11 +2,13 @@
 module ApplicationHelper
   include PageLayout
   
-  TAB             = "tab"
-  TAB_ITEM        = "tabItem"
-  ACCORDIAN       = 'concertina'
-  ACCORDIAN_ITEM  = 'targ'
+  # Class names that are managed by javascript
+  TAB                     = "tab"
+  TAB_ITEM                = "tabItem"
+  ACCORDIAN               = 'concertina'
+  ACCORDIAN_ITEM          = 'targ'
   ACCORDIAN_ITEM_HEADING  = 'trig'
+  ACCORDIAN_ITEM_OPEN     = "#{ACCORDIAN_ITEM_HEADING} open"
   
   # Tab creation methods, using the tabulator.js script from
   # http://www.cyber-sandbox.com/
@@ -44,7 +46,7 @@ module ApplicationHelper
   end
   
   def accordian_item(heading, options = {}, &block)
-    default_h3_options = { :class => ACCORDIAN_ITEM_HEADING }
+    default_h3_options = { :class => options.delete(:open) ? ACCORDIAN_ITEM_OPEN : ACCORDIAN_ITEM_HEADING}
     default_div_options = { :class => ACCORDIAN_ITEM }
     @template.concat @template.content_tag(:h3, heading, default_h3_options)
     @template.concat @template.content_tag(:div, @template.capture(&block), default_div_options.merge(options))    

@@ -22,7 +22,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Search engines")
         p link_to("Keywords", property_report_path(@property, 'keywords'))
       end
-      accordian_item "#{image_tag '/images/icons/money_dollar.png'} Campaigns" do
+      accordian_item "#{image_tag '/images/icons/money_dollar.png'} Campaigns", :open => true do
         p link_to("Overview", property_report_path(@property, 'campaign_overview'))
         p link_to("Impressions")
         p link_to("Clicks-through")

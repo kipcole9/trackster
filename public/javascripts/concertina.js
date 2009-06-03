@@ -57,7 +57,7 @@ Concertina.prototype = {
     }
     this.root.addClassName('concertina').setStyle({position:'relative',zoom:1})
              .observe('click',this.wait.bindAsEventListener(this));
-    this.allTrigs.first().addClassName('open');
+	this.allTrigs.first().addClassName('open');
   },
   unclick     : function () {
     this.clicked = 0;

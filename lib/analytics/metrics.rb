@@ -103,7 +103,7 @@ module Analytics
           :joins => :events
                  
         named_scope :clicks_through,
-          :select => "count(if(campaign_medium = 'email' AND visit IS NOT NULL,1,NULL)) as clicks_through"
+          :select => "count(if(campaign_medium IS NOT NULL AND visit IS NOT NULL,1,NULL)) as clicks_through"
 
         # Duration is marked in the Session table for the total of the session
         named_scope :duration,
