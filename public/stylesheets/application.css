@@ -140,6 +140,11 @@ div.flash_error {
 	background-color: #fbb;
 }
 
+/* Error list */
+div.errorExplanation h2 {
+	display: none;
+}
+
 /* The field error message from validations */
 span.field_message {
 	margin-left: 3px;

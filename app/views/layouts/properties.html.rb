@@ -5,7 +5,9 @@ page do
     end
   
     column :width => 4 do
-      include '/users/index'
+      if params[:action] == 'index' && (current_user.has_role?(Role::ADMIN_ROLE) || current_user.has_role?(Role::ACCOUNT_ROLE))
+        include '/users/index'
+      end
   	end
   end
 end

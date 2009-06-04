@@ -1,7 +1,9 @@
 panel t('panels.redirect_index'), :flash => true do  
   block do
     search t("search"), :id => "redirectSearch", :replace => "redirect", :url => redirects_url
-    render_list @redirects, :partial => 'redirect_summary', :buttons => :all
+    with_tag(:div, :id => 'redirect') do
+      render 'index'
+    end
     store will_paginate
   end
 end

@@ -26,29 +26,13 @@ class Property < ActiveRecord::Base
   validates_uniqueness_of   :url
   validates_format_of       :url,     :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix
 
-  validates_format_of       :search_parameter, :with => /[a-z0-9]+/i, :allow_nil => true
+  validates_format_of       :search_parameter, :with => /[a-z0-9]+/i, :allow_nil => true, :allow_blank => true
 
-  def impressions
-    sessions.count(:conditions => Event::EMAIL_OPENINGS, :joins => :events)
+  def url=(val)
+    super(val.sub(/\/\Z/,''))
   end
 
-  def first_impression
-    impression(:first)
-  end
-
-  def last_impression
-    impression(:last)
-  end
-
-  def clicks_through
-    sessions.count(:conditions => "campaign_medium = '#{Session::EMAIL_CLICK}'", :joins => :events)
-  end
- 
 private
-  def impression(first_or_last = :last)
-    order = first_or_last == :first ? 'ASC' : 'DESC'
-    self.sessions.find(:first, :conditions => Event::EMAIL_OPENINGS, :order => "events.tracked_at #{order}", :joins => :events)
-  end
 
   def create_tracker_code
     token = nil

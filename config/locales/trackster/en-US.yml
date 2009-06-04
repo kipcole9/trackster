@@ -6,7 +6,8 @@ en-US:
     my_settings:            Settings
     account_settings:       Account
     or:                     or
-    site_name:              caerus.com
+    site_name:              vietools.com
+    user_created_pending_activation: User has been created and is now pending activation.
     user_login:             Log in to your account
     login:                  Login
     remember_me:            Remember me
@@ -25,6 +26,8 @@ en-US:
     no_impressions_yet:     No impressions currently recorded.
     bits:                   bits
 
+    accounts:
+        account_form:       Account
     users:
         new:
             new_user:       "New user's details"
@@ -108,6 +111,8 @@ en-US:
         navigation:         "Metrics & Dimensions"
         campaign_index:     "Campaigns"
         campaign:           Campaign
+        account:            Update Account
+        account_index:      Index of accounts
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"
@@ -150,6 +155,8 @@ en-US:
             contact:            Contacts
             email:              Email addresses
         attributes:
+            property:
+                url:            Web address (URL)
             account:
                 name:           Account name
                 company_name:   Company name

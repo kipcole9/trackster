@@ -5,7 +5,7 @@ page do
     end
   
     column :width => 4 do
-      include '/users/index'
+      #
   	end
   end
 end

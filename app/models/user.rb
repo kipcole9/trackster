@@ -103,6 +103,10 @@ class User < ActiveRecord::Base
     self.roles = Role.find(:all, :conditions => ['name = ?', role_name])
   end
   
+  def is_administrator?
+    self.has_role?(Role::ADMIN_ROLE) || self.has_role?(Role::ACCOUNT_ROLE)
+  end
+  
   # Stubs just for forms management
   def current_password; end  
   def new_password; end  

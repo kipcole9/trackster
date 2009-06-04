@@ -117,12 +117,14 @@ module ApplicationHelper
     with_tag(:ul, :id => list_id, :class => 'list') do
       collection.each {|item| render_list_member(item, partial, options) }
     end
+    nil
   end
   
   def render_list_member(item, partial, options)
     with_tag(:li, :class => "listMember", :id => list_member(item)) do
-        render_list_item(item, partial, options)
+      render_list_item(item, partial, options)
     end
+    nil
   end
   
   def classes_from_accepts(options)
@@ -138,6 +140,7 @@ module ApplicationHelper
     with_tag(:div, :class => classes, :id => list_item(item)) do
       store render(:partial => partial, :locals => {item.class.name.downcase.to_sym => item, :options => options})
     end
+    nil
   end
   
   def list_member(object)
@@ -194,6 +197,10 @@ module ApplicationHelper
   
   def banner_exists?
     @banner
+  end
+  
+  def edit_action?
+    params[:action] == 'edit'
   end
   
   def remove_link_unless_new_record(fields)
