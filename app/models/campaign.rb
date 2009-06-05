@@ -14,7 +14,12 @@ class Campaign < ActiveRecord::Base
   validates_numericality_of :distribution,  :allow_nil => true
   
   default_scope :order => 'created_at DESC'
-
+  
+  # Supports user_scope method
+  named_scope :user, lambda {|user|
+    {:conditions => {:property_id => user.properties.map(&:id)} }
+  }
+  
   def landing_page_html=(html)
     html.class.name == "Tempfile" ? super(html.read) : super(html)
   end
