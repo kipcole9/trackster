@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
   # Scope any finder with the appropriate constraints
   # based upon user's role
   def user_scope(model, user)
-    klass = model.to_s.classify.constantize
+    klass = model.is_a?(Symbol) ? klass = model.to_s.classify.constantize : model
     if user.has_role?(Role::ADMIN_ROLE)
       klass
     elsif user.has_role?(Role::ACCOUNT_ROLE)
