@@ -133,6 +133,10 @@ class ApplicationController < ActionController::Base
     super key, options
   end  
 
+  def controller
+    self
+  end
+  
   # Scope any finder with the appropriate constraints
   # based upon user's role
   def user_scope(model, user)
