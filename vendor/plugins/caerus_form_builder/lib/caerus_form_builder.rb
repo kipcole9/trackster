@@ -13,7 +13,7 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
     default_options = {}
     field_options = {:before => options.delete(:before), :after => options.delete(:after), 
                      :autocomplete => options.delete(:autocomplete), 
-                     :optional => options.delete(:optional)}
+                     :optional => options.delete(:optional), :no_prompt => options.delete(:no_prompt)}
     with_field(method, field_options) do
       super(method, default_options.merge(options))
     end
@@ -113,7 +113,7 @@ private
     field_id = field_definition.match(/id=\"(.+?)\"/)[1]
     before = options.delete(:before)
     after = options.delete(:after)
-    prompt = get_prompt(object_name, method)
+    prompt = get_prompt(object_name, method, options)
     label = get_label(field_id, method, options)
     field_message = get_field_message(field_id)
     field_options = field_options_from(options)
@@ -161,10 +161,14 @@ private
     label = object.class.human_attribute_name(label.to_s) + (options[:suffix] || DEFAULT_SUFFIX)
   end
   
-  def get_prompt(table, column)
-    prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "none")
-    prompt = I18n.translate("column_descriptions.#{column}", :default => "") if prompt == "none"
-    prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
+  def get_prompt(table, column, options)
+    if options.delete(:no_prompt)
+      ''
+    else
+      prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "none")
+      prompt = I18n.translate("column_descriptions.#{column}", :default => "") if prompt == "none"
+      prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
+    end
   end
   
   def add_autocompleter(method, field_id, options)
