@@ -76,9 +76,14 @@ class ApplicationController < ActionController::Base
   def access_denied
     respond_to do |format|
       format.html do
-        store_location
-        flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
-        redirect_to login_path
+        if logged_in?
+          flash[:error] = t('not_authorized')
+          redirect_back_or_default('/')
+        else
+          flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
+          store_location
+          redirect_to login_path
+        end
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
       # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
