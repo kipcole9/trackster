@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
     if user.has_role?(Role::ADMIN_ROLE)
       klass
     elsif user.has_role?(Role::ACCOUNT_ROLE)
-      user.account.scope[model.to_s.pluralize]
+      user.account.send(model.to_s.pluralize)
     else
       klass.user(user)
     end

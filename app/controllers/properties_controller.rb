@@ -32,30 +32,40 @@ class PropertiesController < ApplicationController
   def create
     @property = user_create_scope.create(params[:property])
     if @property.valid?
-      flash[:notice] = t('.property_created')
+      flash[:notice] = t('.property_created', :name => @property.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.property_not_created')
+      flash[:error] = t('.property_not_created', :name => @property.name)
       render :action => 'edit'
     end
   end
   
   def update
     if @property.update_attributes(params[:property])
-      flash[:notice] = t('.property_updated')
+      flash[:notice] = t('.property_updated', :name => @property.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.property_not_updated')
+      flash[:error] = t('.property_not_updated', :name => @property.name)
       render :action => 'edit'
     end
   end
   
   def destroy
     @property.destroy
-    respond_to do |format|
-      format.html { redirect_back_or_default('/') }      
-      format.js   { head :status => :ok }
-    end
+    if @property.update_attributes(params[:property])
+      flash[:notice] = t('.property_updated', :name => @property.name)
+      respond_to do |format|
+        format.html { redirect_back_or_default('/') }      
+        format.js   { head :status => :ok }
+      end      
+    else
+      flash[:error] = t('.property_not_updated', :name => @property.name)
+      respond_to do |format|
+        format.html { render :action => 'edit' }      
+        format.js   { head :status => :unprocessable_entity }
+      end      
+    end    
+
   end
   
   def overview

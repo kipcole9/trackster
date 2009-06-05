@@ -33,29 +33,29 @@ class AccountsController < ApplicationController
   def create
     @account = Account.create(params[:account])
     if @account.valid?
-      flash[:notice] = t('.account_created')
+      flash[:notice] = t('.account_created', :name => @account.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.account_not_created')
+      flash[:error] = t('.account_not_created', :name => @account.name)
       render :action => 'edit'
     end
   end
 
   def update
     if @account.update_attributes(params[:account])
-      flash[:notice] = t('.account_updated')
+      flash[:notice] = t('.account_updated', :name => @account.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.account_not_updated')
+      flash[:error] = t('.account_not_updated', :name => @account.name)
       render :action => 'edit'
     end
   end
 
   def destroy
     if @account.destroy
-      flash[:notice] = t('.account_deleted')
+      flash[:notice] = t('.account_deleted', :name => @account.name)
     else
-      flash[:error] = t('.account_not_deleted')
+      flash[:error] = t('.account_not_deleted', :name => @account.name)
     end
     redirect_back_or_default('/')    
   end

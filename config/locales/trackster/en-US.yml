@@ -27,15 +27,22 @@ en-US:
     bits:                   bits
 
     accounts:
-        account_form:       Account
+        account_form:           Account
+        account_created:        "Account '{{name}}' created"
+        account_not_created:    "Account '{{name}}' was not created"
+        account_updated:        "Account '{{name}}' updated"
+        account_not_udpated:    "Account '{{name}}' was not updated"
+        account_deleted:        "Account '{{name}}' deleted"
+        account_not_deleted:    "Account '{{name}}' was not deleted"
+                                                
     users:
         new:
-            new_user:       "New user's details"
+            new_user:           "New user's details"
             type_of_new_user:   "New user's role"
         index:
-            user_search:    "Find a user"
+            user_search:        "Find a user"
         edit:
-            edit_user:      "Profile details"
+            edit_user:          "Profile details"
             
     campaigns:
         campaign_deleted:   Campaign deleted
@@ -56,6 +63,12 @@ en-US:
             campaign_clicks:    Campaign clicks            
 
     properties:
+        property_created:        "Property '{{name}}' created"
+        property_not_created:    "Property '{{name}}' was not created"
+        property_updated:        "Property '{{name}}' updated"
+        property_not_udpated:    "Property '{{name}}' was not updated"
+        property_deleted:        "Property '{{name}}' deleted"
+        property_not_deleted:    "Property '{{name}}' was not deleted"     
         index:
             name:           "Web Properties"
         property_form:
