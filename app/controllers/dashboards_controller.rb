@@ -12,7 +12,7 @@ private
   def get_properties
     @properties = user_scope(:property, current_user).all
     if @properties.length == 1 && current_user.is_account_user?
-      redirect_to overview_property_path(@properties.first)
+      redirect_to property_report(@properties.first, 'overview')
     end
   end
   
