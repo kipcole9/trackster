@@ -107,6 +107,10 @@ class User < ActiveRecord::Base
     self.has_role?(Role::ADMIN_ROLE) || self.has_role?(Role::ACCOUNT_ROLE)
   end
   
+  def is_account_user?
+    self.has_role?(Role::USER_ROLE)
+  end
+  
   # Stubs just for forms management
   def current_password; end  
   def new_password; end  
