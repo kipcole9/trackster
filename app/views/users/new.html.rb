@@ -18,6 +18,17 @@ panel t('panels.new_user'), :flash => true, :display_errors => 'user'  do
         end
         user.select :role, Role.available_roles(current_user), :selected => Role::USER_ROLE
       end
+      if current_user.is_administrator?
+        fieldset t('.access_which_properties') do
+          p t('.which_properties_explanation')
+          p ' '
+          Property.all.each do |property|
+            store "#{check_box_tag('user[property_ids][]', property.id)} #{property.name}"
+            p ' '
+          end
+          nil
+        end
+      end
       submit_combo
     end
   end
