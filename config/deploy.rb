@@ -24,6 +24,7 @@ role :db,  "server.vietools.com", :primary => true
 after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'
 after 'deploy:update_code', 'create_asset_packages'
+after 'deploy:update_code', 'symlink_tracker_code'
 after 'deploy:update_code', 'migrate_database'
 
 namespace :deploy do
@@ -55,6 +56,10 @@ task :create_production_tracker, :roles => :web do
     puts "Could not create production tracker: '#{e.message}'"
     run "ls -al #{tracker_directory}"
   end
+end
+
+task :symlink_tracker_code, :roles => :app do  
+  run "ln -s #{tracker} #{release_path}/public/_tks.js"
 end
 
 # Secure config files
