@@ -30,7 +30,15 @@
 			</ul>
 		</li>
 		<li class="secondary">
-			<a name="secondarymenu" href="<%= edit_user_path(current_user) %>">Your profile</a>
+		  <a name="secondarymenu">Your profile</a>
+			<ul>
+				<li>
+			    <a name="secondarymenu" href="<%= edit_user_path(current_user) %>">Update your profile</a>
+			  </li>
+				<li>
+					<a name="secondarymenu-submenu9" href="<%= change_password_path %>">Change your password</a>
+				</li>
+			</ul>	
 		</li>		
 		<% if current_user.has_role?(Role::ACCOUNT_ROLE) %>
   		<li class="secondary">
@@ -43,7 +51,7 @@
   					<a name="secondarymenu-submenu2" href="<%= users_path %>">Show account users</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu2" href="<%= new_user_path %>">Create new account user</a>
+  					<a name="secondarymenu-submenu3" href="<%= new_user_path %>">Create new account user</a>
   				</li>  				
   			</ul>
   		</li>
@@ -53,7 +61,7 @@
   			<a name="secondarymenu">Site Admin</a>
   			<ul>
   				<li>
-  					<a name="secondarymenu-submenu3" href="<%= accounts_path %>">Show accounts</a>
+  					<a name="secondarymenu-submenu4" href="<%= accounts_path %>">Show accounts</a>
   				</li>
   				<li>
   					<a name="secondarymenu-submenu5" href="<%= users_path %>">Show user list</a>
@@ -62,7 +70,7 @@
   					<a name="secondarymenu-submenu6" href="<%= new_account_path %>">Create new account</a>
   				</li>  				
   				<li>
-  					<a name="secondarymenu-submenu4" href="<%= new_user_path %>">Create new user</a>
+  					<a name="secondarymenu-submenu7" href="<%= new_user_path %>">Create new user</a>
   				</li>
  				
   			</ul>

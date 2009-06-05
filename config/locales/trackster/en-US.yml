@@ -41,7 +41,8 @@ en-US:
             new_user:           "New user's details"
             type_of_new_user:   "New user's role"
             access_which_properties:    "Which web properties can this user view?"
-                
+        change_password:
+            change_password:    Change your password        
         index:
             user_search:        "Find a user"
         edit:
@@ -50,11 +51,13 @@ en-US:
     campaigns:
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
+        campaign_created:   Campaign created
         campaign_form:
             distribution:   Campaign distribution
             coding:         Link tagging
             edit_campaign:  Basic campaign information
             html:           Campaign HTML
+            new_campaign:   New campaign profile
         campaign_impressions_graph:
             impressions_graph_by_local_hour: Impressions by hour of viewing
         campaign_overview:
