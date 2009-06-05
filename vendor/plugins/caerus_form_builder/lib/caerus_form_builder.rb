@@ -74,8 +74,8 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
   end
   
   def datetime_select(method, options = {}, html_options = {})
-    default_html_options = {}
-    with_field(method) do
+    default_html_options = {:class => 'datetime'}
+    with_field(method, options) do
       super(method, options, default_html_options.merge(options))
     end
   end

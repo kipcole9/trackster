@@ -9,6 +9,7 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
       campaign.collection_select :property_id, user_scope(:property, current_user).all, :id, :name
     end
     campaign.text_field     :name
+    campaign.datetime_select  :effective_at
     campaign.text_area      :description
     campaign.text_field     :cost,          :validate => :validations
     campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?

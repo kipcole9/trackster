@@ -205,6 +205,18 @@ textarea {
 	-moz-appearance: textfield;
 }
 
+label {
+	display: block;
+}
+
+div.field {
+	margin-bottom: 0.5em;
+}
+.datetime {
+	width: 15%;
+	display: inline;
+}
+
 input[type="file"] {
 	-moz-appearance: textfield;
 	margin: 0;
