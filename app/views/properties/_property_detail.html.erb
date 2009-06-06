@@ -12,7 +12,7 @@ measure and a means of protecting the integrity of the tracking data for your si
 <p>To enable tracking for your site the strongly recommended approach is to embed two lines of javascript
 into the pages of your web site.  An example of the code to be inserted in each page you want to track is as follows:</p>
 <pre><code>
-&lt;script src="<%= root_url -%>javascripts/tracker.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="<%= root_url -%>_tks.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script&gt;
   tracker = new _tks('<%= property.tracker -%>');
   tracker.trackPageview();

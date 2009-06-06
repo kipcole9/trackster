@@ -16,6 +16,7 @@ en-US:
     submit:                 Submit
     show_all_fields:        Show all fields?
     unknown_activation_code: The activation code you provided is not known.
+    password_changed:       Your password has been changed.
     total:                  Total
     no_data_for_chart:      No data available for this chart.
     not_set:                (Not Set)
