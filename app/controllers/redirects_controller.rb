@@ -1,5 +1,6 @@
 class RedirectsController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:redirect, :show, :index]
+  before_filter       :retrieve_property  
   before_filter       :retrieve_redirect, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_redirects, :only => :index
 
@@ -9,35 +10,37 @@ class RedirectsController < ApplicationController
 
   def edit
     respond_to do |format|
+      format.html { }    
       format.js   { render :partial => 'redirect_form', :locals => {:redirect => @redirect} }
-      format.html { }
     end
   end
 
   def show
     respond_to do |format|
-      format.js   { render_list_item @redirect, 'redirect_summary' }
       format.html { }
+      format.js   { render_list_item @redirect, 'redirect_summary' }
     end
   end
 
   def create
-    @redirect = user_create_scope.create(params[:redirect])
-    if @redirect.valid?
-      flash[:notice] = t('.redirect_created')
+    @redirect = user_create_scope.new(params[:redirect])
+    @redirect.property = @property
+    @redirect.account = @property.account
+    if @redirect.save
+      flash[:notice] = t('.redirect_created', :name => @redirect.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.redirect_not_created')
+      flash[:error] = t('.redirect_not_created', :name => @redirect.name)
       render :action => 'edit'
     end
   end
 
   def update
     if @redirect.update_attributes(params[:redirect])
-      flash[:notice] = t('.redirect_updated')
+      flash[:notice] = t('.redirect_updated', :name => @redirect.name)
       redirect_back_or_default('/')
     else
-      flash[:error] = t('.redirect_not_updated')
+      flash[:error] = t('.redirect_not_updated', :name => @redirect.name)
       render :action => 'edit'
     end
   end
@@ -60,15 +63,19 @@ class RedirectsController < ApplicationController
 
 private
   def retrieve_redirect
-    @redirect = user_scope(:redirect, current_user).find(params[:id])
+    @redirect = @property.redirects.find(params[:id])
   end
 
   def retrieve_redirects
-    @redirects = user_scope(:redirect, current_user).paginate(:page => params[:page])
+    @redirects = @property.redirects.paginate(:page => params[:page])
+  end
+  
+  def retrieve_property
+    @property = user_scope(:property, current_user).find(params[:property_id]) if params[:property_id]
   end
   
   def user_create_scope
-    current_user.account.redirects
+    @property.redirects
   end
 
 end

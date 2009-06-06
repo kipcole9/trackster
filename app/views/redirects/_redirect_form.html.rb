@@ -1,7 +1,7 @@
-caerus_form_for redirect do |redirect|
+url = redirect.new_record? ? property_redirects_path(@property) : property_redirect_path(@property)
+caerus_form_for redirect, :url => url do |redirect|
   fieldset redirect.object.new_record? ? t('.new_redirect') : t('.edit_redirect', :name => redirect.object.name) do
-    redirect.text_field     :name, :validate => :validations
-    redirect.select         :property_id, Property.find(:all).map{|p| [p.name, p.id]}    
+    redirect.text_field     :name, :validate => :validations   
     redirect.text_field     :url, :validate => :validations
     unless redirect.object.new_record?
       p "Redirection url is: #{link_to redirector_url(redirect.object.redirect_url),redirector_url(redirect.object.redirect_url) }"

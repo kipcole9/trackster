@@ -205,10 +205,6 @@ textarea {
 	-moz-appearance: textfield;
 }
 
-label {
-	display: block;
-}
-
 div.field {
 	margin-bottom: 0.5em;
 }

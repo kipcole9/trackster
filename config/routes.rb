@@ -17,7 +17,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :accounts
   map.resources :campaigns
-  map.resources :redirects
   map.resources :properties,  :has_many => [:campaigns, :redirects]
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
                   

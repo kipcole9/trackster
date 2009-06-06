@@ -49,6 +49,20 @@ en-US:
         edit:
             edit_user:          "Profile details"
             
+    redirects:
+        redirect_created:        "Redirect '{{name}}' created"
+        redirect_not_created:    "Redirect '{{name}}' was not created"
+        redirect_updated:        "Redirect '{{name}}' updated"
+        redirect_not_udpated:    "Redirect '{{name}}' was not updated"
+        redirect_deleted:        "Redirect '{{name}}' deleted"
+        redirect_not_deleted:    "Redirect '{{name}}' was not deleted"        
+        redirect_summary:
+            redirect_to:    Redirects to
+            redirect_from:  Redirects from
+            delete_redirect: "Delete redirect?"
+        redirect_form:
+            new_redirect:   New redirect
+            edit_redirect:  Edit redirect       
     campaigns:
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
@@ -133,6 +147,8 @@ en-US:
         campaign:           Campaign
         account:            Update Account
         account_index:      Index of accounts
+        redirect_index:     Index of redirects
+        redirect:           Redirect profile
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"
