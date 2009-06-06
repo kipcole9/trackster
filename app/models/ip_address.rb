@@ -21,8 +21,8 @@ class IpAddress < ActiveRecord::Base
       raise row.inspect
     end
     if lookup = find(:first, :conditions => ['ip = ?', convert_to_integer_cidr24(ip_address)])
-      country = Country.find(:first, :conditions => ['id = ?', lookup.country])
-      city = City.find(:first, :conditions => ['country = ? AND city = ?', lookup.country, lookup.city])
+      country = Country.find_by_id(lookup.country)
+      city = City.find_by_country_and_city(lookup.country, lookup.city)
       if row 
         if country
           row[:country] = country.name.titleize unless country.name.blank?
@@ -35,6 +35,10 @@ class IpAddress < ActiveRecord::Base
         end
         row[:geocoded_at] = Time.now
       end
+    elsif !row[:country_code].blank? && country = Country.find_by_code(row[:country_code])
+      # No IP Address lookup, but check if there was a search engine that got us here.
+      # and perhaps we can use the country suffix to tell us the probable country
+      row[:country] = country.name.titleize unless country.name.blank?
     end
   end
     

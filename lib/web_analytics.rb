@@ -167,6 +167,7 @@ class WebAnalytics
     row[:referrer_host] = uri.host
     if search_engine = SearchEngine.find_from_host(uri.host)
       params = params_to_hash(uri.query)
+      row[:country_code] = search_engine.country
       row[:search_terms] = params[search_engine.query_param]
       if search_engine.query_param == 'prev'
         # Hack for google images.  Search terms are the q param within the prev param.
