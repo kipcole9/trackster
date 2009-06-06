@@ -28,7 +28,7 @@ private
   def create_redirect_url
     token = nil
     until token && !self.class.find_by_redirect_url(token)
-      token = ActiveSupport::SecureRandom.hex(10)
+      token = ActiveSupport::SecureRandom.hex(3)
     end
     self.redirect_url = token
   end

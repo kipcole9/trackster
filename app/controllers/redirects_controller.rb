@@ -51,7 +51,9 @@ class RedirectsController < ApplicationController
   # resolve for us.
   def redirect
     if !params[:redirect].blank? && redirection = Redirect.find_by_redirect_url(params[:redirect])
-      redirect_to redirection.url
+      query_string = URI.parse(request.url).query rescue nil
+      redirect = query_string.blank? ? redirection.url : "#{redirection.url}?#{query_string}"
+      redirect_to redirect
     elsif params[:redirect].blank?
       Rails.logger.warn "Redirect with no parameter requested."
       head :status => 404

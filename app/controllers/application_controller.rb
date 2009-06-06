@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :force_login_if_required
-  before_filter     :set_locale
-  before_filter     :set_timezone
+  before_filter     :force_login_if_required, :except => :redirect
+  before_filter     :set_locale, :except => :redirect
+  before_filter     :set_timezone, :except => :redirect
   before_filter     :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, 
                                                 :unique, :activate, :change_password, :update_password]
 
