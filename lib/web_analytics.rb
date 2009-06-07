@@ -124,12 +124,17 @@ class WebAnalytics
   # A redirect URL. Parameters are kept in the 
   # Redirects table
   def parse_redirect_parameters(url)
-    return nil unless row = parse_tracker_url_parameters(url)
-    return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
-    [:category, :action, :label, :value, :url].each do |attrib|
-      row[attrib] = redirect.send(attrib) unless row[attrib]
-    end
-    row[:property_code] = redirect.property.tracker unless !redirect.property || row[:property_code]
+    begin
+      return nil unless row = parse_tracker_url_parameters(url)
+      return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
+      [:category, :action, :label, :value, :url].each do |attrib|
+        row[attrib] = redirect.send(attrib) unless row[attrib]
+      end
+      row[:property_code] = redirect.property.tracker
+    rescue NoMethodError => e
+      Rails.logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
+      Rails.logger.error "[Web Analytics] #{redirect.inspect}" 
+    end  
     row[:redirect_id] = redirect['id']
     row[:page_title] = redirect.name
     row[:redirect] = true
