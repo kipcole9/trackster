@@ -92,7 +92,7 @@ class TableFormatter
   
   def output_cell_value(cell_type, value, column, options = {})
     result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
-    result = result.nil? ? '' : result.to_s
+    result = result.nil? ? '' : result
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
     end
@@ -233,16 +233,15 @@ private
   
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
-      bar = "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>"
-      bar + "<div>" + number_to_percentage(val, :precision => 1) + "</div>"
+      bar = "<div class=\"hbar\" style=\"width:#{val.to_s}%\">&nbsp;</div>"
+      bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
-      number_to_percentage(val, :precision => 1)
+      percentage(val, :precision => 1)
     end
   end 
      
   # Decide if the given column is to be displayed in the table
   def include_column?(column, options)
-    puts column.inspect
     return options[:include].include?(column) if options[:include]
     return false if options[:exclude] && options[:exclude].include?(column)
     return false if options[:exclude_ids] && column.match(/_id\Z/)  
