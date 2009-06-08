@@ -86,7 +86,11 @@ class CampaignsController < ApplicationController
   end
         
   def _page_title
-    @campaign ? @campaign.name : super
+    if @campaign
+      I18n.t('campaigns.campaign_for_property', :campaign => @campaign.name, :property => @property.name)
+    else
+      super
+    end
   end
 
 private
@@ -96,10 +100,15 @@ private
   
   def retrieve_property
     @property = user_scope(:property, current_user).find(params[:property_id]) if params[:property_id]
+    @property ||= @campaign.property if @campaign
   end
 
   def retrieve_campaigns
-    @campaigns = user_scope(:campaign, current_user).paginate(:page => params[:page], :conditions => conditions_from_params)
+    @campaigns = campaigns_scope.paginate(:page => params[:page], :conditions => conditions_from_params)
+  end
+  
+  def campaigns_scope
+    @property ? @campaigns = @property.campaigns : @campaigns = user_scope(:campaign, current_user)
   end
 
   def user_create_scope

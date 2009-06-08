@@ -16,8 +16,12 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resources :accounts
-  map.resources :campaigns, :member => {:preview => :get}
-  map.resources :properties,  :has_many => [:campaigns, :redirects]
+  map.resources :campaigns, :member => {:preview => :get}  
+  map.resources :properties  do |properties|
+    properties.resources :campaigns, :member => {:preview => :get}
+    properties.resources :redirects
+  end
+  
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
                   
   map.resources :relates      # Creates relationships between objects

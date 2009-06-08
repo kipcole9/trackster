@@ -66,6 +66,7 @@ en-US:
     campaigns:
         hash_link_problem:  "Link {{url}} should point to a landing page."
         bad_uri:            "Link {{url}} appears invalid."
+        campaign_for_property: "'{{campaign}}' for '{{property}}'"
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
         campaign_created:   Campaign created
@@ -174,6 +175,7 @@ en-US:
             cost:           "Total campaign cost, used to measure campaign performance"
             distribution:   "What is the size of the distribution list for the campaign?"
             bounces:        "How many emails were undeliverable?"
+            image_directory: "The (optional) hosting server subdirectory name where the email's images are located"
             unsubscribes:   "How many people unsubscribed?"
             code:           "This is your campaign code.  It's used to tag links so that campaign tracking data is correctly assigned. This code is automatically generated and cannot be changed."
             email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  

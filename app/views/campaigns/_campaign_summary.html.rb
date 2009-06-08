@@ -5,7 +5,7 @@ with_tag(:div, :class => :buttons, :style => "display:none") do
   store link_to(image_tag('/images/icons/delete.png', :class => :deleteListItem), campaign_url(campaign), 
                         :method => :delete, :confirm => t('.delete_campaign', :property => campaign.name))
   store link_to(image_tag('/images/icons/add.png', :class => :addListItem), new_campaign_url)
-  store link_to(image_tag('/images/icons/pencil.png', :class => :editListItem), edit_campaign_path(campaign))
+  store link_to(image_tag('/images/icons/pencil.png', :class => :editListItem), edit_property_campaign_path(campaign.property,campaign))
 end
 
 
