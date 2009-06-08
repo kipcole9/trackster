@@ -89,7 +89,7 @@ private
   end
   
   def campaign_parameters
-    "utm_campaign=#{self.code}&utm_medium=email"
+    "utac=#{property.tracker}&utm_campaign=#{self.code}&utm_medium=email"
   end
   
   def view_parameters
