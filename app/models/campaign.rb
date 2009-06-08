@@ -93,10 +93,10 @@ private
   end
   
   def view_parameters
-    campaign_parameters + "&utcat=page&utac=view"
+    campaign_parameters + "&utcat=page&utact=view"
   end
   
   def open_parameters
-    campaign_parameters + "&utcat=email&utac=open"
+    campaign_parameters + "&utcat=email&utact=open"
   end
 end
