@@ -89,6 +89,6 @@ private
   end
   
   def campaign_parameters
-    "utm_campaign=#{self.code}&utm_medium=email"
+    "utm_campaign=#{self.code}&utm_medium=email&utcat=email&utac=open"
   end
 end

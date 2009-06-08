@@ -11,8 +11,7 @@ module Analytics
             :conditions => Event::PAGE_VIEW,
             :joins => :events}
           else
-            {:select => "sum(page_views) as page_views",
-              :conditions => 'visit IS NOT NULL'}
+            {:select => "sum(page_views) as page_views"}
           end
         }
         
