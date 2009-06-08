@@ -53,6 +53,7 @@ class Session < ActiveRecord::Base
   def create_campaign_association(row)
     return unless row[:campaign_name]
     self.campaign = Campaign.find_by_code(row[:campaign_name])
+    self.campaign_name = self.campaign.name
   end
 
 private
