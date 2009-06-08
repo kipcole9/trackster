@@ -220,7 +220,7 @@ input[type="file"] {
 }
 
 input[type="hidden"] {
-	display: none;
+	width: 1px;
 }
 
 input[type="checkbox"] {
