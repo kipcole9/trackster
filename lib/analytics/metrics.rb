@@ -8,7 +8,7 @@ module Analytics
         named_scope :page_views, lambda{ |*args|
           if args.first && args.first == :with_events
             {:select => "count(*) as page_views",
-            :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
+            :conditions => Event::PAGE_VIEW,
             :joins => :events}
           else
             {:select => "sum(page_views) as page_views",
@@ -19,7 +19,7 @@ module Analytics
         named_scope :page_views_per_visit, lambda{ |*args|
           if args.first && args.first == :with_events
             {:select => "avg(*) as page_views_per_visit",
-            :conditions => "category = '#{Event::PAGE_CATEGORY}' AND action = '#{Event::VIEW_ACTION}' AND url IS NOT NULL",
+            :conditions => Event::PAGE_VIEW,
             :joins => :events}
           else
             {:select => "avg(page_views) as page_views_per_visit"}
@@ -28,13 +28,13 @@ module Analytics
 
         named_scope :video_views,
           :select => "count(*) as video_views",
-          :conditions => "events.category = '#{Event::VIDEO_CATEGORY}' and events.action = '#{Event::VIDEO_PLAY}'",
+          :conditions => Event::VIDEO_VIEW,
           :joins => :events
             
         # Maximum view time of a video
         named_scope :video_playtime,
           :select => "max(events.value) as maxplay",
-          :conditions => "events.category = '#{Event::VIDEO_CATEGORY}' AND events.action = '#{Event::VIDEO_MAXPLAY}'",
+          :conditions => Event::VIDEO_MAXPLAY,
           :joins => :events
 
         # Can only count sessions that have visitors

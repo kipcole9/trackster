@@ -20,6 +20,8 @@ class Event < ActiveRecord::Base
   SERVE_ACTION    = 'serve'
   
   EMAIL_OPENING   = "events.category = '#{EMAIL_CATEGORY}' AND events.action = '#{OPEN_ACTION}'"
+  VIDEO_VIEW      = "events.category = '#{VIDEO_CATEGORY}' and events.action = '#{VIDEO_PLAY}'"
+  VIDEO_MAXPLAY   = "events.category = '#{VIDEO_CATEGORY}' AND events.action = '#{VIDEO_MAXPLAY}'"
   AD_VIEW         = "events.category = '#{AD_CATEGORY}' AND events.action = '#{SERVE_ACTION}'"
   PAGE_VIEW       = "category = '#{PAGE_CATEGORY}' AND action = '#{VIEW_ACTION}' AND url IS NOT NULL"
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
