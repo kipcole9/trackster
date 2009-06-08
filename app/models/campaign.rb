@@ -29,9 +29,9 @@ class Campaign < ActiveRecord::Base
   end
   
   def relink_email_html!(&block)
-    email = Hpricot(email_html)
+    email = ::Nokogiri::HTML(email_html)
     fix_anchors!(email, &block)
-    fix_images!(email)
+    fix_images!(email)    
     add_tracker_link!(email)
     if errors.empty?
       self.email_production_html = email.to_html
@@ -49,7 +49,7 @@ class Campaign < ActiveRecord::Base
         url = url.sub("?#{query_string}", '') unless query_string.blank?
         new_href = yield(Redirect.find_or_create_from_link(property, url).redirect_url)
         new_href += '?' + [query_string, campaign_parameters].compact.join('&')
-        link.set_attribute :href, new_href if new_href
+        link.set_attribute 'href', new_href if new_href
       rescue URI::BadURIError => e
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       rescue ActiveRecord::RecordInvalid => e
@@ -66,7 +66,7 @@ class Campaign < ActiveRecord::Base
         uri = URI.parse(url)
         next if uri.scheme
         new_url = [property.url, image_directory, url].compact.join('/')
-        link.set_attribute :src, new_url
+        link.set_attribute 'src', new_url
       rescue URI::BadURIError => e
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       end
@@ -74,8 +74,9 @@ class Campaign < ActiveRecord::Base
   end
   
   def add_tracker_link!(email)
-    tracking_tag = "\n<img src='" + [Trackster::Config.tracker_url, campaign_parameters].join('?') + "'>\n"
-    (email/"body").append tracking_tag
+    tracking_node = Nokogiri::XML::Node.new('img', email)
+    tracking_node['src'] = [Trackster::Config.tracker_url, campaign_parameters].join('?')
+    email.css("body").first.add_child(tracking_node)
   end
   
 private
