@@ -92,9 +92,9 @@ class TableFormatter
   
   def output_cell_value(cell_type, value, column, options = {})
     result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
-    result = result.nil? ? '' : result
+    result = result.nil? ? '' : result.to_s
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
-      html << result.to_s
+      html << result
     end
   end
 
