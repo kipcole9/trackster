@@ -48,7 +48,7 @@ class Campaign < ActiveRecord::Base
         query_string = URI.parse(url).query
         url = url.sub("?#{query_string}", '') unless query_string.blank?
         new_href = yield(Redirect.find_or_create_from_link(property, url).redirect_url)
-        new_href += '?' + [query_string, campaign_parameters].compact.join('&')
+        new_href += '?' + [query_string, view_parameters].compact.join('&')
         link.set_attribute 'href', new_href if new_href
       rescue URI::BadURIError => e
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
@@ -75,7 +75,7 @@ class Campaign < ActiveRecord::Base
   
   def add_tracker_link!(email)
     tracking_node = Nokogiri::XML::Node.new('img', email)
-    tracking_node['src'] = [Trackster::Config.tracker_url, campaign_parameters].join('?')
+    tracking_node['src'] = [Trackster::Config.tracker_url, open_parameters].join('?')
     email.css("body").first.add_child(tracking_node)
   end
   
@@ -89,6 +89,14 @@ private
   end
   
   def campaign_parameters
-    "utm_campaign=#{self.code}&utm_medium=email&utcat=email&utac=open"
+    "utm_campaign=#{self.code}&utm_medium=email"
+  end
+  
+  def view_parameters
+    campaign_parameters + "&utcat=page&utac=view"
+  end
+  
+  def open_parameters
+    campaign_parameters + "&utcat=email&utac=open"
   end
 end
