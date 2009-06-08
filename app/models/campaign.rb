@@ -34,7 +34,7 @@ class Campaign < ActiveRecord::Base
     fix_images!(email)
     add_tracker_link!(email)
     if errors.empty?
-      self.email_production_html = email.to_s
+      self.email_production_html = email.to_html
       self.save
     end
     self
@@ -74,9 +74,8 @@ class Campaign < ActiveRecord::Base
   end
   
   def add_tracker_link!(email)
-    body = (email/"body").innerHTML
-    body += "\n<img src='" + [Trackster::Config.tracker_url, campaign_parameters].join('?') + "'>\n"
-    (email/"body").innerHTML = body
+    tracking_tag = "\n<img src='" + [Trackster::Config.tracker_url, campaign_parameters].join('?') + "'>\n"
+    (email/"body").append tracking_tag
   end
   
 private

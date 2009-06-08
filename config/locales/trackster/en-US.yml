@@ -161,7 +161,7 @@ en-US:
         pageview_graph:     "Page Views Trend"    
     
     column_descriptions:
-        email:              "This is the email address for any correspondance. It can be changed any time."
+        email:              "This is the email address for any correspondence. It can be changed any time."
         login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."
         locale:             "Your preferred language, which can be changed at any time."
         timezone:           "The time zone in which you mostly work. You can change it at any time."
