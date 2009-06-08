@@ -13,8 +13,8 @@ class CampaignsController < ApplicationController
 
   def edit
     respond_to do |format|
+      format.html { }      
       format.js   { render :partial => 'campaign_form', :locals => {:campaign => @campaign} }
-      format.html { }
     end
   end
   

@@ -13,16 +13,16 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :force_login_if_required, :except => :redirect
-  before_filter     :set_locale, :except => :redirect
-  before_filter     :set_timezone, :except => :redirect
+  before_filter     :force_login_if_required
+  before_filter     :set_locale
+  before_filter     :set_timezone
   before_filter     :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, 
                                                 :unique, :activate, :change_password, :update_password, :redirect]
 
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
   def _page_title
-    I18n.t("#{params['controller']}.index.name", :default => params[:controller].titleize)
+   "#{I18n.t("#{params['controller']}.index.name", :default => params[:controller].titleize)} #{params[:action].titleize}"
   end
 
   def force_login_if_required
