@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resources :accounts
-  map.resources :campaigns
+  map.resources :campaigns, :member => {:preview => :get}
   map.resources :properties,  :has_many => [:campaigns, :redirects]
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
                   
@@ -69,8 +69,7 @@ ActionController::Routing::Routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
   
-  if Rails.env == "development"
-    map.connect ':controller/:action/:id'
-    map.connect ':controller/:action/:id.:format'
-  end
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
+
 end

@@ -1,9 +1,12 @@
 development:
     :banner:    Trackster Development
+    :tracker_url:   http://trackster.local/_tks.gif
     
 staging:
     :banner:    Trackster Staging
+    :tracker_url:   http://vietools.com:8080/_tks.gif    
     
 production:
     :banner:    Trackster
+    :tracker_url:   http://vietools.com/_tks.gif       
                     

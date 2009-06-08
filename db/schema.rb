@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090605073223) do
+ActiveRecord::Schema.define(:version => 20090608030238) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -29,12 +29,15 @@ ActiveRecord::Schema.define(:version => 20090605073223) do
     t.integer  "distribution"
     t.integer  "bounces"
     t.integer  "unsubscribes"
-    t.string   "code",              :limit => 10
+    t.string   "code",                  :limit => 10
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "effective_at"
+    t.text     "email_production_html"
+    t.boolean  "preview_available"
+    t.string   "image_directory"
   end
 
   create_table "cityByCountry", :primary_key => "city", :force => true do |t|

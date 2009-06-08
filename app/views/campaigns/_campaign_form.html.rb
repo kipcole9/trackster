@@ -21,7 +21,8 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
   end
   fieldset t('.html') do
     campaign.file_field     :email_html, :accept => 'text/html'
-    campaign.file_field     :landing_page_html, :accept => 'text/html'
+    campaign.text_field     :image_directory
+    campaign.check_box      :preview_available if current_user.is_administrator?    
   end
   submit_combo
 end

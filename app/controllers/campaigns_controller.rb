@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:show, :index]
-  before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show]
+  before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show, :preview]
   before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
   layout              :choose_layout
@@ -64,6 +64,27 @@ class CampaignsController < ApplicationController
     redirect_back_or_default('/')    
   end
   
+  def preview
+    if !@campaign.preview_available? && !current_user.is_administrator?
+      flash[:notice] = t('.no_preview_available')
+      redirect_back_or_default('/')
+    end
+      
+    if @campaign.email_html.blank? 
+      flash[:notice] = t('.no_email_html')
+      redirect_back_or_default('/')
+    end
+    
+    unless @campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) }
+      flash[:notice] = t('.translink_errors')
+      redirect_back_or_default('/')
+    end
+  end
+  
+  def render_html_email
+    # Default render
+  end
+        
   def _page_title
     @campaign ? @campaign.name : super
   end
@@ -96,8 +117,11 @@ private
   end
 
   def choose_layout
-    if params[:action] == 'show'
+    case params[:action]
+    when 'show'
       'dashboards'
+    when 'preview'
+      nil
     else
       'campaigns'
     end

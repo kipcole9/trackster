@@ -64,6 +64,8 @@ en-US:
             new_redirect:   New redirect
             edit_redirect:  Edit redirect       
     campaigns:
+        hash_link_problem:  "Link {{url}} should point to a landing page."
+        bad_uri:            "Link {{url}} appears invalid."
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
         campaign_created:   Campaign created

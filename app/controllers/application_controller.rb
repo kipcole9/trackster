@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   before_filter     :set_locale, :except => :redirect
   before_filter     :set_timezone, :except => :redirect
   before_filter     :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, 
-                                                :unique, :activate, :change_password, :update_password]
+                                                :unique, :activate, :change_password, :update_password, :redirect]
 
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 

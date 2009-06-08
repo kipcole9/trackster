@@ -1,0 +1,1 @@
+store @campaign.email_production_html

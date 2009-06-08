@@ -28,6 +28,57 @@ class Campaign < ActiveRecord::Base
     html.class.name == "Tempfile" ? super(html.read) : super(html)
   end
   
+  def relink_email_html!(&block)
+    email = Hpricot(email_html)
+    fix_anchors!(email, &block)
+    fix_images!(email)
+    add_tracker_link!(email)
+    if errors.empty?
+      self.email_production_html = email.to_s
+      self.save
+    end
+    self
+  end
+  
+  def fix_anchors!(email, &block)  
+    (email/"a").each do |link|
+      url = link['href']
+      next if url == '#' || url =~ /\Amailto/
+      begin
+        query_string = URI.parse(url).query
+        url = url.sub("?#{query_string}", '') unless query_string.blank?
+        new_href = yield(Redirect.find_or_create_from_link(property, url).redirect_url)
+        new_href += '?' + [query_string, campaign_parameters].compact.join('&')
+        link.set_attribute :href, new_href if new_href
+      rescue URI::BadURIError => e
+        errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
+      rescue ActiveRecord::RecordInvalid => e
+        errors.add :email_html, e.message 
+      end
+    end
+  end
+  
+  def fix_images!(email)  
+    (email/"img").each do |link|
+      url = link['src']
+      next if url == '#'
+      begin
+        uri = URI.parse(url)
+        next if uri.scheme
+        new_url = [property.url, image_directory, url].compact.join('/')
+        link.set_attribute :src, new_url
+      rescue URI::BadURIError => e
+        errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
+      end
+    end
+  end
+  
+  def add_tracker_link!(email)
+    body = (email/"body").innerHTML
+    body += "\n<img src='" + [Trackster::Config.tracker_url, campaign_parameters].join('?') + "'>\n"
+    (email/"body").innerHTML = body
+  end
+  
 private
   def create_campaign_code
     token = nil
@@ -35,5 +86,9 @@ private
       token = ActiveSupport::SecureRandom.hex(3)
     end
     self.code = token
+  end
+  
+  def campaign_parameters
+    "utm_campaign=#{self.code}&utm_medium=email"
   end
 end

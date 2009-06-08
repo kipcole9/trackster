@@ -60,7 +60,7 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
   end
    
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-    default_options = {:label_class => "checkbox"}
+    default_options = {:label_class => "checkbox", :suffix => '?'}
     with_field(method, default_options.merge(options)) do
       super(method, options, checked_value, unchecked_value)
     end
@@ -75,7 +75,8 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
   
   def datetime_select(method, options = {}, html_options = {})
     default_html_options = {:class => 'datetime'}
-    with_field(method, options) do
+    default_options = {:wrap_in_div => true}
+    with_field(method, default_options.merge(options)) do
       super(method, options, default_html_options.merge(options))
     end
   end
@@ -107,9 +108,10 @@ private
   def with_field(method, args = {}, &block)
     default_options = {:before => '', :after => '', :autocomplete => false, 
                        :label_class => :field_label, :optional => false,
-                       :field_class => :field  }
+                       :field_class => :field, :wrap_in_div => false  }
     options = default_options.merge(args)
     field_definition = @template.capture(&block)
+    field_definition = @template.content_tag(:div, field_definition) if options.delete(:wrap_in_div)
     field_id = field_definition.match(/id=\"(.+?)\"/)[1]
     before = options.delete(:before)
     after = options.delete(:after)
@@ -117,9 +119,8 @@ private
     label = get_label(field_id, method, options)
     field_message = get_field_message(field_id)
     field_options = field_options_from(options)
-    content = @template.content_tag(:div,
-             "#{label}#{field_message}#{before}#{field_definition}#{after}#{prompt}", 
-             field_options)
+    field_content = "#{label}#{field_message}#{before}#{field_definition}#{after}#{prompt}"
+    content = @template.content_tag(:div, field_content, field_options)
     add_autocompleter(method, field_id, options)
     ruby_template? ? @template.concat(content + "\n") : content
   end
@@ -154,7 +155,7 @@ private
     label_options = {}
     label_options[:class] = options.delete(:label_class) if options[:label_class]
     label_options[:for] = field_id
-    @template.content_tag(:label, format_label(method), label_options)
+    @template.content_tag(:label, format_label(method, options), label_options)
   end
   
   def format_label(label, options = {})
@@ -165,8 +166,8 @@ private
     if options.delete(:no_prompt)
       ''
     else
-      prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "none")
-      prompt = I18n.translate("column_descriptions.#{column}", :default => "") if prompt == "none"
+      prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "__none")
+      prompt = I18n.translate("column_descriptions.#{column}", :default => "") if prompt == "__none"
       prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
     end
   end

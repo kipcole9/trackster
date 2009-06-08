@@ -219,6 +219,14 @@ input[type="file"] {
 	padding: 0;
 }
 
+input[type="hidden"] {
+	display: none;
+}
+
+input[type="checkbox"] {
+	display: inline;
+	width:	20px;
+}
 /* Tags */
 ul.tags {
 	position: relative;
