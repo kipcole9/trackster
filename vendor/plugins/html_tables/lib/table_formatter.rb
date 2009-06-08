@@ -232,8 +232,10 @@ private
   end
   
   def bar_and_percentage(val, options)
+    puts val.inspect
+    puts options.inspect
     if options[:cell_type] == :td
-      bar = "<div class=\"hbar\" style=\"width:#{val.to_s}%\">&nbsp;</div>"
+      bar = "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>"
       bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
       percentage(val, :precision => 1)
