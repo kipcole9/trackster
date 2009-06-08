@@ -33,7 +33,7 @@ module Analytics
         # Maximum view time of a video
         named_scope :video_playtime,
           :select => "max(events.value) as maxplay",
-          :conditions => Event::VIDEO_MAXPLAY,
+          :conditions => Event::VIDEO_MAXVIEW,
           :joins => :events
 
         # Can only count sessions that have visitors
