@@ -111,7 +111,7 @@ module Analytics
         named_scope :impressions,
           :select => "#{@@impressions} as impressions"
                              
-        @@clicks_through =  "count(if(campaign_medium IS NOT NULL,1,NULL))"                    
+        @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
         named_scope :clicks_through,
           :select => "#{@@clicks_through} as clicks_through"
           
