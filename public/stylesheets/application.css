@@ -157,7 +157,7 @@ p.prompt {
 	margin-left: 1px;
 	margin-bottom: 0;
 	font-size: 90%;
-	line-height: 1.1em;
+	line-height: 1.3em;
 }
 
 /* Form sections */
@@ -221,6 +221,11 @@ input[type="file"] {
 
 input[type="hidden"] {
 	width: 1px;
+	display: inline;
+}
+
+input[type="text"], select {
+	vertical-align: center;
 }
 
 input[type="checkbox"] {

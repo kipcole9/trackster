@@ -61,6 +61,7 @@ class CaerusFormBuilder < ActionView::Helpers::FormBuilder
    
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
     default_options = {:label_class => "checkbox", :suffix => '?'}
+    default_options[:suffix] = '' if method.to_s.last == '?'
     with_field(method, default_options.merge(options)) do
       super(method, options, checked_value, unchecked_value)
     end
