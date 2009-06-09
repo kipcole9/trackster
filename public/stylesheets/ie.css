@@ -29,11 +29,14 @@
 	margin-right: .92%;
 }
 
+/* Can't put relative positioned images in an h3 with
+concertina */
 .concertina .trig img {
   width: 13px;
   position: static;
 }
 
+/* Cater for various input differences */
 textarea {
 	margin: 0;
 	padding: 2px 4px;
@@ -48,4 +51,22 @@ input[type="file"] {
 }
 select {
 	padding: 2px;
+}
+
+/* Courtesy of http://archivist.incutio.com/viewlist/css-discuss/71085
+since formatting fieldsets in IE is a bugger */
+fieldset {
+	margin: 1em 0px 30px;
+	padding: 1em;
+	position: relative; /* The underscore means only IE will see it. */
+	padding-top: 20px;
+	padding-bottom: 15px;
+	display: block;
+}
+fieldset legend {
+  	margin-bottom: 0.7em;	
+	background: #fff;
+	padding: 3px 10px 3px 10px;
+	position: absolute;
+	top: -12px;
 }
