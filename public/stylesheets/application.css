@@ -89,16 +89,24 @@ div.sitename div.fieldWithErrors {
 
 /* branding
 ----------------------------------------------- */
-h1#branding {
-	font-weight:normal;
-	font-size:2em;
-	text-align:left;
-	background:#aaa;
-	padding:.2em 0 .5em 0;
-	margin-bottom: 0;
+div#branding {
+	background-color: #CFECEC;
+	padding: 10px;
+	height: 1.7em;
 }
 
+div#branding h1 {
+	position: relative;
+	float: left;
+	font-weight:normal;
+	font-size:1.7em;
+	margin: 0;
+	width: inherit;
+}
 
+div#branding div {
+	float: right;
+}
 /* page heading
 ----------------------------------------------- */
 h2#page-heading {

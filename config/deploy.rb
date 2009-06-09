@@ -58,11 +58,13 @@ task :create_production_tracker, :roles => :web do
   end
 end
 
+desc "Symlink tracker production javscript"
 task :symlink_tracker_code, :roles => :app do  
   run "ln -s #{tracker} #{release_path}/public/_tks.js"
 end
 
 # Secure config files
+desc "Link production configuration files"
 task :update_config, :roles => :app do
   config_dir    = "#{app_dir}/#{application}/config"
   db_config     = "#{config_dir}/database.yml"
@@ -75,13 +77,13 @@ task :update_config, :roles => :app do
   app_conf      = "#{config_dir}/trackster_config.yml"
   
   run "ln -s #{mailer_config} #{release_path}/config/mailer.yml"
+  run "ln -s #{app_conf}  #{release_path}/config/trackster_config.yml"  
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "ln -s #{god_config} #{release_path}/config/trackster.god"    
   run "ln -s #{site_keys} #{release_path}/config/initializers/site_keys.rb"
   run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
   run "ln -s #{crossdomain} #{release_path}/public/crossdomain.xml"
   run "ln -s #{device_atlas} #{release_path}/lib/analytics/device_atlas.json"
-  run "ln -s #{app_conf} #{release_path}/config/trackster_config.yml"
 end
 
 desc "Create asset packages for production" 

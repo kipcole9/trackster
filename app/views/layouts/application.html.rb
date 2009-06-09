@@ -9,9 +9,9 @@ html do
     javascript yield(:jstemplates)
   end
   body do
-    include "prototypes/branding"
+    include "widgets/branding"
     include "widgets/main_menu" 
-    include "prototypes/page_heading"
+    include "widgets/page_heading"
     
     store (yield(:page) || yield)
    

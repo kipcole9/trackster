@@ -11,7 +11,9 @@ en-US:
     user_created_pending_activation: User has been created and is now pending activation.
     user_login:             Log in to your account
     login:                  Login
+    logout:                 Logout
     remember_me:            Remember me
+    logged_in_as:           "Logged in as {{name}}"
     save:                   Save your changes
     submit:                 Submit
     show_all_fields:        Show all fields?

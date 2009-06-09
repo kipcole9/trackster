@@ -208,8 +208,10 @@ module PageLayout
   def method_missing(method, *args, &block)
     if [:h4, :h3, :h2, :h1].include?(method)
       return nil if args.last.blank?
-      with_tag(method) do
-        store args.pop
+      content = args[0]
+      options = args[1] || {}
+      with_tag(method, options) do
+        store content
       end
     else
       super
