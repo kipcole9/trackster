@@ -72,6 +72,7 @@ task :update_config, :roles => :app do
   browscap      = "#{config_dir}/browscap.ini"
   crossdomain   = "#{config_dir}/crossdomain.xml"
   device_atlas  = "#{config_dir}/device_atlas.json"
+  app_conf      = "#{config_dir}/trackster_config.yml"
   
   run "ln -s #{mailer_config} #{release_path}/config/mailer.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
@@ -80,6 +81,7 @@ task :update_config, :roles => :app do
   run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
   run "ln -s #{crossdomain} #{release_path}/public/crossdomain.xml"
   run "ln -s #{device_atlas} #{release_path}/lib/analytics/device_atlas.json"
+  run "ln -s #{app_conf} #{release_path}/config/trackster_config.yml"
 end
 
 desc "Create asset packages for production" 

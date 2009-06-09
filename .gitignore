@@ -3,6 +3,7 @@ log/*.log
 tmp/**/*
 tmp/*
 config/database.yml
+config/trackster_config.yml
 vendor/rails/**/*
 public/track_data
 config/initializers/site_keys.rb
