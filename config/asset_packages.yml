@@ -33,14 +33,14 @@ stylesheets:
 - ie:
     - reset 
     - grid
-    - layout
-    - ie    
+    - layout  
     - nav
     - tabricator
     - text
     - calendar
     - autocomplete    
-    - application    
+    - application
+    - ie      
 - ie6:    
     - reset 
     - grid

@@ -33,3 +33,19 @@
   width: 13px;
   position: static;
 }
+
+textarea {
+	margin: 0;
+	padding: 2px 4px;
+	display: block;
+}
+
+input[type="text"] {
+	padding: 5px 3px 2px;
+}
+input[type="file"] {
+	padding: 2px 4px 7px;
+}
+select {
+	padding: 2px;
+}

@@ -215,7 +215,7 @@ form img {
 }
 textarea {
 	margin: 0;
-	padding: 2px 2px 2px 2px;
+	padding: 2px;
 	display: block;
 	-webkit-appearance: textfield;
 	-moz-appearance: textfield;
@@ -233,6 +233,7 @@ input[type="file"] {
 	-moz-appearance: textfield;
 	margin: 0;
 	padding: 0;
+	width: 100%;
 }
 
 input[type="hidden"] {
@@ -240,10 +241,13 @@ input[type="hidden"] {
 	display: inline;
 }
 
-input[type="text"], select {
+input[type="text"] {
 	vertical-align: center;
+	padding: 2px;
 }
-
+select {
+	padding: 2px;
+}
 input[type="checkbox"] {
 	display: inline;
 	width:	20px;
