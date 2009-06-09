@@ -80,8 +80,12 @@ en-US:
             edit_campaign:  Basic campaign information
             html:           Campaign HTML
             new_campaign:   New campaign profile
+        impressions_by_browser:              Impressions by email client
+        impressions_graph_by_browser:        Impressions by email client
         campaign_impressions_graph:
             impressions_graph_by_local_hour: Impressions by hour of viewing
+        campaign_impressions_graph_by_day:            
+            impressions_graph_by_day:        Impressions by day
         campaign_overview:
             campaign_overview: Campaign Summary
             show:           Campaign summary
@@ -237,11 +241,13 @@ en-US:
                 event_count:            Events
                 cost_per_impression:    CPI
                 campaign_name:          Campaign
-                deliveries:             Delivered
+                deliveries:             Deliver.
+                distribution:           Distrib.
+                unsubscribes:           Unsubs.
                 cost_per_click:         CPC
                 clicks_through:         Clicks
                 click_through_rate:     CTR
-                impressions:            Impressions
+                impressions:            Impres.
                 
                 
                 

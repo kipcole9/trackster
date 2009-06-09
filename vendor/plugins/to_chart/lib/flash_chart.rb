@@ -5,7 +5,16 @@ module Charting
     include OpenFlashChart::Controller
     include OpenFlashChart
     include ActiveSupport::CoreExtensions::String::Inflections
-    include ActionView::Helpers::NumberHelper    
+    include ActionView::Helpers::NumberHelper
+    PIE_COLOURS     = ["#d01f3c","#356aa0","#C79810",
+                      "0x336699", "0x88AACC", "0x999933", "0x666699",
+    		              "0xCC9933", "0x006666", "0x3399FF", "0x993300",
+    		              "0xAAAA77", "0x666666", "0xFFCC66", "0x6699CC",
+    		              "0x663366", "0x9999CC", "0xAAAAAA", "0x669999",
+    		              "0xBBBB55", "0xCC6600", "0x9999FF", "0x0066CC",
+    		              "0x99CCCC", "0x999999", "0xFFCC00", "0x009999",
+    		              "0x99CC33", "0xFF9900", "0x999966", "0x66CCCC",
+    		              "0x339966", "0xCCCC33"]
     
     DEFAULT_OPTIONS = { :type               => AreaLine, 
                         :line_width         => 4, 
@@ -40,8 +49,16 @@ module Charting
 
     def graph_data(data_source, column, label, options, &block) 
       return nil if data_source.empty?
+      if options[:type] == Pie
+        graph_data_for_pie(data_source, column, label, options, &block)
+      else
+        graph_data_for_line(data_source, column, label, options, &block)
+      end
+    end
+    
+    def graph_data_for_line(data_source, column, label, options, &block)
       series            = options[:type].new
-      series.values     = data_set = series_from_data(data_source, column, options)
+      series.values     = data_set = series_from_data(data_source, column, label, options)
       series.tooltip    = options[:tooltip] if options[:tooltip]        
       series.text       = options[:text] if options[:text]
       series.width      = options[:line_width]
@@ -84,7 +101,35 @@ module Charting
       chart
     end
     
-    def series_from_data(data_source, column, options)
+    def graph_data_for_pie(data_source, column, label, options, &block)
+      series            = options[:type].new
+      series.values     = data_set = series_from_data_for_pie(data_source, column, label, options)
+      series.tooltip    = options[:tooltip] if options[:tooltip]
+      series.colours    = PIE_COLOURS
+      series.start_angle = 35
+      series.animate    = true     
+
+      chart = OpenFlashChart.new
+      
+      # The data series
+      chart.add_element(series)
+      chart.bg_colour = options[:background_colour]      
+      chart.x_axis = nil
+      chart.title = nil
+      chart
+    end
+    
+    def series_from_data_for_pie(data_source, column, label, options)
+      result_array = []
+      data_source.each do |item|
+        next if (item[column].blank? || item[column].to_i == 0)
+        pie_label = item[label].blank? ? I18n.t('not_set') : item[label]
+        result_array << PieValue.new(item[column].to_i, pie_label) 
+      end
+      result_array
+    end
+    
+    def series_from_data(data_source, column, label, options)
       data_source.inject([]){|result_array, item| result_array << item[column].to_i}
     end
     
