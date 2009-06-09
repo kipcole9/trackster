@@ -240,10 +240,10 @@ ul.tags {
 }
 
 ul.tags li.tag {
-	display: inline-block;
+	display: inline;
     list-style: none;
-	margin: 0 0 0 0;
-	padding: 0 5px 1px;
+	margin: 0 5px 0 0;
+	padding: 2px 5px;
 	background-color: #CFECEC;
 	border: 1px solid #aaa;
 	-webkit-border-radius: 	 5px;  
