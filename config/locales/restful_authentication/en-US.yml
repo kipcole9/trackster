@@ -11,7 +11,6 @@ en-US:
  log_in : "Log In"
  log_out : "Log Out"
  logged_in : "Logged in successfully"
- logged_in_as : "Logged in as {{login}}"
  logged_out : "You have been logged out."
  login : "Login"
  login_failed : "Couldn't log you in as '{{login}}'"
