@@ -50,11 +50,12 @@ module OpenFlashChart
     end
 
     # Kip Cole, 2009 = embed the json in the html file so no round trip request required and no rails routing setup required
-    # z-index and wmode included to ensure menus overlay the content
+    # z-index and wmode included to ensure menus overlay the content. Note that for IE the containing div need some renderable 
+    # content in order to work.
     # Thanks to http://renaun.com/blog/2005/12/08/6/
     def open_flash_chart_embedded(width, height, div_name, json_data, use_swfobject=true, base="/", swf_file_name="open-flash-chart.swf")
       <<-HTML
-      <div id="#{div_name}" style="z-index:0">Alternative Content</div>
+      <div id="#{div_name}" style="z-index:0">Flash content loading...</div>
       <script type="text/javascript">
         swfobject.embedSWF("#{base}#{swf_file_name}", "#{div_name}", "#{width}", "#{height}", "9.0.0", "expressInstall.swf",
                           {"get-data":"chartData#{div_name}"}, {"wmode":"transparent"});

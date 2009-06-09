@@ -14,8 +14,7 @@ javascripts:
     - search     
     - browser_timezone
     - autocomplete
-    - application    
-    - swfobject  
+    - application     
 - tracker_debug:
     - tracker_debug
 - tracker:

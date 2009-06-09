@@ -5,6 +5,7 @@ html do
     title "VideoInEmail Analytics"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     javascript_merged :base
+    javascripts 'swfobject.js'
     javascript yield(:jstemplates)
   end
   body do
