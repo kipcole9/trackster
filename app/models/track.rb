@@ -49,6 +49,7 @@ class Track < ActiveRecord::Base
 
   table_format :percent_of_visits,      :total => :sum, :order => 98, :formatter => :bar_and_percentage
   table_format :percent_of_page_views,  :total => :sum, :order => 98, :class => 'page_views', :formatter => :bar_and_percentage 
+  table_format :open_rate,              :total => :sum, :order => 22, :class => 'page_views', :formatter => :bar_and_percentage 
   table_format :bounce_rate,            :total => :avg, :order => 101, :class => 'right', :formatter => :percentage
   table_format :exit_rate,              :total => :avg, :order => 97, :class => 'right', :formatter => :percentage  
   table_format :entry_rate,             :total => :avg, :order => 96, :class => 'right', :formatter => :percentage

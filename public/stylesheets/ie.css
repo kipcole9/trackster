@@ -49,23 +49,19 @@ input[type="text"] {
 input[type="file"] {
 	padding: 2px 4px 7px;
 }
-select {
-	padding: 2px;
-}
 
 /* Courtesy of http://archivist.incutio.com/viewlist/css-discuss/71085
 since formatting fieldsets in IE is a bugger */
 fieldset {
 	margin: 1em 0px 30px;
 	padding: 1em;
-	position: relative; /* The underscore means only IE will see it. */
+	position: relative;
 	padding-top: 20px;
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 	display: block;
 }
 fieldset legend {
   	margin-bottom: 0.7em;	
-	background: #fff;
 	padding: 3px 10px 3px 10px;
 	position: absolute;
 	top: -12px;

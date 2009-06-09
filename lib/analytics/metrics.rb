@@ -107,6 +107,7 @@ module Analytics
         named_scope :bounce_rate,
           :select => "count(#{@@bounces}/ count(visit) * 100 as bounce_rate"
 
+        # For email deliveries
         @@impressions = "sum(impressions)"
         named_scope :impressions,
           :select => "#{@@impressions} as impressions"
@@ -117,6 +118,10 @@ module Analytics
           
         named_scope :click_through_rate,
           :select => "(#{@@clicks_through} / #{@@impressions} * 100) as click_through_rate"
+          
+        named_scope :open_rate,
+          :select => "(#{@@impressions} / distribution * 100) as open_rate",
+          :joins => :campaign
 
         @@cost =  'avg(cost)'    
         named_scope :cost,
