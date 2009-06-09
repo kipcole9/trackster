@@ -680,6 +680,7 @@ div.main div.box .block h3 {
 }
 
 div.main div.box.table h3 {
+	display: inline-block;
 	margin: 0;
 }
 

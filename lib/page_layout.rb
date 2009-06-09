@@ -88,9 +88,14 @@ module PageLayout
   end
   
   def clear(options = {})
-    default_options = {:class => "clear"}
-    yield if block_given?
-    with_tag(:div, default_options.merge(options))
+    default_options = {:class => "clearfix"}
+    with_tag(:div, default_options.merge(options)) do
+      if block_given?
+        yield
+      else
+        store "&nbsp;"
+      end
+    end
   end
 
   def toggle(text, options = {}, &block)
