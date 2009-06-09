@@ -2,7 +2,7 @@ html do
   head do
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/vie.ico"
-    title "VideoInEmail Analytics"
+    title "#{Trackster::Config.banner}: #{controller._page_title}"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     javascript_merged :base
     javascripts 'swfobject.js'
