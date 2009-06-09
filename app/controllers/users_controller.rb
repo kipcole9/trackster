@@ -30,10 +30,10 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(params[:user])
-      flash[:notice] = t("user_updated")
+      flash[:notice] = t(".user_updated", :name => @user.name)
       redirect_back_or_default('/')
     else
-      flash[:error]  = t('user_not_updated')
+      flash[:error]  = t('.user_not_updated', :name => @user.name)
       render :action => 'edit'
     end
   end

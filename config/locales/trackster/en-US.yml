@@ -35,11 +35,13 @@ en-US:
         account_created:        "Account '{{name}}' created"
         account_not_created:    "Account '{{name}}' was not created"
         account_updated:        "Account '{{name}}' updated"
-        account_not_udpated:    "Account '{{name}}' was not updated"
+        account_not_updated:    "Account '{{name}}' was not updated"
         account_deleted:        "Account '{{name}}' deleted"
         account_not_deleted:    "Account '{{name}}' was not deleted"
                                                 
     users:
+        user_updated:           "User profile for '{{name}}' updated"
+        user_not_updated:       "User profile for '{{name}}' was not updated"      
         new:
             new_user:           "New user's details"
             type_of_new_user:   "New user's role"
