@@ -135,7 +135,7 @@ module Charting
     
     def labels_from_data(data_source, label, options)
       data_source.inject([]) do |label_array, item|
-        label_array << label_from_row(item, label, label_visible?(label_array, options[:label_steps]))
+        label_array << label_from_row(item, label, label_visible?(label_array, data_source, options[:label_steps]))
       end
     end
           
@@ -166,8 +166,8 @@ module Charting
       end
     end
     
-    def label_visible?(array, modulus)
-      (array.size % modulus == 0)
+    def label_visible?(array, data_source, modulus)
+      (array.size % modulus == 0) || data_source.size < 6 || array.size == data_source.size
     end
   end
 end    
