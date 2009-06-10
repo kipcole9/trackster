@@ -229,6 +229,7 @@ en-US:
                 url:                    Page
                 percent_of_page_views:  % Views
                 percent_of_visits:      % Visits
+                percent_of_impressions: % Impressions
                 new_visit_rate:         % New 
                 page_views_per_visit:   Pages/Visit
                 new_v_returning:        New vs. Returning

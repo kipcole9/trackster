@@ -251,15 +251,15 @@ private
   def add_calculated_columns_to_rows(rows, options)
     options.each do |k, v|
       if match = k.to_s.match(CALCULATED_COLUMNS)
-        raise ArgumentError, "[table_formatter] Total value must be 0 for percentage_of" if match[1] =~ /percent/ && v.to_f == 0
+        raise ArgumentError, "[html_tables] Total value must be 0 for percentage_of" if match[1] =~ /percent/ && v.to_f == 0
         rows.each do |row|
           row[k.to_s] = case match[1]
-            when 'percent' || 'percentage'
+            when 'percent', 'percentage'
               row[match[2]].to_f / v.to_f * 100
-            when 'difference' || 'diff'
+            when 'difference', 'diff'
               row[match[2]].to_f - v.to_f
             else
-              raise ArgumentError, "[html_tables] Invalid calculated column '#{match[2]}"
+              raise ArgumentError, "[html_tables] Invalid calculated column '#{match[1]}' for '#{match[2]}'"
           end
         end
       end
