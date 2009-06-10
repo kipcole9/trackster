@@ -4,7 +4,7 @@ class TableFormatter
   EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
   CALCULATED_COLUMNS  = /(percent|percentage|difference|diff)_of_(.*)/
-  REDUCTION_FACTOR    = 0.9  # Scale the bar graps so they have room for the percentage number
+  REDUCTION_FACTOR    = 0.80  # Scale the bar graps so they have room for the percentage number
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
