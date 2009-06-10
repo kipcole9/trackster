@@ -1,13 +1,13 @@
 html do
   head do
-    title "VideoInEmail Analytics"
+    title "#{Trackster::Config.banner}: #{controller._page_title}"
     meta :"http-equiv" => "content-type", :content => "text/html;charset=UTF-8"  
     internet_explorer? ? stylesheet_merged(:ie) : stylesheet_merged(:base)
     javascript_merged :base
   end
   body do
-    include "prototypes/branding"
-    include "prototypes/page_heading"
+    include "widgets/branding"
+    include "widgets/page_heading"
     
     store (yield(:page) || yield)
    

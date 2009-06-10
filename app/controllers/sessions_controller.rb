@@ -32,6 +32,10 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  def _page_title
+    ''
+  end
+  
 protected
   # Track failed login attempts
   def note_failed_signin
