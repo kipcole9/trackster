@@ -1,6 +1,6 @@
 class RedirectsController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:redirect, :show, :index]
-  before_filter       :retrieve_property  
+  before_filter       :retrieve_property, :only => [:new, :create, :index]
   before_filter       :retrieve_redirect, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_redirects, :only => :index
 
@@ -65,7 +65,7 @@ class RedirectsController < ApplicationController
 
 private
   def retrieve_redirect
-    @redirect = @property.redirects.find(params[:id])
+    @redirect = user_scope(:property, current_user).redirects.find(params[:id])
   end
 
   def retrieve_redirects

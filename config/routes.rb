@@ -16,15 +16,16 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resources :accounts
-  map.resources :campaigns, :member => {:preview => :get}  
+  map.resources :relates
+  map.campaigns '/campaigns', :controller => 'campaigns', :action => 'index', :conditions => {:method => :get}
+  map.new_campaign '/campaigns/new', :controller => 'campaigns', :action => 'new', :conditions => {:method => :get}  
   map.resources :properties, :shallow => true  do |properties|
-    properties.resources :campaigns, :member => {:preview => :get}
+    properties.resources :campaigns, :member => {:preview => :get, :video => :get}
     properties.resources :redirects
   end
   
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
-                  
-  map.resources :relates      # Creates relationships between objects
+  
   map.resource :session
   map.resource :dashboard     # Home paged for logged_in users
   
