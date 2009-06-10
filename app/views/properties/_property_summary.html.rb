@@ -7,9 +7,11 @@ with_tag(:ul, :class => :tags) do
   end
 end
 
-with_tag(:div, :class => :buttons, :style => "display:none") do
-  store link_to(image_tag('/images/icons/delete.png', :class => :deleteListItem), property_url(property), 
-                        :method => :delete, :confirm => t('.delete_property', :property => property.name))
-  store link_to(image_tag('/images/icons/add.png', :class => :addListItem), new_property_url)
-  store link_to(image_tag('/images/icons/pencil.png', :class => :editListItem), edit_property_path(property))
+if current_user.is_administrator?
+  with_tag(:div, :class => :buttons, :style => "display:none") do
+    store link_to(image_tag('/images/icons/delete.png', :class => :deleteListItem), property_url(property), 
+                          :method => :delete, :confirm => t('.delete_property', :property => property.name))
+    store link_to(image_tag('/images/icons/add.png', :class => :addListItem), new_property_url)
+    store link_to(image_tag('/images/icons/pencil.png', :class => :editListItem), edit_property_path(property))
+  end
 end
