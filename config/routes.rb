@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :accounts
   map.resources :campaigns, :member => {:preview => :get}  
-  map.resources :properties  do |properties|
+  map.resources :properties, :shallow => true  do |properties|
     properties.resources :campaigns, :member => {:preview => :get}
     properties.resources :redirects
   end

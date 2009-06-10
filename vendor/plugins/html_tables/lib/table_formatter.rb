@@ -3,7 +3,8 @@ class TableFormatter
   include           ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
-  CALCULATED_COLUMNS = /(percent|percentage|difference|diff)_of_(.*)/
+  CALCULATED_COLUMNS  = /(percent|percentage|difference|diff)_of_(.*)/
+  REDUCTION_FACTOR    = 0.9  # Scale the bar graps so they have room for the percentage number
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
@@ -255,7 +256,7 @@ private
         rows.each do |row|
           row[k.to_s] = case match[1]
             when 'percent', 'percentage'
-              row[match[2]].to_f / v.to_f * 100
+              row[match[2]].to_f / v.to_f * 100 * REDUCTION_FACTOR
             when 'difference', 'diff'
               row[match[2]].to_f - v.to_f
             else

@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:show, :index]
-  before_filter       :retrieve_campaign, :only => [:edit, :update, :destroy, :show, :preview]
+  before_filter       :retrieve_campaign, :except => [:index, :new, :create]
   before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
   layout              :choose_layout
