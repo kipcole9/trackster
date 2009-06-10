@@ -39,8 +39,8 @@ class Track < ActiveRecord::Base
   table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
   table_format :language,       :order => -1, :formatter => :not_set_on_blank
   table_format :country,        :order => 0,  :formatter => :not_set_on_blank
-  table_format :region,         :order => -1, :formatter => :not_set_on_blank
-  table_format :locality,       :order => -2, :formatter => :not_set_on_blank
+  table_format :region,         :order => 1 #, :formatter => :not_set_on_blank
+  table_format :locality,       :order => 2 #, :formatter => :not_set_on_blank
   table_format :os_name,        :order => -1, :formatter => :not_set_on_blank 
   table_format :device,         :class => 'left', :formatter => :not_set_on_blank             
   table_format :flash_version,  :class => 'left', :formatter => :not_set_on_blank               
