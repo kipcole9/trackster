@@ -37,7 +37,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Top bounce pages", property_report_path(@property, 'bounce_page'))
       end
       accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
-        p link_to("Video content")
+        p link_to("Overview", property_report_path(@property, 'events'))
         p link_to("Content drill-down")
       end
       accordian_item "#{image_tag '/images/icons/magnifier.png'} Internal Search" do         
@@ -45,7 +45,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
       end 
       accordian_item "#{image_tag '/images/icons/phone.png'} Platforms & Devices" do  
         p link_to("Overview")
-        p link_to("Mobile devices", property_report_path(@property, 'device'))
+        p link_to("Devices", property_report_path(@property, 'device'))
         p link_to("Browsers", property_report_path(@property, 'browser'))
         p link_to("Operating systems", property_report_path(@property, 'os_name'))
         p link_to("Screen colors", property_report_path(@property, 'color_depth'))

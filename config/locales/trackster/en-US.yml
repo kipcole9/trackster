@@ -167,7 +167,8 @@ en-US:
         referrer_top_10:    "Top 10 Referrers"
         search_terms_top_10:    "Top 10 Search Terms"
         page_views_top_10:  "Top 10 Pages Viewed"
-        pageview_graph:     "Page Views Trend"    
+        pageview_graph:     "Page Views Trend"
+        events_summary:     "Events Summary"
     
     column_descriptions:
         email:              "This is the email address for any correspondence. It can be changed any time."

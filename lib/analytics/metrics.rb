@@ -47,7 +47,11 @@ module Analytics
 
         # Named to avoid name class with association
         named_scope :event_count,
-          :select => 'count(if(page_views - event_count > 0,1,NULL)) as event_count'
+          :select => 'avg(event_count) as event_count',
+          :conditions => "events.category <> 'page' AND events.action <> 'view'"
+          
+        named_scope :value,
+          :select => 'avg(value) as value'
 
         # Visitors for whom this was their first visit
         named_scope :new_visits,

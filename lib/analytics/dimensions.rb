@@ -51,7 +51,7 @@ module Analytics
               joins << :events if Event.columns_hash[dimension.to_s]
             end
           end
-          {:select => select.join(', '), :conditions => conditions.join(' AND '), :group => group.join(', '), :joins => joins}
+          {:select => select.join(', '), :conditions => conditions.uniq.join(' AND '), :group => group.uniq.join(', '), :joins => joins.uniq}
         }
         
         named_scope   :new_v_returning,
@@ -72,11 +72,7 @@ module Analytics
           :select => 'url',
           :conditions => 'entry_page = 1 and exit_page = 1',
           :group => 'url'
-          
-        named_scope   :label, lambda {|label|
-          {:conditions => ["events.label = ?", label]}
-        }
-        
+
         named_scope   :traffic_source,
           :select => 'referrer_host, traffic_source',
           :group => 'referrer_host, traffic_source'
@@ -125,7 +121,7 @@ module Analytics
           unless defined?(@@session_dimensions)
             @@session_dimensions = self.columns_hash.inject([]) { |array, item| array << item.first }
             @@session_dimensions.reject{|k| k =~ /(_(id|at)|id|user_agent|referrer|event_count|page_views)\Z/ }
-            @@session_dimensions << ['new_v_returning','traffic_source','label','keywords']
+            @@session_dimensions << ['new_v_returning','traffic_source','keywords']
             @@session_dimensions.flatten!
           end
           @@session_dimensions

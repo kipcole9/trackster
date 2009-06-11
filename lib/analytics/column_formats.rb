@@ -25,6 +25,10 @@ module Analytics
         table_format :click_through_rate, :total => :avg, :order => 25, :formatter => :bar_and_percentage
         table_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_no_sign
 
+        table_format :label,          :order => -1, :formatter => :not_set_on_blank 
+        table_format :value,          :class => 'right', :formatter => :integer_with_delimiter
+        table_format :events,         :class => 'right', :formatter => :integer_with_delimiter
+        
         table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
         table_format :language,       :order => -1, :formatter => :not_set_on_blank

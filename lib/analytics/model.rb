@@ -27,6 +27,10 @@ module Analytics
           .having('visits > 0').order('visits DESC').between(Track.period_from_params(params))
       end
       
+      def events_summary(params)
+        tracks.event_count.value.by(:label, :category, :action)
+      end
+      
       def page_views_by_date(params)
         tracks.page_views.by(:date).between(Track.period_from_params(params))
       end

@@ -73,7 +73,8 @@ class PropertiesController < ApplicationController
   end
   
   def events
-    # default render
+    @events_summary = @property.events_summary(params).all
+    render :action => 'events_summary'
   end
 
   # Here's where we implement most of the reporting.  Since reporting
