@@ -28,8 +28,9 @@ class CampaignsController < ApplicationController
   def show
     respond_to do |format|
       format.html { 
-        @campaign_summary = @campaign.tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name).between(Track.period_from_params(params)).all
-        render 'campaign_summary' }
+        @campaign_summary = @campaign.campaign_summary(params)
+        render 'campaign_summary' 
+      }
       format.js   { render_list_item @campaign, 'campaign_summary' }        
     end
   end

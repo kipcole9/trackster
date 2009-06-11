@@ -1,4 +1,5 @@
 class Campaign < ActiveRecord::Base
+  include     Analytics::Model
   belongs_to    :property
   has_many      :sessions
   has_many      :tracks

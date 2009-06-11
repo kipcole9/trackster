@@ -1,4 +1,5 @@
 class Property < ActiveRecord::Base
+  include     Analytics::Model
   has_many    :campaigns
   has_many    :sessions
   has_many    :tracks
@@ -31,7 +32,7 @@ class Property < ActiveRecord::Base
   def url=(val)
     super(val.sub(/\/\Z/,''))
   end
-
+  
 private
 
   def create_tracker_code
