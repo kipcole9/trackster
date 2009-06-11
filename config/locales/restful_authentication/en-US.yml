@@ -8,7 +8,7 @@ en-US:
  bogus_activation_code : "We couldn't find a {{model}} with that activation code -- check your email? Or maybe you've already activated -- try signing in."
  create_account : "Create account"
  email : "Email"
- log_in : "Log In"
+ log_in : "Your credentials"
  log_out : "Log Out"
  logged_in : "Logged in successfully"
  logged_out : "You have been logged out."

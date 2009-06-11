@@ -1,10 +1,11 @@
 class TableFormatter
-  attr_accessor     :html, :table_columns, :klass, :merged_options, :rows, :totals
-  include           ::ActionView::Helpers::NumberHelper
-  EXCLUDE_COLUMNS = [:id, :updated_at, :created_at]
-  DEFAULT_OPTIONS = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
-  CALCULATED_COLUMNS  = /(percent|percentage|difference|diff)_of_(.*)/
-  REDUCTION_FACTOR    = 0.80  # Scale the bar graps so they have room for the percentage number
+  attr_accessor   :html, :table_columns, :klass, :merged_options, :rows, :totals
+  include         ::ActionView::Helpers::NumberHelper
+  EXCLUDE_COLUMNS       = [:id, :updated_at, :created_at]
+  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
+  CALCULATED_COLUMNS    = /(percent|percentage|difference|diff)_of_(.*)/
+  MIN_PERCENT_BAR_VALUE = 0.5   # Below which no bar is drawn
+  REDUCTION_FACTOR      = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
@@ -232,9 +233,11 @@ private
     number_with_precision(val.to_f, :precision => 2)
   end
   
+  # Output a horizontal bar and value
+  # No bar if the value is <
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
-      bar = "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>"
+      bar = (val.to_f > MIN_PERCENT_BAR_VALUE) ? "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>" : ''
       bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
       percentage(val, :precision => 1)
