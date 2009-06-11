@@ -1,5 +1,5 @@
 panel t('panels.pageviews_summary')  do
   block do
-    store @property.tracks.page_views.by(:day).between(Track.period_from_params(params)).all.to_sparkline(:page_views)
+    store @property.page_views_by_day.to_sparkline(:page_views)
   end
 end

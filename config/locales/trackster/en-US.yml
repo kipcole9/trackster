@@ -131,6 +131,7 @@ en-US:
             entry_page:     Entry pages
             exit_page:      Exit pages
             bounce_page:    Bounce pages
+            flash_version:  Flash Version
             page_title:     Page title
             localityregioncountry: Locality with Region and Country
             url:            URL (web page address)

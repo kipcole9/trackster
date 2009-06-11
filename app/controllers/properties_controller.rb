@@ -82,16 +82,17 @@ class PropertiesController < ApplicationController
   def method_missing(method, *args)
     if Track.session_dimensions.include?(params[:action])
       params[:action] = ['locality','region','country'] if params[:action] == 'locality'
-      @site_summary = @property.site_summary(params)
+      @site_summary = @property.site_summary(params).all
       render :action => 'site_summary'
     elsif Track.campaign_dimensions.include?(params[:action])
-      @campaign_summary = @property.campaign_summary(params)
+      @campaign_summary = @property.campaign_summary(params).all
       render 'campaigns/campaign_summary'      
     elsif Track.loyalty_dimensions.include?(params[:action])
-      @visit_summary = @property.visit_summary(params)
+      @visit_summary = @property.visit_summary(params).all\
+        .sort{|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
       render :action => 'visit_summary'      
     elsif Track.event_dimensions.include?(params[:action])
-      @site_summary = @property.content_summary(params)
+      @site_summary = @property.content_summary(params).all
       render :action => 'content_summary'
     else
       raise ActiveRecord::NotFound

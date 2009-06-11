@@ -1,6 +1,6 @@
 panel t('.visit_graph')  do
   block do
-    visits = @property.tracks.visits.by(:date).between(Track.period_from_params(params)).all
+    visits = @property.visits_by_date(params).all
     if visits.empty? || (visits.size == 1 && visits.first.visits == "0")
       h3 t('.no_visits_yet')
     else
