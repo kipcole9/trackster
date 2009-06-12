@@ -6,4 +6,7 @@ class SitesController < ApplicationController
     @latency = Track.latency.by(:date).all
   end
   
+  def _page_title
+    "Log update latency"
+  end
 end
