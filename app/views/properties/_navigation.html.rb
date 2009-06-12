@@ -37,8 +37,13 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p link_to("Top bounce pages", property_report_path(@property, 'bounce_page'))
       end
       accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
-        p link_to("Overview", property_report_path(@property, 'events'))
-        p link_to("Content drill-down")
+        p link_to("Event overview", property_report_path(@property, 'events'))
+        p link_to("Video overview", property_report_path(@property, 'video'))
+        @property.video_labels.each do |video_label|
+          unless video_label.blank?
+            p link_to("#{image_tag '/images/icons/television.png'} #{video_label}", property_report_path(@property, 'video', :video => h(video_label))) 
+          end
+        end; nil
       end
       accordian_item "#{image_tag '/images/icons/magnifier.png'} Internal Search" do         
         p link_to("Internal search")

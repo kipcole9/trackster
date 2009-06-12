@@ -471,10 +471,13 @@ input.search.button {
   cursor:                    pointer;
   }
 
-.concertina .trig img {
+.concertina .trig img, .concertina .targ img {
   width: 13px;
   position: relative;
   top: 2px;
+}
+.concertina .targ img {
+  top: 1px;
 }
 
 .concertina .open {

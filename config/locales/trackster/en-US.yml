@@ -32,8 +32,9 @@ en-US:
 
     videos:
         video:                  "Video: {{name}}"
-        video_maxplay_graph:    Maximum play time (in bands)
+        video_maxplay_graph:    "Maximum play time (in bands) for {{name}}"
         no_video_plays_yet:     There are no video plays recorded yet.
+        all:                    all videos
     accounts:
         account_form:           Account
         account_created:        "Account '{{name}}' created"
@@ -173,7 +174,7 @@ en-US:
         page_views_top_10:  "Top 10 Pages Viewed"
         pageview_graph:     "Page Views Trend"
         events_summary:     "Events Summary"
-        video_summary:      "Video Summary"
+        video_summary:      "Video Summary for {{name}}"
     
     column_descriptions:
         email:              "This is the email address for any correspondence. It can be changed any time."

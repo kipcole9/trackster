@@ -31,7 +31,7 @@
 
 /* Can't put relative positioned images in an h3 with
 concertina */
-.concertina .trig img {
+.concertina .trig img, .concertina .targ img {
   width: 13px;
   position: static;
 }

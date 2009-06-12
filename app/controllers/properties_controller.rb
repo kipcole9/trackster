@@ -78,7 +78,7 @@ class PropertiesController < ApplicationController
   end
   
   def video
-    @videos = @property.video_labels
+    @videos = @property.video_labels(params)
     render :action => 'video_summary'
   end
 
