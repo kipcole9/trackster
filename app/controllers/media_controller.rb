@@ -2,7 +2,7 @@ class MediaController < ApplicationController
   
   def maxplay
     options = options_from_params(params)
-    view_data = Track.video_playtime.label(options[:label]).by(:session).between(options[:period]).all
+    view_data = Track.video_playtime.filter(["label = ?",options[:label]]).by(:session, :label).between(options[:period]).all
     round_to_nearest!(view_data, options[:round_to])
     playtimes = views_grouped_by_value(view_data).sort{|a, b| a[:maxplay] <=> b[:maxplay] }
     render :xml => playtimes
