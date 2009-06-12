@@ -39,8 +39,9 @@ panel t('panels.navigation'), :class => 'accordian'  do
       accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
         p link_to("Event overview", property_report_path(@property, 'events'))
         p link_to("Video overview", property_report_path(@property, 'video'))
-        @property.video_labels.each do |video_label|
-          unless video_label.blank?
+        @property.video_labels.each do |video|
+          unless video.blank?
+            video_label = video.split('/').last
             p link_to("#{image_tag '/images/icons/television.png'} #{video_label}", property_report_path(@property, 'video', :video => h(video_label))) 
           end
         end; nil
