@@ -31,7 +31,7 @@ div.flash_notice {
 }
 
 div#branding {
-	background-color: #E67451;
+	background-color: #E55B3C; /* #F76541;  #E67451; */
 }
 
 #page-heading {
@@ -44,18 +44,23 @@ div#branding {
 }
 div.box {
 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;	
 }
 
 div.box h2 {
 	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;	
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;	
 }
 
-tfoot th, tfoot td {
+/* table, tfoot th, tfoot td {
 	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;	
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;	
 }
-
+*/
 .concertina {
 	padding-left: 2px;
 	padding-right: 2px;
