@@ -27,7 +27,7 @@ module Analytics
 
         named_scope :video_views,
           :select => "count(*) as video_views",
-          :conditions => Event::VIDEO_VIEW,
+          :conditions => Event::VIDEO_MAXVIEW,
           :joins => :events
             
         # Maximum view time of a video

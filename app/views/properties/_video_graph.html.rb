@@ -1,0 +1,10 @@
+panel t('videos.video_maxplay_graph')  do
+  block do
+    video_maxplays = @property.video_play_time(params).all
+    if video_maxplays.empty?
+      h3 t('videos.no_video_plays_yet')
+    else
+      store video_maxplays.to_chart(:video_views, :max_play_time, :tooltip => "Max Play Time: #x_label#\nNumber of views: #val#")
+    end
+  end
+end

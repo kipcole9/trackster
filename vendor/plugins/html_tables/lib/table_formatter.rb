@@ -18,6 +18,7 @@ class TableFormatter
     @table_columns  = initialise_columns(rows, klass, merged_options)
     @totals         = initialise_totalling(rows, table_columns)
     results.sort(options[:sort]) if options[:sort] && options[:sort].is_a?(Proc)
+    @merged_options[:rows] = results
     @html = Builder::XmlMarkup.new(:indent => 2)
   end
 
@@ -80,7 +81,7 @@ class TableFormatter
         first_column = true
         table_columns.each do |column| 
           value = first_column ? I18n.t('total') : totals[column[:name].to_s]
-          output_cell_value(:th, value, column)
+          output_cell_value(:th, value, column, options)
           first_column = false
         end
       end
@@ -93,7 +94,7 @@ class TableFormatter
   end
   
   def output_cell_value(cell_type, value, column, options = {})
-    result = column[:formatter].call(value, {:cell_type => cell_type}.merge(options))
+    result = column[:formatter].call(value, {:cell_type => cell_type, :column => column}.merge(options))
     result = result.nil? ? '' : result
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
@@ -198,6 +199,10 @@ private
     end
   end
 
+  def group_not_set_on_blank(val, options)
+    # Need more context to do this
+  end
+  
   def unknown_on_blank(val, options)
     if options[:cell_type] == :th
       val

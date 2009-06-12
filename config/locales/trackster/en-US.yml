@@ -30,6 +30,10 @@ en-US:
     no_impressions_yet:     No impressions currently recorded.
     bits:                   bits
 
+    videos:
+        video:                  "Video: {{name}}"
+        video_maxplay_graph:    Maximum play time (in bands)
+        no_video_plays_yet:     There are no video plays recorded yet.
     accounts:
         account_form:           Account
         account_created:        "Account '{{name}}' created"
@@ -169,6 +173,7 @@ en-US:
         page_views_top_10:  "Top 10 Pages Viewed"
         pageview_graph:     "Page Views Trend"
         events_summary:     "Events Summary"
+        video_summary:      "Video Summary"
     
     column_descriptions:
         email:              "This is the email address for any correspondence. It can be changed any time."
@@ -251,6 +256,7 @@ en-US:
                 clicks_through:         Clicks
                 click_through_rate:     CTR
                 impressions:            Viewed
+                value:                  Avg. value
                 
                 
                 

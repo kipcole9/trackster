@@ -82,7 +82,7 @@ module Analytics
           :conditions => 'search_terms IS NOT NULL',
           :group => 'search_terms'
           
-        named_scope   :length_of_visit, lambda{
+        named_scope   :length_of_visit, lambda {
           visit_sql = <<-SELECT
             if(duration <= 10, '0-10',
               if(duration > 10 and duration < 30, '11-20',
@@ -97,6 +97,13 @@ module Analytics
             )  as length_of_visit
           SELECT
           {:select => visit_sql, :group => :length_of_visit, :order => :length_of_visit}
+        }
+        
+        named_scope   :max_play_time, lambda{
+          {
+            :select => "(cast(value / 5 as unsigned) * 5)  as max_play_time", :group => :max_play_time, :order => :max_play_time,
+            :conditions => Event::VIDEO_MAXVIEW
+          }
         }
         
         named_scope   :depth_of_visit, lambda {

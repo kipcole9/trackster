@@ -31,6 +31,10 @@ module Analytics
         tracks.event_count.value.by(:label, :category, :action)
       end
       
+      def one_event_summary(params)
+        tracks.event_count.value.by(:action)
+      end
+      
       def page_views_by_date(params)
         tracks.page_views.by(:date).between(Track.period_from_params(params))
       end
@@ -65,6 +69,18 @@ module Analytics
       
       def total_visits(params)
         tracks.visits.between(Track.period_from_params(params)).first.visits
+      end
+      
+      def video_labels
+        tracks.find(:all, :select => "DISTINCT label", :conditions => "category = 'video'", :order => 'label', :joins => :events).map(&:label)
+      end
+      
+      def video_summary(video, params = {})
+        one_event_summary(params).filter(["label = ?", video]).having('event_count > 0')
+      end
+      
+      def video_play_time(params = {})
+        tracks.video_views.between(Track.period_from_params(params)).by(:max_play_time)
       end
     end
     

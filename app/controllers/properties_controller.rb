@@ -76,6 +76,11 @@ class PropertiesController < ApplicationController
     @events_summary = @property.events_summary(params).all
     render :action => 'events_summary'
   end
+  
+  def video
+    @videos = @property.video_labels
+    render :action => 'video_summary'
+  end
 
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can
