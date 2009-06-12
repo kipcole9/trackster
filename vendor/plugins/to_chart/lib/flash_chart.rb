@@ -167,7 +167,7 @@ module Charting
     end
     
     def label_visible?(array, data_source, modulus)
-      (array.size % modulus == 0) || data_source.size < 6 || array.size == data_source.size
+      (array.size % modulus == 0) || (data_source.size < 10) || (array.size == data_source.size)
     end
   end
 end    
