@@ -35,6 +35,9 @@ en-US:
         video_maxplay_graph:    "Maximum play time (in bands) for {{name}}"
         no_video_plays_yet:     There are no video plays recorded yet.
         all:                    all videos
+    sites:
+        latency:                Update latency (average time in seconds from tracking to database update)
+        no_latency_found:       No information available to calculate latency.
     accounts:
         account_form:           Account
         account_created:        "Account '{{name}}' created"

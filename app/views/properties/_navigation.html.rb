@@ -47,7 +47,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         end; nil
       end
       accordian_item "#{image_tag '/images/icons/magnifier.png'} Internal Search" do         
-        p link_to("Internal search")
+        p link_to("Overview")
       end 
       accordian_item "#{image_tag '/images/icons/phone.png'} Platforms & Devices" do  
         p link_to("Overview")

@@ -27,6 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
   
   map.resource :session
+  map.resource :site
   map.resource :dashboard     # Home paged for logged_in users
   
   map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"
