@@ -86,7 +86,11 @@ div.box {
 	margin-bottom: 10px;
 }
 div#branding , div#site_info .box {
-	background-color:  #CFECEC;
+	background-color:  #48191E; /* #CFECEC; */
+}
+
+div#branding div, div#branding a, div#site_info a, div#site_info p {
+	color: white;
 }
 div#site_info .box {
 	margin-bottom: 10px;
