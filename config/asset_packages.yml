@@ -41,7 +41,8 @@ stylesheets:
     - calendar
     - autocomplete    
     - application
-    - ie      
+    - ie
+    - theme    
 - ie6:    
     - reset 
     - grid
