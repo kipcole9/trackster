@@ -30,6 +30,7 @@ stylesheets:
     - calendar
     - autocomplete    
     - application
+    - theme
 - ie:
     - reset 
     - grid

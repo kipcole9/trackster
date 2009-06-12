@@ -1,0 +1,66 @@
+/* Colours */
+
+/* Chocolate */
+body, .container_12 {
+	background: rgb(105, 94, 83);
+	padding: 0;
+}
+
+/* Light beige 	#E3E1D5 */
+div.box, tr.even, tfoot th, tfoot td {
+	background: rgb(227, 225, 213);
+}
+
+/* Slightly darker beige */
+div thead th, thead td, form.search, legend {
+	background: rgb(217, 215, 203);
+}
+
+/* Dark chocolate */
+ul.nav.main, ul.nav.main li a {
+	background: rgb(43, 34, 27);
+}
+
+/* Light light beige */
+.concertina .trig, tbody th, tbody td, fieldset, div.listItem {
+	background: rgb(247, 245, 233);
+}
+
+div.flash_notice {
+	background: rgb(187, 255, 187);
+}
+
+div#branding {
+	background-color: #E67451;
+}
+
+#page-heading {
+	color: white;
+}
+
+/* Formatting */
+.container_12 {
+	margin: 0 auto;
+}
+div.box {
+	-webkit-border-radius: 5px;
+}
+
+div.box h2 {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;	
+}
+
+tfoot th, tfoot td {
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;	
+}
+
+.concertina {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.concertina .trig {
+	background: rgb(242, 240, 228);
+}

@@ -1,6 +1,6 @@
 require 'flex_stuff'
-require 'log_parser'
-require 'web_analytics'
+require 'analytics/log_parser'
+require 'analytics/web_analytics'
 require 'with_scope'
 
 # Small hack to let us play with
