@@ -1,6 +1,8 @@
 panel t('dashboards.video_summary'), :class => 'table'  do
   if @videos.empty?
-    h3 t('videos.no_video_plays_yet')
+    block do
+      h3 t('videos.no_video_plays_yet')
+    end
   else
     @videos.each do |video|
       block do
