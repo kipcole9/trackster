@@ -1,0 +1,27 @@
+<h1 class="signup">
+  <a id="test" href="<%= new_account_url %>">Sign up now!</a>
+</h1>
+  
+<div id="c1" class="grid_3">
+	<%= render "feature_1" %>
+</div>
+
+<div id="c1" class="grid_3">
+	<%= render "feature_2" %>
+</div>
+
+<div id="c1" class="grid_3">
+	<%= render "feature_3" %>
+</div>
+
+<div id="c1" class="grid_3">
+	<%= render "feature_4" %>
+</div>
+<div class="clear"</div>
+
+<%= javascript_include_tag 'tracker_debug.js' %>
+<script type="text/javascript">
+var tracker = new _tks;
+tracker.setAccount('tks-12345-1');
+tracker.trackLink('test');
+</script>

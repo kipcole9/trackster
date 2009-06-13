@@ -1,0 +1,5 @@
+page.replace_html  group_id(@group), :partial => 'group_summary', :locals => {:group => @group}
+page["new_group"].remove()
+page.visual_effect :appear, group_id(@group)
+
+

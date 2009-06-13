@@ -28,20 +28,9 @@
 					<a name="mainmenu3-submenu2" href="<%= campaigns_path %>">Show all campaigns</a>
 				</li>
 			</ul>
-		</li>
-		<li class="secondary">
-		  <a name="secondarymenu">Your profile</a>
-			<ul>
-				<li>
-			    <a name="secondarymenu" href="<%= edit_user_path(current_user) %>">Update your profile</a>
-			  </li>
-				<li>
-					<a name="secondarymenu-submenu9" href="<%= change_password_path %>">Change your password</a>
-				</li>
-			</ul>	
-		</li>		
+		</li>	
 		<% if current_user.has_role?(Role::ACCOUNT_ROLE) %>
-  		<li class="secondary">
+  		<li>
   			<a name="secondarymenu">Account</a>
   			<ul>
   				<li>
@@ -57,7 +46,7 @@
   		</li>
   	<% end %>
 		<% if logged_in? && current_user.has_role?(Role::ADMIN_ROLE) %>
-  		<li class="secondary">
+  		<li>
   			<a name="secondarymenu">Site Admin</a>
   			<ul>
   				<li>

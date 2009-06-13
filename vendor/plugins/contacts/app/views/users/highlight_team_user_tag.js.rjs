@@ -1,0 +1,1 @@
+page["team_#{team['id']}_user_#{user['id']}"].highlight()

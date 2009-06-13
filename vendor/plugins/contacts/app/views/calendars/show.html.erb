@@ -1,0 +1,9 @@
+<div id="fiscal_calendar">
+  <h1>Fiscal Year <%= calendar.fiscal_year %> Calendar</h1>
+  <% (1..4).each do |q| %>
+    <div class="calendarQuarter clearfix">
+      <h2>Quarter <%= q %></h2>
+      <%= @calendar.quarter(q).to_html -%>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Application Title</title>
+		<%= stylesheet_link_tag "reset.css" %>
+		<%= stylesheet_link_tag "text.css" %>
+		<%= stylesheet_link_tag "grid.css" %>
+		<%= stylesheet_link_tag "layout.css" %>
+		<%= stylesheet_link_tag "nav.css" %>
+		<%= stylesheet_link_tag "tabricator.css" %>
+		<%= stylesheet_link_tag "application.css" %>
+		<!--[if IE 6]><%= stylesheet_link_tag "ie6.css" %><![endif]-->
+		<!--[if gte IE 7]><%= stylesheet_link_tag "ie.css" %><![endif]-->
+		<%= javascript_include_tag :defaults, 'lowpro.js', 'concertina.js', 'tabricator.js', 'browser_timezone.js', 'cookie.js' %>				
+	</head>
+	<body>
+		<div class="container_12">
+			<!-- header elements -->
+			<%= render "prototypes/branding" %>
+			<%= render "prototypes/main_menu" %>
+			<%= render "prototypes/page_heading" %>
+
+			<!-- Left Column -->
+			<div id="left" class="grid_3">
+				<%= render "prototypes/paragraph" %>
+				<%= render "prototypes/ajax_box" %>
+				<%= render "prototypes/box_menu" %>
+				<%= render "prototypes/list_items" %>
+			</div>
+			
+			<!-- Centre column -->
+			<div id="centre" class="grid_5">
+				<%= yield %>
+				<%= render "prototypes/accordion" %>
+				<%= render "prototypes/blockquote" %>
+				<%= render "prototypes/tables" %>
+				<%= render "prototypes/forms" %>
+			</div>
+			
+			<!-- right column -->
+			<div id="right" class="grid_4">
+				<%= render "prototypes/search" %>
+				<%= render "prototypes/login" %>
+				<%= render "prototypes/tabs" %>
+				<%= render "prototypes/articles" %>
+			</div>
+			<div class="clear"></div>
+			
+			<!-- Footer -->
+			<div id="footer" class="grid_12" id="site_info">
+				<%= render "prototypes/footer" %>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</body>
+</html>

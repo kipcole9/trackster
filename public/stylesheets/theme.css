@@ -5,19 +5,23 @@ body, .container_12 {
 	background: rgb(105, 94, 83);
 	padding: 0;
 }
-
-/* Light beige 	#E3E1D5 */
-div.box, tr.even, tfoot th, tfoot td {
-	background: rgb(227, 225, 213);
-}
-
 /* Slightly darker beige */
 div thead th, thead td, form.search, legend {
 	background: rgb(217, 215, 203);
 }
 
+/* Even a bit more dark */
+dt.tabItem.trig {
+	background: rgb(210, 208, 195);
+}
+
+/* Light beige 	#E3E1D5 */
+div.box, tr.even, tfoot th, tfoot td, dt.tabItem.trig.open {
+	background: rgb(227, 225, 213);
+}
+
 /* Dark chocolate */
-ul.nav.main, ul.nav.main li a {
+ul.nav.main, ul.nav.main li a, ul.nav.main li.secondary ul li a {
 	background: rgb(43, 34, 27);
 }
 
@@ -26,12 +30,8 @@ ul.nav.main, ul.nav.main li a {
 	background: rgb(247, 245, 233);
 }
 
-div.flash_notice {
-	background: rgb(187, 255, 187);
-}
-
 div#branding {
-	background-color: #E55B3C; /* #F76541;  #E67451; */
+	background-color: 	#E55B3C; /*#CC3300; #F76541;  #E67451; */
 }
 
 #page-heading {
@@ -42,30 +42,37 @@ div#branding {
 .container_12 {
 	margin: 0 auto;
 }
-div.box {
+div.box, legend {
 	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;	
+	-moz-border-radius: 5px;
+}	
+div.box {
+	-webkit-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+	-moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+}
+div.listItem:hover, .concertina .trig {
+	-webkit-box-shadow: 2px 2px 4px rgba(43, 34, 27, 0.4);
+	-moz-box-shadow: 2px 2px 4px rgba(43, 34, 27, 0.4);
 }
 
-div.box h2 {
+div.flash_notice, div.flash_error {
+	margin-bottom: 0.2em;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+div.flash_notice {
+	background: rgb(187, 255, 187);
+}
+div.flash_error {
+	background-color: #fbb;
+}
+div.box h2, div#branding {
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;	
 }
-
-/* table, tfoot th, tfoot td {
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-moz-border-radius-bottomleft: 5px;
-	-moz-border-radius-bottomright: 5px;	
-}
-*/
-.concertina {
-	padding-left: 2px;
-	padding-right: 2px;
-}
-
 .concertina .trig {
 	background: rgb(242, 240, 228);
 }
+

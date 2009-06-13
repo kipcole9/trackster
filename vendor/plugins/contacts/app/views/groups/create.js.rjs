@@ -1,0 +1,5 @@
+page['newGroupMember'].insert :before => render(:partial => 'new_group_summary', :locals => {:group => @group})
+page['newGroupMember'].remove()
+page << "Event.addBehavior.reload();"
+
+

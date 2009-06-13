@@ -12,8 +12,9 @@ en-US:
     user_login:             Log in to your account
     login:                  Login
     logout:                 Logout
+    change_password:        Change Password
     remember_me:            Remember me
-    logged_in_as:           "Logged in as {{name}}"
+    logged_in_as:           "Logged in as"
     save:                   Save your changes
     submit:                 Submit
     show_all_fields:        Show all fields?
@@ -48,7 +49,20 @@ en-US:
         account_deleted:        "Account '{{name}}' deleted"
         account_not_deleted:    "Account '{{name}}' was not deleted"
                                                 
+    contacts:
+        email_types:            [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
+        website_types:          [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
+        address_types:          [["Work", "work"], ["Home", "home"], ["Mailing", "mailing"], ["Other", "other"]]
+        phone_types:            [["Work", "direct"], ["Home", "home"], ["Mobile", "mobile"], 
+                                ["Skype", "skype"], ["Main", "main"], ["Fax", "fax"], 
+                                ["Pager", "pager"], ["Other", "other"]]
+        affiliations:           [["Family", "family"], ["Friends", "friends"], ["Colleagues", "colleagues"]]
+        gender:                 [["Male", "male"], ["Female", "female"], ["Unknown", "unknown"]]
+        name_order:             [["Given then Family", 'gf'], ["Family then Given", "fg"]]
+        index:
+            name_search:        Search by name
     users:
+        edit_profile:           Edit your profile
         user_updated:           "User profile for '{{name}}' updated"
         user_not_updated:       "User profile for '{{name}}' was not updated"      
         new:
@@ -171,6 +185,8 @@ en-US:
         redirect_index:     Index of redirects
         redirect:           Redirect profile
         dashboard:          Dashboard
+        contacts_index:     "Contact cards"
+        edit_contact:       "Update {{name}}'s details"
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"

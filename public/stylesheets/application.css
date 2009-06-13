@@ -377,13 +377,23 @@ div.inline .fieldWithErrors {
 	top: 0;
 }
 
-div.inline input, div.inline textarea {
+div.inline input, div.inline textarea, fieldset#address textarea, fieldset#address input {
 	margin-right: 5px;
+	width: 52%;
 }
-
+div.inline input[type="checkbox"] {
+	width: 1.5em;
+}
+div.inlines input[type="hidden"] {
+	width: 1px;
+}
 div.inline textarea {
 	vertical-align: top;
 	float: right;
+}
+
+div.inline select, fieldset#address select {
+	width: 20%;
 }
 
 div.inline label {
@@ -680,6 +690,9 @@ div.box.accordian .block {
 
 div.box.accordian h2 {
 	margin: 0;
+}
+.concertina {
+	padding: 0 5px 5px;
 }
 
 /* Table panels */

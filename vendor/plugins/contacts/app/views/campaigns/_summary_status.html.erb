@@ -1,0 +1,5 @@
+<% panel "Campaign Summary" do %>
+	<% block do %>
+    <%= Campaign.all.to_table(:include => [:name, :subject, :reply_to]) %>
+	<% end %>
+<% end %>

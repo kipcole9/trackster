@@ -5,9 +5,7 @@ page do
     end
   
     column :width => 4 do
-      include "widgets/tweet"
-    	include "prototypes/search"
-    	include "calendars/this_month"
+      include "users/index"
   	end
   end
 end

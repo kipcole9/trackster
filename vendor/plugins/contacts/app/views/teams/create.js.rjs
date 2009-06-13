@@ -1,0 +1,5 @@
+page[@parent_id].next('ul').down().remove()
+page[@parent_id].next('ul').insert :top => render(:partial => 'new_team_summary', :locals => {:team => @team})
+page << "Event.addBehavior.reload();"
+
+
