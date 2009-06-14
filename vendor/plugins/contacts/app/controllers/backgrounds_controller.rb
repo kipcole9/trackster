@@ -23,7 +23,7 @@ private
   end
   
   def retrieve_background
-    @background = @contact.background || @contact.background.new
+    @background = @contact.background || @contact.build_background
   end
   
 end

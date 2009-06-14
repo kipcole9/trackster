@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_many                  :property_users
   has_many                  :properties, :through => :property_users
   belongs_to                :account
+  has_many                  :team_members
+  has_many                  :teams, :through => :team_members
   
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -35,8 +37,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
 
-  
-
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
                   # Virtual attributes we use for changing password - make sure we don't interrupt the real data
                   :new_password, :new_password_confirmation, :account_id
 
+  def contacts
+    Contact.for_user(self)
+  end
+  
   # has_role? simply needs to return true or false whether a user has a role or not.  
   # It may be a good idea to have "admin" roles return true always
   def has_role?(role_in_question)
@@ -77,12 +81,17 @@ class User < ActiveRecord::Base
     [self.given_name, self.family_name].compact.join(' ').strip
   end
   
+  def self.admin_user
+    @@admin_user = User.find_by_login(ADMIN_USER) unless defined?(@@admin_user)
+    @@admin_user
+  end
+  
   # When the server starts this method is invoked post-initialization
   # to ensure that we have an admin user.  This is most helpful when
   # booting a new system.  Or if someone does something silly to the database
   # behind the scenes.
   def self.ensure_admin_exists
-    unless User.find_by_login('admin')
+    unless User.find_by_login(ADMIN_USER)
       admin = User.create!(:login => ADMIN_USER, :password => ADMIN_DEFAULT_PASSWORD, 
         :password_confirmation => ADMIN_DEFAULT_PASSWORD, :email => ADMIN_DEFAULT_EMAIL)
       admin.register!

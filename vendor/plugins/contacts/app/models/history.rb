@@ -27,8 +27,17 @@ class History < ActiveRecord::Base
   # This allows for multiple accounts or users maintainiing
   # references to the same contact
   def self.record_tracking_event(track)
-    
-    
+    account = track.session.property.account  # Lots of db traffic here - needs revisiting
+    contacts = account.contacts.find(:all, :conditions => ['emails.address = ?', track.contact_code], :include => :emails)
+    contacts.each do |contact|
+      @history = History.new
+      @history.historical = track
+      @history.created_by = User.admin_user
+      @history.transaction = track.action
+      @history.actionable = contact
+      @history.updates = {:category => track.category, :label => track.label, :value => track.value}
+      @history.save
+    end
   end
   
 private

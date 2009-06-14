@@ -33,14 +33,12 @@ class ContactsController < ApplicationController
   
 private
   def retrieve_contact
-   #  @contact = current_account.contacts.find(params[:id])
-   @contact = Contact.find(params[:id])
+   @contact = current_account.contacts.find(params[:id])
   end
   
   def retrieve_contacts
     conditions = conditions_from_search(params[:search])
-    # @contacts = current_account.contacts.paginate(:page => params[:page], :conditions => conditions, :include => [:emails, :addresses, :websites, :phones])
-    @contacts = Contact.paginate(:page => params[:page], :conditions => conditions, :include => [:emails, :addresses, :websites, :phones])
+    @contacts = current_account.contacts.paginate(:page => params[:page], :conditions => conditions, :include => [:emails, :addresses, :websites, :phones])
   end
   
   def conditions_from_search(search)

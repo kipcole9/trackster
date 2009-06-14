@@ -3,6 +3,7 @@ class Contact < ActiveRecord::Base
   acts_as_taggable_on :permissions, :categories, :tags
   
   belongs_to    :account
+  belongs_to    :team
   belongs_to    :created_by,          :class_name => "User", :foreign_key => :created_by
   belongs_to    :updated_by,          :class_name => "User", :foreign_key => :updated_by
   has_one       :background
@@ -29,6 +30,10 @@ class Contact < ActiveRecord::Base
     end
   end
   
+  named_scope :for_user, lambda {|user|
+    { :joins => {:team => :users}, :conditions => ["users.id = ?", user.id] } 
+  }
+  
   has_attached_file :photo, :styles => { :thumbnail=> "200x200#", :small  => "150x150>", :avatar => "50x50#" },
                     :convert_options => { :all => "-unsharp 0.3x0.3+3+0" }
    
@@ -46,7 +51,7 @@ class Contact < ActiveRecord::Base
                                 :reject_if => proc { |attributes| attributes['number'].blank? }
   accepts_nested_attributes_for :addresses,           
                                 :allow_destroy => true, 
-                                :reject_if => proc { |attributes| self.all_blank?(attributes) }
+                                :reject_if => proc { |attributes| attributes.all? {|k, v| v.blank?} }
   accepts_nested_attributes_for :affiliates,          
                                 :allow_destroy => true, 
                                 :reject_if => proc { |attributes| attributes['address'].blank? }
@@ -59,12 +64,5 @@ class Contact < ActiveRecord::Base
   def refers_to
     self
   end
-     
-private      
-  def self.all_blank?(attributes)
-    attributes.each do |a|
-      return false unless a.blank?
-    end
-    return true
-  end
+
 end

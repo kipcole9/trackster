@@ -101,7 +101,7 @@ class PropertiesController < ApplicationController
       @site_summary = @property.content_summary(params).all
       render :action => 'content_summary'
     else
-      raise ActiveRecord::NotFound
+      raise ActiveRecord::RecordNotFound
     end
   end
 

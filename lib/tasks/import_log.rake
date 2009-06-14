@@ -4,6 +4,7 @@
 namespace :trackster do
   desc "Import log for web analytics"
   task(:analyse_log => :environment) do
+    require 'analytics/log_analyser_daemon'
     Rails.logger.info "Starting import of tracking log."    
     if Rails.env == "development"
       Session.delete_all

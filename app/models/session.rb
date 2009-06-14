@@ -52,8 +52,11 @@ class Session < ActiveRecord::Base
 
   def create_campaign_association(row)
     return unless row[:campaign_name]
-    self.campaign = Campaign.find_by_code(row[:campaign_name])
-    self.campaign_name = self.campaign.name
+    if self.campaign = Campaign.find_by_code(row[:campaign_name])
+      self.campaign_name = self.campaign.name
+    else
+      Rails.logger.error "[session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
+    end
   end
 
 private

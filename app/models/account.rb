@@ -5,6 +5,7 @@ class Account < ActiveRecord::Base
   has_many        :campaigns
   has_many        :redirects
   has_many        :users
+  has_many        :contacts
   
   ADMIN_ACCOUNT     = "Admin"
   ADMIN_DESCRIPTION = "Administration Account"
