@@ -5,6 +5,13 @@
 	Light red (flash error) #fbb
 	Mid blue: rgb(25,135,213); #1987D5
 */	
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 0.3em;
+}
+
+ul {
+	margin-bottom: 10px;
+}
 
 body {
 	padding-bottom 0;
@@ -33,7 +40,9 @@ select {
 	padding-bottom: 3px;
 	font-size: 100%;
 }
-
+select.date {
+	width: 30%;
+}
 h4 {
 	font-size: 110%;
 }
@@ -132,11 +141,15 @@ h2#page-heading {
 h1#branding, h2#page-heading {
 	padding-left: 11px;
 }
-
+.block {
+	padding-top: 5px;
+}
 .block .tab {
 	margin-bottom: 0;
 }
-
+p {
+	line-height: 1.3em;
+}
 /* Flash */
 div.flash_notice, div.flash_error {
 	padding: 5px;
@@ -381,13 +394,23 @@ div.inline .fieldWithErrors {
 	top: 0;
 }
 
-div.inline input, div.inline textarea {
+div.inline input, div.inline textarea, fieldset#address textarea, fieldset#address input {
 	margin-right: 5px;
+	width: 52%;
 }
-
+div.inline input[type="checkbox"] {
+	width: 1.5em;
+}
+div.inlines input[type="hidden"] {
+	width: 1px;
+}
 div.inline textarea {
 	vertical-align: top;
 	float: right;
+}
+
+div.inline select, fieldset#address select {
+	width: 20%;
 }
 
 div.inline label {
@@ -470,13 +493,14 @@ div.address._new {
 }
 
 div.contactCard {
+	display: inline;
 	position: relative;
 	float: left;
-	width: 30.5%; 
+	width: 200px;
 	height: 130px;
 	background-color: white;
 	margin-bottom: 10px;
-	margin-right: 1%;
+	margin-right: 10px;
 	padding: 5px;
 	-webkit-box-shadow: 5px 5px 3px #888;
 	-moz-box-shadow: 5px 5px 3px #888;
@@ -510,6 +534,9 @@ div.contactCard img.merge {
 div.contactCard img.merge:hover {
 	border: 1px solid #888;
 }
+div#about .contactCard img.merge {
+	display: none;
+}
 div.contactCard h3, div.contactCard h4 {
 	font-size: 100%;
 	font-weight: bold;
@@ -533,6 +560,17 @@ div.contactCard p {
 
 div.contactCard p.email a, div.contactCard p.website a {
 	font-weight: normal;
+}
+div#about .contactCard {
+	width: 100%;
+	float: none;
+	display: block;
+	margin: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	cursor: inherit;
+	margin-bottom: -5px;
 }
 
 /* Pagination */
@@ -569,7 +607,6 @@ div.contactCard p.email a, div.contactCard p.website a {
 /* Search */
 form.search  {
 	margin-bottom: 5px;
-	margin-top: -5px;
 	padding: 6px 8px;
 	background-color: #ccc;
 	-webkit-border-radius: 	 5px;  
@@ -685,6 +722,9 @@ div.box.accordian .block {
 div.box.accordian h2 {
 	margin: 0;
 }
+.concertina {
+	padding: 0 5px 5px;
+}
 
 /* Table panels */
 div.box.table, div.box.table .block {
@@ -753,4 +793,16 @@ div.hbar {
 	margin-right: 0.5em;
 	height: 13px;
 	background-color: rgb(25,135,213);
+}
+
+/* Bio specific formatting */
+#bio {
+	padding-bottom: 10px;
+}
+#bio h2 {
+	margin-top: 0;
+}
+
+#bio table {
+	margin-top: 0.5em;
 }

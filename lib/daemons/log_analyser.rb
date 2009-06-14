@@ -21,6 +21,7 @@ Signal.trap("TERM") do
   $RUNNING = false
 end
 
+require "#{Rails.root}/lib/analytics/log_analyser_daemon"
 log_analyser = LogAnalyserDaemon.new
 ActiveRecord::Base.logger.info "Trackster log analyser (#{ENV["RAILS_ENV"]}) starting at #{Time.now}.\n"
 log_analyser.log_analyser_loop

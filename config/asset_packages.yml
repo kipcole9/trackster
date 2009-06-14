@@ -23,24 +23,26 @@ stylesheets:
 - base:
     - reset 
     - grid
+    - text    
     - layout
     - nav
     - tabricator
-    - text
     - calendar
     - autocomplete    
     - application
+    - theme
 - ie:
     - reset 
     - grid
+    - text    
     - layout  
     - nav
     - tabricator
-    - text
     - calendar
     - autocomplete    
     - application
-    - ie      
+    - ie
+    - theme    
 - ie6:    
     - reset 
     - grid

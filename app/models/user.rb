@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :given_name, :family_name, :password, :password_confirmation, :account, :remember_me?, 
-                  :locale, :timezone, :role, :photo, :property_ids,
+                  :locale, :timezone, :role, :photo, :property_ids, :name,
                   # Virtual attributes we use for changing password - make sure we don't interrupt the real data
                   :new_password, :new_password_confirmation, :account_id
 
@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   end
   
   def name
-    [self.given_name, self.family_name].compact.join(' ')
+    [self.given_name, self.family_name].compact.join(' ').strip
   end
   
   # When the server starts this method is invoked post-initialization

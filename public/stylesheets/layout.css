@@ -73,7 +73,7 @@ h2#page-heading {
 	margin-bottom:20px;
 	padding:10px 10px 1px 10px;
 }
-.box h2, thead th.monthName, thead th.monthTags {
+.box h2.heading, thead th.monthName, thead th.monthTags {
 	font-size:1em;
 	font-weight:normal;
 	text-transform:uppercase;
@@ -83,8 +83,8 @@ h2#page-heading {
 	padding:6px 12px;
 }
 
-.box h2 a,
-.box h2 a.visible {
+.box h2.heading a,
+.box h2.heading a.visible {
 	color:#fff;
 	/* background:#333 url("/images/icons/switch_minus.gif") 97% 50% no-repeat; */
 	display:block;
@@ -92,22 +92,22 @@ h2#page-heading {
 	margin:-6px -12px;
 	border:none;
 }
-.grid_4 .box h2 a {
+.grid_4 .box h2.heading a {
 	background-position: 97% 50%;
 }
-.grid_5 .box h2 a {
+.grid_5 .box h2.heading a {
 	background-position: 98% 50%;
 }
-.grid_12 .box h2 a {
+.grid_12 .box h2.heading a {
 	background-position: 99% 50%;
 }
 
 
-.box h2 a.hidden,
-.box h2 a.hidden:hover {
+.box h2.heading a.hidden,
+.box h2.heading a.hidden:hover {
 	/* background-image: url("/images/icons/switch_plus.gif"); */
 }
-.box h2 a:hover {
+.box h2.heading a:hover {
 	background-color:#111;
 }
 .block {

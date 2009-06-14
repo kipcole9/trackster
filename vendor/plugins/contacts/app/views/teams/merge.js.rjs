@@ -1,0 +1,4 @@
+page << "var fromTree = $('teamMember_#{@team_from.id}').remove();"
+page << "if (!$('teamMember_#{@team_to.id}').down('ul.teams')){$('teamMember_#{@team_to.id}').insert(#{@new_teams_ul})};"
+page << "$('teamMember_#{@team_to.id}').down('ul.teams').insert({top: fromTree});"
+page << "$(fromTree).highlight();"

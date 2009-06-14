@@ -20,6 +20,7 @@ LiveSearch = Class.create({
 		// These are the default settings
 		var k, defaultOptions = {
 			url: 		null,
+			callback: 	null,
 			param:  	'search',
 			replace:  	null,
 			interval:  	0.5
@@ -35,7 +36,7 @@ LiveSearch = Class.create({
 			self.url = self.options['url'] + '?' + self.options['param'] + '=' + value
 			self.updater = new Ajax.Updater({success: self.options['replace']}, self.url, {
 				method: 'get',
-				onComplete: function(request) { Event.addBehavior.reload() },
+				onComplete: function(request) { Event.addBehavior.reload(); if(self.options['callback']) eval(self.options['callback']) },
 				onFailure: function(request) { alert('Sorry - the search could not be completed.')}
 			});
 		});

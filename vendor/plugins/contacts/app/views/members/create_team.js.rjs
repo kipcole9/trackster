@@ -1,0 +1,2 @@
+page["team_#{@team['id']}"].down('.tags').insert(:bottom => render(:partial => 'users/team_user_tag', :locals => {:team => @team, :user => @user}))
+page["team_#{@team['id']}_user_#{@user['id']}"].highlight()

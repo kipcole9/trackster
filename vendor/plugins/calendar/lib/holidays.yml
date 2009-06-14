@@ -1,0 +1,16 @@
+au:
+    christmas:              december_25
+    boxing_day:             december_26
+    easter_sunday:          easter
+    easter_monday_holiday:  day_after_easter
+    new_year:               january_1
+    australia_day:          january_26
+    australia_day_holiday:  first_weekday_after_january_26
+    nsw:
+        labour_day:         -first_monday_in_october
+    
+es:
+    tomatina:       last_wednesday_in_august    
+    
+    
+    

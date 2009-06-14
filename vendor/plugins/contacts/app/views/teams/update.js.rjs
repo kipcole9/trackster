@@ -1,0 +1,5 @@
+page.replace_html  @team_id, :partial => 'team_summary', :locals => {:team => @team}
+page["new_team"].remove()
+page.visual_effect :appear, @team_id
+page.visual_effect :highlight, @team_id
+
