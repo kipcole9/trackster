@@ -152,8 +152,8 @@ ActiveRecord::Schema.define(:version => 20090614050646) do
     t.string   "url"
     t.string   "page_title"
     t.datetime "tracked_at"
-    t.boolean  "entry_page",            :default => true
-    t.boolean  "exit_page",             :default => true
+    t.boolean  "entry_page",                          :default => true
+    t.boolean  "exit_page",                           :default => true
     t.datetime "created_at"
     t.string   "category"
     t.string   "action"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20090614050646) do
     t.string   "internal_search_terms"
     t.integer  "redirect_id"
     t.integer  "duration"
+    t.string   "contact_code",          :limit => 50
   end
 
   create_table "files", :force => true do |t|
@@ -367,7 +368,6 @@ ActiveRecord::Schema.define(:version => 20090614050646) do
     t.string   "device_vendor",     :limit => 50
     t.string   "referrer_category", :limit => 50
     t.integer  "impressions"
-    t.integer  "contact_id"
     t.string   "contact_code",      :limit => 50
   end
 

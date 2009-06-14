@@ -21,6 +21,16 @@ class History < ActiveRecord::Base
     @history.save
   end
 
+  # Tracking events have to be translated
+  # A tracking event can be relevant to multiple
+  # contacts that each have the same tracking code
+  # This allows for multiple accounts or users maintainiing
+  # references to the same contact
+  def self.record_tracking_event(track)
+    
+    
+  end
+  
 private
   def self.delete_metadata(record, attribs)
     attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }

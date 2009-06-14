@@ -5,10 +5,17 @@
 
 // Rolls up/down the block
 Event.addBehavior({
-  '.box h2 a:click' : function(e) {
+  '.box h2:click' : function(e) {
 		e.stop();
     	var target = this.up('.box').down('.block')
 		Effect.toggle($(target), 'blind', {duration: 0.5});
+  	}
+});
+
+/* Trigger links and don't propagate to the above behavior */
+Event.addBehavior({
+  '.box h2 a:click' : function(e) {
+		e.stopPropagation();
   	}
 });
 

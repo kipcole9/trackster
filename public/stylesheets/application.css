@@ -150,6 +150,12 @@ h1#branding, h2#page-heading {
 .block .tab {
 	margin-bottom: 0;
 }
+.panel-links {
+	float: right;
+	color: white;
+	position: relative;
+	text-transform: none;
+}
 p {
 	line-height: 1.3em;
 }
@@ -399,12 +405,12 @@ div.inline .fieldWithErrors {
 
 div.inline input, div.inline textarea, fieldset#address textarea, fieldset#address input {
 	margin-right: 5px;
-	width: 52%;
+	width: 49%;
 }
 div.inline input[type="checkbox"] {
 	width: 1.5em;
 }
-div.inlines input[type="hidden"] {
+div.inline input[type="hidden"] {
 	width: 1px;
 }
 div.inline textarea {

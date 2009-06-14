@@ -9,3 +9,7 @@ panel t('panels.contacts_index') do
     store will_paginate(@contacts)
   end
 end
+
+keep :sidebar do
+  store render 'navigation'
+end

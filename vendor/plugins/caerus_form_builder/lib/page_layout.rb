@@ -120,6 +120,9 @@ module PageLayout
     with_tag(:div, options) do
       with_tag(:h2, :class => 'heading') do
         store link_to(title)
+        with_tag(:div, :class => 'panel-links') do
+          store link_to(t('edit'), options[:edit])
+        end if options[:edit]
       end
       display_flash if include_flash_block
       display_errors(errors_on) if errors_on      

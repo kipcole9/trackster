@@ -7,6 +7,7 @@ en-US:
     my_settings:            Settings
     account_settings:       Account
     or:                     or
+    edit:                   edit
     site_name:              vietools.com
     user_created_pending_activation: User has been created and is now pending activation.
     user_login:             Log in to your account
@@ -50,8 +51,7 @@ en-US:
         account_not_deleted:    "Account '{{name}}' was not deleted"
                                                 
     contacts:
-        about:                  "About {{name}}"
-        name_card:              "{{name}}'s name card"
+        name_card:              "name card"
         bio:                    Biographical notes
         bio_formatting:         Formatting options
         background:             Background or Bio
@@ -71,7 +71,8 @@ en-US:
         index:
             name_search:        Search by name
     backgrounds:
-        updated:                Background has been updated.        
+        updated:                Background has been updated.
+        no_bio_available:       There's no background information yet.  Click the 'edit' link to enter background information for this contact.     
     users:
         edit_profile:           Edit your profile
         user_updated:           "User profile for '{{name}}' updated."

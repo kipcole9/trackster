@@ -43,5 +43,4 @@ end
 keep :sidebar do
   store render 'navigation'
   store render 'bio'
-  store render 'important_dates'
 end
