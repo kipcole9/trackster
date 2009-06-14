@@ -1,10 +1,10 @@
 function _tks(account)  {
-	this.version		= "0.97";
+	this.version		= "0.98";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
 	this.trackerImage	= "/_tks.gif";
-	this.videoPlayer	= "xrdPlayer"
+	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
 	
 	// Default campaign parameter names; same as the Google Analytics
@@ -18,15 +18,22 @@ function _tks(account)  {
 	// The URL we're tracking
 	this.url = '';
 	
+	// The ID of the user (note - requires privacy policy)
+	this.cid = '';
+	
 	// The tracking cookie values
 	this.tdsv = null;
 	this.tdsb = null;
 	this.tdsc = null;
 	
 	// This is the method that actually sends the tracking
-	// request
-	this.trackPageview = function(pageUrl) {
-		this._track({url: pageUrl});
+	// request.  It can have an optional value (used for anything,
+	// including page rank, value, score, satisfaction, ...)
+	this.trackPageview = function(pageUrl, value) {
+		var options = {};
+		options.url = pageUrl;
+		if (value) options.utval = value;
+		this._track(options);
 	};
 	this._track = function(options) {
 		this.url = options.url || '';
@@ -53,6 +60,12 @@ function _tks(account)  {
         image.src = url; // Triggers image loading
 		return;	
 	};
+	this.setCid = function(id) {
+		self.cid = id;
+	}
+	this.getCid = function() {
+		return self.cid;
+	}
 	this.getScreenSize = function() {
 		return screen.width + 'x' + screen.height;
 	};
@@ -551,7 +564,7 @@ function _tks(account)  {
 	this.parameters = this.parseParameters();
 	this.urlParams = {
 		// &utses must be before &utvis
-		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor,
+		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor, "utid": this.getCid,
 		"utmdt": this.getPageTitle,	"utmsr": this.getScreenSize, "utmsc": this.getColorDepth, 
 		"utmul": this.getLanguage, "utmcs": this.getCharset, "utmfl": this.getFlashVersion, 
 		"utmn": this.getUniqueRequest, "utref": this.getReferrer, "uttz": this.getTimeZoneOffset,

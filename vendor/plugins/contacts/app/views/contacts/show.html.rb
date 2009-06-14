@@ -20,3 +20,9 @@ panel @contact.full_name_and_title + " recent history" do
     store render :file => 'histories/index'
   end
 end
+
+keep :sidebar do
+  store render 'about'
+  store render 'important_dates'
+  store render 'bio'
+end

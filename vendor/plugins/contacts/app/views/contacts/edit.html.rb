@@ -39,3 +39,9 @@ panel t('panels.edit_contact', :name => @contact.full_name), :flash => true, :di
     end
   end
 end
+
+keep :sidebar do
+  store render 'navigation'
+  store render 'bio'
+  store render 'important_dates'
+end

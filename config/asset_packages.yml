@@ -23,10 +23,10 @@ stylesheets:
 - base:
     - reset 
     - grid
+    - text    
     - layout
     - nav
     - tabricator
-    - text
     - calendar
     - autocomplete    
     - application
@@ -34,10 +34,10 @@ stylesheets:
 - ie:
     - reset 
     - grid
+    - text    
     - layout  
     - nav
     - tabricator
-    - text
     - calendar
     - autocomplete    
     - application

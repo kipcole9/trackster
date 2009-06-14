@@ -2,6 +2,7 @@ require 'flex_stuff'
 require 'analytics/log_parser'
 require 'analytics/web_analytics'
 require 'with_scope'
+require 'core_extensions'
 
 # Small hack to let us play with
 # proxy options in other named scopes

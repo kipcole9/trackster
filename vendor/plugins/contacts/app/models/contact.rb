@@ -5,10 +5,11 @@ class Contact < ActiveRecord::Base
   belongs_to    :account
   belongs_to    :created_by,          :class_name => "User", :foreign_key => :created_by
   belongs_to    :updated_by,          :class_name => "User", :foreign_key => :updated_by
+  has_one       :background
+  has_many      :affiliates  
   has_many      :actions,             :as => :actionable, :class_name => "History", :order => "created_at DESC"
   has_many      :updates,             :as => :historical, :class_name => "History"
   has_many      :notes,               :as => :notable
-  has_many      :affiliates  
   has_many      :websites,            :autosave => true, :validate => true, :dependent => :destroy
   has_many      :emails,              :autosave => true, :validate => true, :dependent => :destroy
   has_many      :instant_messengers,  :autosave => true, :validate => true, :dependent => :destroy

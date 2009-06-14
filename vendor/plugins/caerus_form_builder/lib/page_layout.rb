@@ -118,7 +118,7 @@ module PageLayout
     include_flash_block = options.delete(:flash)
     errors_on = options.delete(:display_errors)
     with_tag(:div, options) do
-      with_tag(:h2) do
+      with_tag(:h2, :class => 'heading') do
         store link_to(title)
       end
       display_flash if include_flash_block
@@ -196,13 +196,16 @@ module PageLayout
     options   = default_options.merge(options)
     url       = options.delete(:url)
     replace   = options.delete(:replace)
+    callback  = options.delete(:callback)
     var       = options[:id]
+    script_options = ["url: '#{url}'", "replace: '#{replace}'"]
+    script_options << ["callback: '#{callback}'"] if callback
     search_id = "#{options[:id]}Field"
     with_tag(:form, options) do
       store "<label>#{title}:</label>"
       store "<input class='search text' name='#{search_id}' type='text' id='#{search_id}' AutoComplete='off' />"
     end
-    javascript "var #{var} = new LiveSearch('#{search_id}', {url: '#{url}', replace: '#{replace}'})" if url && replace
+    javascript "var #{var} = new LiveSearch('#{search_id}', {#{script_options.join(',')}})" if url && replace
   end
   
   def method_missing(method, *args, &block)

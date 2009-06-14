@@ -16,7 +16,7 @@ dt.tabItem.trig {
 }
 
 /* Light beige 	#E3E1D5 */
-div.box, tr.even, tfoot th, tfoot td, dt.tabItem.trig.open {
+div.box, tr.even, tfoot th, tfoot td, dt.tabItem.trig.open, div#about .contactCard  {
 	background: rgb(227, 225, 213);
 }
 

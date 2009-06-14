@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :contacts
+  map.resources :contacts, :has_one => :background
   map.resources :notes
   map.resources :tickets
   

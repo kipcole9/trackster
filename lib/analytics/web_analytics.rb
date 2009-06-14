@@ -44,10 +44,9 @@ class WebAnalytics
                   
                   # An identifier of this user in a customer
                   # cms system. Must be manually added through
-                  # tracker.trackContact() or added to the tracking
-                  # url as &utcm=contact_code_of_some_kind.  The system
-                  # only stores this info, it cannot interpret it.
-                  :ucms         =>  :crm_contact
+                  # tracker.setCid(id) or added to the tracking
+                  # url as &utid=contact_code_of_some_kind.
+                  :utid         =>  :contact_code
                 }
                   
   attr_accessor :params, :browscap, :device

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090613051548) do
+ActiveRecord::Schema.define(:version => 20090614050646) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -41,6 +41,11 @@ ActiveRecord::Schema.define(:version => 20090613051548) do
 
   add_index "affiliations", ["affiliate_id"], :name => "index_affiliations_on_affiliate_id"
   add_index "affiliations", ["contact_id"], :name => "index_affiliations_on_contact_id"
+
+  create_table "backgrounds", :force => true do |t|
+    t.integer "contact_id"
+    t.text    "description"
+  end
 
   create_table "campaigns", :force => true do |t|
     t.integer  "property_id"
@@ -362,6 +367,8 @@ ActiveRecord::Schema.define(:version => 20090613051548) do
     t.string   "device_vendor",     :limit => 50
     t.string   "referrer_category", :limit => 50
     t.integer  "impressions"
+    t.integer  "contact_id"
+    t.string   "contact_code",      :limit => 50
   end
 
   create_table "taggings", :force => true do |t|

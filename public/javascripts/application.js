@@ -3,6 +3,7 @@
 
 // Attach common behaviours
 
+// Rolls up/down the block
 Event.addBehavior({
   '.box h2 a:click' : function(e) {
 		e.stop();
@@ -157,6 +158,8 @@ Event.addBehavior({
 
 Event.addBehavior({
 	'body' : function(e) { 
+		if ($('contactCards')) resizeContactCards();
+		
 		// Get browser timezone
 		Cookie.set("tzoffset", calculate_time_zone());
 		
@@ -172,6 +175,47 @@ Event.addBehavior({
 		reorderInlineFieldMessages();
 	}
 });
+
+Event.observe(window, 'resize', function() {
+	if ($('contactCards')) resizeContactCards();
+});
+
+function resizeContactCards() {
+	var cardMinSize = 200;
+	var cardRightMargin = 10;
+	
+	// Reset column size to a 100% once view port has been adjusted
+	$("contactCards").setStyle({'width' : "100%"});
+
+	//Get the width of row
+	var colWrap = $("contactCards").getWidth(); 
+	// console.log('contactsCards with is ' + colWrap);
+	
+	//Find how many columns of 200px can fit per row / then round it down to a whole number
+	var colNum = Math.floor(colWrap / cardMinSize); 
+	// console.log('colNum is ' + colNum);
+	
+	// Get the width of the row and divide it by the number of columns it can fit / 
+	// then round it down to a whole number. This value will be the exact width of the re-adjusted column
+	var colFixed = Math.floor(colWrap / colNum);
+	// console.log('colFixed with is ' + colFixed);
+	
+	//Set exact width of row in pixels instead of using % - Prevents cross-browser bugs that appear in certain view port resolutions.
+	$("contactCards").setStyle({'width' : colWrap + 'px'}); 
+	
+	//Set exact width of the re-adjusted column
+	// have to subtract 20 to fit properly - dunno why?
+	cards = $$(".contactCard");
+	if (cards.size() <= colNum) colFixed = cardMinSize + 20;
+	cards.each(function(e, n) {
+		e.setStyle({'width' : (colFixed - 20) + 'px'});
+		if ((n + 1) % colNum == 0) {
+			e.setStyle({'margin-right' : '0px'})
+		} else {
+			e.setStyle({'margin-right' : cardRightMargin + 'px'})
+		}
+	});
+}
 
 // When a form is "inline" we want the field message (used for validation)
 // to be moved to the end of the enclosing div. That allows us to
