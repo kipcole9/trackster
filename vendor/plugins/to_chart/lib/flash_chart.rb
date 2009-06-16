@@ -22,7 +22,7 @@ module Charting
                         :colour             => '#1987D5', #'#E41B17'
                         :fill_colour        => '#1987D5', #'#CFECEC',
                         :fill_alpha         => 0.2,
-                        :background_colour  => '#E3E1D5', # '#dddddd',
+                        :background_colour  => '#dddddd', # '#E3E1D5', # '#dddddd',
                         :grid_colour        => '#ffffff',
                         :grid_division      => 5,
                         :label_steps        => 2,

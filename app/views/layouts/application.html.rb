@@ -4,6 +4,7 @@ html do
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/vie.ico"
     title "#{Trackster::Config.banner}: #{controller._page_title}"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
+    stylesheet_merged "themes/#{current_account.theme}.css" if current_account && current_account.theme
     javascript_merged :base
     javascripts 'swfobject.js'
     javascript yield(:jstemplates)

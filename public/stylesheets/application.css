@@ -95,11 +95,11 @@ div.box {
 	margin-bottom: 10px;
 }
 div#branding , div#site_info .box {
-	background-color:  #CFECEC; /* #48191E;  #CFECEC; */
+	background-color:  #CFECEC;
 }
 
 div#branding div, div#branding a {
-	color: white;
+	color: black;
 }
 div#site_info a, div#site_info p {
 	color: black;

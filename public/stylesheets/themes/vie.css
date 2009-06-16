@@ -1,0 +1,9 @@
+div#branding , div#site_info .box {
+	background-color:  #48191E; 
+}
+div#site_info a, div#site_info p {
+	color: white;
+}
+div#branding div, div#branding a {
+	color: white;
+}

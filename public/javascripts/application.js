@@ -169,7 +169,7 @@ Event.addBehavior({
 		
 		// Get browser timezone
 		Cookie.set("tzoffset", calculate_time_zone());
-		
+
 		// Set form focus
 		var focus_list = $$('input[focus]');
 		if (focus_list.size() > 0) {
@@ -263,7 +263,6 @@ function setupValidations() {
 		}
 	);
 };
-
 
 function showCross(request) {
 	$(request.responseJSON.id + '_message').update(request.responseJSON.message);

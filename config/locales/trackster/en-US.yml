@@ -43,6 +43,8 @@ en-US:
         no_latency_found:       No information available to calculate latency.
     accounts:
         account_form:           Account
+        account:                Details
+        presentation:           Site presentation
         account_created:        "Account '{{name}}' created"
         account_not_created:    "Account '{{name}}' was not created"
         account_updated:        "Account '{{name}}' updated"

@@ -28,7 +28,7 @@ class CampaignsController < ApplicationController
   def show
     respond_to do |format|
       format.html { 
-        @campaign_summary = @campaign.campaign_summary(params)
+        @campaign_summary = @campaign.campaign_summary(params).all
         render 'campaign_summary' 
       }
       format.js   { render_list_item @campaign, 'campaign_summary' }        

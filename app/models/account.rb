@@ -6,6 +6,9 @@ class Account < ActiveRecord::Base
   has_many        :redirects
   has_many        :users
   has_many        :contacts
+  has_many        :teams
+  
+  has_attached_file :logo, :styles => { :banner => "400x23" }
   
   ADMIN_ACCOUNT     = "Admin"
   ADMIN_DESCRIPTION = "Administration Account"
