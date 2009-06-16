@@ -6,10 +6,11 @@ class Property < ActiveRecord::Base
   has_many    :redirects
   has_many    :property_users
   has_many    :users, :through => :property_users
-  
   belongs_to  :account
 
   before_create :create_tracker_code 
+  
+  has_attached_file :thumb, :styles => { :thumb => "100x100" }
   
   named_scope :user, lambda {|user|
     {:conditions => {:id => user.properties.map(&:id)} }

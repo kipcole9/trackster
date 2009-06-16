@@ -687,7 +687,13 @@ div.treeItem img, div.listItem img {
 div.treeItem img:hover, div.listItem img:hover {
 	cursor: pointer;
 }
-
+div.listItem img.webshot {
+	position: relative;
+	float:right;
+	height: inherit;
+	width: inherit;
+	margin-left: 5px;
+}
 div.listItem h4 {
 	margin-bottom: 0.3em;
 }

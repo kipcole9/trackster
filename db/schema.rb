@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616035331) do
+ActiveRecord::Schema.define(:version => 20090616080754) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -263,6 +263,9 @@ ActiveRecord::Schema.define(:version => 20090616035331) do
     t.datetime "updated_at"
     t.string   "url"
     t.string   "search_parameter"
+    t.string   "thumb_file_name",    :limit => 100
+    t.string   "thumb_content_type", :limit => 50
+    t.integer  "thumb_file_size"
   end
 
   create_table "property_users", :force => true do |t|
