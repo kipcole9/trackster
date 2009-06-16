@@ -1,10 +1,10 @@
 function _tks(account)  {
-	this.version		= "0.97";
+	this.version		= "0.98";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com";
 	this.trackerImage	= "/_tks.gif";
-	this.videoPlayer	= "xrdPlayer"
+	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
 	
 	// Default campaign parameter names; same as the Google Analytics
@@ -18,19 +18,26 @@ function _tks(account)  {
 	// The URL we're tracking
 	this.url = '';
 	
+	// The ID of the user (note - requires privacy policy)
+	this.cid = '';
+	
 	// The tracking cookie values
 	this.tdsv = null;
 	this.tdsb = null;
 	this.tdsc = null;
 	
 	// This is the method that actually sends the tracking
-	// request
-	this.trackPageview = function(pageUrl) {
-		this._track({url: pageUrl});
+	// request.  It can have an optional value (used for anything,
+	// including page rank, value, score, satisfaction, ...)
+	this.trackPageview = function(pageUrl, value) {
+		var options = {};
+		options.url = pageUrl;
+		if (value) options.utval = value;
+		this._track(options);
 	};
 	this._track = function(options) {
 		this.url = options.url || '';
-		////console.log('Track has been requested for ' + self.getUrl());
+		//console.log('Track has been requested for ' + self.getUrl());
 		var params = [], i = 0, image = new Image(1, 1);
 		var protocol = (location.protcol == 'https') ? "https:" : "http:";
 		var url = protocol + '//' + this.trackerHost + this.trackerImage + "?";
@@ -49,10 +56,16 @@ function _tks(account)  {
 		}
 		url += params.join('&');
 		url += "&uver=" + this.version;
-		////console.log('About to get image: ' + url);
+		//console.log('About to get image: ' + url);
         image.src = url; // Triggers image loading
 		return;	
 	};
+	this.setCid = function(id) {
+		self.cid = id;
+	}
+	this.getCid = function() {
+		return self.cid;
+	}
 	this.getScreenSize = function() {
 		return screen.width + 'x' + screen.height;
 	};
@@ -123,7 +136,7 @@ function _tks(account)  {
 		function createTdsv() {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
-			////console.log('New visitor being created.');
+			//console.log('New visitor being created.');
 			self.tdsv = newVisitorId();
 			self.setTdsv(self.tdsv);
 			return self.tdsv;
@@ -135,13 +148,13 @@ function _tks(account)  {
 			if (!self.tdsv) {
 				self.tdsv = self.getCookie('_tdsv');
 			}
-			////console.log('Found existing visitor: ' + self.tdsv);
+			//console.log('Found existing visitor: ' + self.tdsv);
 			return self.tdsv;
 		}
 		return (getTdsv() || createTdsv());
 	};
 	this.setTdsv = function(tdsv) {
-		////console.log('Setting visitor to: ' + tdsv);
+		//console.log('Setting visitor to: ' + tdsv);
 		self.setCookie('_tdsv', tdsv, 720);
 		self.tdsv = tdsv;	
 	};	
@@ -154,7 +167,7 @@ function _tks(account)  {
 		if (parts[2]) {parts[3] = parts[2];} 		// Move current session to previous session
 		parts[2] = currentSessionTimestamp;		// Save current session
 		self.tdsv = parts.join('.');
-		////console.log('Incremented visit count to: ' + self.tdsv);
+		//console.log('Incremented visit count to: ' + self.tdsv);
 		self.setTdsv(self.tdsv);
 		return self.tdsv;
 	};
@@ -178,18 +191,18 @@ function _tks(account)  {
 				parts[1]++;
 				self.tdsb = parts.join('.');
 				setTdsb(self.tdsb);
-				////console.log('Returning existing session (tdsb): ' + self.tdsb);				
+				//console.log('Returning existing session (tdsb): ' + self.tdsb);				
 				return self.tdsb;
 			}
 			return false;
 		}
 		function createNewSession() {
-			////console.log('Creating new session.');
+			//console.log('Creating new session.');
 			self.tdsb = getNewSessionId() + ".0";
 			setTdsb(self.tdsb);
 			self.setCookie('_tdsc', self.tdsb);
 			self.incrementVisitCount();
-			////console.log('Create new session is returning: ' + self.tdsb);
+			//console.log('Create new session is returning: ' + self.tdsb);
 			return self.tdsb;
 		}
 		function getNewSessionId() {
@@ -363,14 +376,14 @@ function _tks(account)  {
 	    }
 		if (absolutePath) {path = "; path=" + absolutePath;}
 		var cookieValue = escape(name) + '=' + escape(value || '') + expire + path;
-		////console.log("Setting cookie: " + cookieValue);
+		//console.log("Setting cookie: " + cookieValue);
 	    document.cookie = cookieValue;
 		return;
 	};  
 	this.getCookie = function(name) {
 	    var cookie = document.cookie.match(new RegExp(escape(name) + "\\s*=\\s*(.*?)(;|$)"));
 		var cookieValue = cookie ? unescape(cookie[1]) : null;
-		////console.log("Getting cookie " + name + ": " + cookieValue);
+		//console.log("Getting cookie " + name + ": " + cookieValue);
 	    return (cookieValue); 
 	};  
 	this.eraseCookie = function(name) {  
@@ -502,7 +515,7 @@ function _tks(account)  {
 		element = document.getElementById(linkId);
 		if (element) {
 			href = element.href.replace(/\/#$/, '');
-			////console.log("Linking to: " + href);
+			//console.log("Linking to: " + href);
 			f = function(e) {
 				tracker.trackPageview(href);
 				if (e.preventDefault) {e.preventDefault();}
@@ -511,7 +524,7 @@ function _tks(account)  {
 			};
 			element.onclick = f;
 		} else {
-			////console.log('Element not found in the DOM: ' + linkId);
+			//console.log('Element not found in the DOM: ' + linkId);
 		}
 	};
 	// Form handling - send form fields to tracker
@@ -534,16 +547,16 @@ function _tks(account)  {
 	// Get flash movie 
 	this.getFlashApp = function(appName) {
 		if (navigator.appName.indexOf ("Microsoft") != -1) { 
-			////console.log('Microsoft: App is ' + window[appName]);
+			//console.log('Microsoft: App is ' + window[appName]);
 			return window[appName];
 		} else {
-			////console.log('Not Microsoft: App is ' + document[appName]);
+			//console.log('Not Microsoft: App is ' + document[appName]);
 			return document[appName];
 		}
     };
     this.callFlexApp = function(appName) {
 		var player = appName || self.videoPlayer;
-		////console.log('Player is ' + player);
+		//console.log('Player is ' + player);
     	self.getFlashApp(player).FlexCall();
     };
 	// Constructor
@@ -551,7 +564,7 @@ function _tks(account)  {
 	this.parameters = this.parseParameters();
 	this.urlParams = {
 		// &utses must be before &utvis
-		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor,
+		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor, "utid": this.getCid,
 		"utmdt": this.getPageTitle,	"utmsr": this.getScreenSize, "utmsc": this.getColorDepth, 
 		"utmul": this.getLanguage, "utmcs": this.getCharset, "utmfl": this.getFlashVersion, 
 		"utmn": this.getUniqueRequest, "utref": this.getReferrer, "uttz": this.getTimeZoneOffset,
