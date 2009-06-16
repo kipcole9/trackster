@@ -42,7 +42,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         @property.video_labels.each do |video|
           unless video.blank?
             video_label = video.split('/').last
-            p link_to("#{image_tag '/images/icons/television.png'} #{video_label}", property_report_path(@property, 'video', :video => h(video_label))) 
+            p link_to("#{image_tag '/images/icons/television.png'} #{video_label}", property_report_path(@property, 'video', :video => video)) 
           end
         end; nil
       end
