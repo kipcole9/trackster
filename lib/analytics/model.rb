@@ -14,7 +14,7 @@ module Analytics
       end
 
       def visit_summary(params = {})
-        tracks.visits.event_count.by(params[:action]).between(Track.period_from_params(params))
+        tracks.visits.page_views.event_count.by(params[:action]).between(Track.period_from_params(params))
       end
 
       def content_summary(params = {})
