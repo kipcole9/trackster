@@ -91,7 +91,7 @@ module Charting
       x.set_grid_colour(options[:grid_colour]);
 
       chart = OpenFlashChart.new
-      chart.bg_colour = options[:background_colour]
+      chart.bg_colour = Rails.env == 'development'? '#E3E1D5' : options[:background_colour]
       chart.y_axis    = y
       chart.x_axis    = x
       
@@ -113,7 +113,7 @@ module Charting
       
       # The data series
       chart.add_element(series)
-      chart.bg_colour = options[:background_colour]      
+      chart.bg_colour = Rails.env == 'development'? '#E3E1D5' : options[:background_colour]      
       chart.x_axis = nil
       chart.title = nil
       chart

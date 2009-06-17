@@ -9,7 +9,7 @@ class Property < ActiveRecord::Base
   belongs_to  :account
 
   before_create :create_tracker_code 
-  
+
   has_attached_file :thumb, :styles => { :thumb => "100x100" }
   
   named_scope :user, lambda {|user|

@@ -34,7 +34,7 @@
   			<a name="secondarymenu">Account</a>
   			<ul>
   				<li>
-  					<a name="secondarymenu-submenu1">Show account profile</a>
+  					<a name="secondarymenu-submenu1" href="<%= edit_account_path(current_account) %>">Edit account profile</a>
   				</li>
   				<li>
   					<a name="secondarymenu-submenu2" href="<%= users_path %>">Show account users</a>
@@ -53,14 +53,8 @@
   					<a name="secondarymenu-submenu4" href="<%= accounts_path %>">Show accounts</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu5" href="<%= users_path %>">Show user list</a>
-  				</li>
-  				<li>
   					<a name="secondarymenu-submenu6" href="<%= new_account_path %>">Create new account</a>
   				</li>  				
-  				<li>
-  					<a name="secondarymenu-submenu7" href="<%= new_user_path %>">Create new user</a>
-  				</li>
  					<li>
   					<a name="secondarymenu-submenu8" href="<%= site_path %>">Site performance</a>
   				</li>

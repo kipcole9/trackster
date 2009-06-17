@@ -87,7 +87,7 @@ class CampaignsController < ApplicationController
   end
         
   def _page_title
-    if @campaign
+    if @campaign && @property
       I18n.t('campaigns.campaign_for_property', :campaign => @campaign.name, :property => @property.name)
     else
       super
