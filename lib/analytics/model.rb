@@ -28,11 +28,11 @@ module Analytics
       end
       
       def events_summary(params = {})
-        tracks.event_count.value.by(:label, :category, :action)
+        tracks.event_count(:with_events).value.by(:label, :category, :action)
       end
       
       def one_event_summary(params = {})
-        tracks.event_count.value.by(:action)
+        tracks.event_count(:with_events).value.by(:action)
       end
       
       def page_views_by_date(params = {})

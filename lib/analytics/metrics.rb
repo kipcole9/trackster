@@ -46,8 +46,14 @@ module Analytics
           :conditions => 'visit IS NOT NULL'
 
         # Named to avoid name class with association
-        named_scope :event_count,
-          :select => 'sum(event_count - page_views) as event_count'
+        named_scope :event_count, lambda{ |*args|
+          if args.first && args.first == :with_events
+            {:select => "count(action) as event_count",
+            :joins => :events}
+          else
+            { :select => 'avg(event_count - page_views) as event_count' }
+          end
+        }
           
         named_scope :value,
           :select => 'avg(value) as value'
