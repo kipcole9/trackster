@@ -286,10 +286,11 @@ ul.tags {
 }
 
 ul.tags li.tag {
-	display: inline;
+	position: relative;
+	display: inline-block;
     list-style: none;
 	margin: 0 5px 0 0;
-	padding: 2px 5px;
+	padding: 0px 5px;
 	background-color: #CFECEC;
 	border: 1px solid #aaa;
 	-webkit-border-radius: 	 5px;  
@@ -655,7 +656,7 @@ ul.tree li.root {
 div.treeItem, div.listItem {
 	border: 1px solid #aaa;
 	background-color: #eee;
-	padding: 5px;
+	padding: 5px 5px 7px 5px;
 	-webkit-border-radius: 5px;  
   	-moz-border-radius:	5px;
 	margin: 0 0 5px 0;
@@ -693,6 +694,10 @@ div.listItem img.webshot {
 	height: inherit;
 	width: inherit;
 	margin-left: 5px;
+}
+div.listItem .left {
+	float: left;
+	padding-right: 5px;
 }
 div.listItem h4 {
 	margin-bottom: 0.3em;

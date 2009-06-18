@@ -1,6 +1,6 @@
 with_tag(:div, :class => 'clearfix') do
-  store image_tag(property.thumb(:thumb), :class => 'webshot') if property.thumb?
-  with_tag(:div, :style => 'float:left') do
+  # store image_tag(property.thumb(:thumb), :class => 'webshot') if property.thumb?
+  # with_tag(:div, :class => 'left') do
     h4 link_to("#{property.name} (#{property.tracker})", property_url(property))
     p property.description, :style => (property.description.blank? ? "display:none" : "")
     p link_to(property.url, property.url)
@@ -9,7 +9,7 @@ with_tag(:div, :class => 'clearfix') do
         store render :partial => 'users/tag', :locals => {:user => user, :drop => property}
       end
     end
-  end
+  # end
 end
 
 if current_user.is_administrator?
