@@ -784,22 +784,23 @@ div.block table thead th {
 	padding-top: 0.2em;
 }
 col.page_views, col.event_count {
-	width: 10%;
+	width: 5em; /* 10%; */
 }
 col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate,
-col.new_visit_rate, col.bounce_rate, col.duration, col.deliveries, col.impressions,
+col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
 col.value, col.events {
-	width: 13%;
+	width: 6em; /* 13%; */
 }
-
+col.bounce_rate {
+	width: 7em;
+}
 col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{
 	width: 40%;
 }
-
-div.sixcol col.impressions {
-	width: 20%;
+div.sixcol col.percent_of_impressions {
+	width: 50%;
 }
 
 .right {
