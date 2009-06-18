@@ -242,7 +242,8 @@ private
   # No bar if the value is <
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
-      bar = (val.to_f > MIN_PERCENT_BAR_VALUE) ? "<div class=\"hbar\" style=\"width:#{val}%\">&nbsp;</div>" : ''
+      width = val * REDUCTION_FACTOR
+      bar = (val.to_f > MIN_PERCENT_BAR_VALUE) ? "<div class=\"hbar\" style=\"width:#{width}%\">&nbsp;</div>" : ''
       bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
       percentage(val, :precision => 1)
@@ -264,7 +265,7 @@ private
         rows.each do |row|
           row[k.to_s] = case match[1]
             when 'percent', 'percentage'
-              row[match[2]].to_f / v.to_f * 100 * REDUCTION_FACTOR
+              row[match[2]].to_f / v.to_f * 100
             when 'difference', 'diff'
               row[match[2]].to_f - v.to_f
             else
