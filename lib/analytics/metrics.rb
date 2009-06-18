@@ -47,7 +47,7 @@ module Analytics
 
         # Named to avoid name class with association
         named_scope :event_count,
-          :select => 'avg(event_count - page_views) as event_count'
+          :select => 'count(event_count - page_views) as event_count'
           
         named_scope :value,
           :select => 'avg(value) as value'

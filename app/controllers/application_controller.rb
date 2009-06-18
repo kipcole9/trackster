@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
   def set_chart_background_color
     if current_account.chart_background_colour
       Charting::FlashChart.set_background_colour(current_account.chart_background_colour)
-      Rails.logger.info "[Chart Background] Setting background to #{current_account.chart_background_colour}"
     end
   end
   
