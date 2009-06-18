@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616080754) do
+ActiveRecord::Schema.define(:version => 20090618034839) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20090616080754) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.string   "theme"
+    t.string   "chart_background_colour", :limit => 7
   end
 
   create_table "addresses", :force => true do |t|

@@ -15,7 +15,7 @@ dt.tabItem.trig {
 	background: rgb(210, 208, 195);
 }
 
-/* Light beige 	#E3E1D5 */
+/* Light beige 	#E3E1D5 - should also set the chart background to this */
 div.box, tr.even, tfoot th, tfoot td, dt.tabItem.trig.open, div#about .contactCard  {
 	background: rgb(227, 225, 213);
 }

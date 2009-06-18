@@ -286,10 +286,9 @@ ul.tags {
 }
 
 ul.tags li.tag {
-	position: relative;
 	display: inline-block;
     list-style: none;
-	margin: 0 5px 0 0;
+	margin: 0;
 	padding: 0px 5px;
 	background-color: #CFECEC;
 	border: 1px solid #aaa;
@@ -299,7 +298,9 @@ ul.tags li.tag {
 
 ul.tags li.tag img {
 	position: relative;
-	top: 3px;
+	height: 13px;
+	width: 13px;
+	top: 2px;
 }
 
 ul.tags li.tag a {
