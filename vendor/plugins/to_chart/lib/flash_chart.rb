@@ -33,7 +33,7 @@ module Charting
                       }
       
     def initialize(data_source, column, label = nil, options = {})
-      options[:background_colour] = @@background_colour if defined?(@@background_color) && !options[:background_colour]
+      options[:background_colour] = @@background_colour if defined?(@@background_colour) && !options[:background_colour]
       @options = DEFAULT_OPTIONS.merge(options)
       @div_name = @options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
       @options[:text] = data_source.first.class.human_attribute_name(column.to_s) if @options[:text].blank? && !data_source.empty?
