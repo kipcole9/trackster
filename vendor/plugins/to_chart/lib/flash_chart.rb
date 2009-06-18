@@ -46,6 +46,7 @@ module Charting
     # removed later
     def self.set_background_colour(colour)
       @@background_colour = colour
+      Rails.logger.info "[Flash Chart] Setting chart background colour to #{colour}"
     end
     
     def render_chart
