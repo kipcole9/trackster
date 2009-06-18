@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
 
   # Ugly hack until ofc can set a transparent background
   def set_chart_background_color
-    if current_account.chart_background_colour
+    if current_account && current_account.chart_background_colour
       Charting::FlashChart.set_background_colour(current_account.chart_background_colour)
     end
   end
