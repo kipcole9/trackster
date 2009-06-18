@@ -34,14 +34,22 @@
   			<a name="secondarymenu">Account</a>
   			<ul>
   				<li>
-  					<a name="secondarymenu-submenu1" href="<%= edit_account_path(current_account) %>">Edit account profile</a>
+  					<a name="secondarymenu-submenu1" href="<%= edit_account_path(current_account) %>">Edit your account profile</a>
   				</li>
   				<li>
   					<a name="secondarymenu-submenu2" href="<%= users_path %>">Show account users</a>
   				</li>
   				<li>
-  					<a name="secondarymenu-submenu3" href="<%= new_user_path %>">Create new account user</a>
+  					<a name="secondarymenu-submenu3" href="<%= new_user_path %>">Create new user</a>
   				</li>  				
+  				<% if logged_in? && current_user.has_role?(Role::ADMIN_ROLE) %>
+    				<li>
+    					<a name="secondarymenu-submenu4" href="<%= accounts_path %>">Show all accounts</a>
+    				</li>
+    				<li>
+    					<a name="secondarymenu-submenu6" href="<%= new_account_path %>">Create a new account</a>
+    				</li>
+    			<% end %>  				
   			</ul>
   		</li>
   	<% end %>
@@ -49,12 +57,6 @@
   		<li>
   			<a name="secondarymenu">Site Admin</a>
   			<ul>
-  				<li>
-  					<a name="secondarymenu-submenu4" href="<%= accounts_path %>">Show accounts</a>
-  				</li>
-  				<li>
-  					<a name="secondarymenu-submenu6" href="<%= new_account_path %>">Create new account</a>
-  				</li>  				
  					<li>
   					<a name="secondarymenu-submenu8" href="<%= site_path %>">Site performance</a>
   				</li>
