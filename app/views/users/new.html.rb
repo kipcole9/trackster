@@ -1,8 +1,4 @@
 @user ||= User.new
-keep :sidebar do
-  store render 'sidebar_new'
-end
-
 panel t('panels.new_user'), :flash => true, :display_errors => 'user'  do
   block do
     caerus_form_for @user do |user|
@@ -14,13 +10,13 @@ panel t('panels.new_user'), :flash => true, :display_errors => 'user'  do
       end
       fieldset t('.type_of_new_user') do
         if current_user.has_role?(Role::ADMIN_ROLE)
-          user.select :account_id, Account.find(:all).map{|a| [a.name, a.id]}, :selected => current_user.account.id
+          user.select :account_id, Account.find(:all).map{|a| [a.name, a.id]}, :selected => current_account.id
         end
         user.select :role, Role.available_roles(current_user), :selected => Role::USER_ROLE
       end
       if current_user.is_administrator?
         fieldset t('.access_which_properties') do
-          Property.all.each do |property|
+          current_account.properties.all.each do |property|
             store "#{check_box_tag('user[property_ids][]', property.id)} #{property.name}"
             p ' '
           end
@@ -30,4 +26,8 @@ panel t('panels.new_user'), :flash => true, :display_errors => 'user'  do
       submit_combo
     end
   end
+end
+
+keep :sidebar do
+  store render 'sidebar_new'
 end

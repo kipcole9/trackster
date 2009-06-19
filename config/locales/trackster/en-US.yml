@@ -89,6 +89,7 @@ en-US:
             user_search:        "Find a user"
         edit:
             edit_user:          "Profile details"
+            user_type:          "User's role"
             
     redirects:
         redirect_created:        "Redirect '{{name}}' created"
