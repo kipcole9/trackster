@@ -90,6 +90,7 @@ en-US:
         edit:
             edit_user:          "Profile details"
             user_type:          "User's role"
+            access_which_properties: "Which web properties can this user access?"
             
     redirects:
         redirect_created:        "Redirect '{{name}}' created"

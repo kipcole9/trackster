@@ -90,4 +90,18 @@ module UsersHelper
     end
   end
 
+  #
+  # Create check boxes for each property that this account has
+  #
+  def possible_properties
+    if current_user.is_administrator?
+      fieldset t('.access_which_properties') do
+        current_account.properties.all.each do |property|
+          store "#{check_box_tag('user[property_ids][]', property.id)} #{property.name}"
+          p ' '
+        end
+        nil
+      end
+    end
+  end
 end

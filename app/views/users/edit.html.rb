@@ -15,6 +15,7 @@ panel t('panels.user'), :flash => true, :display_errors => 'user'  do
           user.select :role, Role.available_roles(current_user), :selected => user.object.roles.first.id
         end
       end
+      possible_properties
       submit_combo
     end
   end
