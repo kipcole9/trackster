@@ -7,4 +7,7 @@ module PropertiesHelper
     "listMember_#{list['id']}"
   end
 
+  def report_params(options = {})
+    params.merge(options)
+  end
 end

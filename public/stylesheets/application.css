@@ -778,6 +778,8 @@ div.block table {
 div.block table * td {
 	empty-cells: show;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
 }
 
 div.block table thead th {

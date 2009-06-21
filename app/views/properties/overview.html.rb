@@ -22,6 +22,7 @@ clear do
   
   column  :width => 3, :id => 'nav_block' do
     include 'navigation'
+    include 'time_period'
   end
 end
 

@@ -203,6 +203,7 @@ en-US:
         dashboard:          Dashboard
         contacts_index:     "Contact cards"
         edit_contact:       "Update {{name}}'s details"
+        time_dimension:     Time dimension
         
     dashboards:
         referrer_top_10:    "Top 10 Referrers"
