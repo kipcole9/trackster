@@ -2,47 +2,47 @@ panel t('panels.navigation'), :class => 'accordian'  do
   block do
     accordian do
       accordian_item "#{image_tag '/images/icons/group.png'} Visitors" do  
-        p link_to("Overview", property_report_path(@property, 'overview'))
-        p link_to("Country", property_report_path(@property, 'country'))
-        p link_to("Locality", property_report_path(@property, 'locality'))        
-        p link_to("New vs Returning", property_report_path(@property, 'new_v_returning'))
-        p link_to("Languages", property_report_path(@property, 'language'))
+        p property_report('overview')
+        p property_report('country')
+        p property_report('locality')        
+        p property_report('new_v_returning')
+        p property_report('language')
       end
       accordian_item "#{image_tag '/images/icons/heart.png'} Loyalty"  do
         p link_to("Overview")
         p link_to("Loyalty")
         p link_to("Recency")
-        p link_to("Length of visit", property_report_path(@property, 'length_of_visit'))
-        p link_to("Depth of visit", property_report_path(@property, 'depth_of_visit'))        
+        p property_report('length_of_visit')
+        p property_report('depth_of_visit')        
       end
       accordian_item "#{image_tag '/images/icons/arrow_in.png'} Traffic Sources" do
-        p link_to("Overview", property_report_path(@property, 'traffic_source'))
+        p property_report('traffic_source')
         p link_to("Direct traffic")
         p link_to("Referrals")
         p link_to("Search engines")
-        p link_to("Keywords", property_report_path(@property, 'keywords'))
+        p property_report('keywords')
       end
       accordian_item "#{image_tag '/images/icons/money_dollar.png'} Campaigns" do
-        p link_to("Overview", property_report_path(@property, 'campaign_overview'))
+        p property_report('campaign_overview')
         p link_to("Impressions")
         p link_to("Clicks-through")
         p link_to("Link destinations")
       end      
       accordian_item "#{image_tag '/images/icons/newspaper.png'} Content" do 
         p link_to("Overview")
-        p link_to("Content by URL", property_report_path(@property, 'url'))
-        p link_to("Content by page title", property_report_path(@property, 'page_title'))
-        p link_to("Top entry pages", property_report_path(@property, 'entry_page'))
-        p link_to("Top exit pages", property_report_path(@property, 'entry_page'))
-        p link_to("Top bounce pages", property_report_path(@property, 'bounce_page'))
+        p property_report('url')
+        p property_report('page_title')
+        p property_report('entry_page')
+        p property_report('entry_page')
+        p property_report('bounce_page')
       end
       accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
-        p link_to("Event overview", property_report_path(@property, 'events'))
-        p link_to("Video overview", property_report_path(@property, 'video'))
+        p property_report('events')
+        p property_report('video')
         @property.video_labels.each do |video|
           unless video.blank?
             video_label = video.split('/').last
-            p link_to("#{image_tag '/images/icons/television.png'} #{video_label}", property_report_path(@property, 'video', :video => video)) 
+            p property_report('video', :video => video) 
           end
         end; nil
       end
@@ -51,12 +51,12 @@ panel t('panels.navigation'), :class => 'accordian'  do
       end 
       accordian_item "#{image_tag '/images/icons/phone.png'} Platforms & Devices" do  
         p link_to("Overview")
-        p link_to("Devices", property_report_path(@property, 'device'))
-        p link_to("Browsers", property_report_path(@property, 'browser'))
-        p link_to("Operating systems", property_report_path(@property, 'os_name'))
-        p link_to("Screen colors", property_report_path(@property, 'color_depth'))
-        p link_to("Screen resolutions", property_report_path(@property, 'screen_size'))
-        p link_to("Flash versions", property_report_path(@property, 'flash_version'))
+        p property_report('device')
+        p property_report('browser')
+        p property_report('os_name')
+        p property_report('color_depth')
+        p property_report('screen_size')
+        p property_report('flash_version')
       end    
     end
   end

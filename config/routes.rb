@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :accounts
   map.resources :relates
-  map.campaigns '/campaigns', :controller => 'campaigns', :action => 'index', :conditions => {:method => :get}
+  map.resources :campaigns
   map.new_campaign '/campaigns/new', :controller => 'campaigns', :action => 'new', :conditions => {:method => :get}  
   map.resources :properties, :shallow => true  do |properties|
     properties.resources :campaigns, :member => {:preview => :get, :video => :get}
