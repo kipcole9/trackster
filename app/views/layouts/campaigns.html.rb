@@ -5,7 +5,7 @@ page do
     end
   
     column :width => 4 do
-      if @campaign.preview_available? && current_user.is_administrator? && !@campaign.email_html.blank?
+      if @campaign && @campaign.preview_available? && current_user.is_administrator? && !@campaign.email_html.blank?
         include 'edit_navigation'
       end
   	end
