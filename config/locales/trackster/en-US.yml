@@ -1,6 +1,7 @@
 en-US:
     must_login:             You must login to access that page.
     not_authorized:         You are not authorized to access that page.
+    no_actions_available:   No actions are current available
     cancel:                 Cancel
     help:                   Help
     search:                 Search
@@ -114,6 +115,8 @@ en-US:
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
         campaign_created:   Campaign created
+        edit_navigation:    Campaign actions
+        show_preview:       Show preview of email
         campaign_form:
             distribution:   Campaign distribution
             coding:         Link tagging
