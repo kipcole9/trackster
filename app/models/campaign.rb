@@ -26,11 +26,12 @@ class Campaign < ActiveRecord::Base
   end
 
   def email_html=(html)
-    html.class.name == "Tempfile" ? super(html.read) : super(html)
+    html_text = html.class.name == "Tempfile" ? html.read : html
+    super(html_text) unless html_text.blank?
   end
   
   def relink_email_html!(&block)
-    return nil unless self.email_html
+    return nil if self.email_html.blank?
     email = ::Nokogiri::HTML(self.email_html)
     fix_anchors!(email, &block)
     fix_images!(email)    
@@ -38,23 +39,28 @@ class Campaign < ActiveRecord::Base
     if errors.empty?
       self.email_production_html = email.to_html
       self.save
+      self
+    else
+      nil
     end
-    self
   end
   
   def fix_anchors!(email, &block)  
     (email/"a").each do |link|
       url = link['href']
-      next if url == '#' || url =~ /\Amailto/
+      next if url == '#' || url.blank? || url =~ /\Amailto/
       begin
         query_string = URI.parse(url).query
         url = url.sub("?#{query_string}", '') unless query_string.blank?
         new_href = yield(Redirect.find_or_create_from_link(property, url).redirect_url)
         new_href += '?' + [query_string, view_parameters].compact.join('&')
         link.set_attribute 'href', new_href if new_href
-      rescue URI::BadURIError => e
+      rescue URI::InvalidURIError => e
+        Rails.logger.error "Fix Anchors: Invalid URL error detected: '#{link}'"
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error "Fix Anchors: Active record error: #{e.message}"
+        Rails.logger.error "URL was '#{url}'"
         errors.add :email_html, e.message 
       end
     end
@@ -69,7 +75,8 @@ class Campaign < ActiveRecord::Base
         next if uri.scheme
         new_url = [property.url, image_directory, url].compact.join('/')
         link.set_attribute 'src', new_url
-      rescue URI::BadURIError => e
+      rescue URI::InvalidURIError => e
+        Rails.logger.error "Fix Images: Invalid URL: '#{link}'"
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       end
     end

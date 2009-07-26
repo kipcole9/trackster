@@ -24,9 +24,10 @@ class Redirect < ActiveRecord::Base
   
   def self.find_or_create_from_link(property, url)
     return nil if url.blank?
-    redirect = find_by_url(url) || create(:url => url)
+    absolute_url = property.get_absolute_url(url)
+    redirect = find_by_url(absolute_url) || create(:url => absolute_url)
     if redirect.new_record?
-      redirect.name = name_from_url(url) 
+      redirect.name = name_from_url(absolute_url) 
       redirect.property = property
       redirect.account = property.account
       redirect.save!
@@ -47,7 +48,7 @@ private
   end
     
   def self.name_from_url(url)
-    URI.parse(url).path
+    path = URI.parse(url).path
   end
   
 end

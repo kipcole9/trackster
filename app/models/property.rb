@@ -34,6 +34,14 @@ class Property < ActiveRecord::Base
     super(val.sub(/\/\Z/,''))
   end
   
+  def get_absolute_url(url)
+    if URI.parse(url).scheme
+      url
+    else
+      [self.url, url].join('')
+    end
+  end
+  
 private
 
   def create_tracker_code
