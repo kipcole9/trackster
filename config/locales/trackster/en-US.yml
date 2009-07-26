@@ -109,6 +109,7 @@ en-US:
     campaigns:
         hash_link_problem:  "Link {{url}} should point to a landing page."
         bad_uri:            "Link {{url}} appears invalid."
+        no_email_html:      "There is no email html to preview"
         campaign_for_property: "Campaign '{{campaign}}' for '{{property}}'"
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated

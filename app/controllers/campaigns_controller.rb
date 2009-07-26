@@ -68,18 +68,12 @@ class CampaignsController < ApplicationController
   def preview
     if !@campaign.preview_available? && !current_user.is_administrator?
       flash[:notice] = t('.no_preview_available')
-      redirect_back_or_default('/')
-    end
-      
-    if @campaign.email_html.blank? 
+    elsif @campaign.email_html.blank? 
       flash[:notice] = t('.no_email_html')
-      redirect_back_or_default('/')
-    end
-    
-    unless @campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) }
+    elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
       flash[:notice] = t('.translink_errors')
-      redirect_back_or_default('/')
     end
+    redirect_back_or_default('/') if flash[:notice]
   end
   
   def render_html_email

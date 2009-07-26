@@ -30,7 +30,8 @@ class Campaign < ActiveRecord::Base
   end
   
   def relink_email_html!(&block)
-    email = ::Nokogiri::HTML(email_html)
+    return nil unless self.email_html
+    email = ::Nokogiri::HTML(self.email_html)
     fix_anchors!(email, &block)
     fix_images!(email)    
     add_tracker_link!(email)
