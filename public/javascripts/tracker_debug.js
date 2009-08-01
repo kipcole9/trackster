@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "0.98";
+	this.version		= "0.99";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "vietools.com:8080";
