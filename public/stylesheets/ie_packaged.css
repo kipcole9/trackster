@@ -86,6 +86,19 @@ del {text-decoration: line-through}
 .clearfix {display: inline-block}
 * html .clearfix {height: 1%}
 .clearfix {display: block}
+  body, textarea, input, select {font-size: 13px; line-height: 1.5em; font-family: Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif}
+a:focus {outline: 1px dotted invert}
+hr {border-color: #ccc; border-style: solid; border-width: 1px 0 0; clear: both; height: 0}
+ h1 {font-size: 25px}
+h2 {font-size: 23px}
+h3 {font-size: 21px}
+h4 {font-size: 19px}
+h5 {font-size: 17px}
+h6 {font-size: 15px}
+ ol {list-style: decimal}
+ul {list-style: square}
+li {margin-left: 30px}
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, table, address, fieldset {margin-bottom: 20px}
  body {background: #eee; border-top: 5px solid #000; color: #333; padding: 0 0 40px}
  a {color: #000; font-weight:bold; text-decoration: none}
 a:hover {color:#333}
@@ -98,14 +111,13 @@ h1 a {font-weight:normal}
  h1#branding {font-weight:normal; font-size:3em; text-align:left; background:#aaa; padding:.7em 1em; margin-bottom:0}
  h2#page-heading {font-weight:normal; padding:.5em; margin:0 0 10px 0; border-bottom:1px solid #ccc}
  .box {background:#ddd; margin-bottom:20px; padding:10px 10px 1px 10px}
-.box h2, thead th.monthName, thead th.monthTags {font-size:1em; font-weight:normal; text-transform:uppercase; color:#fff; background:#333; margin:-10px -10px 0 -10px; padding:6px 12px}
-.box h2 a, .box h2 a.visible {color:#fff; background:#333 url("/images/icons/switch_minus.gif") 97% 50% no-repeat; display:block; padding:6px 12px; margin:-6px -12px; border:none}
-.grid_4 .box h2 a {background-position: 97% 50%}
-.grid_5 .box h2 a {background-position: 98% 50%}
-.grid_12 .box h2 a {background-position: 99% 50%}
-.box h2 a.hidden, .box h2 a.hidden:hover {background-image: url("/images/icons/switch_plus.gif")}
-.box h2 a:hover {background-color:#111}
-.block {padding-top:10px}
+.box h2.heading, thead th.monthName, thead th.monthTags {font-size:1em; font-weight:normal; text-transform:uppercase; color:#fff; background:#333; margin:-10px -10px 0 -10px; padding:6px 12px}
+.box h2.heading a, .box h2.heading a.visible {color:#fff;   padding:6px 12px; margin:-6px -12px; border:none}
+.grid_4 .box h2.heading a {background-position: 97% 50%}
+.grid_5 .box h2.heading a {background-position: 98% 50%}
+.grid_12 .box h2.heading a {background-position: 99% 50%}
+.box h2.heading a.hidden, .box h2.heading a.hidden:hover { }
+ .block {padding-top:10px}
 div.menu {padding:0}
 div.menu h2 {margin:0}
 div.menu .block {padding-top:0}
@@ -180,16 +192,16 @@ input.search.button {width:28%; margin-left:2%}
 .site_info a:hover {color:#000}
   .loading {float:right; margin-right:14px; margin-top:-2px;}
 .block {padding-bottom:1px;}
- .concertina .trig {color: #222; margin: 0; padding: 2px 5px; background: #eee; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; font-size:1.1em; font-weight: normal}
-.concertina .trig {display: block}
-.concertina .open {background: #fff; cursor: pointer}
+ .concertina .trig {color: #222; margin: 0; padding: 3px 5px; background: #eee; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; font-size:1em; font-weight: normal}
+.concertina .trig {display: block; cursor: pointer}
+.concertina .trig img, .concertina .targ img {width: 13px; position: relative; top: 2px}
+.concertina .targ img {top: 1px}
+.concertina .open {background: #fff; cursor: default}
 .concertina .targ {border-top: 0 !important; border-bottom: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; position: relative !important; display: inline-block; margin: 0; overflow: auto}
 .concertina .targ h4 {margin: 0; padding:4px; line-height:1.2em}
-.concertina .targ p {margin: 0; padding: 4px}
+.concertina .targ p {margin: 0 0 0 0.5em; padding: 4px}
 .float-right {padding:10px 20px; float:right}
 .concertina .targ {display: block}
-.accordian-block {padding-bottom:10px}
-  .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 {margin-left: .92%; margin-right: .92%}
   ul.nav, ul.nav * {margin:0;padding:0;}
 ul.nav {position:relative; background:#666; max-width:100%; height:2.5em}
 ul.nav li {cursor:pointer; float:left; text-align:center; list-style-type:none; font-weight:normal}
@@ -237,19 +249,6 @@ ul.nav li.secondary:hover a:active {background:#444;}
 .tabricator .trig:hover {background: #f5f5f5}
  .tabricator .open, .tabricator .open:hover {background: #ddd; margin-top: 0; margin-bottom: -3px; padding-bottom: 5px; position: relative; z-index: 1}
 .tabricator .targ {border-top: 1px solid #666; clear: both; margin: 0 0 0 -5px; padding-top: 10px; overflow: auto; padding-left: 10px; padding-right: 10px}
-  body, textarea, input, select {font-size: 13px; line-height: 1.5em; font-family: Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif}
-a:focus {outline: 1px dotted invert}
-hr {border-color: #ccc; border-style: solid; border-width: 1px 0 0; clear: both; height: 0}
- h1 {font-size: 25px}
-h2 {font-size: 23px}
-h3 {font-size: 21px}
-h4 {font-size: 19px}
-h5 {font-size: 17px}
-h6 {font-size: 15px}
- ol {list-style: decimal}
-ul {list-style: square}
-li {margin-left: 30px}
-p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, table, address, fieldset {margin-bottom: 20px}
  thead th.monthName, thead th.monthTags {text-align: center; padding-top: 0.3em; padding-bottom: 0.3em; font-weight: bold; border: none}
 table.calendar {border: none}
 table.calendar th, table.calendar td {padding: 0; padding-top: 0.3em; padding-bottom: 0.3em}
@@ -277,38 +276,61 @@ div.autocomplete ul li.ac_highlight a .tl {left: 0}
 div.autocomplete ul li.ac_highlight a .tr {right: 0}
 div.autocomplete ul li.as_warning {font-weight: bold; text-align: center}
 div.autocomplete ul em {font-style: normal; color: #6EADE7}
-  body {padding-bottom 0}
+  h1, h2, h3, h4, h5, h6 {margin-bottom: 0.3em}
+ul {margin-bottom: 10px}
+body {padding-bottom 0}
 input[type="text"] {line-height: 1em; padding-top: 3px; padding-bottom: 3px}
+ pre {overflow: auto}
  select {height: 22px; border: 1px solid #999; padding-top: 3px; padding-bottom: 3px; font-size: 100%}
+select.date {width: 30%}
 h4 {font-size: 110%}
+ .main {margin-left: 0.35%}
+#nav_block {margin: 0 0 0 -1%; width: 25.6%}
  :focus { outline: auto 5px -webkit-focus-ring-color; outline-offset: -2px;  }
  .container_12 {min-width: 860px}
-div#site_info p {margin-bottom: 10px}
  div.sitename {display: inline; margin-top: -10px; margin-left: 2px}
 div.sitename input[type="text"] {display: inline}
 div.sitename + .prompt, div.sitename div.fieldWithErrors .prompt {margin-top: 3px}
 div.sitename div.fieldWithErrors {display: inline; position: relative; top: 0px}
- h1#branding {font-weight:normal; font-size:2em; text-align:left; background:#aaa; padding:.5em; margin-bottom:0}
+div.box {margin-bottom: 10px}
+div#branding , div#site_info .box {background-color: #CFECEC}
+div#branding div, div#branding a {color: black}
+div#site_info a, div#site_info p {color: black}
+div#site_info .box {margin-bottom: 10px}
+div#site_info p {margin-bottom: 10px}
+ div#branding {padding: 10px 10px 13px; height: 1.7em}
+div#branding h1 {position: relative; float: left; font-weight:normal; font-size:1.7em; margin: 0; width: inherit}
+div#branding div {padding-top: 4px; float: right}
  h2#page-heading {font-weight:normal; font-size: 1.5em; padding:.5em; margin:0 0 10px 0; border-bottom:1px solid #ccc}
 h1#branding, h2#page-heading {padding-left: 11px}
+.block {padding-top: 5px}
 .block .tab {margin-bottom: 0}
+.panel-links {float: right; color: white; position: relative; text-transform: none}
+p {line-height: 1.3em}
  div.flash_notice, div.flash_error {padding: 5px; margin-top: 5px; margin-bottom: -3px; background-color: #bfb; border: 1px solid #999}
 div.flash_notice img, div.flash_error img {position: relative; top: 0.3em}
 div.flash_notice p, div.flash_error p {margin: 0; padding-bottom: 2px}
 div.flash_error {background-color: #fbb}
+ div.errorExplanation h2 {display: none}
  span.field_message {margin-left: 3px; color: #f00}
- p.prompt {margin-top: 0.2em; margin-left: 1px; margin-bottom: 0; font-size: 90%; line-height: 1.1em}
+ p.prompt {margin-top: 0.2em; margin-left: 1px; margin-bottom: 0; font-size: 90%; line-height: 1.3em}
  form {position: relative;  padding-bottom: 2.2em}
 form .section_left {position: relative; float: left; width: 48%; padding-right: 10px}
 form .section_right {position: relative; float: left; width: 48%; padding-left: 10px}
  form .submit_button {position: absolute; bottom: 0.4em; right: 0px}
 form .field_message + select {margin-top: 0.1em}
 form img {margin-top: 0.5em}
-textarea {margin: 0; padding: 2px 2px 2px 0; display: block; -webkit-appearance: textfield; -moz-appearance: textfield}
-input[type="file"] {-moz-appearance: textfield; margin: 0; padding: 0}
+textarea {margin: 0; padding: 2px; display: block; -webkit-appearance: textfield; -moz-appearance: textfield}
+div.field {margin-bottom: 0.5em}
+.datetime {width: 15%; display: inline}
+input[type="file"] {-moz-appearance: textfield; margin: 0; padding: 0; width: 100%}
+input[type="hidden"] {width: 1px; display: inline}
+input[type="text"] {vertical-align: center; padding: 2px}
+select {padding: 2px}
+input[type="checkbox"] {display: inline; width: 20px}
  ul.tags {position: relative; list-style: none; margin: 0}
-ul.tags li.tag {display: inline-block; list-style: none; margin: 0 0 0 0; padding: 0 5px 1px; background-color: #CFECEC; border: 1px solid #aaa; -webkit-border-radius: 5px; -moz-border-radius: 5px}
-ul.tags li.tag img {position: relative; top: 3px}
+ul.tags li.tag {display: inline-block; list-style: none; margin: 0; padding: 0px 5px; background-color: #CFECEC; border: 1px solid #aaa; -webkit-border-radius: 5px; -moz-border-radius: 5px}
+ul.tags li.tag img {position: relative; height: 13px; width: 13px; top: 2px}
 ul.tags li.tag a {font-weight: normal}
  span.showOptional {position: absolute; font-weight: normal; line-height: 1em; right: 8px; top: 17px; z-index: 10; color: #999}
 span.showOptional input[type="checkbox"] {margin: 0 0 0 3px}
@@ -328,8 +350,11 @@ div.errorExplanation {margin-top: 10px; margin-bottom: 5px}
 div.errorExplanation ul {margin-bottom: 0}
  div.inline div, div.inline label, div.inline input, div.inline select, div.inline .fieldWithErrors, div.inline textarea {display: inline}
 div.inline .fieldWithErrors {top: 0}
-div.inline input, div.inline textarea {margin-right: 5px}
+div.inline input, div.inline textarea, fieldset#address textarea, fieldset#address input {margin-right: 5px; width: 49%}
+div.inline input[type="checkbox"] {width: 1.5em}
+div.inline input[type="hidden"] {width: 1px}
 div.inline textarea {vertical-align: top; float: right}
+div.inline select, fieldset#address select {width: 20%}
 div.inline label {margin-right: 3px}
 div.inline + div.inline div label, div.address._new label {color: #aaa}
 div.inline label {float: left; width: 6em; position: relative; top: 0.65em}
@@ -346,37 +371,70 @@ fieldset#address select {margin: 0 0 0 5px}
 fieldset#address img.delete {top: -0.4em; margin-left: 0.25em}
 div.address._new {margin-top: 0.6em; padding-top: 1em; border-top: 1px dotted #ccc}
  #contactCards {width: 100%}
-div.contactCard {position: relative; float: left; width: 30.5%; height: 130px; background-color: white; margin-bottom: 10px; margin-right: 1%; padding: 5px; -webkit-box-shadow: 5px 5px 3px #888; -moz-box-shadow: 5px 5px 3px #888; overflow: hidden}
+div.contactCard {display: inline; position: relative; float: left; width: 200px; height: 130px; background-color: white; margin-bottom: 10px; margin-right: 10px; padding: 5px; -webkit-box-shadow: 5px 5px 3px #888; -moz-box-shadow: 5px 5px 3px #888; overflow: hidden}
 div.contactCard p {font-size: 11px}
 div.contactCard:hover {cursor: move}
 div.contactCard img.avatar {float: right}
 div.contactCard img.icon {position: relative; width: 11px; top: 0.25em}
 div.contactCard img.merge {position: absolute; bottom: 0; right: 0}
 div.contactCard img.merge:hover {border: 1px solid #888}
+div#about .contactCard img.merge {display: none}
 div.contactCard h3, div.contactCard h4 {font-size: 100%; font-weight: bold; margin-bottom: 0}
 div.contactCard h4 {font-weight: normal; font-size: 11px}
 div.contactCard h3 + p, div.contactCard h4 + p {margin-top: 0.3em}
 div.contactCard p {margin-bottom: 0; line-height: 1.2em; white-space: nowrap; overflow: hidden; overflow: ellipsis; max-width: 95%}
 div.contactCard p.email a, div.contactCard p.website a {font-weight: normal}
+div#about .contactCard {width: 100%; float: none; display: block; margin: 0; padding: 0; -webkit-box-shadow: none; -moz-box-shadow: none; cursor: inherit; margin-bottom: -5px}
  #contactCards .pagination {margin-left: 5px}
 .pagination a, .pagination span.prev_page, .pagination span.next_page, .pagination span.current {position: relative; top: 0px; border: 1px solid #888; display: inline-block; padding: 1px; margin: 1px; margin-top: 3px; margin-bottom: 3px; width: 20px; height: 20px; text-align: center; vertical-align: center; line-height: 20px}
 .pagination a.next_page, .pagination span.next_page, .pagination a.prev_page, .pagination span.prev_page {width: 80px}
 .pagination span.prev_page {margin-left: 0}
- form.search {margin-bottom: 5px; margin-top: -5px; padding: 6px 8px; background-color: #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px}
+ form.search {margin-bottom: 5px; padding: 6px 8px; background-color: #ccc; -webkit-border-radius: 5px; -moz-border-radius: 5px}
 form.search input[type="text"], form.search input[type="search"] {display: inline-block; width: 70%}
 form.search label {display: inline-block; font-weight: bold; margin-right: 5px; font-size: 110%}
  ul.tree, ul.list {width: 100%; margin: 0 auto}
 ul.tree ul.trees, ul.tree li.treeMember, ul.tree li.root, ul.list li.listMember {position: relative; list-style: none; margin: 0; padding: 0}
 ul.tree li.root {padding: 0}
- div.treeItem, div.listItem {border: 1px solid #aaa; background-color: #eee; padding: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0 0 5px 0}
+ div.treeItem, div.listItem {border: 1px solid #aaa; background-color: #eee; padding: 5px 5px 7px 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0 0 5px 0}
 div.treeItem:hover {cursor: move}
 div.treeItem div.buttons, div.listItem div.buttons {position: absolute; top: 6px; right: 3px}
 div.treeItem.hover, div.listItem.hover {background-color: #FAF8CC;  }
 div.treeItem p, div.listItem p {line-height: 1.2em; margin-bottom: 0.5em; margin-top: 0}
 div.treeItem img, div.listItem img {width: 16px; height: 16px}
 div.treeItem img:hover, div.listItem img:hover {cursor: pointer}
+div.listItem img.webshot {position: relative; float:right; height: inherit; width: inherit; margin-left: 5px}
+div.listItem .left {float: left; padding-right: 5px}
+div.listItem h4 {margin-bottom: 0.3em}
  div.user {border: 1px solid #aaa; background-color: #eee; padding: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; margin: 0 0 5px 0}
 div.user:hover {cursor: move}
 div.user p {margin-bottom: 0}
 div.user h4 {margin-bottom: 0}
 div.user img {float: left; margin-right: 5px}
+ div.box.accordian {padding: 0}
+div.box.accordian .block {padding: 5px 3px}
+div.box.accordian h2 {margin: 0}
+.concertina {padding: 0 5px 5px}
+ div.box.table, div.box.table .block {padding: 0}
+div.box.table h2 {margin: 0}
+ div.main div.box .block h3 {font-size: 100%; padding: 1em; margin: -10px -10px -5px -10px}
+div.main div.box.table h3 {display: inline-block; margin: 0}
+ div.block table {table-layout: fixed; margin: 0}
+div.block table * td {empty-cells: show; overflow: hidden; text-overflow: ellipsis; -o-text-overflow: ellipsis}
+div.block table thead th {padding-top: 0.2em}
+col.page_views, col.event_count {width: 5em;  }
+col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate, col.new_visit_rate, col.duration, col.deliveries, col.impressions, col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes, col.bounces, col.cost, col.cost_per_impression, col.cost_per_click, col.category, col.action, col.value, col.events {width: 6em;  }
+col.bounce_rate {width: 7em}
+col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{ width: 40%}
+div.sixcol col.percent_of_impressions {width: 50%}
+.right {text-align: right}
+ div.hbar {float: left; margin-top: 3px; margin-bottom: 3px; margin-right: 0.5em; height: 13px; background-color: rgb(25,135,213)}
+ #bio {padding-bottom: 10px}
+#bio h2 {margin-top: 0}
+#bio table {margin-top: 0.5em}
+  .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16 {margin-left: .92%; margin-right: .92%}
+ .concertina .trig img, .concertina .targ img {width: 13px; position: static}
+ textarea {margin: 0; padding: 2px 4px; display: block}
+input[type="text"] {padding: 5px 3px 2px}
+input[type="file"] {padding: 2px 4px 7px}
+ fieldset {margin: 1em 0px 30px; padding: 1em; position: relative; padding-top: 20px; padding-bottom: 10px; display: block}
+fieldset legend {margin-bottom: 0.7em; padding: 3px 10px 3px 10px; position: absolute; top: -12px}

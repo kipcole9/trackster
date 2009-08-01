@@ -75,11 +75,7 @@ class CampaignsController < ApplicationController
     end
     redirect_back_or_default('/') if flash[:notice]
   end
-  
-  def render_html_email
-    # Default render
-  end
-        
+    
   def _page_title
     if @campaign && @property
       I18n.t('campaigns.campaign_for_property', :campaign => @campaign.name, :property => @property.name)

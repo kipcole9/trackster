@@ -514,13 +514,14 @@ function _tks(account)  {
 		tracker = self;
 		element = document.getElementById(linkId);
 		if (element) {
-			href = element.href.replace(/\/#$/, '');
+			var href = element.href.replace(/\/#$/, '');
 			console.log("Linking to: " + href);
 			f = function(e) {
 				tracker.trackPageview(href);
 				if (e.preventDefault) {e.preventDefault();}
 				e.stopPropagation();
-				window.location = this.href;
+				console.log('About to set href to: ' + href);
+				// window.location = href;
 			};
 			element.onclick = f;
 		} else {
