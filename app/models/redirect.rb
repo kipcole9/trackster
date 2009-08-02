@@ -25,7 +25,7 @@ class Redirect < ActiveRecord::Base
   def self.find_or_create_from_link(property, url)
     return nil if url.blank?
     absolute_url = property.get_absolute_url(url)
-    redirect = find_by_url(absolute_url) || create(:url => absolute_url)
+    redirect = property.redirects.find_by_url(absolute_url) || property.redirects.create(:url => absolute_url)
     if redirect.new_record?
       redirect.name = name_from_url(absolute_url) 
       redirect.property = property
