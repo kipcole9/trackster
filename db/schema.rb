@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090804120547) do
+ActiveRecord::Schema.define(:version => 20090804121520) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -169,6 +169,8 @@ ActiveRecord::Schema.define(:version => 20090804120547) do
     t.integer  "duration"
     t.string   "contact_code",          :limit => 50
   end
+
+  add_index "events", ["session_id"], :name => "index_events_on_session_id"
 
   create_table "files", :force => true do |t|
     t.datetime "created_at"
@@ -378,6 +380,9 @@ ActiveRecord::Schema.define(:version => 20090804120547) do
     t.integer  "impressions"
     t.string   "contact_code",      :limit => 50
   end
+
+  add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"
+  add_index "sessions", ["property_id"], :name => "index_sessions_on_property_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
