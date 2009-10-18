@@ -27,7 +27,7 @@ Rails::Initializer.run do |config|
   config.gem 'daemons'
   #config.gem 'why-hpricot', :lib => 'hpricot', :version => "> 0.7"
   config.gem 'nokogiri'
-  config.gem 'sparklines'
+  #config.gem 'sparklines'
   config.gem 'RedCloth'
 
   # Only load the plugins named here, in the order given (default is alphabetical).

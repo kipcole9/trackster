@@ -17,9 +17,9 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
-role :app, "server.vietools.com"
-role :web, "server.vietools.com"
-role :db,  "server.vietools.com", :primary => true
+#role :app, "server.vietools.com"
+#role :web, "server.vietools.com"
+#role :db,  "server.vietools.com", :primary => true
 
 role :app, "traphos.com"
 role :web, "traphos.com"
