@@ -163,7 +163,7 @@ p {
 div.flash_notice, div.flash_error {
 	padding: 5px;
 	margin-top: 5px;
-	margin-bottom: -3px;
+	margin-bottom: 0px;
 	background-color: #bfb;
 	border: 1px solid #999;
 }
