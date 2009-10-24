@@ -16,8 +16,9 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:user][:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_to root_url
       flash[:notice] = t('logged_in')
+      #redirect_to root_url
+      redirect_back_or_default('/')
     else
       note_failed_signin
       @login       = params[:user][:login]
