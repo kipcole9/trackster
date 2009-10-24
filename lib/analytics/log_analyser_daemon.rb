@@ -10,7 +10,7 @@ class LogAnalyserDaemon
     @log_parser      = LogParser.new(:nginx)
     @web_analyser    = WebAnalytics.new
     @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
-    @nginx_log_dir   = '/usr/local/nginx/logs'
+    @nginx_log_dir   = Trackster::Config.log_file_directory
   end
 
   def log_analyser_loop(options = {})
