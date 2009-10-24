@@ -421,7 +421,7 @@ ActiveRecord::Schema.define(:version => 20090804121520) do
     t.datetime "updated_at"
   end
 
-  create_table "tracks", :force => true do |t|
+  create_table "tracks", :id => false, :force => true do |t|
     t.integer  "property_id"
     t.integer  "campaign_id"
     t.string   "visitor",               :limit => 20
@@ -460,6 +460,7 @@ ActiveRecord::Schema.define(:version => 20090804121520) do
     t.string   "referrer_host",         :limit => 100
     t.string   "search_terms"
     t.string   "traffic_source",        :limit => 50
+    t.integer  "id",                                   :default => 0,    :null => false
     t.integer  "session_id"
     t.integer  "sequence"
     t.string   "url"
