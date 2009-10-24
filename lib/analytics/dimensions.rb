@@ -6,7 +6,7 @@ module Analytics
           return {} unless args.last
           range = args.last
           this_scope = "started_at BETWEEN '#{range.first.to_s(:db)}' AND '#{range.last.to_s(:db)}'"
-          parent_scope = self.scoped_methods.last[:find]
+          parent_scope = self.scoped_methods.last[:find] unless self.scoped_methods.last.nil?
           if parent_scope == self.repeat_visitors.proxy_options ||
              parent_scope == self.repeat_visits.proxy_options
             this_scope += " AND previous_visit_at > '#{range.first.to_s(:db)}'"

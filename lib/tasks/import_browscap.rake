@@ -11,7 +11,7 @@ namespace :trackster do
     else
       DIR = "/u/apps/trackster/config"
       `cd #{DIR} && wget http://browsers.garykeith.com/stream.asp?BrowsCapINI -O #{DIR}/browscap.ini`
-      `ln -s #{DIR}/browscap.ini vendor/plugins/browscap/lib/browscap.ini`      
+      `ln -s #{DIR}/browscap.ini vendor/plugins/browscap/lib/browscap.ini` rescue nil    
     end
   end
   
