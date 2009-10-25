@@ -21,9 +21,9 @@ role :app, "server.vietools.com"
 role :web, "server.vietools.com"
 role :db,  "server.vietools.com", :primary => true
 
-#role :app, "traphos.com"
-#role :web, "traphos.com"
-#role :db,  "traphos.com"
+role :app, "traphos.com"
+role :web, "traphos.com"
+role :db,  "traphos.com"
 
 after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'

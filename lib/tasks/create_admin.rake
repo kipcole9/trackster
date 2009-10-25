@@ -10,7 +10,7 @@ namespace :trackster do
         :login => 'admin', 
         :password => 'admin123', 
         :password_confirmation => 'admin123',
-        :state => 'action',
+        :state => 'active',
         :email => (Trackster::Config.admin_email_address || 'admin@traphos.com')
       )
     end

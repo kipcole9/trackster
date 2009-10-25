@@ -114,7 +114,7 @@ en-US:
         campaign_for_property: "Campaign '{{campaign}}' for '{{property}}'"
         campaign_deleted:   Campaign deleted
         campaign_updated:   Campaign updated
-        campaign_created:   Campaign created
+        campaign_created:   Campaign defined
         edit_navigation:    Campaign actions
         show_preview:       Show preview of email
         campaign_form:
@@ -138,8 +138,8 @@ en-US:
             campaign_clicks:    Campaign clicks            
 
     properties:
-        property_created:        "Property '{{name}}' created"
-        property_not_created:    "Property '{{name}}' was not created"
+        property_created:        "Property '{{name}}' defined"
+        property_not_created:    "Property '{{name}}' was not defined"
         property_updated:        "Property '{{name}}' updated"
         property_not_udpated:    "Property '{{name}}' was not updated"
         property_deleted:        "Property '{{name}}' deleted"
