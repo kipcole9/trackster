@@ -71,9 +71,9 @@ class CampaignsController < ApplicationController
     elsif @campaign.email_html.blank? 
       flash[:notice] = t('.no_email_html')
     elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
-      flash[:notice] = t('.translink_errors')
+      flash[:error] = t('.translink_errors')
     end
-    redirect_back_or_default('/') if flash[:notice]
+    redirect_back_or_default('/') if flash[:notice] || flash[:error]
   end
     
   def _page_title

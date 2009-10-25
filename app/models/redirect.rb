@@ -11,7 +11,7 @@ class Redirect < ActiveRecord::Base
   validates_presence_of     :property_id
   
   validates_presence_of     :name
-  validates_length_of       :name,    :within => 3..250
+  validates_length_of       :name,    :within => 1..250
   validates_uniqueness_of   :name,    :scope => :property_id
   
   validates_presence_of     :url
@@ -25,13 +25,12 @@ class Redirect < ActiveRecord::Base
   def self.find_or_create_from_link(property, url)
     return nil if url.blank?
     absolute_url = property.get_absolute_url(url)
-    redirect = property.redirects.find_by_url(absolute_url) || property.redirects.create(:url => absolute_url)
-    if redirect.new_record?
-      redirect.name = name_from_url(absolute_url) 
-      redirect.property = property
-      redirect.account = property.account
-      redirect.save!
-    end
+    redirect = property.redirects.find_by_url(absolute_url) || 
+               property.redirects.create!(
+                  :url => absolute_url, 
+                  :name => name_from_url(absolute_url),
+                  :account => property.account,
+                  :property => property)
     redirect
   end
       

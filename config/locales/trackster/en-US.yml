@@ -117,6 +117,7 @@ en-US:
         campaign_created:   Campaign defined
         edit_navigation:    Campaign actions
         show_preview:       Show preview of email
+        translink_errors:   There were errors translinking the html
         campaign_form:
             distribution:   Campaign distribution
             coding:         Link tagging
