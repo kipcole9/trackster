@@ -9,7 +9,7 @@ class UserObserver < ActiveRecord::Observer
   def after_save(user)
     UserMailer.deliver_activation(user) if user.recently_activated?
   rescue Net::SMTPFatalError => e
-    Rails.logger.error "Could not sent activated email"
+    Rails.logger.error "Could not sent activation email"
     Rails.logger.error e.message    
   end
 end

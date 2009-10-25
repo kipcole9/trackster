@@ -1,7 +1,7 @@
 # Create the admin user
 namespace :trackster do
   desc "Create the admin user"
-  task(:analyse_log => :environment) do
+  task(:create_admin => :environment) do
     if User.admin_user
       puts "Admin user already exists"
     else
