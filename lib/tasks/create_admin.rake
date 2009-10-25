@@ -12,11 +12,7 @@ namespace :trackster do
 
   desc "Create the admin user"
   task(:create_admin => :create_admin_account) do
-    if User.admin_user
-      puts "Admin user already exists"
-    else
-      User.ensure_admin_exists
-    end
+    User.ensure_admin_exists
   end
 
 end
