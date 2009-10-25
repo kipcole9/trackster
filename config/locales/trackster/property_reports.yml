@@ -41,7 +41,8 @@ en-US:
         exit_page:      Top exit pages
         bounce_page:    Top bounce pages
         events:         Event overview
-        video:          Video overview   
+        video:          Video overview
+        video_item:     "Video: {{name}}"  
 
         device:         Devices
         browser:        Browsers

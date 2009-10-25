@@ -20,6 +20,10 @@ module PropertiesHelper
     link_to t("property_report.#{report_type}"), property_report_path(@property, report_type, report_params(additional_params))
   end
   
+  def video_report(name, additional_params = {})
+    link_to t("property_report.video_item", :name => name), property_report_path(@property, "video", report_params(additional_params))
+  end
+  
   def add_dimension(report_type, additional_params = {})
     link_to dimension_label(additional_params), property_report_path(@property, report_type, report_params(additional_params))    
   end
