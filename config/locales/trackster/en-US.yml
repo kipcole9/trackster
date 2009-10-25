@@ -199,6 +199,7 @@ en-US:
         new_user:           "Define a new user"
         user:               "Update your profile"
         navigation:         "Metrics"
+        campaign_navigation: "Actions"
         campaign_index:     "Campaigns"
         campaign:           Campaign
         account:            Update Account
