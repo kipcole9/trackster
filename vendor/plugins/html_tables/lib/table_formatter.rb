@@ -242,7 +242,7 @@ private
   # No bar if the value is <
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
-      width = val * REDUCTION_FACTOR
+      width = val * reduction_factor(val)
       bar = (val.to_f > MIN_PERCENT_BAR_VALUE) ? "<div class=\"hbar\" style=\"width:#{width}%\">&nbsp;</div>" : ''
       bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
@@ -274,6 +274,10 @@ private
         end
       end
     end  
+  end
+  
+  def reduction_factor(value)
+    value > 80 ? value * (REDUCTION_FACTOR * val / 100) : REDUCTION_FACTOR
   end
 
 end
