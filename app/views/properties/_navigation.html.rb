@@ -42,7 +42,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         @property.video_labels.each do |video|
           unless video.blank?
             video_label = video.split('/').last
-            p video_report(video_label) 
+            p video_report(video_label, :video => video) 
           end
         end; nil
       end
