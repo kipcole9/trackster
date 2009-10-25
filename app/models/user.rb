@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
   
   ADMIN_USER                = 'admin'
-  ADMIN_DEFAULT_PASSWORD    = 'admin123'
-  ADMIN_DEFAULT_EMAIL       = 'admin@example.com'
+  ADMIN_DEFAULT_PASSWORD    = 'admin123@example.com'
   VALID_USER_NAME           = /\A[^[:cntrl:]\\<>\/&]+\z/   
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
@@ -94,8 +93,7 @@ class User < ActiveRecord::Base
     unless User.find_by_login(ADMIN_USER)
       admin = User.create!(:login => ADMIN_USER, :password => ADMIN_DEFAULT_PASSWORD, 
         :password_confirmation => ADMIN_DEFAULT_PASSWORD, :email => ADMIN_DEFAULT_EMAIL)
-      admin.register!
-      admin.activate!
+      admin.state = 'active'
       admin.roles << Role.find_or_create(Role::ADMIN_ROLE)
       admin.account = Account.admin_account
       admin.save!
