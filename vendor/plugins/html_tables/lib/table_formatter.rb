@@ -277,7 +277,13 @@ private
   end
   
   def reduction_factor(value)
-    value > 80 ? value * (REDUCTION_FACTOR * val / 100) : REDUCTION_FACTOR
+    if value > 100 then 
+        0.3
+    elsif value > 80 then
+        0.6
+    else 
+        REDUCTION_FACTOR
+    end
   end
 
 end
