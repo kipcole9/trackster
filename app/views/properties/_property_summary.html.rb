@@ -1,7 +1,7 @@
 with_tag(:div, :class => 'clearfix') do
   store image_tag(property.thumb(:thumb), :class => 'webshot') if property.thumb?
   with_tag(:div, :class => 'left') do
-    h4 link_to("#{property.name} (#{property.tracker})", property_url(property))
+    h4 link_to("#{property.name} (#{property.tracker})", property_report_path(property, "overview"))
     p property.description, :style => (property.description.blank? ? "display:none" : "")
     p link_to(property.url, property.url)
     with_tag(:ul, :class => :tags) do
