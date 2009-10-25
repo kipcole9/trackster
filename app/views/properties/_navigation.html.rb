@@ -33,7 +33,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
         p property_report('url')
         p property_report('page_title')
         p property_report('entry_page')
-        p property_report('entry_page')
+        p property_report('exit_page')
         p property_report('bounce_page')
       end
       accordian_item "#{image_tag '/images/icons/lightning.png'} Events" do
