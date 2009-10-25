@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
   
   ADMIN_USER                = 'admin'
-  ADMIN_DEFAULT_PASSWORD    = 'admin123@example.com'
+  ADMIN_DEFAULT_PASSWORD    = 'admin123'
+  ADMIN_DEFAULT_EMAIL       = 'admin@example.com'
   VALID_USER_NAME           = /\A[^[:cntrl:]\\<>\/&]+\z/   
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
