@@ -25,9 +25,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule"
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'daemons'
-  #config.gem 'why-hpricot', :lib => 'hpricot', :version => "> 0.7"
   config.gem 'nokogiri'
-  #config.gem 'sparklines'
   config.gem 'RedCloth'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
