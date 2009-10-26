@@ -37,7 +37,8 @@ class Campaign < ActiveRecord::Base
   
   def relink_email_html!(&block)
     return nil if self.email_html.blank?
-    email = ::Nokogiri::HTML(self.email_html)
+    
+    email = ::Nokogiri::HTML(fix_entities(self.email_html))
     fix_anchors!(email, &block)
     fix_images!(email)    
     add_tracker_link!(email)
@@ -112,5 +113,9 @@ private
   
   def open_parameters
     campaign_parameters + "&utcat=email&utact=open"
+  end
+  
+  def fix_entities(text)
+    text
   end
 end

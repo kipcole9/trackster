@@ -73,6 +73,12 @@ module Caerus #:nodoc:
         def word_wrap(line_width = 80)
           TextHelperSingleton.instance.word_wrap(self, line_width)
         end
+        def with_slash
+          self =~ /\/\Z/ ? self : self + '/'
+        end
+        def without_slash
+          self =~ /\/\Z/ ? self[0..-2] : self
+        end
       end
     end
   end
