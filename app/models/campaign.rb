@@ -24,7 +24,12 @@ class Campaign < ActiveRecord::Base
   def landing_page_html=(html)
     html.class.name == "Tempfile" ? super(html.read) : super(html)
   end
-
+  
+  # Remove leading and trailing '/'
+  def image_directory=(directory)
+    super(directory.sub(/\A\//,'').sub(/\/\Z/,'')) unless directory.blank?
+  end
+  
   def email_html=(html)
     html_text = html.class.name == "Tempfile" ? html.read : html
     super(html_text) unless html_text.blank?
