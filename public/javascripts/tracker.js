@@ -2,7 +2,7 @@ function _tks(account)  {
 	this.version		= "1.0";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "vietools.com:8080";
+	this.trackerHost	= "vietools.com";
 	this.trackerImage	= "/_tks.gif";
 	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
@@ -29,11 +29,11 @@ function _tks(account)  {
 	// This is the method that actually sends the tracking
 	// request.  It can have an optional value (used for anything,
 	// including page rank, value, score, satisfaction, ...)
-	this.trackPageview = function(pageUrl, options) {
+	this.trackPageview = function(pageUrl, label, value) {
 		var params = {};
 		params.url = pageUrl;
-		if (options.value) {params.utval = options.value;}
-		if (options.label) {params.utlab = options.label;}
+		if (value) {params.utval = value;}
+		if (label) {params.utlab = label;}
 		this._track(params);
 	};
 	this._track = function(options) {
