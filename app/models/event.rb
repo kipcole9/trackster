@@ -129,9 +129,12 @@ private
       :entry_page => false, :exit_page => false)
   end
   
+  # Try to make sure we have reasonable labels even if none is supplied
   def update_label
     if self.email_opening? && self.label.blank?
       self.label = self.session.campaign_name unless self.session.campaign_name.blank?
+    elsif self.pageview? && self.label.blank?
+      self.label = self.page_title || self.url
     end
   end
 end
