@@ -111,12 +111,12 @@ class WebAnalytics
     {}
   end
   
-  # Parse any url parameters (no tracker specific)
+  # Parse any url parameters (not tracker specific)
   def parse_url_parameters(url)
     uri = URI.parse(url)
     params_to_hash(uri.query)
   rescue URI::InvalidURIError
-    Rails.logger.error "[Web Analytics] Invalid URI detected: #{url}"
+    Rails.logger.error "[Web Analytics] Invalid URI detected: '#{url}'"
     {}
   end
   
@@ -183,7 +183,7 @@ class WebAnalytics
       row[:traffic_source] = 'referral'      
     end
   rescue
-    Rails.logger.error "[Web Analytics] Invalid URI Referrer detected: #{referrer}"
+    Rails.logger.error "[Web Analytics] Invalid URI Referrer detected: '#{referrer}'"
     row[:traffic_source] = 'referral'
   end
 
@@ -224,7 +224,7 @@ private
   def get_visitor!(row)
     return if row[:visitor].blank?
     parts = row[:visitor].split('.')
-    raise "[Web Analytics] Badly formed visitor variable: '#{v}" if parts.size > 4
+    raise "[Web Analytics] Badly formed visitor variable: '#{v}'" if parts.size > 4
     row[:visitor]           = parts[0]
     row[:visit]             = parts[1] if parts[1]
     row[:previous_visit_at] = to_time(parts[3]) unless parts[3].blank?
@@ -262,7 +262,7 @@ private
     elsif row[:user_agent] =~ /MSIE/
       row[:browser] = 'Outlook'
     else
-      Rails.logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}"
+      Rails.logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
     end
     unless row[:browser] == original_browser
       row[:traffic_source] = 'email'

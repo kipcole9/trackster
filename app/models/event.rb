@@ -60,7 +60,11 @@ class Event < ActiveRecord::Base
   def self.email_opening?(row)
     row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
   end
-  
+
+  def email_opening?
+    self.category == EMAIL_CATEGORY && self.action == OPEN_ACTION
+  end
+    
 private
   def self.duplicate_event?(session, row)
     # If no view then it's an open email or a redirect, which is OK
@@ -75,7 +79,7 @@ private
   end
       
   def self.unknown_event?(row)
-    if unknown = row[:view].blank? && !email_opening_event?(row) && !redirect?(row)
+    if unknown = row[:view].blank? && !email_opening?(row) && !redirect?(row)
       Rails.logger.error "[Event] Unknown event detected (no view sequence number; not an email open event; not a redirect)"
     end
     unknown
@@ -84,11 +88,7 @@ private
   def self.redirect?(row)
     row[:redirect]
   end
-  
-  def self.email_opening_event?(row)
-    row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
-  end 
-  
+
   def self.new_from_row(attrs)
     event = new
     event.attributes.each do |k, v|
@@ -122,8 +122,9 @@ private
   end
   
   def create_video_maxplay_from(event)
-    self.class.new(:session_id => event.session_id, :category => VIDEO_CATEGORY, :action => VIDEO_MAXPLAY, :label => event.label,
-                   :entry_page => false, :exit_page => false)
+    self.class.new(
+      :session_id => event.session_id, :category => VIDEO_CATEGORY, 
+      :action => VIDEO_MAXPLAY, :label => event.label,
+      :entry_page => false, :exit_page => false)
   end
-  
 end
