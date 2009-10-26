@@ -2,7 +2,7 @@ function _tks(account)  {
 	this.version		= "1.0";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "vietools.com:8080";
+	this.trackerHost	= "{{HOST}}";
 	this.trackerImage	= "/_tks.gif";
 	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
@@ -38,7 +38,7 @@ function _tks(account)  {
 	};
 	this._track = function(options) {
 		this.url = options.url || '';
-		// console.log('Track has been requested for ' + self.getUrl());
+		console.log('Track has been requested for ' + self.getUrl());
 		var params = [], i = 0, image = new Image(1, 1);
 		var protocol = (location.protcol == 'https') ? "https:" : "http:";
 		var url = protocol + '//' + this.trackerHost + this.trackerImage + "?";
@@ -57,7 +57,7 @@ function _tks(account)  {
 		}
 		url += params.join('&');
 		url += "&uver=" + this.version;
-		// console.log('About to get image: ' + url);
+		console.log('About to get image: ' + url);
         image.src = url; // Triggers image loading
 		return;	
 	};
@@ -137,7 +137,7 @@ function _tks(account)  {
 		function createTdsv() {
 			// Set for about 720 days, or about 2 years
 			// Indicate first visit
-			// console.log('New visitor being created.');
+			console.log('New visitor being created.');
 			self.tdsv = newVisitorId();
 			self.setTdsv(self.tdsv);
 			return self.tdsv;
@@ -149,13 +149,13 @@ function _tks(account)  {
 			if (!self.tdsv) {
 				self.tdsv = self.getCookie('_tdsv');
 			}
-			// console.log('Found existing visitor: ' + self.tdsv);
+			console.log('Found existing visitor: ' + self.tdsv);
 			return self.tdsv;
 		}
 		return (getTdsv() || createTdsv());
 	};
 	this.setTdsv = function(tdsv) {
-		// console.log('Setting visitor to: ' + tdsv);
+		console.log('Setting visitor to: ' + tdsv);
 		self.setCookie('_tdsv', tdsv, 720);
 		self.tdsv = tdsv;	
 	};	
@@ -168,7 +168,7 @@ function _tks(account)  {
 		if (parts[2]) {parts[3] = parts[2];} 		// Move current session to previous session
 		parts[2] = currentSessionTimestamp;		// Save current session
 		self.tdsv = parts.join('.');
-		// console.log('Incremented visit count to: ' + self.tdsv);
+		console.log('Incremented visit count to: ' + self.tdsv);
 		self.setTdsv(self.tdsv);
 		return self.tdsv;
 	};
@@ -192,18 +192,18 @@ function _tks(account)  {
 				parts[1]++;
 				self.tdsb = parts.join('.');
 				setTdsb(self.tdsb);
-				// console.log('Returning existing session (tdsb): ' + self.tdsb);				
+				console.log('Returning existing session (tdsb): ' + self.tdsb);				
 				return self.tdsb;
 			}
 			return false;
 		}
 		function createNewSession() {
-			// console.log('Creating new session.');
+			console.log('Creating new session.');
 			self.tdsb = getNewSessionId() + ".0";
 			setTdsb(self.tdsb);
 			self.setCookie('_tdsc', self.tdsb);
 			self.incrementVisitCount();
-			// console.log('Create new session is returning: ' + self.tdsb);
+			console.log('Create new session is returning: ' + self.tdsb);
 			return self.tdsb;
 		}
 		function getNewSessionId() {
@@ -377,14 +377,14 @@ function _tks(account)  {
 	    }
 		if (absolutePath) {path = "; path=" + absolutePath;}
 		var cookieValue = escape(name) + '=' + escape(value || '') + expire + path;
-		// console.log("Setting cookie: " + cookieValue);
+		console.log("Setting cookie: " + cookieValue);
 	    document.cookie = cookieValue;
 		return;
 	};  
 	this.getCookie = function(name) {
 	    var cookie = document.cookie.match(new RegExp(escape(name) + "\\s*=\\s*(.*?)(;|$)"));
 		var cookieValue = cookie ? unescape(cookie[1]) : null;
-		// console.log("Getting cookie " + name + ": " + cookieValue);
+		console.log("Getting cookie " + name + ": " + cookieValue);
 	    return (cookieValue); 
 	};  
 	this.eraseCookie = function(name) {  
@@ -516,17 +516,17 @@ function _tks(account)  {
 		element = document.getElementById(linkId);
 		if (element) {
 			var href = element.href.replace(/\/#$/, '');
-			// console.log("Linking to: " + href);
+			console.log("Linking to: " + href);
 			f = function(e) {
 				tracker.trackPageview(href);
 				if (e.preventDefault) {e.preventDefault();}
 				e.stopPropagation();
-				// console.log('About to set href to: ' + href);
+				console.log('About to set href to: ' + href);
 				// window.location = href;
 			};
 			element.onclick = f;
 		} else {
-			// console.log('Element not found in the DOM: ' + linkId);
+			console.log('Element not found in the DOM: ' + linkId);
 		}
 	};
 	// Form handling - send form fields to tracker
@@ -549,16 +549,16 @@ function _tks(account)  {
 	// Get flash movie 
 	this.getFlashApp = function(appName) {
 		if (navigator.appName.indexOf ("Microsoft") != -1) { 
-			// console.log('Microsoft: App is ' + window[appName]);
+			console.log('Microsoft: App is ' + window[appName]);
 			return window[appName];
 		} else {
-			// console.log('Not Microsoft: App is ' + document[appName]);
+			console.log('Not Microsoft: App is ' + document[appName]);
 			return document[appName];
 		}
     };
     this.callFlexApp = function(appName) {
 		var player = appName || self.videoPlayer;
-		// console.log('Player is ' + player);
+		console.log('Player is ' + player);
     	self.getFlashApp(player).FlexCall();
     };
 	// Constructor
