@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to        :session
   belongs_to        :redirect
+  before_save       :update_label
   after_save        :update_video_maxplay
   
   PAGE_CATEGORY   = "page"
@@ -126,5 +127,11 @@ private
       :session_id => event.session_id, :category => VIDEO_CATEGORY, 
       :action => VIDEO_MAXPLAY, :label => event.label,
       :entry_page => false, :exit_page => false)
+  end
+  
+  def update_label
+    if self.email_opening? && self.label.blank?
+      self.label = self.session.campaign_name unless self.session.campaign_name.blank?
+    end
   end
 end
