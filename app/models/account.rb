@@ -10,7 +10,7 @@ class Account < ActiveRecord::Base
   
   has_attached_file :logo, :styles => { :banner => "400x23" }
   
-  validates_format_of :chart_background_colour, :with => /\#(\d|[a-f]|[A-F]){6,6}/, :allow_nil => true
+  validates_format_of :chart_background_colour, :with => /\#(\d|[a-f]|[A-F]){6,6}/, :allow_nil => true, :allow_blank => true
   
   ADMIN_ACCOUNT     = "Admin"
   ADMIN_DESCRIPTION = "Administration Account"
