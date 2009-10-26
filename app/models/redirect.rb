@@ -33,8 +33,7 @@ class Redirect < ActiveRecord::Base
                   :property => property)
     redirect
   end
-      
-private
+  
   # Create a random token for the redirect url
   # and ensure it is not in use already. This will probably
   # never loop, but just to be sure......
@@ -48,6 +47,8 @@ private
     
   def self.name_from_url(url)
     path = URI.parse(url).path
+    path = '/' if path.blank?
+    path
   end
   
 end
