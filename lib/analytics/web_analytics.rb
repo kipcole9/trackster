@@ -264,7 +264,7 @@ private
     elsif row[:user_agent] =~ /MSIE/
       row[:browser] = 'Outlook'
     else
-      Rails.logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
+      Rails.logger.error "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
     end
     unless row[:browser] == original_browser
       row[:traffic_source] = 'email'
