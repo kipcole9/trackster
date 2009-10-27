@@ -3,7 +3,8 @@ class SitesController < ApplicationController
   layout 'dashboards'
   
   def show
-    @latency = Track.latency.by(:date).all
+    date_range = (Date.today - 30).to_s(:db)
+    @latency = Track.latency.by(:date).limit(30).filter("date > #{date_range}").all
   end
   
   def _page_title
