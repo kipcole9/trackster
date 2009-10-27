@@ -261,6 +261,8 @@ private
       row[:browser] = 'Apple Mail'
     elsif row[:user_agent] =~ /Thunderbird/
       row[:browser] = "Thunderbird"
+    elsif row[:user_agent] =~ /Lotus-Notes/
+      row[:browser] = 'Lotus Notes'      
     elsif row[:user_agent] =~ /MSIE/
       row[:browser] = 'Outlook'
     else

@@ -23,4 +23,10 @@ namespace :trackster do
     `rm tmp/test_data/track_data`
     `scp -P 9876 kip@vietools.com:/usr/local/nginx/logs/tracker_access_staging.log tmp/test_data/track_data`
   end
+
+  desc "Get production tracker log file from vietools"
+  task(:get_production_log => :environment) do
+    `rm tmp/test_data/track_data`
+    `scp -P 9876 kip@vietools.com:/usr/local/nginx/logs/tracker_access_production.log tmp/test_data/track_data`
+  end
 end
