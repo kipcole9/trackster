@@ -251,6 +251,8 @@ private
       row[:browser] = 'Hotmail'
     elsif row[:referrer] =~ /mail\.yahoo\./
       row[:browser] = 'Yahoo Mail'
+    elsif row[:referrer] =~ /mail\.live\./
+      row[:browser] = 'Microsoft Live'
     elsif row[:user_agent] =~ /iPod/
       row[:browser] = 'iPod Mail'
     elsif row[:user_agent] =~ /iPhone/
