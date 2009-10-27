@@ -118,6 +118,7 @@ end
 desc "Stop log analyser"
 task :stop_log_analyser, :roles => :app do
   run <<-EOF
+    export RAILS_ENV=#{rails_env}  
     cd #{release_path} && lib/daemons/log_analyser_ctl stop
   EOF
 end
