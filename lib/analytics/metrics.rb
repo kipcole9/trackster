@@ -166,7 +166,7 @@ module Analytics
           :select => 'avg(distribution) as distribution',
           :joins => :campaign
 
-        # How long between the even and it turning up in the log
+        # How long between the event and it turning up in the log
         named_scope :latency, 
           :select => "CAST(AVG(time_to_sec(events.created_at) - time_to_sec(tracked_at)) AS signed) AS latency",
           :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',
