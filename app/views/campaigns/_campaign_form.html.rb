@@ -5,6 +5,7 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
     else
       campaign.collection_select :property_id, user_scope(:property, current_user).all, :id, :name
     end
+    campaign.hidden_field   :account_id
     campaign.text_field     :name
     campaign.datetime_select  :effective_at
     campaign.text_area      :description

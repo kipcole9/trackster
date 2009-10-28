@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
   include       Analytics::Model
   belongs_to    :property
+  belongs_to    :account
   has_many      :sessions
   has_many      :tracks
   
@@ -9,6 +10,13 @@ class Campaign < ActiveRecord::Base
   validates_associated    :property
   validates_presence_of   :property_id
 
+  validates_associated    :account
+  validates_presence_of   :account_id
+  
+  validates_presence_of     :name
+  validates_length_of       :name,    :within => 3..150
+  validates_uniqueness_of   :name,    :scope => :property_id
+  
   validates_numericality_of :cost,          :allow_nil => true  
   validates_numericality_of :bounces,       :allow_nil => true
   validates_numericality_of :unsubscribes,  :allow_nil => true

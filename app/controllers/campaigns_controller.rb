@@ -8,6 +8,7 @@ class CampaignsController < ApplicationController
   def new
     @campaign = user_create_scope.new
     @campaign.property = @property
+    @campaign.account = current_account
     render :action => 'edit'
   end
 
