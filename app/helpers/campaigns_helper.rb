@@ -12,7 +12,7 @@ module CampaignsHelper
       if (i.impressions.to_f / total_impressions) >= 0.05
         new_impressions << i.dup
       else
-        others_impressions =+ i.impressions
+        other_impressions =+ i.impressions
       end
     end
     other_impression = impressions.first.dup
