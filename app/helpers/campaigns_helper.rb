@@ -9,13 +9,13 @@ module CampaignsHelper
     impressions.sort! {|a, b| a.impressions <=> b.impressions}.reverse!
 
     impressions.each do |i|
-      if i.impressions.to_f / total_impressions >= 0.1
+      if (i.impressions.to_f / total_impressions) >= 0.05
         new_impressions << i 
       else
         others_impressions =+ i.impressions
       end
     end
-    other_impression = new_impressions.first.dup
+    other_impression = impressions.first.dup
     other_impression.browser = "Other"
     other_impression.impressions = other_impressions
     new_impressions << other_impressions
