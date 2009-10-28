@@ -18,7 +18,7 @@ module CampaignsHelper
     other_impression = impressions.first.dup
     other_impression.browser = "Other"
     other_impression.impressions = other_impressions
-    new_impressions << other_impressions
+    new_impressions << other_impression
     new_impressions
   end
 end
