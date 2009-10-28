@@ -262,7 +262,9 @@ private
     elsif row[:user_agent] =~ /Thunderbird/
       row[:browser] = "Thunderbird"
     elsif row[:user_agent] =~ /Lotus-Notes/
-      row[:browser] = 'Lotus Notes'      
+      row[:browser] = 'Lotus Notes' 
+    elsif row[:user_agent] =~ /Eudora/
+      row[:browser] = 'Eudora'           
     elsif row[:user_agent] =~ /MSIE/
       row[:browser] = 'Outlook'
     else
@@ -275,7 +277,7 @@ private
   end
   
   def to_time(timestamp)
-    return nil unless timestamp
+    return nil if timestamp.blank?
     the_time = timestamp.size > 10 ? (timestamp.to_i / 1000) : timestamp.to_i
     Time.at(the_time) if the_time
   end

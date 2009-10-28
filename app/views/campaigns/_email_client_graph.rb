@@ -4,7 +4,8 @@ panel t('campaigns.impressions_graph_by_browser')  do
     if impressions.empty?
       h3 t('no_impressions_yet')
     else
-      store impressions.to_chart(:impressions, :browser, :tooltip => "#label#\nImpressions: #val# (#percent#)", :type => OpenFlashChart::Pie)
+      new_impressions = collapse_impressions_data(impressions)
+      store new_impressions.to_chart(:impressions, :browser, :tooltip => "#label#\nImpressions: #val# (#percent#)", :type => OpenFlashChart::Pie)
     end
   end
 end
