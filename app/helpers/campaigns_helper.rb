@@ -10,7 +10,7 @@ module CampaignsHelper
 
     impressions.each do |i|
       if (i.impressions.to_f / total_impressions) >= 0.05
-        new_impressions << i 
+        new_impressions << i.dup
       else
         others_impressions =+ i.impressions
       end
