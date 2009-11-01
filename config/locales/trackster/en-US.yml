@@ -9,8 +9,9 @@ en-US:
     account_settings:       Account
     or:                     or
     edit:                   edit
-    site_name:              vietools.com
     user_created_pending_activation: User has been created and is now pending activation.
+    please_activate:        Please activate your new account
+    account_activated:      Your account has been activated
     user_login:             Log in to your account
     login:                  Login
     logout:                 Logout

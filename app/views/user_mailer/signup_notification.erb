@@ -1,5 +1,5 @@
-An account has been created for you at the VideoInEmail.com analytics site.  This site allows you to examine the
-performance of your VideoInEmail campaigns and help you craft even better user
+An account has been created for you at the <%= Trackster::Config.site %> analytics site.  This site allows you to examine the
+performance of your campaigns and help you craft even better user
 experiences and outcomes.
 
 The first step is to activate your account by clicking the link below.  Activation is immediate.
@@ -14,11 +14,11 @@ profile information at any time.
   Password: <%=h @user.password %>
 
 If you think this email has been received in error then please accept our apologies
-(and feel free to contact us at admin@videoinemail.com).
+(and feel free to contact us at  <%= Trackster::Config.admin_email %>).
 
 Regards,
 
-The VideoInEmail.com team
+The  <%= Trackster::Config.site %> team
 
 
   
