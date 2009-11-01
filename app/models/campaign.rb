@@ -70,7 +70,6 @@ class Campaign < ActiveRecord::Base
         new_href = yield(Redirect.find_or_create_from_link(property, url, link_content).redirect_url)
         parameters = [query_string, view_parameters].compact.join('&')
         new_href += '?' + parameters unless parameters.blank?
-        Rails.logger.error "[fix_anchors] new_href = '#{new_href}'"
         link.set_attribute 'href', new_href if new_href
       rescue URI::InvalidURIError => e
         Rails.logger.error "Fix Anchors: Invalid URL error detected: '#{link}'"
