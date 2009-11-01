@@ -46,17 +46,10 @@ end
 # Take the debug tracker code, comment out the console.log
 # statements.  Do this before asset_packager kicks in.
 task :create_production_tracker, :roles => :web do
-  tracker_directory = "#{release_path}/public/javascripts"
-  tracker_template = "#{tracker_directory}/tracker_template.js"
-  tracker_debug = "#{tracker_directory}/tracker_debug.js"
-  tracker_production = "#{tracker_directory}/tracker.js"
-  begin
-    run "sed -e 's/{{HOST}}/#{Trackster::Config.site}:8080/' #{tracker_template} > #{tracker_debug}"
-    run "sed -e 's/{{HOST}}/#{Trackster::Config.site}/;s/console.log/\/\/ console.log/' #{tracker_template} > #{tracker_production}"
-  rescue Exception => e
-    puts "Could not create production tracker: '#{e.message}'"
-    run "ls -al #{tracker_directory}"
-  end
+  run <<-EOF
+    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_production_tracker
+  EOF
+
 end
 
 desc "Symlink tracker production javscript"
