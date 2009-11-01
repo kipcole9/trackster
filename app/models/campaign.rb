@@ -66,12 +66,11 @@ class Campaign < ActiveRecord::Base
       next if url == '#' || url.blank? || url =~ /\Amailto/
       begin
         query_string = URI.parse(url).query
-        Rails.logger.error "[fix_anchors] query string is '#{query_string}"
         url = url.sub("?#{query_string}", '') unless query_string.blank?
         new_href = yield(Redirect.find_or_create_from_link(property, url, link_content).redirect_url)
         parameters = [query_string, view_parameters].compact.join('&')
-        Rails.logger.error "[fix_anchors] parameters are '#{parameters}"
         new_href += '?' + parameters unless parameters.blank?
+        Rails.logger.error "[fix_anchors] new_href = '#{new_href}'"
         link.set_attribute 'href', new_href if new_href
       rescue URI::InvalidURIError => e
         Rails.logger.error "Fix Anchors: Invalid URL error detected: '#{link}'"
