@@ -144,7 +144,8 @@ en-US:
         property_updated:        "Property '{{name}}' updated"
         property_not_udpated:    "Property '{{name}}' was not updated"
         property_deleted:        "Property '{{name}}' deleted"
-        property_not_deleted:    "Property '{{name}}' was not deleted"     
+        property_not_deleted:    "Property '{{name}}' was not deleted"
+        edit_redirects:          "Show redirects"
         index:
             name:           "Web Properties"
         property_form:
@@ -196,6 +197,7 @@ en-US:
         login:              "Please log in to access your account"
         property:           "Property"
         property_index:     "Web Property Index"
+        property_edit_navigation: "Navigation"
         new_user:           "Define a new user"
         user:               "Update your profile"
         navigation:         "Metrics"
