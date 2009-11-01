@@ -9,7 +9,7 @@ namespace :trackster do
     begin
       if Rails.env == "staging" || Rails.env == "development"
         `sed -e 's/{{SITE}}/#{Trackster::Config.site}:8080/' #{tracker_template} > #{tracker_debug}`
-      elsif Rails.env = "production"
+      elsif Rails.env == "production"
         `sed -e 's/{{SITE}}/#{Trackster::Config.site}/;s/console.log/\/\/ console.log/' #{tracker_template} > #{tracker_production}`
       end
     rescue Exception => e
