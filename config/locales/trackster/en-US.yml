@@ -200,6 +200,7 @@ en-US:
         property_edit_navigation: "Navigation"
         new_user:           "Define a new user"
         user:               "Update your profile"
+        action_sidebar:     "Navigation"
         navigation:         "Metrics"
         campaign_navigation: "Actions"
         campaign_index:     "Campaigns"
