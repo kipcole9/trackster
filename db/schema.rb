@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090804121520) do
+ActiveRecord::Schema.define(:version => 20091101082223) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -72,6 +72,10 @@ ActiveRecord::Schema.define(:version => 20090804121520) do
     t.text     "email_production_html"
     t.boolean  "preview_available"
     t.string   "image_directory"
+    t.string   "source"
+    t.string   "content"
+    t.string   "contact_code"
+    t.string   "medium"
   end
 
   create_table "cityByCountry", :primary_key => "city", :force => true do |t|

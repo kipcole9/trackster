@@ -124,6 +124,9 @@ en-US:
             edit_campaign:  Basic campaign information
             html:           Campaign HTML
             new_campaign:   New campaign profile
+            source:         Campaign source
+            content:        Campaign content
+            parameters:     Campaign parameters
         impressions_by_browser:              Impressions by email client
         impressions_graph_by_browser:        Impressions by email client
         campaign_impressions_graph:
@@ -236,7 +239,11 @@ en-US:
         campaign:
             cost:           "Total campaign cost, used to measure campaign performance"
             distribution:   "What is the size of the distribution list for the campaign?"
+            source:         "What is the name of the marketing program (can be used to link multiple campaigns)"
+            content:        "Any text to further segment campaign data"
+            contact_code:   "Define the merge field that your mailer uses for inserting a contact identifer"
             bounces:        "How many emails were undeliverable?"
+            medium:         "Means by which the campaign is delivered. Currently fixed to 'email'"
             image_directory: "The (optional) hosting server subdirectory name where the email's images are located"
             unsubscribes:   "How many people unsubscribed?"
             code:           "This is your campaign code.  It's used to tag links so that campaign tracking data is correctly assigned. This code is automatically generated and cannot be changed."

@@ -111,10 +111,14 @@ private
       token = ActiveSupport::SecureRandom.hex(3)
     end
     self.code = token
+    self.medium = 'email'
   end
   
   def campaign_parameters
-    "utac=#{property.tracker}&utm_campaign=#{self.code}&utm_medium=email"
+    params = "utac=#{property.tracker}&utm_campaign=#{self.code}&utm_medium=#{self.medium}"
+    params += "&utm_content=#{self.content}" unless self.content.blank?
+    params += "&utm_source=#{self.source}" unless self.source.blank?
+    params += "&cid=#{self.contact_code}" unless self.contact_code.blank?
   end
   
   def view_parameters

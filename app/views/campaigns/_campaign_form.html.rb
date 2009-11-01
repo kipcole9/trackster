@@ -17,6 +17,12 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
     campaign.text_field     :bounces,       :validate => :validations
     campaign.text_field     :unsubscribes,  :validate => :validations
   end
+  fieldset t('.parameters') do
+    campaign.text_field     :source
+    campaign.text_field     :content
+    campaign.text_field     :medium, :disabled => true
+    campaign.text_field     :contact_code
+  end
   fieldset t('.html') do
     campaign.file_field     :email_html, :accept => 'text/html'
     campaign.text_field     :image_directory
