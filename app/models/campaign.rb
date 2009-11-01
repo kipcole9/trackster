@@ -1,5 +1,6 @@
 class Campaign < ActiveRecord::Base
   include       Analytics::Model
+  MAGIC_MARKER  = "ZZXZXXZZXZYYXZQQQQ"
   belongs_to    :property
   belongs_to    :account
   has_many      :sessions
@@ -51,7 +52,7 @@ class Campaign < ActiveRecord::Base
     fix_images!(email)    
     add_tracker_link!(email)
     if errors.empty?
-      self.email_production_html = email.to_html
+      self.email_production_html = email.to_html.gsub(MAGIC_MARKER, self.contact_code)
       self.save
       self
     else
@@ -118,7 +119,7 @@ private
     params = "utac=#{property.tracker}&utm_campaign=#{self.code}&utm_medium=#{self.medium}"
     params += "&utm_content=#{self.content}" unless self.content.blank?
     params += "&utm_source=#{self.source}" unless self.source.blank?
-    params += "&utid=#{self.contact_code}" unless self.contact_code.blank?
+    params += "&utid=#{MAGIC_MARKER} unless self.contact_code.blank?
   end
   
   def view_parameters
