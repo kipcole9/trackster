@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
   
   def activation(user)
     setup_email(user)
-    @subject    += I18n.t('account_activated')
+    @subject    += I18n.t('account_activated', :login => user.name)
     @body[:url]  = root_url
   end
   
