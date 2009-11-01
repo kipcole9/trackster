@@ -62,11 +62,12 @@ class Campaign < ActiveRecord::Base
   def fix_anchors!(email, &block)  
     (email/"a").each do |link|
       url = link['href']
+      link_content = link.content
       next if url == '#' || url.blank? || url =~ /\Amailto/
       begin
         query_string = URI.parse(url).query
         url = url.sub("?#{query_string}", '') unless query_string.blank?
-        new_href = yield(Redirect.find_or_create_from_link(property, url).redirect_url)
+        new_href = yield(Redirect.find_or_create_from_link(property, url, link_content).redirect_url)
         new_href += '?' + [query_string, view_parameters].compact.join('&')
         link.set_attribute 'href', new_href if new_href
       rescue URI::InvalidURIError => e
