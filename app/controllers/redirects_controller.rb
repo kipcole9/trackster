@@ -65,7 +65,7 @@ class RedirectsController < ApplicationController
 
 private
   def retrieve_redirect
-    @redirect = user_scope(:property, current_user).redirects.find(params[:id])
+    @redirect = @property.redirects.find(params[:id])
   end
 
   def retrieve_redirects
