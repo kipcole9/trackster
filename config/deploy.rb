@@ -112,3 +112,4 @@ task :stop_log_analyser, :roles => :app do
     cd #{release_path} && lib/daemons/log_analyser_ctl stop
   EOF
 end
+
