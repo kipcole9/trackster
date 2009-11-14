@@ -1,0 +1,159 @@
+/* 
+	Background of the site.
+*/
+body, .container_12 {
+	background: rgb(118, 118, 118);
+	padding: 0;
+}
+
+/* Centre the content in the page */
+.container_12 {
+	margin: 0 auto;
+}
+
+/* Brand elements */
+div#branding {
+	height: 5em;
+	background-color: rgb(118,118,118);
+	float: left;
+}
+
+div#branding img {
+	margin-left: -20px;
+}
+
+div#logo {
+	float :right;
+	height: 5em;
+}
+
+div#logo img {
+	padding-top: 15px;
+	margin-right: -10px;
+}
+
+div#site_info div.box {
+	background: rgb(39,39,39);
+}
+
+div#site_info div.box p,
+div#site_info div.box a {
+	color: white;
+}
+
+/* Page Heading */
+h2#page-heading {
+	margin-left: -10px;
+	margin-bottom: 1px;
+	color: white;
+	border-bottom: none;
+}
+
+/* Basic containers */
+div.block, div.box, div.box h2.heading {
+	background: black;
+}
+
+div.box h2.heading a {
+	color: rgb(255,140,37);
+}
+
+/* Table formatting */
+table {
+	border: none;
+	color:	white;
+}
+
+div.box.table div {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+thead th, 
+tfoot th, 
+tfoot td {
+	background: black;
+}
+
+tfoot th, 
+tfoot td {
+	border-top: 2px solid white;
+}
+
+tbody th, 
+tbody td {
+	border-bottom: 2px solid rgb(118,118,118);
+	border-top: 2px solid rgb(118,118,118);
+}
+
+tbody tr.odd th,
+tbody tr.odd td {
+	background: black;
+}
+
+tbody tr.even th,
+tbody tr.even td {
+	background: rgba(0,84,116,0.7);
+}
+
+/* Menu */
+ul.nav.main,
+ul.nav.main li,
+ul.nav.main li a {
+	background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00))
+}
+
+ul.nav.main li a:hover {
+	color: rgb(33,33,33);
+}
+
+ul.nav.main li ul li a {
+	background: rgb(33,33,33);
+}
+
+ul.nav.main li ul li a:hover {
+	background: rgb(52,52,52);
+}
+
+/* Corners and shadows */
+div.box, legend {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+div.box {
+	-webkit-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+	-moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+}
+div.listItem:hover {
+	-webkit-box-shadow: 2px 2px 4px rgba(43, 34, 27, 0.4);
+	-moz-box-shadow: 2px 2px 4px rgba(43, 34, 27, 0.4);
+}
+
+div.box h2 {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+}
+
+div.box.accordian, div.box.table  {
+	padding-bottom: 5px;
+}
+
+/* Concertina */
+.concertina h3.trig {
+	background: black;
+	color: white;
+	border: none;
+}
+
+.concertina .targ {
+	margin-top: 5px;
+	border-top: 2px solid rgb(39,39,39);
+}
+
+.concertina .targ a {
+	color: rgb(180,180,180);
+	font-weight: normal;
+}

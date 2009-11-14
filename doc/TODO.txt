@@ -4,3 +4,19 @@
 
 3.  Summary of campaign - no totalling required
 
+4. Gradient for menu bar:
+	-webkit-gradient(linear, 0% 30%, 0% 100%, from(#EC8851), to(#B74E00))
+	-webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00))
+	
+	Orange grad is top to bottom 236,136,81 (#ec8851) to 183,78,0 (#b74e00)
+	[14/11/09 8:30:30 AM] Chris Buongiorno: Chart colours:
+	[14/11/09 8:32:55 AM] Chris Buongiorno: Orange circle/line - 255,140,137 (#ff8c25)
+	Blue fill - 0,101,131 (#006583)
+	grey chart line - 137,137,137 (#898989)
+	bluex/y axis line - 0,137,137 (#008989)
+	[14/11/09 8:39:30 AM] Chris Buongiorno: Menu:
+	Orange grad as previously sent
+	Dropdown static - 33,33,33  (#212121)
+	Dropdown rollover - 52,52,52 (#343434)
+	Dropdown top border - 19,19,19 (#131313)
+	Font - Arial, #FFFFFF, 12pt

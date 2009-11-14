@@ -193,7 +193,7 @@ module PageLayout
     store image_tag(*args)
     nil
   end
-  
+
   def search(title = t('search'), options = {})
     default_options = {:class => 'search'}
     options   = default_options.merge(options)

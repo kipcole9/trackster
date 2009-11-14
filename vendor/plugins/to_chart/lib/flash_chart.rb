@@ -29,12 +29,14 @@ module Charting
                         :width              => '100%',
                         :height             => '200',
                         :regression         => false,             # Also produce a regression series?
-                        :offset             => true               # Offset x-axis from y?
+                        :offset             => true,               # Offset x-axis from y?
+                        :x_label_colour     => '#000000',
+                        :y_label_colour     => '#000000'
                       }
       
     def initialize(data_source, column, label = nil, options = {})
-      options[:background_colour] = @@background_colour if defined?(@@background_colour) && !options[:background_colour]
       @options = DEFAULT_OPTIONS.merge(options)
+      @options = @options.merge(@@config) if defined?(@@config)
       @div_name = @options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
       @options[:text] = data_source.first.class.human_attribute_name(column.to_s) if @options[:text].blank? && !data_source.empty?
       @chart = graph_data(data_source, column, label, @options)      
@@ -44,8 +46,8 @@ module Charting
     # We'll set this class variable from the outside until then 
     # so the callers don't have to know about this and it can be
     # removed later
-    def self.set_background_colour(colour)
-      @@background_colour = colour
+    def self.config=(config)
+      @@config = config
     end
     
     def render_chart
@@ -144,13 +146,13 @@ module Charting
     
     def labels_from_data(data_source, label, options)
       data_source.inject([]) do |label_array, item|
-        label_array << label_from_row(item, label, label_visible?(label_array, data_source, options[:label_steps]))
+        label_array << label_from_row(item, label, label_visible?(label_array, data_source, options[:label_steps]), options)
       end
     end
           
-    def label_from_row(item, attrib, visible)
+    def label_from_row(item, attrib, visible, options)
       label = format_label(item, attrib)
-      {:text => label, :visible => visible, :justify => 'center'}
+      {:text => label, :visible => visible, :justify => 'center', :colour => options[:x_label_colour]}
     end
     
     def format_label(item, label)

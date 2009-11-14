@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter     :force_login_if_required
   before_filter     :set_locale
   before_filter     :set_timezone
-  before_filter     :set_chart_background_color
+  before_filter     :set_theme
   
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
@@ -56,10 +56,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Ugly hack until ofc can set a transparent background
-  def set_chart_background_color
-    if current_account && current_account.chart_background_colour
-      Charting::FlashChart.set_background_colour(current_account.chart_background_colour)
-    end
+  def set_theme
+    Charting::FlashChart.config = theme_chart_config
   end
   
   def current_account
