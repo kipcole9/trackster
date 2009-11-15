@@ -5,11 +5,11 @@ module ThemeHelper
   end
   
   def theme_branding
-    "#{current_theme_directory}/branding.rb"
+    "#{current_theme_directory}/branding.html.rb"
   end
 
   def theme_brand_file
-    "#{current_theme_directory}/_branding.rb"
+    "#{current_theme_directory}/_branding.html.rb"
   end
   
   def theme_chart_config

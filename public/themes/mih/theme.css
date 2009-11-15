@@ -100,7 +100,8 @@ tbody tr.even td {
 ul.nav.main,
 ul.nav.main li,
 ul.nav.main li a {
-	background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00))
+	background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
+	background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00))
 }
 
 ul.nav.main li a:hover {
