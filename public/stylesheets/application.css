@@ -772,7 +772,7 @@ div.main div.box.table h3 {
 /* Table layouts for generated content in to_table */
 div.block table {
 	table-layout: fixed;
-	margin: 0;
+	margin: 0 0 5px 0;
 }
 
 div.block table * td {
@@ -780,6 +780,10 @@ div.block table * td {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
+}
+
+div.block table tfoot th {
+	padding: 0.2em 1.0em 0 1.0em;
 }
 
 div.block table thead th {
