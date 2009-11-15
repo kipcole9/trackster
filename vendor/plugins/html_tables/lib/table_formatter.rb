@@ -2,7 +2,7 @@ class TableFormatter
   attr_accessor   :html, :table_columns, :klass, :merged_options, :rows, :totals
   include         ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS       = [:id, :updated_at, :created_at]
-  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even"}
+  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even", :totals => true}
   CALCULATED_COLUMNS    = /(percent|percentage|difference|diff)_of_(.*)/
   MIN_PERCENT_BAR_VALUE = 0.5   # Below which no bar is drawn
   REDUCTION_FACTOR      = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
@@ -14,7 +14,7 @@ class TableFormatter
     @klass  = results.first.class
     @rows   = results
     @column_order   = 0
-    @merged_options = options.merge(DEFAULT_OPTIONS)
+    @merged_options = DEFAULT_OPTIONS.merge(options)
     @table_columns  = initialise_columns(rows, klass, merged_options)
     @totals         = initialise_totalling(rows, table_columns)
     results.sort(options[:sort]) if options[:sort] && options[:sort].is_a?(Proc)
@@ -70,7 +70,7 @@ class TableFormatter
 
   # Table footers
   def output_table_footers(options)
-    output_table_totals(options)
+    output_table_totals(options) if options[:totals] && rows.length > 1
   end
 
   # Output totals (calculations)
