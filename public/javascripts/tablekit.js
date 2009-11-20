@@ -476,7 +476,8 @@ TableKit.Sortable.Type.compare = function(a,b) {
 
 TableKit.Sortable.addSortType(
 	new TableKit.Sortable.Type('number', {
-		pattern : /^[-+]?[\d]*\.?[\d]+(?:[eE][-+]?[\d]+)?/,
+		// KIP COLE: Whitespace before a number that matches a number is still a number
+		pattern : /^\s*[-+]?[\d]*\.?[\d]+(?:[eE][-+]?[\d]+)?/,
 		normal : function(v) {
 			// This will grab the first thing that looks like a number from a string, so you can use it to order a column of various srings containing numbers.
 			v = parseFloat(v.replace(/^.*?([-+]?[\d]*\.?[\d]+(?:[eE][-+]?[\d]+)?).*$/,"$1"));

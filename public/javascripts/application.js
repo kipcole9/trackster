@@ -42,7 +42,7 @@ Event.addBehavior({
 // Initialize tables (sort, resize)
 Event.addBehavior({
 	'table' : function(e) {
-		new TableKit(this.id, {rowEvenClass: 'odd', rowOddClass: 'even', editable: false});
+		new TableKit(this, {rowEvenClass: 'odd', rowOddClass: 'even', editable: false});
 	}
 })
 
