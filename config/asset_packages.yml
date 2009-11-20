@@ -11,6 +11,7 @@ javascripts:
     - list
     - inflector
     - tabricator
+    - tablekit
     - search     
     - browser_timezone
     - autocomplete
@@ -28,6 +29,7 @@ stylesheets:
     - nav
     - tabricator
     - calendar
+    - tablekit
     - autocomplete    
     - application
 - ie:
@@ -38,6 +40,7 @@ stylesheets:
     - nav
     - tabricator
     - calendar
+    - tablekit
     - autocomplete    
     - application
     - ie  

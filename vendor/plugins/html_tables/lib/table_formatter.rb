@@ -2,7 +2,7 @@ class TableFormatter
   attr_accessor   :html, :table_columns, :klass, :merged_options, :rows, :totals
   include         ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS       = [:id, :updated_at, :created_at]
-  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even", :totals => true}
+  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even", :totals => true, :class => 'tablekit'}
   CALCULATED_COLUMNS    = /(percent|percentage|difference|diff)_of_(.*)/
   MIN_PERCENT_BAR_VALUE = 0.5   # Below which no bar is drawn
   REDUCTION_FACTOR      = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
@@ -25,7 +25,7 @@ class TableFormatter
   # Main method for rendering a table
   def render_table
     options = merged_options
-    table_options = options[:summary] ? {:summary => options[:summary]} : {}
+    table_options = {:class => options[:class], :id => "tab_#{Time.now.to_i}"}
     html.table table_options do
       html.caption options[:caption] if options[:caption]
       output_table_headings(options)
