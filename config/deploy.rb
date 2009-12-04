@@ -9,7 +9,7 @@ set :scm, :git
 set :repository, "git@github.com:kipcole9/trackster.git"
 
 # Deploy from master branch by default
-set :branch, "master"
+set :branch, "vie_master"
 #set :scm_verbose, true
 
 set :user, 'kip'
@@ -20,10 +20,6 @@ default_run_options[:pty] = true
 role :app, "server.vietools.com"
 role :web, "server.vietools.com"
 role :db,  "server.vietools.com", :primary => true
-
-role :app, "traphos.com"
-role :web, "traphos.com"
-role :db,  "traphos.com"
 
 after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'
