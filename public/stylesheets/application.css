@@ -617,7 +617,8 @@ div#about .contactCard {
 
 /* Search */
 form.search  {
-	margin-bottom: 5px;
+	margin-top: -8px;
+	margin-bottom: 6px;
 	padding: 6px 8px;
 	background-color: #ccc;
 	-webkit-border-radius: 	 5px;  
@@ -758,15 +759,14 @@ div.box.table h2 {
 
 /* This to format a "nothing here" message in blocks
 but having two types doesn't help */
-div.main div.box .block h3 {
+div.main div.box .block h3, div.main div.box.table h3 {
 	font-size: 100%;
-	padding: 1em;
-	margin: -10px -10px -5px -10px;
+	padding: 6px;
+	margin: -10px -10px 0px -4px;
 }
 
 div.main div.box.table h3 {
 	display: inline-block;
-	margin: 0;
 }
 
 /* Table layouts for generated content in to_table */
@@ -792,15 +792,18 @@ div.block table thead th {
 col.page_views, col.event_count {
 	width: 5em; /* 10%; */
 }
-col.count, col.traffic_source, col.visits, col.entry_rate, col.exit_rate,
+col.count, col.traffic_source, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
-col.value, col.events {
+col.events {
 	width: 6em; /* 13%; */
 }
 col.bounce_rate {
-	width: 7em;
+	width: 7.5em;
+}
+col.entry_rate {
+	width: 6.5em;
 }
 col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{
 	width: 40%;

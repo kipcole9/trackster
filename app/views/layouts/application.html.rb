@@ -1,8 +1,8 @@
 html do
   head do
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
-  	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/vie.ico"
-    title "#{Trackster::Config.banner}: #{controller._page_title}"
+  	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/favicon.ico"
+    title "#{Trackster::Config.banner}: #{page_title}"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     stylesheet_merged theme_css
     javascript_merged :base
@@ -25,9 +25,9 @@ html do
       when "development"
         store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"
       when "staging"
-        store "<script src='http://vietools.com:8080/_tks.js' type='text/javascript' ></script>"
+        store "<script src='http://traphos.com:8080/_tks.js' type='text/javascript' ></script>"
       else
-        store "<script src='http://vietools.com/_tks.js' type='text/javascript' ></script>"
+        store "<script src='http://traphos.com/_tks.js' type='text/javascript' ></script>"
     end
     javascript yield(:javascript)
     javascript tracker_script

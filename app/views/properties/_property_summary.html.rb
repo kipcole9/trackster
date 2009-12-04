@@ -4,11 +4,11 @@ with_tag(:div, :class => 'clearfix') do
     h4 link_to("#{property.name} (#{property.tracker})", property_report_path(property, "overview"))
     p property.description, :style => (property.description.blank? ? "display:none" : "")
     p link_to(property.url, property.url)
-    with_tag(:ul, :class => :tags) do
-      property.users.each do |user|
-        store render :partial => 'users/tag', :locals => {:user => user, :drop => property}
-      end
-    end
+    #with_tag(:ul, :class => :tags) do
+    #  property.users.each do |user|
+    #    store render :partial => 'users/tag', :locals => {:user => user, :drop => property}
+    #  end
+    #end
   end
 end
 

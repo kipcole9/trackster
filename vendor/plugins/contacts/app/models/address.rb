@@ -1,4 +1,5 @@
 class Address < ActiveRecord::Base
+  unloadable
   belongs_to    :contact
 
   def country=(name)

@@ -6,7 +6,7 @@ class WebAnalytics
                   # Needs to be on each tracking request or URL
                   # If hand-crafting tracking URLs it needs to
                   # be included on those urls
-                  :utac         =>  :property_code,
+                  :utac         =>  :account_code,
                   
                   # Managed by the system; should not be provided
                   # in a url
@@ -105,6 +105,7 @@ class WebAnalytics
     uri = URI.parse(url)
     row = tracker_params_to_hash(uri.query)
     row[:path] = uri.path
+    row[:host] = uri.host
     row
   rescue URI::InvalidURIError
     Rails.logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
@@ -129,7 +130,7 @@ class WebAnalytics
       [:category, :action, :label, :value, :url].each do |attrib|
         row[attrib] = redirect.send(attrib) unless row[attrib]
       end
-      row[:property_code] = redirect.property.tracker
+      row[:account_code] = redirect.account.tracker
     rescue NoMethodError => e
       Rails.logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
       Rails.logger.error "[Web Analytics] #{redirect.inspect}" 

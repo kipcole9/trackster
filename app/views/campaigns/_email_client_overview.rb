@@ -1,6 +1,6 @@
 panel t('campaigns.impressions_by_browser'), :class => 'table sixcol'  do
   block do
-    impressions = (@campaign || @property).tracks.impressions.by(:browser).order('impressions DESC').between(Track.period_from_params(params)).all
+    impressions = (@account || @campaign || @property).tracks.impressions.by(:browser).order('impressions DESC').between(Track.period_from_params(params)).all
     impressions.reject!{|item| item[:impressions] == 0 }
     if impressions.empty?
       h3 t('no_impressions_yet')

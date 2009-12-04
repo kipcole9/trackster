@@ -1,7 +1,10 @@
 class Contact < ActiveRecord::Base
+  unloadable
+  default_scope :order => 'family_name ASC'
+    
   include Vcard::Import
   acts_as_taggable_on :permissions, :categories, :tags
-  
+  before_save   :check_name_order
   belongs_to    :account
   belongs_to    :team
   belongs_to    :created_by,          :class_name => "User", :foreign_key => :created_by
@@ -63,6 +66,11 @@ class Contact < ActiveRecord::Base
   # appropriate.
   def refers_to
     self
+  end
+  
+private
+  def check_name_order
+    self.name_order = "gf" if self.name_order.blank?
   end
 
 end

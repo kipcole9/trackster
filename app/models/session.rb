@@ -76,13 +76,18 @@ private
     end
     
     # Note session relevant data.  Session must be
-    # tied to a site else it's a bogus sesssion
-    if session.property = Property.find_by_tracker(row[:property_code])
-      session.account = session.property.account
+    # tied to an account and property else it's a bogus session
+    if session.account = Account.find_by_tracker(row[:account_code])
+      if session.property = Account.properties.find_by_host(row[:host])
+        session.save_time_metrics(row)
+        session.create_campaign_association(row)
+      else
+        Rails.logger.error "[Session] Host '#{row[:host]}' is not associated with account #{session.account.name}."
+      end
+    else
+      Rails.logger.error "[Session] Account '#{row[:account_code]}' is not known."
     end
-    session.save_time_metrics(row)
-    session.create_campaign_association(row)
-    session.property ? session : nil
+    session.account && session.property ? session : nil
   end
 
   def update_event_count

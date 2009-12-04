@@ -1,6 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module CaerusFormsHelper
   include PageLayout
+  include MenuMaker
   
   # Class names that are managed by javascript
   TAB                     = "tab"
@@ -180,7 +181,7 @@ module CaerusFormsHelper
   # wrapped in a div
   def submit_combo(options = {})
     back = options.delete(:back) || session[:return_to] || root_url
-    text = options.delete(:text) || :submit
+    text = options.delete(:text) || :save
     @template.concat @template.content_tag(:div, 
       link_to(I18n.t(:cancel), back) + " #{I18n.t(:or)} " + submit_tag(I18n.t(text), options), 
       :class => "submit_button"

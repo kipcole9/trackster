@@ -1,9 +1,9 @@
 class CampaignsController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:show, :index]
   before_filter       :retrieve_campaign, :except => [:index, :new, :create]
   before_filter       :retrieve_property
   before_filter       :retrieve_campaigns, :only => :index
   layout              :choose_layout
+  filter_resource_access
 
   def new
     @campaign = user_create_scope.new
@@ -27,6 +27,7 @@ class CampaignsController < ApplicationController
   end
 
   def show
+    @page_subject = @campaign.name
     respond_to do |format|
       format.html { 
         @campaign_summary = @campaign.campaign_summary(params).all
@@ -76,22 +77,14 @@ class CampaignsController < ApplicationController
     end
     redirect_back_or_default('/') if flash[:notice] || flash[:error]
   end
-    
-  def _page_title
-    if @campaign && @property
-      I18n.t('campaigns.campaign_for_property', :campaign => @campaign.name, :property => @property.name)
-    else
-      super
-    end
-  end
 
 private
   def retrieve_campaign
-    @campaign = user_scope(:campaign, current_user).find(params[:id])
+    @campaign = current_scope(:campaigns).find(params[:id])
   end
   
   def retrieve_property
-    @property = user_scope(:property, current_user).find(params[:property_id]) if params[:property_id]
+    @property = current_scope(:properties).find(params[:property_id]) if params[:property_id]
     @property ||= @campaign.property if @campaign
   end
 
@@ -100,15 +93,7 @@ private
   end
   
   def campaigns_scope
-    @property ? @campaigns = @property.campaigns : @campaigns = user_scope(:campaign, current_user)
-  end
-
-  def user_create_scope
-    if current_user.has_role?(Role::ADMIN_ROLE)
-      Campaign
-    else
-      current_user.account.campaigns
-    end
+    @campaigns = @property ? @property.campaigns : current_scope(:campaigns)
   end
 
   def conditions_from_params

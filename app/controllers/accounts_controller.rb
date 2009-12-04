@@ -1,10 +1,9 @@
 class AccountsController < ApplicationController
-  require_role  [Role::ADMIN_ROLE], :except => [:edit, :update, :show]
-  require_role  [Role::ACCOUNT_ROLE, Role::ADMIN_ROLE], :only => [:edit, :update, :show]
-  
   before_filter       :retrieve_account, :only => [:edit, :update, :destroy, :show]
   before_filter       :retrieve_accounts, :only => :index
-  
+  layout              :select_layout
+  filter_access_to    :all
+    
   def new
     render :action => 'edit'
   end
@@ -24,9 +23,13 @@ class AccountsController < ApplicationController
   end
 
   def show
+    @page_subject = @account.name
     respond_to do |format|
-      format.html {  }
-      format.js   { render_list_item @account, 'account_summary' }      
+      format.html {
+        @campaign_summary = @account.campaign_summary(params).all
+        render 'campaigns/campaign_summary' 
+      }
+      format.js   { render_list_item @account, 'account_summary' }        
     end
   end
 
@@ -66,11 +69,11 @@ class AccountsController < ApplicationController
 
 private
   def retrieve_account
-    @account = Account.find(params[:id])
+    @account = current_scope(:accounts).find(params[:id])
   end
 
   def retrieve_accounts
-    @accounts = Account.paginate(:page => params[:page], :conditions => conditions_from_params)
+    @accounts = current_scope(:accounts).paginate(:page => params[:page], :conditions => conditions_from_params)
   end
 
   def conditions_from_params
@@ -78,5 +81,14 @@ private
     search = "%#{params[:search]}%"
     ['name like ? or description like ?', search, search ]
   end
+  
+  def select_layout
+    if ['index','create','edit','destroy','update','new'].include?(params[:action])
+      'accounts'
+    else
+      'dashboards'
+    end
+  end
+  
 
 end

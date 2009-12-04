@@ -1,4 +1,4 @@
-panel t('panels.property'), :flash => true, :display_errors => 'property'  do
+panel t('panels.property'), :flash => true, :display_errors => :property  do
   block do
     store render :partial => 'property_form', :locals => {:property => @property ||= Property.new}
   end

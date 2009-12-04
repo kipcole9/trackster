@@ -7,21 +7,23 @@ class User < ActiveRecord::Base
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
   
+  has_many                  :account_users, :autosave => true
+  has_many                  :accounts, :through => :account_users
+  after_save                :update_roles
+  
   ADMIN_USER                = 'admin'
   ADMIN_DEFAULT_PASSWORD    = 'admin123'
   ADMIN_DEFAULT_EMAIL       = 'admin@example.com'
   ADMIN_NAME                = "Administrator"
-  VALID_USER_NAME           = /\A[^[:cntrl:]\\<>\/&]+\z/   
+  VALID_USER_NAME           = /\A[^[:cntrl:]\\<>\/&]+\z/
+  
+  ROLES                     = %w[admin agent sponsor user]
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
                             :convert_options => { :all => "-unsharp 0.3x0.3+3+0" }
   
-  has_and_belongs_to_many   :roles
-  has_many                  :property_users
-  has_many                  :properties, :through => :property_users
-  belongs_to                :account
-  has_many                  :team_members
-  has_many                  :teams, :through => :team_members
+  has_many                  :account_users
+  has_many                  :accounts, :through => :account_users
   
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -41,22 +43,13 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :given_name, :family_name, :password, :password_confirmation, :account, :remember_me?, 
+  attr_accessible :login, :email, :given_name, :family_name, :password, :password_confirmation, 
+                  :account, :remember_me?, 
                   :locale, :timezone, :role, :photo, :property_ids, :name,
                   # Virtual attributes we use for changing password - make sure we don't interrupt the real data
-                  :new_password, :new_password_confirmation, :account_id
-
-  def contacts
-    Contact.for_user(self)
-  end
-  
-  # has_role? simply needs to return true or false whether a user has a role or not.  
-  # It may be a good idea to have "admin" roles return true always
-  def has_role?(role_in_question)
-    @_list ||= self.roles.collect(&:name)
-    return true if @_list.include?(Role::ADMIN_ROLE)
-    (@_list.include?(role_in_question.to_s) )
-  end
+                  :new_password, :new_password_confirmation
+                  
+  attr_accessor   :current_account
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -64,9 +57,10 @@ class User < ActiveRecord::Base
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find :first, :conditions => ['login = ? and state = ?', login.downcase, 'active'] # need to get the salt
+  def self.authenticate(login, password, account)
+    return nil if login.blank? || password.blank? || account.blank?
+    return nil unless account = Account.find_by_name(account)
+    u = account.users.find :first, :conditions => ['login = ? and state = ?', login.downcase, 'active']
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -79,7 +73,7 @@ class User < ActiveRecord::Base
   end
   
   def name
-    [self.given_name, self.family_name].compact.join(' ').strip
+    [self.given_name, self.family_name].compress.join(' ').strip
   end
   
   def self.admin_user
@@ -97,7 +91,6 @@ class User < ActiveRecord::Base
         :password_confirmation => ADMIN_DEFAULT_PASSWORD, :email => ADMIN_DEFAULT_EMAIL,
         :family_name => ADMIN_NAME)
       admin.state = 'active'
-      admin.roles << Role.find_or_create(Role::ADMIN_ROLE)
       admin.account = Account.admin_account
       admin.save!
     end
@@ -109,16 +102,24 @@ class User < ActiveRecord::Base
   end
   
   # Used by the new_user form
-  def role=(role_name)
-    self.roles = Role.find(:all, :conditions => ['name = ?', role_name])
+  def roles=(roles)
+    account_user.role_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+  end
+  
+  def roles
+    is_administrator? ? ROLES : ROLES.reject { |r| ((account_user.role_mask || 0) & 2**ROLES.index(r)).zero? }
+  end
+
+  def role_symbols
+    roles.map(&:to_sym)
+  end
+   
+  def member_of?(account)
+    accounts.find_by_name(account.name) || is_administrator?
   end
   
   def is_administrator?
-    self.has_role?(Role::ADMIN_ROLE) || self.has_role?(Role::ACCOUNT_ROLE)
-  end
-  
-  def is_account_user?
-    self.has_role?(Role::USER_ROLE)
+    self.administrator?
   end
   
   # Stubs just for forms management
@@ -129,10 +130,17 @@ class User < ActiveRecord::Base
     
 protected
 
+  def account_user
+    @account_user ||= account_users.find_by_account_id(Authorization.current_user.current_account.id)
+  end
+
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = self.class.make_token
   end
 
+  def update_roles
+    account_user.save if @account_user
+  end
 
 end

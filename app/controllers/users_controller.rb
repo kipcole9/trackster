@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :except => [:activate, :change_password, :update_password, :edit, :update]
   before_filter :set_mailer_url_defaults, :only => [:create, :activate]
-  before_filter :check_edit_permission, :only => [:edit, :update]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
   before_filter :find_users, :only => [:index]
  
@@ -100,29 +98,17 @@ class UsersController < ApplicationController
 
 protected
   def find_user
-    @user = user_scope.find(params[:id])
+    @user = current_scope(:users).find(params[:id])
   end
 
   def find_users
-    @users = user_scope.find(:all, :conditions => conditions_from_params)
+    @users = current_scope(:users).find(:all, :conditions => conditions_from_params)
   end
 
   def set_mailer_url_defaults
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
-  
-  def check_edit_permission
-    access_denied unless params[:id].to_i == current_user.id || current_user.has_role?(Role::ADMIN_ROLE)
-  end
-  
-  def user_scope
-    if current_user.has_role?(Role::ADMIN_ROLE)
-      User
-    else
-      current_user.account.users
-    end
-  end
-  
+
   def conditions_from_params
     return {} if params[:search].blank?
     search = "%#{params[:search]}%"

@@ -2,6 +2,7 @@ class Track < ActiveRecord::Base
   set_table_name :sessions
   has_many       :events, :foreign_key => :session_id
   belongs_to     :campaign
+  belongs_to     :account
 
   NON_METRIC_KEYS = [:scoped, :source, :between, :by, :duration, :order, :label, :filter, :limit, :having]
   

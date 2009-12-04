@@ -97,4 +97,8 @@ class Array
   def map_with_index(&block)
       dup.map_with_index!(&block)
   end
+  
+  def compress
+    self.dup.reject {|x| x.blank? }
+  end
 end

@@ -8,5 +8,6 @@ module ApplicationHelper
     tracking_script << "\ntracker.trackPageview();"
     tracking_script
   end
+
 end
 

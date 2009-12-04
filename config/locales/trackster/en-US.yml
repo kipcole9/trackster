@@ -19,7 +19,7 @@ en-US:
     logged_in_as:           "Logged in as"
     save:                   Save your changes
     submit:                 Submit
-    show_all_fields:        Show all fields?
+    show_all_fields:        Show optional fields?
     unknown_activation_code: The activation code you provided is not known.
     password_changed:       Your password has been changed.
     total:                  Total
@@ -46,6 +46,7 @@ en-US:
     accounts:
         account_form:           Account
         account:                Details
+        email_config:           Email Configuration
         presentation:           Site presentation
         account_created:        "Account '{{name}}' created"
         account_not_created:    "Account '{{name}}' was not created"
@@ -209,7 +210,8 @@ en-US:
         campaign_navigation: "Actions"
         campaign_index:     "Campaigns"
         campaign:           Campaign
-        account:            Update Account
+        account_update:     Update Account
+        account_new:        New Account
         account_index:      Index of accounts
         redirect_index:     Index of redirects
         redirect:           Redirect profile
@@ -232,10 +234,19 @@ en-US:
         locale:             "Your preferred language, which can be changed at any time."
         timezone:           "The time zone in which you mostly work. You can change it at any time."
         
+        account:
+            name:           "Your account name.  It can't be changed once created."
+            email_from:     "Campaigns will be sent from this email address by default."
+            email_reply_to: "Replies to campaign emails will be sent to this address by default."
+            unsubscribe_url:    "Clicking on the default unsubscribe link will redirect here.  You may include parameters."
         user:
             account_id:     "Which account will the new user be part of?"
             role:           "What role (authority) will the new user have?"
             photo:          "Can you upload an image as part of your profile.  It will be visible to other people on your account."
+        person:
+            honorific_prefix:   "For example: Mr., Mrs., Dr., Rev. ..."
+            honorific_suffix:   "For example: Phd., FRCS, KCMG"
+            salutation:         "Used when addressing correspondance. For example: 'Dear Sir'. Variables can be inserted such as [given_name], [family_name], [full_name], [formal_name]"
             
         campaign:
             cost:           "Total campaign cost, used to measure campaign performance"

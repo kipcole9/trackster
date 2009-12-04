@@ -79,8 +79,12 @@ h2#page-heading {
 	text-transform:uppercase;
 	color:#fff;
 	background:#333;
-	margin:-10px -10px 0 -10px;
+	margin:-5px -10px 0 -10px;
 	padding:6px 12px;
+}
+
+.box.table h2.heading, .box.accordian h2.heading {
+	padding-top: 12px;
 }
 
 .box h2.heading a,

@@ -1,20 +1,20 @@
 panel t('panels.time_dimension'), :class => 'accordian'  do
   block do
     accordian do
-      accordian_item "#{image_tag '/images/icons/calendar.png'} Time Period" do  
-        p add_dimension(current_action, :period => 'today')
-        p add_dimension(current_action, :period => 'this_week')
-        p add_dimension(current_action, :period => 'this_month')        
-        p add_dimension(current_action, :period => 'last_30_days')
-        p add_dimension(current_action, :period => 'last_12_months')
-        p add_dimension(current_action, :period => 'lifetime')        
+      accordian_item "Time Period" do  
+        nav add_dimension(current_action, :period => 'today')
+        nav add_dimension(current_action, :period => 'this_week')
+        nav add_dimension(current_action, :period => 'this_month')        
+        nav add_dimension(current_action, :period => 'last_30_days')
+        nav add_dimension(current_action, :period => 'last_12_months')
+        nav add_dimension(current_action, :period => 'lifetime')        
       end
-      accordian_item "#{image_tag '/images/icons/clock.png'} Time summarised by"  do
-        p add_dimension(current_action, :tgroup => 'date')      
-        p add_dimension(current_action, :tgroup => 'day_of_week')
-        p add_dimension(current_action, :tgroup => 'hour_of_day')
-        p add_dimension(current_action, :tgroup => 'day_of_month')
-        p add_dimension(current_action, :tgroup => 'month_of_year')       
+      accordian_item "Time summarised by"  do
+        nav add_dimension(current_action, :tgroup => 'date')      
+        nav add_dimension(current_action, :tgroup => 'day_of_week')
+        nav add_dimension(current_action, :tgroup => 'hour_of_day')
+        nav add_dimension(current_action, :tgroup => 'day_of_month')
+        nav add_dimension(current_action, :tgroup => 'month_of_year')       
       end
     end
   end

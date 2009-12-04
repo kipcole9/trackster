@@ -1,5 +1,4 @@
-class RelatesController < ApplicationController
-  require_role  ["admin", "account holder"]  
+class RelatesController < ApplicationController 
   before_filter     :retrieve_both_objects
 
   # Creates a relationship

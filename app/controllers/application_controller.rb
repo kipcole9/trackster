@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionLoggable
   include AuthenticatedSystem
-  include RoleRequirementSystem
+  include PageTitle
 
   helper            :all # include all helpers, all the time
   helper_method     :current_account, :internet_explorer?, :current_user_agent, :user_scope
@@ -13,21 +13,19 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, :preview,
+  before_filter     :account_exists?
+  after_filter      :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, :preview,
                                                 :unique, :activate, :change_password, :update_password, :redirect]
   before_filter     :force_login_if_required
   before_filter     :set_locale
   before_filter     :set_timezone
-  before_filter     :set_theme
+  before_filter     :set_chart_theme
   
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
-  def _page_title
-   "#{I18n.t("#{params['controller']}.index.name", :default => params[:controller].titleize)} #{params[:action].titleize}"
-  end
-
   def force_login_if_required
     access_denied unless login_status_ok?
+    Authorization.current_user = current_user
   end
   
   def login_status_ok?
@@ -35,7 +33,7 @@ class ApplicationController < ActionController::Base
       self.current_user = User.find_by_login('admin')
       return true
     end
-    logged_in? || logging_in? || activation? || redirecting? || validating?
+    (logged_in? && current_account) || logging_in? || activation? || redirecting? || validating?
   end
 
   # Prededence:
@@ -54,14 +52,9 @@ class ApplicationController < ActionController::Base
   def set_timezone
     Time.zone = logged_in? ? current_user.timezone : browser_timezone
   end
-
-  # Ugly hack until ofc can set a transparent background
-  def set_theme
-    Charting::FlashChart.config = theme_chart_config
-  end
   
-  def current_account
-    current_user.account if current_user
+  def set_chart_theme
+    Charting::FlashChart.config = theme_chart_config
   end
 
   def logging_in?
@@ -101,6 +94,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  alias_method :permission_denied, :access_denied
     
   # The browsers give the # of minutes that a local time needs to add to
   # make it UTC, while TimeZone expects offsets in seconds to add to 
@@ -116,7 +110,19 @@ class ApplicationController < ActionController::Base
   def users_ip_address
     request.env["HTTP_X_REAL_IP"] || request.remote_addr || request.remote_ip
   end
+  
+  def account_exists?
+    Account.find_by_name!(account_subdomain)
+  end
 
+  def account_subdomain
+    @account_subdomain ||= current_subdomain.split('.').first
+  end
+  
+  def current_account
+    @current_account ||= Account.find_by_name(account_subdomain)
+  end
+  
   def current_user_agent
     request.env["HTTP_USER_AGENT"]
   end
@@ -132,11 +138,7 @@ class ApplicationController < ActionController::Base
   # Scope to controller for translation keys
   # that start with a '.'
   def t(symbol, options = {})
-    if symbol.to_s.match(/\A\.(.*)/)
-      key = "#{params[:controller]}.#{$1}"
-    else
-      key = symbol
-    end
+    key = symbol.to_s.match(/\A\.(.*)/) ? "#{params[:controller]}.#{$1}" : symbol
     super key, options
   end  
 
@@ -146,15 +148,8 @@ class ApplicationController < ActionController::Base
   
   # Scope any finder with the appropriate constraints
   # based upon user's role
-  def user_scope(model, user)
-    klass = model.is_a?(Symbol) ? klass = model.to_s.classify.constantize : model
-    if user.has_role?(Role::ADMIN_ROLE)
-      klass
-    elsif user.has_role?(Role::ACCOUNT_ROLE)
-      user.account.send(model.to_s.pluralize)
-    else
-      klass.user(user)
-    end
+  def current_scope(klass)
+    current_account.send(klass.to_s)
   end
 
 end

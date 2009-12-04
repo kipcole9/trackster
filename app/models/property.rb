@@ -4,11 +4,9 @@ class Property < ActiveRecord::Base
   has_many    :sessions
   has_many    :tracks
   has_many    :redirects
-  has_many    :property_users
-  has_many    :users, :through => :property_users
   belongs_to  :account
 
-  before_create :create_tracker_code 
+  before_save         :update_host_column
 
   has_attached_file :thumb, :styles => { :thumb => "100x100" }
   
@@ -43,12 +41,12 @@ class Property < ActiveRecord::Base
   end
   
 private
-
-  def create_tracker_code
-    token = nil
-    until token && !self.class.find_by_tracker(token)
-      token = "tks-#{ActiveSupport::SecureRandom.hex(3)}-1"
+  
+  def update_host_column
+    begin
+      self.host = URI.parse(self.url).host
+    rescue
+      Rails.logger.error "[property] Could not parse property url to create host: '#{self.url}'"
     end
-    self.tracker = token
   end
 end

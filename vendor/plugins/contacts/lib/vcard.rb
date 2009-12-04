@@ -11,12 +11,12 @@ module Vcard
 
       def import_vcards(card_file)
         @cards = Vpim::Vcard.decode(File.open(card_file).read)
-        @cards.each {|card| self.import_vcard(account, card) }
+        @cards.each {|card| self.import_vcard(card) }
         @cards
       end
 
       def import_vcard(card)
-        if contact = user.find_or_create_by_vcard(card)
+        if contact = find_or_create_by_vcard(card)
           contact.import_vcard(card)
         else
           logger.debug "Could not import vcard"

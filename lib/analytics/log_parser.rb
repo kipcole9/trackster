@@ -1,4 +1,3 @@
-# /private/var/log/apache2
 class LogParser
   ATTRIBS = {
     :ip_address     => "(\\S*)",

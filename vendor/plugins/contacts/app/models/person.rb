@@ -1,4 +1,5 @@
 class Person < Contact
+  unloadable  
   belongs_to    :organization
   
   def organization_name=(name)
@@ -14,15 +15,15 @@ class Person < Contact
   end
 
   def formal_name
-    [honorific_prefix, names_in_order, honorifix_suffix].flatten.compact.join(' ')
+    [honorific_prefix, names_in_order, honorifix_suffix].flatten.compress.join(' ')
   end
 
   def full_name_and_title
-    [self.full_name, self.role, self.organization_name].compact.join(', ')
+    [self.full_name, self.role, self.organization_name].compress.join(', ')
   end
 
   def formal_name_and_title
-    [self.formal_name, self.role, self.organization_name].compact.join(', ')
+    [self.formal_name, self.role, self.organization_name].compress.join(', ')
   end
 
 private

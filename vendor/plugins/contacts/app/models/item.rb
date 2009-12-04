@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  unloadable
   belongs_to                :opportunity
   validates_associated      :opportunity
   after_save                :update_opportunity_value

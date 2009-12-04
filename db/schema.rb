@@ -9,7 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091114132709) do
+ActiveRecord::Schema.define(:version => 20091129120801) do
+
+  create_table "account_users", :force => true do |t|
+    t.integer "account_id"
+    t.integer "user_id"
+    t.integer "role_mask"
+  end
+
+  add_index "account_users", ["account_id", "user_id"], :name => "index_account_users_on_account_id_and_user_id", :unique => true
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -20,7 +28,17 @@ ActiveRecord::Schema.define(:version => 20091114132709) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.string   "theme"
+    t.string   "tracker",             :limit => 10
+    t.integer  "agent_id"
+    t.string   "email_from",          :limit => 50
+    t.string   "email_from_name",     :limit => 50
+    t.string   "email_reply_to",      :limit => 50
+    t.string   "email_reply_to_name", :limit => 50
+    t.string   "unsubscribe_url"
+    t.string   "kind",                :limit => 10
   end
+
+  add_index "accounts", ["tracker"], :name => "index_accounts_on_tracker", :unique => true
 
   create_table "addresses", :force => true do |t|
     t.integer  "contact_id"
@@ -75,6 +93,11 @@ ActiveRecord::Schema.define(:version => 20091114132709) do
     t.string   "content"
     t.string   "contact_code"
     t.string   "medium"
+    t.string   "email_from",            :limit => 50
+    t.string   "email_from_name",       :limit => 50
+    t.string   "email_reply_to",        :limit => 50
+    t.string   "email_reply_to_name",   :limit => 50
+    t.string   "unsubscribe_url"
   end
 
   create_table "cities", :primary_key => "city", :force => true do |t|
@@ -283,14 +306,10 @@ ActiveRecord::Schema.define(:version => 20091114132709) do
     t.string   "thumb_file_name",    :limit => 100
     t.string   "thumb_content_type", :limit => 50
     t.integer  "thumb_file_size"
+    t.string   "host",               :limit => 70
   end
 
-  create_table "property_users", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "property_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "properties", ["host"], :name => "index_properties_on_host"
 
   create_table "redirects", :force => true do |t|
     t.integer  "account_id"
@@ -305,18 +324,6 @@ ActiveRecord::Schema.define(:version => 20091114132709) do
     t.datetime "updated_at"
     t.integer  "property_id"
   end
-
-  create_table "roles", :force => true do |t|
-    t.string "name"
-  end
-
-  create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
-  end
-
-  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
-  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "search_engines", :force => true do |t|
     t.string   "host"
@@ -507,6 +514,7 @@ ActiveRecord::Schema.define(:version => 20091114132709) do
     t.datetime "photo_updated_at"
     t.string   "family_name",               :limit => 100
     t.string   "phone_number",              :limit => 50
+    t.boolean  "administrator"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

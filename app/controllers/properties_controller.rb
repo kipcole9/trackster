@@ -1,8 +1,8 @@
 class PropertiesController < ApplicationController
-  require_role  [Role::ADMIN_ROLE, Role::ACCOUNT_ROLE], :only => [:create, :new, :update, :destroy]
   before_filter       :retrieve_property, :except => [:index, :create, :new]
   before_filter       :retrieve_properties, :only => :index
   layout              :select_layout
+  filter_access_to    :edit, :update, :create, :new, :destroy, :index, :show
   
   def new
     render :action => 'edit'
@@ -30,7 +30,7 @@ class PropertiesController < ApplicationController
   end
   
   def create
-    @property = user_create_scope.create(params[:property])
+    @property = current_account.properties.create(params[:property])
     if @property.valid?
       flash[:notice] = t('.property_created', :name => @property.name)
       redirect_back_or_default('/')
@@ -87,7 +87,10 @@ class PropertiesController < ApplicationController
   # generalise the solutions
   def method_missing(method, *args)
     if Track.session_dimensions.include?(params[:action])
-      params[:action] = ['locality','region','country'] if params[:action] == 'locality'
+      if params[:action] == 'locality'
+        params[:action] = ['locality','region','country']
+        params[:original_action] = 'locality'
+      end
       @site_summary = @property.site_summary(params).all
       render :action => 'site_summary'
     elsif Track.campaign_dimensions.include?(params[:action])
@@ -105,10 +108,6 @@ class PropertiesController < ApplicationController
     end
   end
 
-  def _page_title
-    @property ? @property.name : super
-  end
-  
 private
   def select_layout
     if ['index','create','edit','destroy','update','new','show'].include?(params[:action])
@@ -119,11 +118,12 @@ private
   end
   
   def retrieve_property
-    @property = user_scope(:properties, current_user).find(params[:id])
+    @property = current_scope(:properties).find(params[:id])
+    @page_subject = @property.name if @property
   end
   
   def retrieve_properties
-    @properties = user_scope(:properties, current_user).paginate(:page => params[:page], :conditions => conditions_from_params)
+    @properties = current_scope(:properties).paginate(:page => params[:page], :conditions => conditions_from_params)
   end
   
   def conditions_from_params
@@ -131,12 +131,5 @@ private
     search = "%#{params[:search]}%"
     ['name like ? or url like ?', search, search ]
   end
-  
-  def user_create_scope
-    if current_user.has_role?(Role::ADMIN_ROLE)
-      Property
-    else
-      current_user.account.properties
-    end
-  end
+
 end

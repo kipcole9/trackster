@@ -1,4 +1,5 @@
 class Organization < Contact
+  unloadable  
   has_many      :contacts
   
   # Used in autocomplete

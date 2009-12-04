@@ -3,6 +3,8 @@ class Role < ActiveRecord::Base
   ACCOUNT_ROLE      = "account holder"
   USER_ROLE         = "user"
   
+  has_many          :account_users
+  
   def self.find_or_create(role)
     role_name = role.to_s
     role = find_by_name(role_name) || create!(:name => role_name)

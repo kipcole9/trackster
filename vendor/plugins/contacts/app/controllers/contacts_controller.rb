@@ -30,7 +30,7 @@ class ContactsController < ApplicationController
       format.js { render :partial => 'contacts' }
     end
   end
-  
+
 private
   def retrieve_contact
    @contact = current_account.contacts.find(params[:id])

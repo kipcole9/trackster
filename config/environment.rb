@@ -27,6 +27,8 @@ Rails::Initializer.run do |config|
   config.gem 'daemons'
   config.gem 'nokogiri'
   config.gem 'RedCloth'
+  config.gem "declarative_authorization", :source => "http://gemcutter.org"
+  config.gem "vpim"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -47,6 +49,7 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   config.i18n.load_path += Dir[Rails.root.join("#{Rails.root}", 'config', 'locales', '**', '*.{rb,yml}')]
   config.i18n.default_locale = "en-US"
+
   
   # Make sure the admin user is all sorted.
   # On an initial deploy this could fail since the 

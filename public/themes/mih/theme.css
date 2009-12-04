@@ -3,6 +3,8 @@
 */
 body, .container_12 {
 	background: rgb(118, 118, 118);
+	/* background-image: url(/themes/mih/background.jpg);
+	background-repeat: repeat; */
 	padding: 0;
 }
 
@@ -47,6 +49,7 @@ h2#page-heading {
 	margin-bottom: 1px;
 	color: white;
 	border-bottom: none;
+	font-size: 	120%;
 }
 
 /* Basic containers */
@@ -98,10 +101,10 @@ tbody tr.even td {
 
 /* Menu */
 ul.nav.main,
-ul.nav.main li,
 ul.nav.main li a {
+	background: url(/themes/mih/menu_grad.jpg) repeat;
 	background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
-	background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00))
+	background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
 }
 
 ul.nav.main li a:hover {
@@ -157,4 +160,125 @@ div.box.accordian, div.box.table  {
 .concertina .targ a {
 	color: rgb(180,180,180);
 	font-weight: normal;
+}
+
+/* Lists */
+div.listItem, fieldset {
+	background: rgb(50,50,50);
+	border: 1px solid rgb(70,70,70);
+	color: #ccc;
+}
+
+div.listItem a {
+	color: #eee;
+}
+
+form.search {
+	background: #EC8851;
+	color: #eee;
+}
+
+form.search label {
+	font-weight: normal;
+}
+
+legend {
+	background-color: rgba(255, 140, 37, .9);
+	color: white;
+}
+
+div.hbar {
+	background-color: rgb(255, 140, 37);	
+}
+
+.submit_button a {
+	color: rgb(110,110,110);
+}
+
+p.prompt {
+	color: #aaa;
+}
+
+.tabricator .trig {
+	background-color: #000;
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+
+.tabricator .tabItem:hover, .tabricator .open {
+	color: white;
+	background: black;
+}
+
+
+div#about {
+	padding-top: 0;
+}
+
+div.contactCard {
+	background: #222;
+	color: #ccc;
+	border: 1px solid #777;
+	-webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, .5);
+	-moz-box-shadow: 3px 3px 3px rgba(255, 140, 37, .5);
+}
+
+div.contactCard:hover {
+	cursor: inherit;
+}
+
+div.contactCard a {
+	color: white;
+}
+
+div.contactCard a:hover {
+	color: rgb(255, 140, 37);
+}
+
+div#about .contactCard {
+	margin-left: 2px;
+	background: #000;
+	border: none;
+	color: #ccc;
+	height: auto;
+	margin-bottom: 5px;
+}
+
+div#about .contactCard a {
+	color: white;
+}
+
+div.address + div.address {
+	border-top: 1px solid #555;
+}
+
+.pagination a, .pagination span.prev_page, .pagination span.next_page {
+	color: #ccc;
+	border-color: #333;
+	font-weight: normal;
+}
+
+.pagination span.current, .pagination a:hover, .pagination span.prev_page:hover, .pagination span.next_page:hover {
+	color: rgb(255, 140, 37);
+	border-color: #333;
+}
+
+div.autocomplete {
+	opacity: 1;
+}
+div.autocomplete ul {
+	background: #555;
+}
+
+/* Flash 
+Light green (for flash) #bfb
+Light red (flash error) #fbb
+*/
+div.box.flash_error {
+	background-color: #fbb;
+}
+
+div.box.flash_notice {
+	background-color: #bfb;
 }
