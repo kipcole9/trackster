@@ -1,0 +1,8 @@
+1.  Move to authlogic
+2.	Implement inherited controllers
+3.  Use CanCan for authorization (instead of declarative_authorisation)
+4.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts
+
+1.  Create a plugin that handles authentication based upon authlogic (move User & Session models and controllers + views so it's an engine as well).  Use authlogic etc etc etc
+
+2. use subdomain-fu as a gem, not plugin

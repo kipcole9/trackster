@@ -282,3 +282,7 @@ div.box.flash_error {
 div.box.flash_notice {
 	background-color: #bfb;
 }
+
+.history p {
+	color: white;
+}

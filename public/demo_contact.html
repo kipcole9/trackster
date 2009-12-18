@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="content-type" />
+    <link type="image/vnd.microsoft.icon" rel="icon" href="/favicon.ico" />
+    <title>
+      Trackster Development: Show contact
+    </title>
+    <link href="/stylesheets/reset.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/grid.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/text.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/layout.css?1260029944" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/nav.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/tabricator.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/calendar.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/tablekit.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/autocomplete.css?1260029879" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/application.css?1260029944" media="screen, print" rel="stylesheet" type="text/css" />
+    <link href="/themes/mih/theme.css?1260029944" media="screen" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/prototype.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/lowpro.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/effects.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/cookie.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/controls.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/concertina.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/list.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/inflector.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/tabricator.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/tablekit.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/search.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/browser_timezone.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/autocomplete.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/application.js?1260029879" type="text/javascript"></script>
+    <script src="/javascripts/swfobject.js?1260029879" type="text/javascript"></script>
+<script type="text/javascript"></script>  </head>
+  <body>
+    <div class="container_12">
+            <div class="clearfix">
+        <div class="grid_12">
+          <div id="branding">
+            <img alt="Brand" src="/themes/mih/brand.png?1260029879" />
+          </div>
+          <div id="logo">
+            <img alt="Logo" src="/themes/mih/logo.png?1260029879" />
+          </div>
+        </div>
+      </div>
+
+            <div class="grid_12">
+        <ul class="nav main clearfix">
+          <li>
+            <a href="/dashboard">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a>
+              Web Properties
+            </a>
+            <ul>
+              <li>
+                <a href="/properties/new">
+                  Define a new web property
+                </a>
+              </li>
+              <li>
+                <a href="/properties">
+                  Show all web properties
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Campaigns
+            </a>
+            <ul>
+              <li>
+                <a href="/campaigns/new">
+                  Create a new campaign
+                </a>
+              </li>
+              <li>
+                <a href="/campaigns">
+                  Show all campaigns
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Contacts
+            </a>
+            <ul>
+              <li>
+                <a href="/contacts/new">
+                  Create a new contact
+                </a>
+              </li>
+              <li>
+                <a href="/contacts">
+                  Show all contacts
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Account
+            </a>
+            <ul>
+              <li>
+                <a href="/accounts/1/edit">
+                  Edit your account
+                </a>
+              </li>
+              <li>
+                <a href="/users">
+                  Show account users
+                </a>
+              </li>
+              <li>
+                <a href="/accounts">
+                  Show all accounts
+                </a>
+              </li>
+              <li>
+                <a href="/accounts/new">
+                  Create a new account
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Site
+            </a>
+            <ul>
+              <li>
+                <a href="/site">
+                  Site performance
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+            <div class="clearfix">
+        <div class="grid_12">
+          <h2 id="page-heading">
+            Show contact
+          </h2>
+        </div>
+      </div>
+
+      <div class="clearfix">
+  <div class="grid_8">
+    <div class="box ">
+  <h2 class="heading">
+    <a href="/contacts/230">Gerard Chai, Korn/Ferry International</a>
+  </h2>
+  <div class="block">
+    <div>
+<dl class="tab" id="contact_230"><dt class="tabItem">Add a Note</dt><dd class="tabItem"><form action="/notes" class="new_note" id="new_note" method="post"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" type="hidden" value="zuGJ7mod6Lix34LN3I2lC1Q1sF8neAQcLJ9+XahF4ig=" /></div><div><fieldset><legend>Enter your new note:</legend><div class="section_left" postion="left"><input id="note_notable_type" name="note[notable_type]" type="hidden" value="Contact" /><input id="note_notable_id" name="note[notable_id]" type="hidden" value="230" /><div class="field"><label class="field_label" for="note_note">Note:</label><span class="field_message" id="note_note_message"></span><textarea cols="35" id="note_note" name="note[note]" rows="3"></textarea></div>
+</div><div class="section_right" position="right"><div class="field"><label class="field_label" for="note_related_date_1i">Related date:</label><span class="field_message" id="note_related_date_1i_message"></span><div class="date"><select class="date" id="note_related_date_1i" name="note[related_date(1i)]">
+<option value="2004">2004</option>
+<option value="2005">2005</option>
+<option value="2006">2006</option>
+<option value="2007">2007</option>
+<option value="2008">2008</option>
+<option selected="selected" value="2009">2009</option>
+<option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+</select>
+<select class="date" id="note_related_date_2i" name="note[related_date(2i)]">
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option selected="selected" value="12">December</option>
+</select>
+<select class="date" id="note_related_date_3i" name="note[related_date(3i)]">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option selected="selected" value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+</select>
+</div></div>
+</div></fieldset></div><div class="submit_button"><a href="/contacts?page=7">Cancel</a> or <input name="commit" type="submit" value="Save your changes" /></div></form></dd><dt class="tabItem">Add a Task</dt><dd class="tabItem">Tasks</dd><dt class="tabItem">Add an Important Date</dt><dd class="tabItem">Dates</dd></dl>    </div>
+  </div>
+</div>
+<div class="box ">
+  <h2 class="heading">
+    <a href="/contacts/230">Gerard Chai, Korn/Ferry International recent history</a>
+  </h2>
+  <div class="block">
+    <div>
+		<ul class="history" id="history">
+			<li><p>Status changed to 'Prospect' on 3 Dec 14:30</p></li>
+			<li><p>Outbound call connected on 3 Dec 14:30</p></li>
+			<li><p>Status changed to 'Lead' on 2 Dec 08:45</p></li>
+			<li><p>Downloaded 'Security Management for SaaS' on 2 Dec 08:45</p></li>			
+			<li><p>Attended 'Cloud Computing Seminar' on 1 Dec</p></li>			
+			<li><p>Registered for  'Cloud Computing Seminar' on 23 Nov 11:38</p></li>
+			<li><p>Read 'December Newsletter' on 23 Nov 08:45</p></li>	
+		 <li id="history_960">
+          <p>
+             Website was created on 22 Nov 15:37
+          </p>
+         </li>
+         <li id="history_959">
+          <p>
+             EMail was created on 22 Nov 15:37
+          </p>
+         </li>	
+         <li id="history_958">
+          <p>
+             Contact was created on 22 Nov 15:37
+          </p>
+         </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div class="grid_4">
+    <div class="box " edit="/contacts/230/edit">
+  <h2 class="heading">
+    <a href="/contacts/230">name card</a>
+    <div class="panel-links">
+      <a href="/contacts/230/edit">edit</a>
+    </div>
+  </h2>
+  <div class="block" id="about">
+    <div>
+            <div class="contactCard" id="contact_230">
+        <h3>
+          <a href="http://test.trackster.local/contacts/230">Gerard Chai</a>
+        </h3>
+        <h4>
+          Managing Director - Singapore & Jakarta
+        </h4>
+        <h4>
+          Korn/Ferry International
+        </h4>
+        <p class="phone">
+          <img alt="Phone" class="icon" src="/images/icons/phone.png?1260029879" /> 65-9664 7964
+        </p>
+        <p class="phone">
+          <img alt="Telephone" class="icon" src="/images/icons/telephone.png?1260029879" /> 65-6231 6111
+        </p>
+        <p class="phone">
+          <img alt="Telephone" class="icon" src="/images/icons/telephone.png?1260029879" /> +65 (6231) 6111
+        </p>
+        <p class="phone">
+          <img alt="Telephone" class="icon" src="/images/icons/telephone.png?1260029879" /> +65 (6223) 7176
+        </p>
+        <p class="email">
+          <img alt="Email" class="icon" src="/images/icons/email.png?1260029879" /> <a href="mailto:gerard.chai@kornferry.com">gerard.chai@kornferry.com</a>
+        </p>
+        <p class="website">
+          <img alt="World" class="icon" src="/images/icons/world.png?1260029879" /> <a href="http://www.kornferry.com">http://www.kornferry.com</a>
+        </p>
+        <img alt="Arrow_join" class="merge" src="/images/icons/arrow_join.png?1260029879" title="merge_into_another_contact" />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="box ">
+  <h2 class="heading">
+    <a href="/contacts/230">Important dates</a>
+  </h2>
+  <div class="block">
+    <div>
+      <p>
+        You can add a new date by selecting the 'Add important date' in the panel on the left.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="box " edit="/contacts/230/background/edit">
+  <h2 class="heading">
+    <a href="/contacts/230">Biographical notes</a>
+    <div class="panel-links">
+      <a href="/contacts/230/background/edit">edit</a>
+    </div>
+  </h2>
+  <div class="block" id="bio">
+    <div>
+      <p>
+        Gerard Chai manages the technology portfolio for Korn Ferry and is active in industry development for the region.  Well-connected.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+      <div class="clearfix">
+        <div class="grid_12" id="site_info">
+          <div class="box clearfix">
+  <p style="float:left">Copyright &copy; <a id="test" href="http://www.noexpectations.com.au">Kip Cole</a>, all rights reserved</p>
+  <p style="float:right"> <a href='#'>Terms of Service</a> | <a href='#'>Privacy</a> | <a href='#'>Contact</a></p>
+</div>
+        </div>
+      </div>
+      <script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>
+<script type="text/javascript"></script><script type="text/javascript">tracker = new _tks('vie-00001-1');
+tracker.setCid('admin@example.com');
+tracker.trackPageview();</script>    </div>
+    <div class="clearfix">
+      &nbsp;
+    </div>
+  </body>
+</html>
+
