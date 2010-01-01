@@ -1,32 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
   # Redirection tracking
   map.redirector      '/r/:redirect', :controller => 'redirects', :action => 'redirect'
-  
-  # Authentication and user management
-  map.logout          '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login           '/login', :controller => 'sessions', :action => 'new'
-  map.register        '/register', :controller => 'users', :action => 'create'
-  map.activate        '/activate/:activation_code', :controller => 'users', :action => 'activate'
-  map.change_password '/change_password', :controller => 'users', :action => 'change_password'
-  map.update_password '/update_password', :controller => 'users', :action => 'update_password', :conditions => {:method => :put}
-  map.signup          '/signup', :controller => 'users', :action => 'new'
-  
-  # Dynamic ajax validations
-  map.validate        '/check/:action.:format', :controller => 'validations'
-  
-  map.resources :users
-  map.resources :accounts
   map.resources :relates
   map.resources :campaigns
-  map.new_campaign '/campaigns/new', :controller => 'campaigns', :action => 'new', :conditions => {:method => :get}  
   map.resources :properties do |properties|
-    properties.resources :campaigns, :member => {:preview => :get, :video => :get}
     properties.resources :redirects
   end
   
   map.property_report '/properties/:id/:action.:format', :controller => 'properties'
   
-  map.resource :session
   map.resource :site
   map.resource :dashboard     # Home paged for logged_in users
   

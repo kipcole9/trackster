@@ -95,20 +95,13 @@ module CaerusFormsHelper
   
   # Render the flash
   def display_flash
-    if flash[:error]
-      with_tag(:div, :class => "box flash_error") do
+    flash.each do |key, message|
+      with_tag(:div, :class => "flash_#{key}") do
         with_tag(:p) do
-          store image_tag("/images/icons/exclamation.png")
-          store flash[:error]
+          store image_tag("/images/icons/flash_#{key}.png")
+          store message
         end
       end
-    elsif flash[:notice]
-      with_tag(:div, :class => "box flash_notice") do
-        with_tag(:p) do
-          store image_tag("/images/icons/accept.png")
-          store flash[:notice]
-        end
-      end   
     end
   end
   

@@ -1,3 +1,6 @@
+# Creates relationships between items in drag/drop fashion.  Hmm, have to remind
+# myself how it actually works :-)
+
 class RelatesController < ApplicationController 
   before_filter     :retrieve_both_objects
 

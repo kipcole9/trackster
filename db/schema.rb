@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091129120801) do
+ActiveRecord::Schema.define(:version => 20091219052337) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -433,56 +433,6 @@ ActiveRecord::Schema.define(:version => 20091129120801) do
     t.datetime "updated_at"
   end
 
-  create_table "tracks", :id => false, :force => true do |t|
-    t.integer  "property_id"
-    t.integer  "campaign_id"
-    t.string   "visitor",           :limit => 20
-    t.integer  "visit",                            :default => 0
-    t.string   "session",           :limit => 20
-    t.integer  "event_count"
-    t.string   "browser",           :limit => 20
-    t.string   "browser_version",   :limit => 10
-    t.string   "language",          :limit => 10
-    t.string   "screen_size",       :limit => 10
-    t.integer  "color_depth",       :limit => 2
-    t.string   "charset",           :limit => 10
-    t.string   "os_name",           :limit => 20
-    t.string   "os_version",        :limit => 10
-    t.string   "flash_version",     :limit => 10
-    t.string   "campaign_name",     :limit => 50
-    t.string   "campaign_source"
-    t.string   "campaign_medium"
-    t.string   "campaign_content"
-    t.string   "ip_address",        :limit => 20
-    t.string   "locality"
-    t.string   "region"
-    t.string   "country"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.integer  "duration",                         :default => 0
-    t.datetime "started_at"
-    t.datetime "ended_at"
-    t.datetime "geocoded_at"
-    t.integer  "page_views"
-    t.datetime "previous_visit_at"
-    t.integer  "id",                               :default => 0,    :null => false
-    t.integer  "session_id"
-    t.integer  "sequence"
-    t.string   "url"
-    t.string   "page_title"
-    t.string   "referrer"
-    t.datetime "tracked_at"
-    t.boolean  "entry_page",                       :default => true
-    t.boolean  "exit_page",                        :default => true
-    t.string   "category"
-    t.string   "action"
-    t.string   "label"
-    t.float    "value"
-    t.string   "traffic_source",    :limit => 50
-    t.string   "search_terms"
-    t.string   "referrer_host",     :limit => 100
-  end
-
   create_table "traffic_sources", :force => true do |t|
     t.integer  "account_id"
     t.string   "host"
@@ -492,18 +442,16 @@ ActiveRecord::Schema.define(:version => 20091129120801) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "given_name",                :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
+    t.string   "login",               :limit => 40
+    t.string   "given_name",          :limit => 100, :default => ""
+    t.string   "email",               :limit => 100
+    t.string   "crypted_password"
+    t.string   "password_salt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
-    t.string   "activation_code",           :limit => 40
+    t.string   "activation_code",     :limit => 40
     t.datetime "activated_at"
-    t.string   "state",                                    :default => "passive"
+    t.string   "state",                              :default => "passive"
     t.datetime "deleted_at"
     t.string   "locale"
     t.string   "timezone"
@@ -512,9 +460,19 @@ ActiveRecord::Schema.define(:version => 20091129120801) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.string   "family_name",               :limit => 100
-    t.string   "phone_number",              :limit => 50
+    t.string   "family_name",         :limit => 100
+    t.string   "phone_number",        :limit => 50
     t.boolean  "administrator"
+    t.string   "persistence_token",                                         :null => false
+    t.string   "single_access_token",                                       :null => false
+    t.string   "perishable_token",                                          :null => false
+    t.integer  "login_count",                        :default => 0,         :null => false
+    t.integer  "failed_login_count",                 :default => 0,         :null => false
+    t.datetime "last_request_at"
+    t.datetime "current_login_at"
+    t.datetime "last_login_at"
+    t.string   "current_login_ip"
+    t.string   "last_login_ip"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

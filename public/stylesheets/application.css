@@ -160,7 +160,7 @@ p {
 	line-height: 1.3em;
 }
 /* Flash */
-div.flash_notice, div.flash_error {
+div.flash_notice, div.flash_error, div.flash_alert {
 	padding: 5px;
 	margin-top: 5px;
 	margin-bottom: 0px;
@@ -168,23 +168,29 @@ div.flash_notice, div.flash_error {
 	border: 1px solid #999;
 }
 
-div.flash_notice img, div.flash_error img {
+div.flash_notice img, div.flash_error img, div.flash_alert img {
 	position: relative;
 	top: 0.3em;
 }
 
-div.flash_notice p, div.flash_error p {
+div.flash_notice p, div.flash_error p, div.flash_alert p {
 	margin: 0;
 	padding-bottom: 2px;
 }
 
-div.flash_error {
+div.flash_error, div.flash_alert {
 	background-color: #fbb;
 }
 
 /* Error list */
+div.errorExplanation {
+	margin: 0;
+	color: #aaa;
+}
 div.errorExplanation h2 {
-	display: none;
+	margin: 0;
+	font-size: 100%;
+	color: white;
 }
 
 /* The field error message from validations */

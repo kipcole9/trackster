@@ -4,11 +4,10 @@
 
 class ApplicationController < ActionController::Base
   include ExceptionLoggable
-  include AuthenticatedSystem
   include PageTitle
 
   helper            :all # include all helpers, all the time
-  helper_method     :current_account, :internet_explorer?, :current_user_agent, :user_scope
+  helper_method     :current_account, :internet_explorer?, :current_user_agent, :user_scope, :permitted_to?, :logged_in?, :current_user
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
@@ -24,16 +23,13 @@ class ApplicationController < ActionController::Base
   
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
+
+protected
   def force_login_if_required
     access_denied unless login_status_ok?
-    Authorization.current_user = current_user
   end
   
   def login_status_ok?
-    if current_user_agent =~ /W3C_Validator/ && Rails.env == "development"
-      self.current_user = User.find_by_login('admin')
-      return true
-    end
     (logged_in? && current_account) || logging_in? || activation? || redirecting? || validating?
   end
 
@@ -57,9 +53,32 @@ class ApplicationController < ActionController::Base
   def set_chart_theme
     Charting::FlashChart.config = theme_chart_config
   end
+  
+  def logged_in?
+    current_user
+  end
+  
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
 
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.record
+  end
+
+  def store_location
+    session[:return_to] = request.request_uri
+  end
+
+  def redirect_back_or_default(default = '/')
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
+  
   def logging_in?
-    params[:controller] == "sessions"
+    params[:controller] == "user_sessions"
   end
   
   def activation?
@@ -78,10 +97,10 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         if logged_in?
-          flash[:error] = t('not_authorized')
+          flash[:alert] = t('not_authorized')
           redirect_back_or_default('/')
         else
-          flash[:error] = t('must_login') unless flash[:error] || flash[:notice]
+          flash[:alert] = t('must_login') unless flash[:alert]
           store_location
           redirect_to login_path
         end

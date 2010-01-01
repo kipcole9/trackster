@@ -1,3 +1,4 @@
+# Shows site latency
 class SitesController < ApplicationController
   layout 'dashboards'
   

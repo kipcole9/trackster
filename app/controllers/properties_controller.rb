@@ -1,72 +1,7 @@
-class PropertiesController < ApplicationController
-  before_filter       :retrieve_property, :except => [:index, :create, :new]
-  before_filter       :retrieve_properties, :only => :index
+class PropertiesController < InheritedResources::Base
   layout              :select_layout
-  filter_access_to    :edit, :update, :create, :new, :destroy, :index, :show
-  
-  def new
-    render :action => 'edit'
-  end
-  
-  def edit
-    respond_to do |format|
-      format.html { }      
-      format.js   { render :partial => 'property_form', :locals => {:property => @property} }
-    end
-  end
-  
-  def index
-    respond_to do |format|
-      format.html {  }
-      format.js   { render :partial => 'index', :layout => false }      
-    end
-  end
-  
-  def show
-    respond_to do |format|
-      format.html { }      
-      format.js   { render_list_item @property, 'property_summary' }
-    end
-  end
-  
-  def create
-    @property = current_account.properties.create(params[:property])
-    if @property.valid?
-      flash[:notice] = t('.property_created', :name => @property.name)
-      redirect_back_or_default('/')
-    else
-      flash[:error] = t('.property_not_created', :name => @property.name)
-      render :action => 'edit'
-    end
-  end
-  
-  def update
-    if @property.update_attributes(params[:property])
-      flash[:notice] = t('.property_updated', :name => @property.name)
-      redirect_back_or_default('/')
-    else
-      flash[:error] = t('.property_not_updated', :name => @property.name)
-      render :action => 'edit'
-    end
-  end
-  
-  def destroy
-    @property.destroy
-    if @property.update_attributes(params[:property])
-      flash[:notice] = t('.property_updated', :name => @property.name)
-      respond_to do |format|
-        format.html { redirect_back_or_default('/') }      
-        format.js   { head :status => :ok }
-      end      
-    else
-      flash[:error] = t('.property_not_updated', :name => @property.name)
-      respond_to do |format|
-        format.html { render :action => 'edit' }      
-        format.js   { head :status => :unprocessable_entity }
-      end      
-    end    
-
-  end
+  respond_to          :html, :xml, :json
+  before_filter       :resource, :except => [:index]
   
   def overview
     # default render
@@ -74,12 +9,10 @@ class PropertiesController < ApplicationController
   
   def events
     @events_summary = @property.events_summary(params).all
-    render :action => 'events_summary'
   end
   
   def video
     @videos = @property.video_labels(params)
-    render :action => 'video_summary'
   end
 
   # Here's where we implement most of the reporting.  Since reporting
@@ -109,6 +42,14 @@ class PropertiesController < ApplicationController
   end
 
 private
+  def begin_of_association_chain
+    current_account
+  end
+
+  def collection
+    @properties ||= end_of_association_chain.paginate(:page => params[:page], :conditions => conditions_from_params)
+  end
+  
   def select_layout
     if ['index','create','edit','destroy','update','new','show'].include?(params[:action])
       'properties'
@@ -116,16 +57,7 @@ private
       'dashboards'
     end
   end
-  
-  def retrieve_property
-    @property = current_scope(:properties).find(params[:id])
-    @page_subject = @property.name if @property
-  end
-  
-  def retrieve_properties
-    @properties = current_scope(:properties).paginate(:page => params[:page], :conditions => conditions_from_params)
-  end
-  
+
   def conditions_from_params
     return {} if params[:search].blank?
     search = "%#{params[:search]}%"

@@ -1,46 +1,16 @@
-class RedirectsController < ApplicationController
-  before_filter       :retrieve_property, :only => [:new, :edit, :update, :create, :index]
-  before_filter       :retrieve_redirect, :only => [:edit, :update, :destroy, :show]
-  before_filter       :retrieve_redirects, :only => :index
-
-  def new
-    render :action => 'edit'
-  end
-
-  def edit
-    respond_to do |format|
-      format.html { }    
-      format.js   { render :partial => 'redirect_form', :locals => {:redirect => @redirect} }
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.html { }
-      format.js   { render_list_item @redirect, 'redirect_summary' }
-    end
-  end
-
+class RedirectsController < InheritedResources::Base
+  respond_to          :html, :xml, :json
+  belongs_to          :property
+  
   def create
-    @redirect = user_create_scope.new(params[:redirect])
-    @redirect.property = @property
-    @redirect.account = @property.account
-    if @redirect.save
-      flash[:notice] = t('.redirect_created', :name => @redirect.name)
-      redirect_back_or_default('/')
-    else
-      flash[:error] = t('.redirect_not_created', :name => @redirect.name)
-      render :action => 'edit'
+    create! do |result|
+      result.html {redirect_back_or_default}
     end
   end
-
+  
   def update
-    if @redirect.update_attributes(params[:redirect])
-      flash[:notice] = t('.redirect_updated', :name => @redirect.name)
-      redirect_back_or_default('/')
-    else
-      flash[:error] = t('.redirect_not_updated', :name => @redirect.name)
-      render :action => 'edit'
+    update! do |success, failure|
+      success.html {redirect_back_or_default}
     end
   end
   
@@ -63,20 +33,12 @@ class RedirectsController < ApplicationController
   end
 
 private
-  def retrieve_redirect
-    @redirect = @property.redirects.find(params[:id])
+  def begin_of_association_chain
+    current_account
   end
 
-  def retrieve_redirects
-    @redirects = @property.redirects.paginate(:page => params[:page])
-  end
-  
-  def retrieve_property
-    @property = current_scope(:properties).find(params[:property_id]) if params[:property_id]
-  end
-  
-  def user_create_scope
-    @property.redirects
+  def collection
+    @redirects ||= end_of_association_chain.paginate(:page => params[:page])
   end
 
 end

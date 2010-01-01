@@ -1,11 +1,7 @@
 class Redirect < ActiveRecord::Base
-  belongs_to                    :account
   belongs_to                    :property
   has_many                      :events
   before_validation_on_create   :create_redirect_url 
-  
-  validates_associated      :account
-  validates_presence_of     :account_id
   
   validates_associated      :property
   validates_presence_of     :property_id

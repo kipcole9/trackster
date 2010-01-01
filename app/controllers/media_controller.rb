@@ -11,7 +11,7 @@ class MediaController < ApplicationController
 private
   def options_from_params(params)
     options = {}
-    options[:label]     = params[:title] || '0223_quikpro_highlights_700'
+    options[:label]     = params[:title]
     from = options[:from]; to = options[:to]
     options[:period]    = from.to_date..to.to_date if from && to rescue nil
     options[:period]    ||= 1.month.ago..Time.now
