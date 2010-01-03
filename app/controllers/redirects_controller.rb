@@ -24,10 +24,10 @@ class RedirectsController < TracksterResources
       redirect = query_string.blank? ? redirection.url : "#{redirection.url}?#{query_string}"
       redirect_to redirect
     elsif params[:redirect].blank?
-      Rails.logger.warn "Redirect with no parameter requested."
+      Rails.logger.warn "[Redirect] Redirect with no parameter requested."
       head :status => 404
     else
-      Rails.logger.warn "Unknown redirection requested: #{params[:redirect]}"
+      Rails.logger.warn "[Redirect] Unknown redirection requested: #{params[:redirect]}"
       head :status => 404
     end
   end

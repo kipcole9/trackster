@@ -131,13 +131,13 @@ class WebAnalytics
         row[attrib] = redirect.send(attrib) unless row[attrib]
       end
       row[:account_code] = redirect.account.tracker
+      row[:redirect_id] = redirect['id']
+      row[:page_title] = redirect.name
+      row[:redirect] = true
     rescue NoMethodError => e
       Rails.logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
       Rails.logger.error "[Web Analytics] #{redirect.inspect}" 
     end  
-    row[:redirect_id] = redirect['id']
-    row[:page_title] = redirect.name
-    row[:redirect] = true
     row
   end
 
