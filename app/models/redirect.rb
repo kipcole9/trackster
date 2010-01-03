@@ -8,7 +8,6 @@ class Redirect < ActiveRecord::Base
   
   validates_presence_of     :name
   validates_length_of       :name,    :within => 1..250
-  #validates_uniqueness_of   :name,    :scope => :property_id
   
   validates_presence_of     :url
   validates_length_of       :url,     :within => 5..200
@@ -16,8 +15,12 @@ class Redirect < ActiveRecord::Base
   validates_format_of       :url,     :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix
   
   validates_numericality_of :value, :allow_nil => true
-  
-  
+
+  named_scope :search, lambda {|criteria|
+    search = "%#{criteria}%"
+    {:conditions => ['name like ? or url like ?', search, search ]}
+  }
+
   def self.find_or_create_from_link(property, url, link_content)
     return nil if url.blank?
     absolute_url = property.get_absolute_url(url)

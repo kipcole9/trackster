@@ -4,6 +4,5 @@ panel t('panels.redirect_index'), :flash => true do
     with_tag(:div, :id => 'redirect') do
       store render 'index'
     end
-    store will_paginate
   end
 end

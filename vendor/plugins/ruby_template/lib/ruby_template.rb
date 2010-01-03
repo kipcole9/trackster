@@ -4,9 +4,9 @@ module ActionView
       include Compilable
 
       def compile(template)
+        # Rails.logger.info "[Ruby Template] Compiling template '#{template}'"
         "self.output_buffer = '';\n #{template.source}\n; self.output_buffer\n"
       end
-
     end
   end
 end

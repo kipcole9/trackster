@@ -37,6 +37,16 @@ class Contact < ActiveRecord::Base
     { :joins => {:team => :users}, :conditions => ["users.id = ?", user.id] } 
   }
   
+
+  named_scope :search, lambda {|criteria|
+    conditions = []
+    names = criteria.split(' ').map(&:strip)
+    names.each do |name|
+      conditions << "given_name LIKE '%#{quote_string(name)}%' OR family_name LIKE '%#{quote_string(name)}%' or name LIKE '%#{quote_string(name)}%'" unless name.blank?
+    end
+    { :conditions => conditions.join(' OR ') }
+  } 
+  
   has_attached_file :photo, :styles => { :thumbnail=> "200x200#", :small  => "150x150>", :avatar => "50x50#" },
                     :convert_options => { :all => "-unsharp 0.3x0.3+3+0" }
    
@@ -72,5 +82,9 @@ private
   def check_name_order
     self.name_order = "gf" if self.name_order.blank?
   end
+  
+  def self.quote_string(string)
+    ActiveRecord::Base.connection.quote_string(string)
+  end  
 
 end

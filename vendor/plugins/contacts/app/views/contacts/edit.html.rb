@@ -7,13 +7,13 @@ panel t('panels.edit_contact', :name => @contact.full_name), :flash => true, :di
       content_for :jstemplates, associated_template_for_new(contact, :phones)
       content_for :jstemplates, associated_template_for_new(contact, :addresses)
       
-      fieldset contact.object.class.name, :id => :contact, :optional => :show do
+      fieldset contact.object.class.human_name, :id => :contact, :optional => :hide do
         render_form contact, (contact.object.is_a?(Person) ? 'person' : 'organization')
       end
       
       fieldset Phone.human_name, :id => :phone, :buttons => :add do
         contact.fields_for :phones do |phone|
-          render_form phone, 'phone'
+          render_form(phone, 'phone')
         end
       end
 

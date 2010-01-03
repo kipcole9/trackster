@@ -1,12 +1,13 @@
-class PropertiesController < InheritedResources::Base
+class PropertiesController < TracksterResources
   layout              :select_layout
   respond_to          :html, :xml, :json
+  has_scope           :search
   before_filter       :resource, :except => [:index]
   
   def overview
     # default render
   end
-  
+
   def events
     @events_summary = @property.events_summary(params).all
   end
@@ -47,7 +48,7 @@ private
   end
 
   def collection
-    @properties ||= end_of_association_chain.paginate(:page => params[:page], :conditions => conditions_from_params)
+    @properties ||= end_of_association_chain.paginate(:page => params[:page])
   end
   
   def select_layout
@@ -56,12 +57,6 @@ private
     else
       'dashboards'
     end
-  end
-
-  def conditions_from_params
-    return {} if params[:search].blank?
-    search = "%#{params[:search]}%"
-    ['name like ? or url like ?', search, search ]
   end
 
 end

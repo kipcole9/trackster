@@ -1,7 +1,7 @@
-class CampaignsController < InheritedResources::Base
+class CampaignsController < TracksterResources
   layout              :choose_layout
   respond_to          :html, :xml, :json
-
+  has_scope           :search
   
   def preview
     if !@campaign.preview_available? && !current_user.is_administrator?
@@ -9,7 +9,7 @@ class CampaignsController < InheritedResources::Base
     elsif @campaign.email_html.blank? 
       flash[:notice] = t('.no_email_html')
     elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
-      flash[:error] = t('.translink_errors')
+      flash[:alert] = t('.translink_errors')
     end
     redirect_back_or_default('/') unless flash.empty?
   end
@@ -20,13 +20,7 @@ private
   end
 
   def collection
-    @campaigns ||= end_of_association_chain.paginate(:page => params[:page], :conditions => conditions_from_params)
-  end
-
-  def conditions_from_params
-    return {} if params[:search].blank?
-    search = "%#{params[:search]}%"
-    ['name like ? or description like ?', search, search ]
+    @campaigns ||= end_of_association_chain.paginate(:page => params[:page])
   end
 
   def choose_layout

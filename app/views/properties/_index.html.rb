@@ -1,1 +1,1 @@
-render_list @properties, :partial => 'property_summary', :accepts => :user, :buttons => :all
+render_list @properties, :partial => 'property_summary', :buttons => :all

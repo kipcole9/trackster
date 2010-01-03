@@ -10,7 +10,7 @@ class History < ActiveRecord::Base
     @refers_to = nil
     @history = History.new
     @history.historical = record
-    @history.created_by = Authorization.current_user
+    @history.created_by = User.current_user
     @history.transaction = transaction.to_s
     @history.actionable = refers_to(record)
     if transaction == :delete

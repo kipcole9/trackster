@@ -14,6 +14,11 @@ class Property < ActiveRecord::Base
     {:conditions => {:id => user.properties.map(&:id)} }
   }
   
+  named_scope :search, lambda {|criteria|
+    search = "%#{criteria}%"
+    {:conditions => ['name like ? or url like ?', search, search ]}
+  }
+  
   validates_associated      :account
   validates_presence_of     :account_id
   

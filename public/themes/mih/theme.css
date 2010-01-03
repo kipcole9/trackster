@@ -206,11 +206,13 @@ p.prompt {
 	border-right: 1px solid #666;
 }
 
+.tabricator .targ {
+	border-top: 1px solid #666;
+}
 .tabricator .tabItem:hover, .tabricator .open {
 	color: white;
 	background: black;
 }
-
 
 div#about {
 	padding-top: 0;
@@ -275,7 +277,7 @@ div.autocomplete ul {
 Light green (for flash) #bfb
 Light red (flash error) #fbb
 */
-div.box.flash_error {
+div.box.flash_alert {
 	background-color: #fbb;
 }
 

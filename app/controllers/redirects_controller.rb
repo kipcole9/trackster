@@ -1,10 +1,10 @@
-class RedirectsController < InheritedResources::Base
+class RedirectsController < TracksterResources
   respond_to          :html, :xml, :json
   belongs_to          :property
   
   def create
-    create! do |result|
-      result.html {redirect_back_or_default}
+    create! do |success, failure|
+      success.html {redirect_back_or_default}
     end
   end
   

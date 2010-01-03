@@ -1,6 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class UserSessionsController < ApplicationController
-  unloadable
+  #unloadable
   layout 'login'
   
   def new
@@ -13,15 +13,14 @@ class UserSessionsController < ApplicationController
       flash[:notice] = "logged in"
       redirect_back_or_default('/')
     else
-      flash[:error] = "couldn't log in"
+      flash[:alert] = "couldn't log in"
       render :action => :new
     end
   end
   
   def destroy
-    current_user_session.destroy
-    flash[:notice] = "Logout successful!"
-    redirect_back_or_default new_user_session_url
+    current_user_session.destroy if current_user
+    redirect_back_or_default
   end
 
   def _page_title

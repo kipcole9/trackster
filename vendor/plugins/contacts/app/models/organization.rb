@@ -3,7 +3,7 @@ class Organization < Contact
   has_many      :contacts
   
   # Used in autocomplete
-  named_scope   :name_like, lambda {|name| {:conditions => ["name like ?", "%#{name}%"], :limit => 10} }
+  named_scope   :name_like, lambda {|name| {:conditions => ["name like ?", "%#{name}%"], :limit => 20} }
   
   def full_name
     name

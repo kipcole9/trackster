@@ -2,6 +2,8 @@ class Account < ActiveRecord::Base
   unloadable
   include         Analytics::Model
   authenticates_many  :user_sessions
+  has_many        :account_users
+  has_many        :users, :through => :account_users
   
   has_many        :properties
   has_many        :tracks
@@ -9,11 +11,13 @@ class Account < ActiveRecord::Base
   has_many        :sessions
   has_many        :campaigns
   has_many        :redirects
-  has_many        :account_users
-  has_many        :users, :through => :account_users
   has_many        :contacts
+  has_many        :people
+  has_many        :organizations
   has_many        :teams
   
+  # Client/agent relationships.  An account can have many clients.  A client can have only 
+  # one agent.  A client account cannot, itself, have client accounts.
   has_many        :clients, :class_name => "Account", :foreign_key => :agent_id
   belongs_to      :agent,   :class_name => "Account", :foreign_key => :agent_id
   
@@ -29,50 +33,23 @@ class Account < ActiveRecord::Base
   #composed_of               :calendar, :class_name => "CalendarProxy",
   #                          :mapping  => CalendarProxy::COMPOSED_OF_MAPPING
     
-  before_create   :create_tracker_code
-  before_save     :ensure_account_kind
+  before_create             :create_tracker_code
   
-  has_attached_file :logo, :styles => { :banner => "400x23" }
-  
-  ADMIN_ACCOUNT     = "Admin"
-  ADMIN_DESCRIPTION = "Administration Account"
-  
-  CLIENT_ACCOUNT    = 'client'
-  AGENCY_ACCOUNT    = 'agency'
-  SPONSOR_ACCOUNT   = 'sponsor'
+  has_attached_file         :logo, :styles => { :banner => "400x23" }
 
-  def self.ensure_admin_exists
-    unless admin = find_by_name(ADMIN_ACCOUNT)
-      admin = create!(:name => ADMIN_ACCOUNT, :description => ADMIN_DESCRIPTION)
-    end
-  end
-  
-  def self.admin_account
-    find_by_name(ADMIN_ACCOUNT)
-  end
-  
-  # Only used to migrate from old property-centric system
-  # delete after that
-  def self.ensure_tracker_code_exists
-    all.each do |a|
-      a.send :create_tracker_code if a.tracker.blank?
-      a.name = a.name.gsub(' ','-')
-      a.save!
-    end
-  end
-  
+  named_scope :search, lambda {|criteria|
+    search = "%#{criteria}%"
+    {:conditions => ['name like ? or description like ?', search, search ]}
+  }
+
   def client_account?
-    self.kind == CLIENT_ACCOUNT
+    @client_account ||= self.agent
   end
   
   def agency_account?
-    self.kind == AGENCY_ACCOUNT
+    @agency_account ||= self.clients.count > 0
   end
-  
-  def sponsor_account?
-    self.kind == SPONSOR_ACCOUNT
-  end
-  
+
 private
   def create_tracker_code
     token = nil
@@ -81,8 +58,5 @@ private
     end
     self.tracker = token
   end
-  
-  def ensure_account_kind
-    self.kind = CLIENT_ACCOUNT if self.kind.blank?
-  end
+
 end

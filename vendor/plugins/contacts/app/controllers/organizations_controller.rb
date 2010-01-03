@@ -1,5 +1,11 @@
-class OrganizationsController < ApplicationController
+class OrganizationsController < ContactsController
   
+  def index
+    index! do |success, failure|
+      success.html { render 'contacts/index' }
+    end
+  end
+    
   def autocomplete
     query = params[:input]
     results = Organization.name_like(query)

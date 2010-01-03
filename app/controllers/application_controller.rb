@@ -47,7 +47,7 @@ protected
   end
 
   def set_timezone
-    Time.zone = logged_in? ? current_user.timezone : browser_timezone
+    Time.zone = current_user.try(:timezone) || browser_timezone
   end
   
   def set_chart_theme
@@ -65,11 +65,12 @@ protected
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.record
+    User.current_user = current_user_session && current_user_session.record
+    @current_user = User.current_user
   end
 
   def store_location
-    session[:return_to] = request.request_uri
+    session[:return_to] = request.request_uri unless request.xhr?
   end
 
   def redirect_back_or_default(default = '/')

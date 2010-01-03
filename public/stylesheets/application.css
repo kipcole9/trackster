@@ -591,11 +591,6 @@ div#about .contactCard {
 }
 
 /* Pagination */
-
-#contactCards .pagination {
-	margin-left: 5px;
-}
-
 .pagination a, .pagination span.prev_page, .pagination span.next_page, .pagination span.current {
 	position: relative;
 	top: 0px;
@@ -623,7 +618,7 @@ div#about .contactCard {
 
 /* Search */
 form.search  {
-	margin-top: -8px;
+	/* margin-top: -8px; */
 	margin-bottom: 6px;
 	padding: 6px 8px;
 	background-color: #ccc;

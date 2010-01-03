@@ -30,6 +30,11 @@ class Campaign < ActiveRecord::Base
     {:conditions => {:property_id => user.properties.map(&:id)} }
   }
   
+  named_scope :search, lambda {|criteria|
+    search = "%#{criteria}%"
+    {:conditions => ['name like ? or description like ?', search, search ]}
+  }
+
   def landing_page_html=(html)
     html.class.name == "Tempfile" ? super(html.read) : super(html)
   end

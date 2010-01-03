@@ -82,14 +82,14 @@ Event.addBehavior({
 // created so we don't need to serialize them.  Just delete the
 // DOM element.  We know which ones we added because they have the
 // class '_new' on their enclosing div.  If not new, then we set
-// the '_delete' field to "1" and hide the element.
+// the '_destroy' field to "1" and hide the element.
 Event.addBehavior({
 	'img.delete:click': function(e) {
 		element = this.up();
 		if (element.hasClassName('_new')) {
 			element.remove();
 		} else {
-			delete_field = element.select('._delete').first();
+			delete_field = element.select('._destroy').first();
 			delete_field.value = "1";
 			element.hide();
 		}
