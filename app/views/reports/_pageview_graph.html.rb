@@ -1,6 +1,7 @@
 panel t('.pageview_graph')  do
   block do
-    page_views = @page_views || @property.page_views_by_date(params).all
+    params[:max] = resource.tracks.calculate(:max, :started_at)
+    page_views = @page_views || resource.page_views_by_date(params).all
     if page_views.empty? || (page_views.size == 1 && page_views.first.page_views == "0")
       h3 t('no_page_views_yet')
     else

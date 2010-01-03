@@ -39,7 +39,7 @@ panel t('panels.navigation'), :class => 'accordian'  do
       accordian_item "Events" do
         nav property_report('events')
         nav property_report('video')
-        @property.video_labels.each do |video|
+        resource.video_labels.each do |video|
           unless video.blank?
             video_label = video.split('/').last
             nav video_report(video_label, :video => video) 

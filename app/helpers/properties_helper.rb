@@ -8,8 +8,12 @@ module PropertiesHelper
   end
 
   def report_params(options = {})
-    ['between', 'campaign', 'tgroup', 'from', 'to', 'by'].each do |arg|
-      options[arg] = params[arg] if params[arg]
+    ['campaign', 'time_group', 'from', 'to', 'by'].each do |arg|
+      if ['from', 'to'].include?(arg)
+        options[arg] = params[arg].to_date.to_s(:db) if params[arg]
+      else
+        options[arg] = params[arg] if params[arg]
+      end
     end
     options
   end
@@ -17,15 +21,19 @@ module PropertiesHelper
   # Navigation link to a specfic report.  Translate the report type a the label,
   # apply any additional parameters
   def property_report(report_type, additional_params = {})
-    link_to t("property_report.#{report_type}"), property_report_path(@property, report_type, report_params(additional_params))
+    link_to t("property_report.#{report_type}"), report_path(resource, report_type, report_params(additional_params))
   end
   
   def video_report(name, additional_params = {})
-    link_to t("property_report.video_item", :name => name), property_report_path(@property, "video", report_params(additional_params))
+    link_to t("property_report.video_item", :name => name), report_path(resource, "video", report_params(additional_params))
   end
   
   def add_dimension(report_type, additional_params = {})
-    link_to dimension_label(additional_params), property_report_path(@property, report_type, report_params(additional_params))    
+    link_to dimension_label(additional_params), report_path(resource, report_type, report_params(additional_params))    
+  end
+  
+  def report_path(resource, report_type, params)
+    send("#{resource.class.name.downcase}_report_path", resource.id, report_type, params)
   end
   
   def current_action
@@ -33,8 +41,6 @@ module PropertiesHelper
   end
   
   def dimension_label(options)
-    options.each do |k, v| 
-      return t("property_report.#{v}")
-    end
+    t("property_report.#{options.first[1]}")
   end
 end

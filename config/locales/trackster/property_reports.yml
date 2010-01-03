@@ -11,7 +11,8 @@ en-US:
         day_of_week:    Day of week
         hour_of_day:    Hour of day
         day_of_month:   Day of month
-        month_of_year:  Month of year 
+        month_of_year:  Month of year
+        year:           Year
 
         overview:       Overview
         country:        Country

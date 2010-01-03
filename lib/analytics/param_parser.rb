@@ -37,13 +37,15 @@ module Analytics
       end
       
       def period_from_params(params)
-        from = date_from_param(params[:from], 1.month.ago)
-        to = date_from_param(params[:to], Time.now)
+        return nil unless params[:from] || params[:max]
+        to = date_from_param(params[:to], params[:max] || Time.now)
+        from = date_from_param(params[:from], to - 30.days)        
         from..to
       end
       
       def date_from_param(date, default)
         return default unless date
+        return date if date.respond_to?(:to_date) && date.to_date
         Time.parse(date) rescue default
       end
     end

@@ -1,6 +1,6 @@
 panel t('videos.video_maxplay_graph', :name => params[:video] || t('videos.all'))  do
   block do
-    video_maxplays = @property.video_play_time(params).all
+    video_maxplays = resource.video_play_time(params).all
     if video_maxplays.empty?
       h3 t('videos.no_video_plays_yet')
     else

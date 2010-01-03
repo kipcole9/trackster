@@ -1,17 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
-  # Redirection tracking
+  # Redirection tracking - at the top for maximum performance
   map.redirector      '/r/:redirect', :controller => 'redirects', :action => 'redirect'
+  
   map.resources :relates
   map.resources :campaigns
   map.resources :properties do |properties|
     properties.resources :redirects
   end
   
-  map.property_report '/properties/:id/:action.:format', :controller => 'properties'
-  
   map.resource :site
   map.resource :dashboard     # Home paged for logged_in users
   
+  # Reporting for analytics
+  map.property_report '/properties/:property_id/reports/:action', :controller => 'reports'
+  map.account_report  '/accounts/:account_id/reports/:action',    :controller => 'reports'
+  map.campaign_report '/campaigns/:campaign_id/reports/:action',  :controller => 'reports'
+    
+  # Application exception reporting
   map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"
 
   # The priority is based upon order of creation: first created -> highest priority.

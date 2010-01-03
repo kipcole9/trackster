@@ -6,7 +6,7 @@ panel t('dashboards.video_summary', :name => params[:video] || t('videos.all')),
   else
     video_reports = 0
     @videos.each do |video|
-      @events_summary = @property.video_summary(video, params).all
+      @events_summary = resource.video_summary(video, params).all
       unless @events_summary.empty?
         block do
           h3 I18n.t('videos.video', :name => video) unless @videos.size == 1

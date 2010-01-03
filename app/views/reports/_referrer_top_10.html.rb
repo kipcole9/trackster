@@ -1,7 +1,7 @@
 panel t('dashboards.referrer_top_10'), :class => 'table'  do
   block do
-    total_referrers = @property.total_referrers(params)
-    referrers = @property.visits_by_referrer(params).limit(10).all
+    total_referrers = resource.total_referrers(params)
+    referrers = resource.visits_by_referrer(params).limit(10).all
     if referrers.empty?
       h3 t('no_referrers_found')    
     else
