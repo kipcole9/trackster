@@ -48,7 +48,7 @@ private
   end
 
   def collection
-    @properties ||= end_of_association_chain.paginate(:page => params[:page])
+    @properties ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end
   
   def select_layout

@@ -20,7 +20,7 @@ private
   end
 
   def collection
-    @campaigns ||= end_of_association_chain.paginate(:page => params[:page])
+    @campaigns ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def choose_layout

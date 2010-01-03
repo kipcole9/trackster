@@ -35,7 +35,7 @@ class UsersController < InheritedResources::Base
 
 protected
   def collection
-    @users ||= end_of_association_chain.paginate(:page => params[:page])
+    @users ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def set_mailer_url_defaults

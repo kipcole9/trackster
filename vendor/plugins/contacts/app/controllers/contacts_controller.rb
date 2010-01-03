@@ -30,7 +30,7 @@ private
   end
 
   def collection
-    @contacts ||= end_of_association_chain.paginate(:page => params[:page], :include => [:emails, :addresses, :websites, :phones])
+    @contacts ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page], :include => [:emails, :addresses, :websites, :phones])
   end
 
   def resource
