@@ -5,7 +5,7 @@ class ValidationsController < ApplicationController
   def unique
     find_options = {:conditions => [ "LOWER(#{@attribute}) LIKE ?", @value.downcase ]}
     if model_class.find(:first, find_options)
-      return_response(:not_found, "'#{@value}' #{I18n.t('activerecord.errors.messages.taken')}")
+      return_response(:not_acceptable, "'#{@value}' #{I18n.t('activerecord.errors.messages.taken')}")
     else
       return_response(:ok)
     end
@@ -18,7 +18,7 @@ class ValidationsController < ApplicationController
     if !instance.valid? && errors = instance.errors.on(@attribute)
       error_message = errors.is_a?(Array) ? errors.first : errors
       value = @value.blank? ?  model_class.human_attribute_name(@attribute) : safe_value
-      return_response(:not_found, "'#{value}' #{error_message}")
+      return_response(:not_acceptable, "'#{value}' #{error_message}")
     else
       return_response(:ok)
     end

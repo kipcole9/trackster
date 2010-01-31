@@ -1,0 +1,26 @@
+en-US:
+    contacts:
+        name_card:              "name card"
+        bio:                    Biographical notes
+        bio_formatting:         Formatting options
+        background:             Background or Bio
+        edit_background:        "Edit {{name}}'s background"
+        navigation:             Contact actions
+        important_dates:        Important dates
+        add_important_date:     You can add a new date by selecting the 'Add important date' in the panel on the left.
+        email_types:            [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
+        website_types:          [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
+        address_types:          [["Work", "work"], ["Home", "home"], ["Mailing", "mailing"], ["Other", "other"]]
+        phone_types:            [["Work", "direct"], ["Home", "home"], ["Mobile", "mobile"], 
+                                ["Skype", "skype"], ["Main", "main"], ["Fax", "fax"], 
+                                ["Pager", "pager"], ["Other", "other"]]
+        affiliations:           [["Family", "family"], ["Friends", "friends"], ["Colleagues", "colleagues"]]
+        gender:                 [["Male", "male"], ["Female", "female"], ["Unknown", "unknown"]]
+        name_order:             [["Given then Family", 'gf'], ["Family then Given", "fg"]]
+        index:
+            name_search:        Search by name
+            
+    panels:
+        contacts_index:     "Contact cards"
+        edit_contact:       "Update {{name}}'s details"
+        

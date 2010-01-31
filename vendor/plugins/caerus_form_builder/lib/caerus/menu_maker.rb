@@ -1,7 +1,7 @@
 module Caerus
   module MenuMaker
     def main_menu(options = {})
-      with_tag :ul, {:class => "nav main clearfix"}.merge(options) do
+      with_tag :ul, {:class => "nav main"}.merge(options) do
         yield if block_given?
       end
     end

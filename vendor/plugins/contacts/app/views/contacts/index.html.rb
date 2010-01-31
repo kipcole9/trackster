@@ -1,11 +1,12 @@
-panel t('panels.contacts_index') do
-  block do
+column :width => 9 do
+  panel t('panels.contacts_index') do
     search t(".name_search"), :id => :contactSearch, :search_id => :contactSearchField, 
-      :replace => :contactCards, :url => contacts_url, :callback => "resizeContactCards();"
-    store render 'contacts/index'
+      :replace => :contactCards, :url => contacts_url, :callback => "$(this).trackster.resizeContactCards();"
+    include "index"
   end
 end
 
-keep :sidebar do
-  store render 'contacts/navigation'
+column  :width => 3 do
+  include 'navigation'
 end
+

@@ -1,7 +1,7 @@
-panel t('panels.campaign_navigation'), :class => 'accordian'  do
+panel t('panels.campaign_navigation'), :class => 'accordion'  do
   block do
-    accordian do
-      accordian_item "Campaign" do
+    accordion do
+      accordion_item "Campaign" do
         nav link_to("Overview")
         nav link_to("Impressions")
         nav link_to("Clicks-through")
@@ -9,8 +9,8 @@ panel t('panels.campaign_navigation'), :class => 'accordian'  do
       end          
     end
   
-    accordian do
-      accordian_item "Links" do
+    accordion do
+      accordion_item "Links" do
         nav link_to("Web Property Overview", property_report_path(@campaign.property, "overview"))
       end          
     end    

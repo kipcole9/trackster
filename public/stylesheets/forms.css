@@ -1,0 +1,8 @@
+/* Form-related CSS */
+label {
+	font-weight: bold;
+}
+
+input[type='text'], textarea {
+	width: 98%;
+}

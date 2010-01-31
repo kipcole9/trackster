@@ -123,7 +123,7 @@ module Caerus
       field_options = field_options_from(options)
       field_content = "#{label}#{field_message}#{before}#{field_definition}#{after}#{prompt}"
       content = @template.content_tag(:div, field_content, field_options)
-      add_autocompleter(method, field_id, options)
+      # add_autocompleter(method, field_id, options)
       ruby_template? ? @template.concat(content + "\n") : content
     end
   

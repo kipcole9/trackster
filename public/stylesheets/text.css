@@ -8,11 +8,9 @@
 /* =Basic HTML
 --------------------------------------------------------------------------------*/
 
-body, textarea, input, select
+body
 {
-	font-size: 13px;
-	line-height: 1.5em; 
-	font-family: Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif;
+	font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
 
 a:focus

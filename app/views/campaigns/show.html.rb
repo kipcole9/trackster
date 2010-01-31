@@ -1,18 +1,10 @@
 @campaign_summary ||= @campaign.campaign_summary(params).all
 clear do
   column :width => 9, :class => 'main' do
-    clear do
-      column :width => 12 do
-        include "campaigns/campaign_impressions_graph_by_day"
-      end
-    end
-    clear do
-      column :width => 12 do
-        include "campaigns/campaign_overview"
-        include "campaigns/campaign_impressions"                
-        include "campaigns/campaign_clicks"
-      end
-    end
+    include "campaigns/campaign_impressions_graph_by_day"
+    include "campaigns/campaign_overview"
+    include "campaigns/campaign_impressions"                
+    include "campaigns/campaign_clicks"
     clear do
       column :width => 6 do
         include "campaigns/email_client_overview"

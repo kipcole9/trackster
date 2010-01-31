@@ -1,0 +1,7 @@
+/* CSS that adjusts 960 where its not quite right */
+
+/* Firefox text area doesn't inherit the body font description.  Just force to the same
+as the 960 default body typeface */
+textarea, input {
+	font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+}

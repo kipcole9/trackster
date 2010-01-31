@@ -4,7 +4,7 @@ module Caerus
     include Caerus::PageLayout
     include Caerus::MenuMaker
     include Caerus::Tabs
-    include Caerus::Accordians
+    include Caerus::Accordions
 
     # Fieldset used to wrap form sections
     def fieldset(legend = '', options = {}, &block)

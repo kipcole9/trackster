@@ -1,0 +1,92 @@
+/* Contact card display */
+#contactCards {
+	width: 100%;
+}
+
+div.contactCard {
+	display: inline;
+	position: relative;
+	float: left;
+	width: 200px;
+	height: 130px;
+	background-color: white;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	padding: 5px;
+	-webkit-box-shadow: 5px 5px 3px #888;
+	-moz-box-shadow: 5px 5px 3px #888;
+	overflow: hidden;
+}
+
+div.contactCard p {
+	font-size: 11px;
+}
+
+div.contactCard:hover {
+	cursor: move;
+}
+
+div.contactCard img.avatar {
+	float: right;
+}
+
+div.contactCard img.icon {
+	position: relative;
+	width: 11px;
+	top: 0.25em;
+}
+
+div.contactCard img.merge {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+div.contactCard img.merge:hover {
+	border: 1px solid #888;
+}
+div#about .contactCard img.merge {
+	display: none;
+}
+div.contactCard h3, div.contactCard h4 {
+	font-size: 100%;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+div.contactCard h4 {
+	font-weight: normal;
+	font-size: 11px;
+}
+div.contactCard h3 + p, div.contactCard h4 + p {
+	margin-top: 0.3em;
+}
+div.contactCard p {
+	margin-bottom: 0;
+	line-height: 1.2em;
+	white-space: nowrap;
+	overflow: hidden;
+	overflow: ellipsis;
+	max-width: 95%;	
+}
+
+div.contactCard p.email a, div.contactCard p.website a {
+	font-weight: normal;
+}
+div#about .contactCard {
+	width: 100%;
+	float: none;
+	display: block;
+	margin: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	cursor: inherit;
+	margin-bottom: -5px;
+	background: inherit;
+}
+
+/* Must be same as the size of the inline label */
+.inline .field_message {
+	padding-left: 6em;
+	display: none;
+}

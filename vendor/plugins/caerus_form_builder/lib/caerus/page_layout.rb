@@ -186,20 +186,13 @@ module Caerus
     def search(title = t('search'), options = {})
       default_options = {:class => 'search'}
       options   = default_options.merge(options)
-      url       = options.delete(:url)
-      replace   = options.delete(:replace)
-      callback  = options.delete(:callback)
-      var       = options[:id]
-      script_options = ["url: '#{url}'", "replace: '#{replace}'"]
-      script_options << ["callback: '#{callback}'"] if callback
       search_id = "#{options[:id]}Field"
       with_tag(:form, options) do
         store "<label>#{title}:</label>"
         store "<input class='search text' name='#{search_id}' type='text' id='#{search_id}' AutoComplete='off' />"
       end
-      javascript "var #{var} = new LiveSearch('#{search_id}', {#{script_options.join(',')}})" if url && replace
     end
-  
+
     def method_missing(method, *args, &block)
       if [:h4, :h3, :h2, :h1].include?(method)
         return nil if args.last.blank?

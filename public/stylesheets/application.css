@@ -15,6 +15,7 @@ ul {
 
 body {
 	padding-bottom 0;
+	font-size: 12px;
 }
 
 input[type="text"] {
@@ -45,16 +46,6 @@ select.date {
 }
 h4 {
 	font-size: 110%;
-}
-
-/* Main content grid */
-.main {
-	margin-left: 0.35%;
-}
-
-#nav_block {
-	margin: 0 0 0 -1%;
-	width: 25.6%;
 }
 
 /* Thanks to http://camendesign.com/code/uth6_beautiful_css_dates */
@@ -154,6 +145,7 @@ h1#branding, h2#page-heading {
 	float: right;
 	color: white;
 	position: relative;
+	top: -14px;
 	text-transform: none;
 }
 p {
@@ -504,92 +496,6 @@ div.address._new {
 	border-top: 1px dotted #ccc;
 }
 
-/* Contact card display */
-#contactCards {
-	width: 100%;
-}
-
-div.contactCard {
-	display: inline;
-	position: relative;
-	float: left;
-	width: 200px;
-	height: 130px;
-	background-color: white;
-	margin-bottom: 10px;
-	margin-right: 10px;
-	padding: 5px;
-	-webkit-box-shadow: 5px 5px 3px #888;
-	-moz-box-shadow: 5px 5px 3px #888;
-	overflow: hidden;
-}
-
-div.contactCard p {
-	font-size: 11px;
-}
-
-div.contactCard:hover {
-	cursor: move;
-}
-
-div.contactCard img.avatar {
-	float: right;
-}
-
-div.contactCard img.icon {
-	position: relative;
-	width: 11px;
-	top: 0.25em;
-}
-
-div.contactCard img.merge {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-
-div.contactCard img.merge:hover {
-	border: 1px solid #888;
-}
-div#about .contactCard img.merge {
-	display: none;
-}
-div.contactCard h3, div.contactCard h4 {
-	font-size: 100%;
-	font-weight: bold;
-	margin-bottom: 0;
-}
-div.contactCard h4 {
-	font-weight: normal;
-	font-size: 11px;
-}
-div.contactCard h3 + p, div.contactCard h4 + p {
-	margin-top: 0.3em;
-}
-div.contactCard p {
-	margin-bottom: 0;
-	line-height: 1.2em;
-	white-space: nowrap;
-	overflow: hidden;
-	overflow: ellipsis;
-	max-width: 95%;	
-}
-
-div.contactCard p.email a, div.contactCard p.website a {
-	font-weight: normal;
-}
-div#about .contactCard {
-	width: 100%;
-	float: none;
-	display: block;
-	margin: 0;
-	padding: 0;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	cursor: inherit;
-	margin-bottom: -5px;
-}
-
 /* Pagination */
 .pagination a, .pagination span.prev_page, .pagination span.next_page, .pagination span.current {
 	position: relative;
@@ -620,6 +526,7 @@ div#about .contactCard {
 form.search  {
 	/* margin-top: -8px; */
 	margin-bottom: 6px;
+	margin-top: 6px;
 	padding: 6px 8px;
 	background-color: #ccc;
 	-webkit-border-radius: 	 5px;  
@@ -633,6 +540,7 @@ form.search input[type="text"], form.search input[type="search"] {
 
 form.search label {
 	display: inline-block;
+	width: default;
 	font-weight: bold;
 	margin-right: 5px;
 	font-size: 110%;
@@ -733,20 +641,28 @@ div.user img {
 	margin-right: 5px;
 }
 
-/* Concertina panels */
-div.box.accordian {
-  padding: 0;
+/* Accordion panels */
+img.accordion_item_image {
+	position: relative;
+	top: 1px;
+	width: 13px;
 }
 
-div.box.accordian .block {
-	padding: 5px 3px;
+.accordion h3.trig {
+	font-size: 120%;
+	margin-bottom: 0.1em;
 }
 
-div.box.accordian h2 {
-	margin: 0;
+.accordion h3:hover {
+	cursor: pointer;
 }
-.concertina {
-	padding: 0 5px 5px;
+
+.accordion .targ p {
+	margin-left: 1.5em;
+}
+
+.accordion .targ p a {
+	color: #555;
 }
 
 /* Table panels */
@@ -758,14 +674,19 @@ div.box.table h2 {
 	margin: 0;
 }
 
+table th:hover {
+	cursor: pointer;
+}
+
 /* This to format a "nothing here" message in blocks
-but having two types doesn't help */
+but having two types doesn't help 
 div.main div.box .block h3, div.main div.box.table h3 {
 	font-size: 100%;
 	padding: 6px;
 	margin: -10px -10px 0px -4px;
 }
-
+*/
+	
 div.main div.box.table h3 {
 	display: inline-block;
 }

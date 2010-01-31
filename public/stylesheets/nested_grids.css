@@ -1,0 +1,11 @@
+/* We nest grids to get more complex layout.  Need margins to be adjusted accordingly */
+
+.container_12 .grid_9 .grid_6 {
+	width: 49%;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.grid_6 + .grid_6 {
+	float: right;
+}

@@ -1,27 +1,29 @@
-panel @contact.full_name_and_title, :flash => true do
-  block do
-    tab "contact_#{@contact['id']}" do
-      tab_item "Add a Note" do
-        store render :file => '/notes/new'
+column :width => 9 do
+  panel @contact.full_name_and_title, :flash => true do
+    block do
+      tab "contact_#{@contact['id']}" do
+        tab_item "Add a Note" do
+          store render :file => '/notes/new'
+        end
+        tab_item "Add a Task" do
+          store "Tasks"
+        end
+        tab_item "Add an Important Date" do
+          store "Dates"
+        end
       end
-      tab_item "Add a Task" do
-        store "Tasks"
-      end
-      tab_item "Add an Important Date" do
-        store "Dates"
-      end
+    end
+  end
+
+  panel @contact.full_name_and_title + " recent history" do
+    block do
+      @histories = @contact.actions
+      store render :file => 'histories/index'
     end
   end
 end
 
-panel @contact.full_name_and_title + " recent history" do
-  block do
-    @histories = @contact.actions
-    store render :file => 'histories/index'
-  end
-end
-
-keep :sidebar do
+column :width => 3 do
   store render 'about'
   store render 'important_dates'
   store render 'bio'

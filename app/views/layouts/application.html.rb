@@ -4,7 +4,7 @@ html do
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/favicon.ico"
     title "#{Trackster::Config.banner}: #{page_title}"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
-    stylesheet_merged theme_css
+    #stylesheet_merged :theme_css
     javascript_merged :base
     javascripts 'swfobject.js'
     javascript yield(:jstemplates)
@@ -30,6 +30,5 @@ html do
         store "<script src='http://traphos.com/_tks.js' type='text/javascript' ></script>"
     end
     javascript yield(:javascript)
-    javascript tracker_script
   end
 end

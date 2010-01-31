@@ -1,57 +1,32 @@
 --- 
 javascripts: 
 - base: 
-    - prototype
-    - lowpro
-    - effects
-    - dragdrop
     - cookie
-    - controls
-    - concertina
-    - list
-    - inflector
-    - tabricator
-    - tablekit
-    - search     
+    - jquery-1.4.1.min
     - browser_timezone
-    - autocomplete
-    - application     
+    - jquery-kwicks-1.5.1.pack
+    - jquery-ui-1.8rc1.custom.min
+    - jquery-namespace
+    - jquery-quickflip-min
+    - jquery-tablesorter.min
+    - jquery-searchbox
+    - application 
 - tracker_debug:
     - tracker_debug
 - tracker:
     - tracker  
-stylesheets: 
+stylesheets:    
 - base:
     - reset 
     - grid
-    - text    
-    - layout
-    - nav
-    - tabricator
-    - calendar
-    - tablekit
-    - autocomplete    
-    - application
-- ie:
-    - reset 
-    - grid
-    - text    
-    - layout  
-    - nav
-    - tabricator
-    - calendar
-    - tablekit
-    - autocomplete    
-    - application
-    - ie  
-- ie6:    
-    - reset 
-    - grid
-    - layout
-    - nav
-    - tabricator
+    - nested_grids
     - text
-    - calendar
-    - autocomplete    
-    - application     
-    - ie6        
+    - "960" 
+    - "960_shim"  
+    - layout
+    - nav
+    - forms
+    - application
+    - contacts
+    
+          

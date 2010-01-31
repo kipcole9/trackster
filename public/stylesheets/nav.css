@@ -62,7 +62,7 @@ ul.nav li:hover a,
 ul.nav li a:hover,
 ul.nav li a:focus {color:#000; background:#ccc;}
 ul.nav li a:active {color:#666; background:#fff;}
-ul.nav li:hover ul {left:0;z-index:10;}
+ul.nav li:hover ul {left:0;z-index:10}
 ul.nav li ul,
 ul.nav li {background:#ccc !important}
 ul.nav li:hover ul li a {color:#444;}
@@ -165,4 +165,3 @@ ul.nav li.secondary:hover a:hover {
 	background:#555;
 }
 ul.nav li.secondary:hover a:active {background:#444;}
-
