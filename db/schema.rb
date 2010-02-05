@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100102044602) do
+ActiveRecord::Schema.define(:version => 20100205143521) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(:version => 20100102044602) do
     t.string   "referrer_category", :limit => 50
     t.integer  "impressions"
     t.string   "contact_code",      :limit => 50
+    t.string   "email_client"
   end
 
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"

@@ -123,7 +123,7 @@ module Caerus
       field_options = field_options_from(options)
       field_content = "#{label}#{field_message}#{before}#{field_definition}#{after}#{prompt}"
       content = @template.content_tag(:div, field_content, field_options)
-      # add_autocompleter(method, field_id, options)
+      add_autocompleter(method, field_id, options)
       ruby_template? ? @template.concat(content + "\n") : content
     end
   
@@ -177,7 +177,7 @@ module Caerus
     def add_autocompleter(method, field_id, options)
       if options.delete(:autocomplete)
         controller = method.to_s.split('_').first.pluralize
-        autocomplete_js = "var #{field_id} = new AutoComplete('#{field_id}', { json: true, script:'/#{controller}/autocomplete.json?' });\n"
+        autocomplete_js = "$('##{field_id}').autocomplete('/#{controller}/autocomplete.text');\n"
         if field_id =~ /NEW_RECORD/
           @template.javascript(autocomplete_js) 
         else

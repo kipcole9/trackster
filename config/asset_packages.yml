@@ -10,6 +10,7 @@ javascripts:
     - jquery-quickflip-min
     - jquery-tablesorter.min
     - jquery-searchbox
+    - jquery-autocomplete.min
     - application 
 - tracker_debug:
     - tracker_debug
@@ -26,6 +27,7 @@ stylesheets:
     - layout
     - nav
     - forms
+    - jquery-autocomplete
     - application
     - contacts
     

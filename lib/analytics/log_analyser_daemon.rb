@@ -90,7 +90,7 @@ private
   
   def check_if_log_was_rotated  
     if new_file_inode = log_was_rotated?
-      ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has detected a probable log rotation, moved to new logfile."
+      ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has detected a probable log rotation and moved to new logfile."
       log.forward
       @log_inode = new_file_inode
     end

@@ -1,6 +1,6 @@
 class SearchEngine < ActiveRecord::Base
   ENGINE = /\ApageTracker._addOrganic\(\"(.+?)\",\"(.+?)\"\);\Z/
-  GENERIC_TLDS = ['com', 'net', 'org', 'museum', 'biz', 'info']
+  GENERIC_TLDS = ['com', 'net', 'org', 'museum', 'biz', 'info', 'mil', 'edu']
   
   # Search engine list courtesy of
   # http://www.antezeta.com/blog/google-analytics-search-engines

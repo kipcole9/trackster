@@ -7,13 +7,13 @@ class OrganizationsController < ContactsController
   end
     
   def autocomplete
-    query = params[:input]
+    query = params[:q]
     results = Organization.name_like(query)
     respond_to do |format|
-      format.json do
-        suggestions = {:results => results.map{|r| {:id => r["id"], :value => r.name}}}
+      format.text do
+        suggestions = results.map{|r| r.name}.join("\n")
         RAILS_DEFAULT_LOGGER.debug suggestions.inspect
-        render :json => suggestions
+        render :text => suggestions
       end
     end
   end

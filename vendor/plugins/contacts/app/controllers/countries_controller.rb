@@ -1,11 +1,11 @@
 class CountriesController < ApplicationController
 
   def autocomplete
-    query = params[:input]
+    query = params[:q]
     respond_to do |format|
-      format.json do
-        suggestions = {:results =>  Country.name_like(query).map{|k, v| {:id => k.to_s, :value => v}}}
-        render :json => suggestions
+      format.text do
+        suggestions = Country.name_like(query).map{|k, v| v}.join("\n")
+        render :text => suggestions
       end
     end
   end

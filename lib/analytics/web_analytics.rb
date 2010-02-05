@@ -49,30 +49,10 @@ class WebAnalytics
                   :utid         =>  :contact_code
                 }
                   
-  attr_accessor :params, :browscap, :device
+  attr_accessor :params, :platform, :browscap
   
-  class MobileDevice
-    def initialize(file = "#{Rails.root}/lib/analytics/device_atlas.json")
-      require 'json'
-      @device_atlas = DeviceAtlas.new
-      @tree = @device_atlas.getTreeFromFile(file)
-      @cached_entries = {}
-    end
-    
-    def get_device_from_user_agent(user_agent)
-      device = {}
-      return device if device = @cached_entries[user_agent]
-      device = @device_atlas.getProperties(@tree, user_agent)
-      if device['model']
-        @cached_entries[user_agent] = device
-      end
-      device
-    end
-  end
-    
   def initialize
-    @browscap = Browscap.new
-    @device = MobileDevice.new
+    @platform = SystemInfo.new
   end
   
   # From a parsed log entry create the source of data for
@@ -86,8 +66,8 @@ class WebAnalytics
     if row
       get_log_data!(row, entry)
       get_traffic_source!(row)
-      get_platform_info!(row)
-      get_mobile_device_info!(row)
+      platform.get_info!(row)
+      get_email_client!(row) if Event.email_opening?(row)
       get_visitor!(row)
       get_session!(row)
       geocode!(row)
@@ -140,24 +120,6 @@ class WebAnalytics
     end  
     row
   end
-
-  def get_platform_info!(row)
-    if agent = browscap.query(row[:user_agent])
-      row[:browser] = agent.browser
-      row[:browser_version] = agent.version
-      row[:os_name] = agent.platform
-      row[:mobile_device] = agent.is_mobile_device    
-    end
-    get_email_client!(row) if Event.email_opening?(row)
-  end
-  
-  def get_mobile_device_info!(row)
-    mobile_device = device.get_device_from_user_agent(row[:user_agent])
-    if mobile_device['model']
-      row[:device] = mobile_device['model']
-      row[:device_vendor] = mobile_device['vendor']
-    end
-  end  
   
   # Based upon the referrer decide is the traffic source is
   # search, direct or referred
@@ -194,6 +156,10 @@ class WebAnalytics
   
   def is_tracker?(url)
     url && (url =~ REDIRECT_URL || url =~ TRACKER_URL)
+  end
+  
+  def browscap
+    platform.browscap
   end
   
 private
@@ -245,33 +211,33 @@ private
   def get_email_client!(row)
     original_browser = row[:browser]
     if row[:user_agent] =~ /MSOffice 12/i
-      row[:browser] = "Outlook 2007"
+      row[:email_client] = "Outlook 2007"
     elsif row[:referrer] =~ /mail\.google.*\/mail/
-      row[:browser] = "GMail"
+      row[:email_client] = "GMail"
     elsif row[:referrer] =~ /\.hotmail\./
-      row[:browser] = 'Hotmail'
+      row[:email_client] = 'Hotmail'
     elsif row[:referrer] =~ /mail\.yahoo\./
-      row[:browser] = 'Yahoo Mail'
+      row[:email_client] = 'Yahoo Mail'
     elsif row[:referrer] =~ /mail\.live\./
-      row[:browser] = 'Microsoft Live'
-    elsif row[:user_agent] =~ /iPod/
-      row[:browser] = 'iPod Mail'
-    elsif row[:user_agent] =~ /iPhone/
-      row[:browser] = 'iPhone Mail'
+      row[:email_client] = 'Microsoft Live'
+    elsif row[:user_agent] =~ /iPod|iPhone/
+      row[:email_client] = 'iPhone Mail'
     elsif row[:user_agent] =~ /AppleWebKit/
-      row[:browser] = 'Apple Mail'
+      row[:email_client] = 'Apple Mail'
     elsif row[:user_agent] =~ /Thunderbird/
-      row[:browser] = "Thunderbird"
+      row[:email_client] = "Thunderbird"
     elsif row[:user_agent] =~ /Lotus-Notes/
-      row[:browser] = 'Lotus Notes' 
+      row[:email_client] = 'Lotus Notes' 
     elsif row[:user_agent] =~ /Eudora/
-      row[:browser] = 'Eudora'           
+      row[:email_client] = 'Eudora'
+    elsif row[:user_agent] =~ /MAC OS X.*Tasman/
+      row[:email_client] = "Entourage"          
     elsif row[:user_agent] =~ /MSIE/
-      row[:browser] = 'Outlook'
+      row[:email_client] = 'Outlook 2003'
     else
       Rails.logger.error "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
     end
-    unless row[:browser] == original_browser
+    if row[:email_client]
       row[:traffic_source] = 'email'
       row[:referrer_category] = 'campaign'
     end

@@ -6,7 +6,7 @@ class TrafficSource < ActiveRecord::Base
   after_save              :update_sessions
   
   def self.import_search_engines
-    account = Account.admin_account
+    account = Account.admin
     SearchEngine.all.each do |engine|
       ts = account.traffic_sources.find_or_create_by_host(engine.host)
       if engine.host =~ /\Amaps\./i 

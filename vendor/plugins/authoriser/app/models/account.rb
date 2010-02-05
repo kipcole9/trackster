@@ -49,6 +49,10 @@ class Account < ActiveRecord::Base
   def agency_account?
     @agency_account ||= self.clients.count > 0
   end
+  
+  def self.admin
+    find_by_name('admin')
+  end
 
 private
   def create_tracker_code

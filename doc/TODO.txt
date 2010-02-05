@@ -1,8 +1,17 @@
-1.  Move to authlogic
-2.	Implement inherited controllers
-3.  Use CanCan for authorization (instead of declarative_authorisation)
+1.  Scope Contacts database access to account
+2.	Implement inherited controllers for Contacts
+3.  Use CanCan build rules
 4.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts
 
-1.  Create a plugin that handles authentication based upon authlogic (move User & Session models and controllers + views so it's an engine as well).  Use authlogic etc etc etc
 
-2. use subdomain-fu as a gem, not plugin
+
+
+1. Refactor search engine lookup stuff
+2. Mobile device detection: DeviceAtlas licencing?  What is the data format?  Still json information?
+3. Device vs. browser vs platform
+	Device:  Windows PC; Apple Mac; "Some other device" (mobile or not mobile)
+	Browser:  The user agent
+	os_name: The operating environment (windows, osx, symbian, etc)
+	os_version
+	device
+	device_vendor
