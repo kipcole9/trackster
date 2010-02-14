@@ -43,7 +43,7 @@ end
 # statements.  Do this before asset_packager kicks in.
 task :create_production_tracker, :roles => :web do
   run <<-EOF
-    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker
+    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker --trace
   EOF
 
 end

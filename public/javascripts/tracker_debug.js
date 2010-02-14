@@ -2,7 +2,7 @@ function _tks(account)  {
 	this.version		= "1.0";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "vietools.com:8080";
+	this.trackerHost	= "Traphos:8080";
 	this.trackerImage	= "/_tks.gif";
 	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
