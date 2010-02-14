@@ -10,15 +10,15 @@ class MovePermissionsToAccount < ActiveRecord::Migration
     
     # For each current user on an account create an entry in account_users
     # for that account.  Describe as admin role for now
-    Account.all.each do |a|
-      a.properties.each do |p|
-        p.users.each do |u|
-          unless a.account_users.find_by_user_id(u.id)
-            u.account_users << AccountUser.new(:user => u, :account => a, :role_id => 1)
-          end
-        end
-      end
-    end
+    #Account.all.each do |a|
+    #  a.properties.each do |p|
+    #    p.users.each do |u|
+    #      unless a.account_users.find_by_user_id(u.id)
+    #        u.account_users << AccountUser.new(:user => u, :account => a, :role_id => 1)
+    #      end
+    #    end
+    #  end
+    #end
     
   end
 
