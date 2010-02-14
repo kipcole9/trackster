@@ -4,7 +4,7 @@ class AddHostColumnToProperty < ActiveRecord::Migration
     add_index :properties, :host
     
     # Update each property to trigger setting of host column
-    Property.all.each {|p| p.url_will_change!; p.save!}
+    #Property.all.each {|p| p.url_will_change!; p.save!}
     
   end
 

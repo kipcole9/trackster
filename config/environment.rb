@@ -29,7 +29,7 @@ Rails::Initializer.run do |config|
   config.gem "vpim"
   config.gem "authlogic"
   config.gem "cancan"
-  config.gem "inherited_resources"
+  config.gem "inherited_resources", :version => "0.9.4"
   config.gem "has_scope"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
