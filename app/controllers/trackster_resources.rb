@@ -23,6 +23,6 @@ class TracksterResources < InheritedResources::Base
     include Responders::XhrResponder    
   end
 
-  self.responder = Trackster::Responder
+  responder = Trackster::Responder
   
 end
