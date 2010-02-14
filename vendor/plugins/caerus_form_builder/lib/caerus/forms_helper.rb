@@ -18,7 +18,7 @@ module Caerus
   
     # Marks up a form title
     def heading(title, options = {})
-      suffix = options[:append] || ""
+      suffix = options[:append] || ''
       heading_type = options[:type] || :h2
       @template.content_tag(heading_type, tt(title) + suffix)
     end
@@ -30,8 +30,12 @@ module Caerus
     def section(options = {}, &block)
       default_options = {:class => :section_left}
       default_options[:class] = :section_right if options[:position] == :right
-      @template.concat @template.content_tag(:div, 
-        @template.capture(&block), 
+      options[:class] = "#{default_options[:class].to_s} section_width_#{options.delete(:width)}" if options[:width]
+      section_heading = options.delete(:title)
+      heading_tag = ''
+      heading_tag = @template.content_tag(:p, section_heading, :class => :title) if section_heading
+      @template.concat @template.content_tag(:div,
+        heading_tag + @template.capture(&block), 
         default_options.merge(options)
       )
     end

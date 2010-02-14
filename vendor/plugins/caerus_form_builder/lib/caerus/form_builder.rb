@@ -14,7 +14,7 @@ module Caerus
       default_options = {}
       field_options = {:before => options.delete(:before), :after => options.delete(:after), 
                        :autocomplete => options.delete(:autocomplete), 
-                       :optional => options.delete(:optional), :no_prompt => options.delete(:no_prompt)}
+                       :optional => options.delete(:optional), :prompt => options.delete(:prompt)}
       with_field(method, field_options) do
         super(method, default_options.merge(options))
       end
@@ -110,7 +110,7 @@ module Caerus
     def with_field(method, args = {}, &block)
       default_options = {:before => '', :after => '', :autocomplete => false, 
                          :label_class => :field_label, :optional => false,
-                         :field_class => :field, :wrap_in_div => false  }
+                         :field_class => :field, :wrap_in_div => false, :prompt => true  }
       options = default_options.merge(args)
       field_definition = @template.capture(&block)
       field_definition = @template.content_tag(:div, field_definition) if options.delete(:wrap_in_div)
@@ -165,11 +165,11 @@ module Caerus
     end
   
     def get_prompt(table, column, options)
-      if options.delete(:no_prompt)
+      if options.delete(:prompt) == false
         ''
       else
         prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "__none")
-        prompt = I18n.translate("column_descriptions.#{column}", :default => "") if prompt == "__none"
+        prompt = I18n.translate("column_descriptions.#{column}", :default => '') if prompt == "__none"
         prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
       end
     end

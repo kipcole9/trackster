@@ -1,6 +1,7 @@
 /* Contact card display */
 #contactCards {
 	width: 100%;
+	padding-bottom: 5px;
 }
 
 div.contactCard {
@@ -16,14 +17,20 @@ div.contactCard {
 	-webkit-box-shadow: 5px 5px 3px #888;
 	-moz-box-shadow: 5px 5px 3px #888;
 	overflow: hidden;
+	cursor: move;
+}
+
+div.contactCard.canDrop {
+	background-color: #CFECEC;
+}
+
+div.contactCard.ui-draggable-dragging {
+	border: 1px dashed #333;
+	cursor: move;
 }
 
 div.contactCard p {
 	font-size: 11px;
-}
-
-div.contactCard:hover {
-	cursor: move;
 }
 
 div.contactCard img.avatar {
@@ -33,7 +40,7 @@ div.contactCard img.avatar {
 div.contactCard img.icon {
 	position: relative;
 	width: 11px;
-	top: 0.25em;
+	top: 0.2em;
 }
 
 div.contactCard img.merge {
@@ -52,13 +59,15 @@ div.contactCard h3, div.contactCard h4 {
 	font-size: 100%;
 	font-weight: bold;
 	margin-bottom: 0;
+	padding-bottom: 0;
+	padding-top: 0;
 }
 div.contactCard h4 {
 	font-weight: normal;
 	font-size: 11px;
 }
 div.contactCard h3 + p, div.contactCard h4 + p {
-	margin-top: 0.3em;
+	margin-top: 0.1em;
 }
 div.contactCard p {
 	margin-bottom: 0;
@@ -81,7 +90,7 @@ div#about .contactCard {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	cursor: inherit;
-	margin-bottom: -5px;
+	margin-bottom: 2px;
 	background: inherit;
 }
 
@@ -89,4 +98,19 @@ div#about .contactCard {
 .inline .field_message {
 	padding-left: 6em;
 	display: none;
+}
+
+/* For list display */
+.section_left .title, .section_right .title {
+  	padding:.2em 1em;
+  	text-align:left;
+  	border-bottom:2px solid #888;
+  	background:#bbb;
+  	padding:.4em 1em .2em;
+ 	font-size:1em;
+	font-weight:normal;
+	text-transform:uppercase;
+	color:#fff;
+	background:#555;
+	border:1px solid #555;
 }

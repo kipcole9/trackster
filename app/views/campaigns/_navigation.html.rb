@@ -7,12 +7,6 @@ panel t('panels.campaign_navigation'), :class => 'accordion'  do
         nav link_to("Clicks-through")
         nav link_to("Link destinations")
       end          
-    end
-  
-    accordion do
-      accordion_item "Links" do
-        nav link_to("Web Property Overview", property_report_path(@campaign.property, "overview"))
-      end          
-    end    
+    end   
   end
 end

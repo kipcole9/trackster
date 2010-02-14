@@ -1,0 +1,340 @@
+@brand_colour:			rgb(118,118,118);
+@brand_text:			rgb(255,140,37);
+@container_background:	black;
+@site_info:				rgb(39,39,39);
+@light_text:			white;
+@dark_text:				black;
+
+@menu_hover_colour:		rgb(33,33,33);
+@submenu_hover_colour:	rgb(52,52,52);
+@menu_background:		rgb(33,33,33);
+
+// Tables
+@odd_row:				black;
+@even_row:				rgba(0,84,116,0.7);
+
+// Forms
+@fieldset_background:	rgb(50,50,50);
+@fieldset_border:		1px solid rgb(70,70,70);
+@fieldset_colour:		#ccc;
+@legend_background:		rgba(255, 140, 37, .9);	
+@submit_button:			rgb(110,110,110);
+@prompt:				#aaa;
+
+// Search
+@search_background:		#EC8851;
+@search_colour:			#eee;
+
+// Pagination
+@pagination_colour: 	#ccc;
+@pagination_border: 	#333;
+.pagination_hover {
+	color: 				@brand_text;
+	border-color: 		#333;	
+}
+
+// Contact cards
+@contact_background:	#222;
+@contact_colour:		#ccc;
+@contact_border:		#777;
+.contact_border {
+	border: 			1px solid #777;
+	-webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, .5);
+	-moz-box-shadow: 	3px 3px 3px rgba(255, 140, 37, .5);
+}
+
+// Contact form
+@address_separator: 	1px solid #555;
+
+// Flash
+@flash_alert_bg:		#fbb;
+@flash_notice_bg:		#bfb;
+
+// Lists
+
+// General Styling
+.box_shadow (@shadow_colour: rgba(43, 34, 27, 0.4)) {
+	-webkit-box-shadow: 4px 4px 6px @shadow_colour; 
+	-moz-box-shadow: 4px 4px 6px @shadow_colour;
+}
+.box_borders (@radius: 5px) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+/* 
+	Background of the site.
+*/
+body, .container_12 {
+	background: 		@brand_colour;
+	padding: 			0;
+}
+
+/* Centre the content in the page */
+.container_12 {
+	margin: 			0 auto;
+}
+
+/* Brand elements */
+div#branding {
+	height: 5em;
+	background-color: 	@brand_colour;
+	float: 				left;
+}
+
+div#branding img {
+	margin-left: 		-20px;
+}
+
+div#logo {
+	float :				right;
+	height: 			5em;
+}
+
+div#logo img {
+	padding-top: 		15px;
+	margin-right: 		-10px;
+}
+
+div#site_info div.box {
+	background: 		@site_info;
+}
+
+div#site_info div.box p,
+div#site_info div.box a {
+	color: 				@light_text;
+}
+
+/* Page Heading */
+h2#page-heading {
+	margin-left: 		-10px;
+	margin-bottom: 		1px;
+	color: 				@light_text;
+	border-bottom: 		none;
+	font-size: 			120%;
+}
+
+/* Basic containers */
+div.block, div.box, div.box h2.heading {
+	background: 		@container_background;
+}
+
+div.box h2.heading a {
+	color: 				@brand_text;
+}
+
+/* Table formatting */
+table {
+	border: 			none;
+	color:				@light_text;
+}
+
+div.box.table div {
+	padding-left: 		10px;
+	padding-right: 		10px;
+}
+
+thead th, 
+tfoot th, 
+tfoot td {
+	background: 		@dark_text;
+}
+
+tfoot th, 
+tfoot td {
+	border-top: 		2px solid @light_text;
+}
+
+tbody th, 
+tbody td {
+	border-bottom: 		2px solid @brand_colour;
+	border-top: 		2px solid @brand_colour;
+}
+
+tbody tr.odd th,
+tbody tr.odd td {
+	background: 		@odd_row;
+}
+
+tbody tr.even th,
+tbody tr.even td {
+	background: 		@even_row;
+}
+
+/* Menu */
+ul.nav.main,
+ul.nav.main li a {
+	background: url(/themes/mih/menu_grad.jpg) repeat;
+	background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
+	background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
+}
+
+ul.nav.main li a:hover {
+	color: 				@menu_hover_colour;
+}
+
+ul.nav.main li ul li a {
+	background: 		@menu_background;
+}
+
+ul.nav.main li ul li a:hover {
+	background: 		@submenu_hover_colour;
+}
+
+/* Corners and shadows */
+div.box, legend {
+	.box_borders;
+}
+
+div.box, div.listItem:hover {
+	.box_shadow;
+}
+
+div.box h2 {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+}
+
+div.box.accordian, div.box.table  {
+	padding-bottom: 	5px;
+}
+
+/* Concertina */
+.concertina h3.trig {
+	background: 		@dark_text;
+	color: 				@light_text;
+	border: 			none;
+}
+
+.concertina .targ {
+	margin-top: 		5px;
+	border-top: 		2px solid rgb(39,39,39);
+}
+
+.concertina .targ a {
+	color: 				rgb(180,180,180);
+	font-weight: 		normal;
+}
+
+/* Lists */
+div.listItem, fieldset {
+	background: 		@fieldset_background;
+	border: 			@fieldset_border;
+	color: 				@fieldset_colour;
+}
+
+div.listItem a {
+	color: 				@search_colour;
+}
+
+form.search {
+	background: 		@search_background;
+	color: 				@search_colour;
+}
+
+form.search label {
+	font-weight: 		normal;
+}
+
+legend {
+	background-color: 	@legend_background;
+	color: 				@light_text;
+}
+
+div.hbar {
+	background-color: 	@brand_text;	
+}
+
+.submit_button a {
+	color: 				@submit_button;
+}
+
+p.prompt {
+	color: 				@prompt;
+}
+
+.tabricator .trig {
+	background-color: 	@dark_text;
+	border-top: 		1px solid #666;
+	border-left: 		1px solid #666;
+	border-right: 		1px solid #666;
+}
+
+.tabricator .targ {
+	border-top: 		1px solid #666;
+}
+.tabricator .tabItem:hover, .tabricator .open {
+	color: 				@light_text;
+	background: 		@dark_text;
+}
+
+div#about {
+	padding-top: 0;
+}
+
+
+div.contactCard {
+	background: 		@contact_background;
+	color: 				@contact_colour;
+	.contact_border;
+}
+
+div.contactCard:hover {
+	cursor: 			inherit;
+}
+
+div.contactCard a {
+	color: 				@light_text;
+}
+
+div.contactCard a:hover {
+	color: 				@brand_text;
+}
+
+div#about .contactCard {
+	margin-left: 		2px;
+	background: 		@dark_text;
+	border: 			none;
+	color: 				@fieldset_colour;
+	height: 			auto;
+	margin-bottom: 		5px;
+}
+
+div#about .contactCard a {
+	color: @light_text;
+}
+
+div.address + div.address {
+	border-top: @address_separator;
+}
+
+.pagination a, .pagination span.prev_page, .pagination span.next_page {
+	color: @pagination_colour;
+	border-color: @pagination_border;
+	font-weight: normal;
+}
+
+.pagination span.current, .pagination a:hover, .pagination span.prev_page:hover, .pagination span.next_page:hover {
+	.pagination_hover;
+}
+
+div.autocomplete {
+	opacity: 1;
+}
+div.autocomplete ul {
+	background: @pagination_border;
+}
+
+div.box.flash_alert {
+	background-color: @flash_alert_bg;
+}
+
+div.box.flash_notice {
+	background-color: @flash_notice_bg;
+}
+
+.history p {
+	color: @light_text;
+}

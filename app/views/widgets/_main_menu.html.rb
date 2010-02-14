@@ -11,7 +11,9 @@ with_tag :div, :class => "grid_12" do
     end
     menu_item "Contacts" do
       menu_item "Create a new contact",   :href => new_contact_path       if can? :create, Contact
-      menu_item "Show all contacts",      :href => contacts_path
+      menu_item "People",                 :href => people_path
+      menu_item "Organizations",          :href => organizations_path            
+      menu_item "All contacts",           :href => contacts_path
     end
     menu_item "Account" do
       menu_item "Edit your account",    :href => edit_account_path(current_account) if can? :edit, current_account

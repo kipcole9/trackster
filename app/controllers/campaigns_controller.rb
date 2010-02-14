@@ -13,6 +13,13 @@ class CampaignsController < TracksterResources
     end
     redirect_back_or_default('/') unless flash.empty?
   end
+  
+  def destroy
+    destroy! do |success, failure|
+      success.js {render :delete}
+    end
+  end
+  
 
 private
   def begin_of_association_chain

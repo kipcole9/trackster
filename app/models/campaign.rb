@@ -7,9 +7,6 @@ class Campaign < ActiveRecord::Base
   has_many      :tracks
   
   before_create  :create_campaign_code
-   
-  validates_associated    :property
-  validates_presence_of   :property_id
 
   validates_associated    :account
   validates_presence_of   :account_id

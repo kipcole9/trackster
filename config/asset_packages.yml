@@ -7,7 +7,7 @@ javascripts:
     - jquery-kwicks-1.5.1.pack
     - jquery-ui-1.8rc1.custom.min
     - jquery-namespace
-    - jquery-quickflip-min
+    - rails
     - jquery-tablesorter.min
     - jquery-searchbox
     - jquery-autocomplete.min
@@ -19,11 +19,10 @@ javascripts:
 stylesheets:    
 - base:
     - reset 
-    - grid
-    - nested_grids
     - text
     - "960" 
-    - "960_shim"  
+    - "960_shim"
+    - nested_grids
     - layout
     - nav
     - forms

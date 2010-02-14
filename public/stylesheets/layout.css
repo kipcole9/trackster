@@ -97,7 +97,7 @@ h2#page-heading {
 .box h2 a,
 .box h2 a.visible {
 	color:#fff;
-	background:#333 url("../img/switch_minus.gif") 96% 50% no-repeat;
+	/* background:#333 url("../img/switch_minus.gif") 96% 50% no-repeat; */
 	display:block;
 	padding:6px 12px;
 	margin:-6px -12px;

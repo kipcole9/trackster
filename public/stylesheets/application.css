@@ -209,18 +209,30 @@ form {
 	padding-bottom: 2.2em;
 }
 
-form .section_left {
+.section_left {
 	position: relative;
 	float: left;
 	width: 48%;
 	padding-right: 10px;
 }
 
-form .section_right {
+.section_right {
 	position: relative;
 	float: left;
 	width: 48%;
 	padding-left: 10px;
+}
+
+.section_width_20 {
+	width: 19%;
+}
+
+.section_width_30 {
+	width: 29%;
+}
+
+.section_width_40 {
+	width: 37%;
 }
 
 /* Submit button combo */
@@ -442,10 +454,6 @@ ul.main li ul {
   opacity: 0.9;
 }
 
-div.block {
-	padding-bottom: 5px;
-}
-
 /* Formatting for addresses */
 fieldset#address input, fieldset#address textarea, fieldset#address select {
 	margin-bottom: 0.7em;
@@ -566,7 +574,7 @@ ul.tree li.root {
 /* Actual data visual formatting */
 div.treeItem, div.listItem {
 	border: 1px solid #aaa;
-	background-color: #eee;
+	background-color: #fff;
 	padding: 5px 5px 7px 5px;
 	-webkit-border-radius: 5px;  
   	-moz-border-radius:	5px;
@@ -642,6 +650,12 @@ div.user img {
 }
 
 /* Accordion panels */
+.accordion {
+	margin-bottom: 0.5em;
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
 img.accordion_item_image {
 	position: relative;
 	top: 1px;
@@ -649,15 +663,24 @@ img.accordion_item_image {
 }
 
 .accordion h3.trig {
-	font-size: 120%;
-	margin-bottom: 0.1em;
+	font-size: 110%;
+	margin-bottom: 		0.1em;
+	background:			#eee;
+	padding:			5px;
+	-webkit-box-shadow: 3px 3px 3px #999;
+	-moz-box-shadow: 	3px 3px 3px #999;
 }
 
 .accordion h3:hover {
 	cursor: pointer;
 }
 
+.accordion .targ {
+	margin-bottom: 0.5em;
+}
+
 .accordion .targ p {
+	margin-top:	0.5em;
 	margin-left: 1.5em;
 }
 
@@ -686,9 +709,16 @@ div.main div.box .block h3, div.main div.box.table h3 {
 	margin: -10px -10px 0px -4px;
 }
 */
-	
-div.main div.box.table h3 {
-	display: inline-block;
+
+.block h3 {
+	font-size: 110%;
+}
+
+.box h3 {
+	padding: 5px 0px 7px 0px;
+}
+.box.table h3 {
+	padding: 10px 10px 13px 10px;
 }
 
 /* Table layouts for generated content in to_table */
@@ -758,4 +788,8 @@ div.hbar {
 
 #bio table {
 	margin-top: 0.5em;
+}
+
+.login {
+	margin-top: 1em;
 }

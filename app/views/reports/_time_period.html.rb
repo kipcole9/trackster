@@ -1,4 +1,4 @@
-panel t('panels.time_dimension'), :class => 'accordion'  do
+panel t('panels.time_dimension')  do
   block do
     accordion do
       accordion_item "Time Period" do  

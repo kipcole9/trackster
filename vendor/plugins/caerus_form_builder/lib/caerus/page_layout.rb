@@ -192,6 +192,16 @@ module Caerus
         store "<input class='search text' name='#{search_id}' type='text' id='#{search_id}' AutoComplete='off' />"
       end
     end
+    
+    # Emulate the UJS approach to linking in Rails 3
+    # We've extracted the UJS Helpers in the javascript environment
+    if Rails::VERSION::MAJOR == 2
+      def convert_options_to_javascript!(html_options, url)
+        html_options[:'data-method'] = html_options.delete('method')   if html_options['method']
+        html_options[:'data-confirm'] = html_options.delete('confirm') if html_options['confirm']
+        html_options[:'data-remote'] = html_options.delete('remote')   if html_options['remote']
+      end
+    end
 
     def method_missing(method, *args, &block)
       if [:h4, :h3, :h2, :h1].include?(method)

@@ -175,7 +175,7 @@ $(document).ready(function(){
 	if (focus_list.size() > 0) {
 		focus_list.first().focus();
 	} else if ($('form').size() > 0) {
-		$('form').find(':input:visible').focus();
+		$('form').find(':input:visible').first().focus();
 	};
 
 	// Form setup
@@ -202,12 +202,21 @@ $(document).ready(function(){
 		$(window).bind('resize', function() {
 			$.resizeContactCards();
 		});
+		
+		// Drag and drop cards to merge
+		$('.contactCard').draggable({revert: true, helper: 'clone', opacity: 0.7});
+		$('.contactCard').droppable({accept: '.contactCard', hoverClass: 'canDrop'});
 	};
 
   	/* Search forms */
 	$('form.search').each(function(i) {
 		$(this).find('input').searchbox({url : $(this).attr('url'), dom_id : '#' + $(this).attr('replace'), param : 'search'});
 	});
+	
+	$(document).bind('after.searchbox', function() {
+		var callback = $('form.search').first().attr('callback');
+	  	if (callback) eval(callback);
+	})
 
   	/* Optional fields handling - toggle visibility on click */
 	$('span.showOptional input[type="checkbox"]').click(function(event) {
@@ -248,4 +257,13 @@ $(document).ready(function(){
 		fields = new_row.find(':input:visible');
 		if (fields.length > 0) fields.first().focus();
 	}));
+	
+	$('.listItem').live('mouseover', (function(event) {
+		$(this).find('.buttons').first().show();
+	}));
+	
+	$('.listItem').live('mouseout', (function(event) {
+		$(this).find('.buttons').first().hide();
+	}));
+
 });   

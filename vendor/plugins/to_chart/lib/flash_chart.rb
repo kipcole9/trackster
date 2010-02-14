@@ -19,10 +19,10 @@ module Charting
     DEFAULT_OPTIONS = { :type               => AreaLine, 
                         :line_width         => 4, 
                         :dot_size           => 5, 
-                        :colour             => '#1987D5', #'#E41B17'
-                        :fill_colour        => '#1987D5', #'#CFECEC',
+                        :colour             => '#1987D5',
+                        :fill_colour        => '#1987D5',
                         :fill_alpha         => 0.2,
-                        :background_colour  => '#dddddd', # '#E3E1D5', # '#dddddd',
+                        :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
                         :grid_division      => 5,
                         :label_steps        => 2,
@@ -36,7 +36,7 @@ module Charting
       
     def initialize(data_source, column, label = nil, options = {})
       @options = DEFAULT_OPTIONS.merge(options)
-      @options = @options.merge(@@config) if defined?(@@config)
+      @options = @options.merge(self.config)
       @div_name = @options[:id] || "chart_" + ActiveSupport::SecureRandom.hex(5)
       @options[:text] = data_source.first.class.human_attribute_name(column.to_s) if @options[:text].blank? && !data_source.empty?
       @chart = graph_data(data_source, column, label, @options)      
@@ -47,7 +47,11 @@ module Charting
     # so the callers don't have to know about this and it can be
     # removed later
     def self.config=(config)
-      @@config = config
+      Thread.current[:chart_config] = config
+    end
+    
+    def self.config
+      Thread.current[:chart_config]
     end
     
     def render_chart
