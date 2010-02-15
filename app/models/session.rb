@@ -8,6 +8,7 @@ class Session < ActiveRecord::Base
   before_create :update_local_hour
   before_save   :update_session_time
   before_save   :update_event_count
+  
   attr_accessor :logger
   
   EMAIL_CLICK   = 'email'
@@ -82,7 +83,7 @@ private
     # Note session relevant data.  Session must be
     # tied to an account and property else it's a bogus session
     if session.account = Account.find_by_tracker(row[:account_code])
-      if session.property = Account.properties.find_by_host(row[:host])
+      if session.property = session.account.properties.find_by_host(row[:host])
         session.save_time_metrics(row)
         session.create_campaign_association(row)
       else
