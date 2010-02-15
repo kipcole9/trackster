@@ -89,6 +89,7 @@ private
         session.create_campaign_association(row)
       else
         logger.error "[Session] Host '#{row[:host]}' is not associated with account #{session.account.name}."
+        logger.error row.inspect
       end
     else
       logger.error "[Session] Account '#{row[:account_code]}' is not known."
