@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100205143521) do
+ActiveRecord::Schema.define(:version => 20100215065108) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20100205143521) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.string   "theme"
-    t.string   "tracker",             :limit => 10
+    t.string   "tracker",             :limit => 15
     t.integer  "agent_id"
     t.string   "email_from",          :limit => 50
     t.string   "email_from_name",     :limit => 50
