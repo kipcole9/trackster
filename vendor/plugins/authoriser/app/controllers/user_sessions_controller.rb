@@ -8,7 +8,11 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    @user_session = current_account.user_sessions.new(params[:user_session])
+    if params[:login] == User::ADMIN_USER
+      @user_session = current_account.user_sessions.new(params[:user_session])
+    else
+      @user_session = user_sessions.new(params[:user_session])
+    end
     if @user_session.save
       flash[:notice] = "logged in"
       redirect_back_or_default('/')

@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   DOMAIN_TLD_REGEX          = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)'.freeze
   EMAIL_REGEX               = /\A#{EMAIL_NAME_REGEX}@#{DOMAIN_HEAD_REGEX}#{DOMAIN_TLD_REGEX}\z/i
   ROLES                     = %w[account_admin agent sponsor user]
+  ADMIN_USER                = 'admin'
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
                             :convert_options => { :all => "-unsharp 0.3x0.3+3+0" }
