@@ -1,4 +1,4 @@
-class Country
+class Country < ActiveRecord::Base
   #unloadable
   
   def self.name_like(name)
