@@ -9,7 +9,7 @@ class SystemInfo
       @cached_entries = {}
     end
     
-    def device_from_user_agent(user_agent)
+    def from_user_agent(user_agent)
       device = {}
       return device if device = @cached_entries[user_agent]
       device = @device_atlas.getProperties(@tree, user_agent)
@@ -43,11 +43,11 @@ protected
   end
   
   def device_info!(row)
-    device = device_from_user_agent(row[:user_agent])
-    if device['model']
-      row[:device] = device['model']
-      row[:device_vendor] = device['vendor']
-      row[:mobile_device] ||= device['mobileDevice']
+    item = device.from_user_agent(row[:user_agent])
+    if item['model']
+      row[:device] = item['model']
+      row[:device_vendor] = item['vendor']
+      row[:mobile_device] ||= item['mobileDevice']
     end
   end
   
