@@ -21,7 +21,7 @@ class IpAddress < ActiveRecord::Base
       raise row.inspect
     end
     if lookup = find(:first, :conditions => ['ip = ?', convert_to_integer_cidr24(ip_address)])
-      country = Country.find_by_id(lookup.country])
+      country = Country.find_by_id(lookup.country)
       city = City.find_by_country_and_city(lookup.country, lookup.city)
       if row 
         if country
