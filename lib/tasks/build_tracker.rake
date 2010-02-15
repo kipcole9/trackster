@@ -8,9 +8,9 @@ namespace :trackster do
     tracker_production  = "#{tracker_directory}/tracker.js"
     begin
       if Rails.env == "staging" || Rails.env == "development"
-        `sed -e 's/{{SITE}}/#{Trackster::Config.site}:8080/' #{tracker_template} > #{tracker_debug}`
+        `sed -e 's/{{SITE}}/#{Trackster::Config.host}:8080/' #{tracker_template} > #{tracker_debug}`
       elsif Rails.env == "production"
-        `sed -e 's/{{SITE}}/#{Trackster::Config.site}/;s/console.log/\\/\\/ console.log/' #{tracker_template} > #{tracker_production}`
+        `sed -e 's/{{SITE}}/#{Trackster::Config.host}/;s/console.log/\\/\\/ console.log/' #{tracker_template} > #{tracker_production}`
       end
     rescue Exception => e
       puts "Could not create production tracker: '#{e.message}'"
