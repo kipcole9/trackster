@@ -1,6 +1,8 @@
 class Account < ActiveRecord::Base
-  unloadable
+  unloadable if Rails.env == 'development'
   include         Analytics::Model
+  ADMIN_USER      = 'admin'
+  
   authenticates_many  :user_sessions
   has_many        :account_users
   has_many        :users, :through => :account_users
@@ -51,7 +53,7 @@ class Account < ActiveRecord::Base
   end
   
   def self.admin
-    find_by_name('admin')
+    find_by_name(ADMIN_USER)
   end
 
 private

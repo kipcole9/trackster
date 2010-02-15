@@ -49,9 +49,10 @@ class WebAnalytics
                   :utid         =>  :contact_code
                 }
                   
-  attr_accessor :params, :platform, :browscap
+  attr_accessor :params, :platform, :browscap, :logger
   
-  def initialize
+  def initialize(logger = nil)
+    @logger = logger || Rails.logger
     @platform = SystemInfo.new
   end
   
@@ -88,7 +89,7 @@ class WebAnalytics
     row[:host] = uri.host
     row
   rescue URI::InvalidURIError
-    Rails.logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
+    logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
     {}
   end
   
@@ -97,7 +98,7 @@ class WebAnalytics
     uri = URI.parse(url)
     params_to_hash(uri.query)
   rescue URI::InvalidURIError
-    Rails.logger.error "[Web Analytics] Invalid URI detected: '#{url}'"
+    logger.error "[Web Analytics] Invalid URI detected: '#{url}'"
     {}
   end
   
@@ -115,8 +116,8 @@ class WebAnalytics
       row[:page_title] = redirect.name
       row[:redirect] = true
     rescue NoMethodError => e
-      Rails.logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
-      Rails.logger.error "[Web Analytics] #{redirect.inspect}" 
+      logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
+      logger.error "[Web Analytics] #{redirect.inspect}" 
     end  
     row
   end
@@ -146,7 +147,7 @@ class WebAnalytics
       row[:traffic_source] = 'referral'      
     end
   rescue
-    Rails.logger.error "[Web Analytics] Invalid URI Referrer detected: '#{referrer}'"
+    logger.error "[Web Analytics] Invalid URI Referrer detected: '#{referrer}'"
     row[:traffic_source] = 'referral'
   end
 
@@ -235,7 +236,7 @@ private
     elsif row[:user_agent] =~ /MSIE/
       row[:email_client] = 'Outlook 2003'
     else
-      Rails.logger.error "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
+      logger.error "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
     end
     if row[:email_client]
       row[:traffic_source] = 'email'

@@ -2,15 +2,16 @@ class LogAnalyserDaemon
   # Check that a log entry matches a logging record
   # First kind is a regular .gif request.
   # The second is a redirect record
-  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry
+  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger
   
   def initialize(options = {})
     # Configuration options
+    @logger          = Trackster::Config.analytics_logfile_directory ? Logger.new("#{Trackster::Config.analytics_logfile_directory}/log_analyser.log", Trackster::Config.log_mode) : Rails.logger
     @options         = options
-    @log_parser      = LogParser.new(:nginx)
-    @web_analyser    = WebAnalytics.new
+    @log_parser      = LogParser.new(:nginx, @logger)
+    @web_analyser    = WebAnalytics.new(@logger)
     @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
-    @nginx_log_dir   = Trackster::Config.log_file_directory
+    @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
 
   def log_analyser_loop(options = {})
@@ -28,10 +29,10 @@ class LogAnalyserDaemon
     # of EOF detections)
     log.after_reopen do
       if running?
-        ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
+        logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
-        ActiveRecord::Base.logger.info "[Log analyser daemon] Log analyser is terminating as requested (after log reopen)"
+        logger.info "[Log analyser daemon] Log analyser is terminating as requested (after log reopen)"
         log.close
         return
       end
@@ -46,11 +47,11 @@ class LogAnalyserDaemon
             log_parser.save_web_analytics!(web_analyser, entry)
           end
         else
-          ActiveRecord::Base.logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
+          logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
         end
       rescue ActiveRecord::StatementInvalid => e
         if e.to_s =~ /away/
-          ActiveRecord::Base.logger.info "[Log analyser daemon] Recovering from MySql 'gone away' timeout."
+          logger.info "[Log analyser daemon] Recovering from MySql 'gone away' timeout."
           ActiveRecord::Base.connection.reconnect! && retry
         else
           raise e
@@ -59,7 +60,7 @@ class LogAnalyserDaemon
     end
     
     unless running?
-      ActiveRecord::Base.logger.info "[Log analyser daemon] Log analyser is terminating as requested (there may be unprocessed log entries)"
+      logger.info "[Log analyser daemon] Log analyser is terminating as requested (there may be unprocessed log entries)"
       log.close
       return
     end    
@@ -90,7 +91,7 @@ private
   
   def check_if_log_was_rotated  
     if new_file_inode = log_was_rotated?
-      ActiveRecord::Base.logger.debug "[Log analyser daemon] Log analyser has detected a probable log rotation and moved to new logfile."
+      logger.info "[Log analyser daemon] Log analyser has detected a probable log rotation and moved to new logfile."
       log.forward
       @log_inode = new_file_inode
     end
