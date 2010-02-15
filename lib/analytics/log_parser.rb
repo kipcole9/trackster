@@ -14,16 +14,17 @@ class LogParser
   
   COMMON_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
   DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
-  attr_accessor   :format, :regexp, :column
+  attr_accessor   :format, :regexp, :column, :logger
   
-  def initialize(*args)
-    if args.empty? || args.last == :nginx || args.last == :common
+  def initialize(options = {})
+    if options.empty? || options[:format] == :nginx || options[:format] == :common
       @args = COMMON_LOG
     else
-      @args = args
+      @args = options[:format]
     end
     
     validate_args!(@args)
+    @logger = options[:logger] || Rails.logger
     @formats = []
     @args.each {|arg| @formats << ATTRIBS[arg]}
     @format = "\\A" + @formats.join(' ') + "\\Z"
@@ -52,8 +53,8 @@ class LogParser
   # locally (no net latency).
   def save_web_analytics!(web_analyser, entry, options = {})
     unless row = web_analyser.create(entry)
-      Rails.logger.error "[log_parser] Row could not be created from log data:"
-      Rails.logger.error entry.inspect
+      logger.error "[log_parser] Row could not be created from log data:"
+      logger.error entry.inspect
       return nil
     end
     
@@ -65,20 +66,18 @@ class LogParser
           event.save! 
           session.update_viewcount!
         else
-          Rails.logger.error "[log_parser] Event could not be created"
-          Rails.logger.error row.inspect
+          logger.error "[log_parser] Event could not be created. URL: #{row[:url]}"
         end
       else
-        Rails.logger.error "[log_parser] Sesssion was not found or created!  Unknown web property?"
-        Rails.logger.error row.inspect
+        logger.error "[log_parser] Sesssion was not found or created. Unknown web property? URL: #{row[:url]}"
       end
     end
   rescue Mysql::Error => e
-    Rails.logger.warn "[log_parser] Database could not save this data: #{e.message}"
-    Rails.logger.warn row.inspect
+    logger.warn "[log_parser] Database could not save this data: #{e.message}"
+    logger.warn row.inspect
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "[log_parser] Invalid record detected: #{e.message}"
-    Rails.logger.error row.inspect
+    logger.error "[log_parser] Invalid record detected: #{e.message}"
+    logger.error row.inspect
   end    
 
 private

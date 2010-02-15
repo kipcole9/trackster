@@ -51,8 +51,8 @@ class WebAnalytics
                   
   attr_accessor :params, :platform, :browscap, :logger
   
-  def initialize(logger = nil)
-    @logger = logger || Rails.logger
+  def initialize(options = {})
+    @logger = options[:logger] || Rails.logger
     @platform = SystemInfo.new
   end
   
@@ -65,6 +65,7 @@ class WebAnalytics
       row = parse_tracker_url_parameters(entry[:url])
     end
     if row
+      row[:logger] = logger
       log_data!(row, entry)
       traffic_source!(row)
       platform.info!(row)

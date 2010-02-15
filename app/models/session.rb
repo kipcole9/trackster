@@ -8,10 +8,12 @@ class Session < ActiveRecord::Base
   before_create :update_local_hour
   before_save   :update_session_time
   before_save   :update_event_count
+  attr_accessor :logger
   
   EMAIL_CLICK   = 'email'
   
   def self.find_or_create_from_track(row)
+    @logger ||= row[:logger] || Rails.logger
     if row[:visitor] && row[:visit] && row[:session]
       session = find_by_visitor_and_visit_and_session(row[:visitor], row[:visit], row[:session])
     end
@@ -52,10 +54,12 @@ class Session < ActiveRecord::Base
 
   def create_campaign_association(row)
     return unless row[:campaign_name]
+    @logger ||= row[:logger] || Rails.logger
+        
     if self.campaign = Campaign.find_by_code(row[:campaign_name])
       self.campaign_name = self.campaign.name
     else
-      Rails.logger.error "[session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
+      logger.error "[session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
     end
   end
 
@@ -82,10 +86,10 @@ private
         session.save_time_metrics(row)
         session.create_campaign_association(row)
       else
-        Rails.logger.error "[Session] Host '#{row[:host]}' is not associated with account #{session.account.name}."
+        logger.error "[Session] Host '#{row[:host]}' is not associated with account #{session.account.name}."
       end
     else
-      Rails.logger.error "[Session] Account '#{row[:account_code]}' is not known."
+      logger.error "[Session] Account '#{row[:account_code]}' is not known."
     end
     session.account && session.property ? session : nil
   end

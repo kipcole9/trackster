@@ -6,10 +6,10 @@ class LogAnalyserDaemon
   
   def initialize(options = {})
     # Configuration options
-    @logger          = Trackster::Config.analytics_logfile_directory ? Logger.new("#{Trackster::Config.analytics_logfile_directory}/log_analyser.log", Trackster::Config.log_mode) : Rails.logger
+    @logger          = log_from_options(options)
     @options         = options
-    @log_parser      = LogParser.new(:nginx, @logger)
-    @web_analyser    = WebAnalytics.new(@logger)
+    @log_parser      = LogParser.new(:format => :nginx, :logger => @logger)
+    @web_analyser    = WebAnalytics.new(:logger => @logger)
     @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
@@ -77,7 +77,7 @@ private
     # environment.
     @log_file ||= case Rails.env
       when "development"
-        "#{Rails.root}/tmp/test_data/track_data"
+        "#{Rails.root}/tmp/tracker_access_production.log"
       when "staging", "production"
         "#{@nginx_log_dir}/tracker_access_#{Rails.env}.log"
       else
@@ -96,5 +96,13 @@ private
       @log_inode = new_file_inode
     end
   end
-
+  
+  def log_from_options(options)
+    log_modes = {:debug	=> 0, :info	=> 1, :warn	=> 2, :error	=> 3, :fatal	=> 4}
+    
+    return options[:logger] if options[:logger]
+    logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory
+    log_level = log_modes[options[:log_level] || Trackster::Config.log_level || :info]
+    logfile ? Logger.new(logfile, log_level) : Rails.logger
+  end
 end

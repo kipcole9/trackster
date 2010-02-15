@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   before_save       :update_label
   after_save        :update_video_maxplay
   
+  attr_accessor   :logger
+  
   PAGE_CATEGORY   = "page"
   VIEW_ACTION     = "view"
   
@@ -29,6 +31,8 @@ class Event < ActiveRecord::Base
   
   def self.create_from_row(session, row)
     return nil if !session || unknown_event?(row) || duplicate_event?(session, row)
+    @logger ||= row[:logger] || Rails.logger
+    
     event = new_from_row(row)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       previous_event.exit_page = false
@@ -71,8 +75,8 @@ private
     # If no view then it's an open email or a redirect, which is OK
     return false if !row[:view]
     if session.events.find_by_sequence(row[:view])
-      Rails.logger.error "[Event] Duplicate event found for sequence #{row[:view]}"
-      Rails.logger.error row.inspect
+      logger.error "[Event] Duplicate event found for sequence #{row[:view]}"
+      logger.error row.inspect
       true
     else
       false
@@ -81,7 +85,7 @@ private
       
   def self.unknown_event?(row)
     if unknown = row[:view].blank? && !email_opening?(row) && !redirect?(row)
-      Rails.logger.error "[Event] Unknown event detected (no view sequence number; not an email open event; not a redirect)"
+      logger.error "[Event] Unknown event detected (no view sequence number; not an email open event; not a redirect)"
     end
     unknown
   end

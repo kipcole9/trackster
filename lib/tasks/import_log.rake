@@ -7,8 +7,8 @@ namespace :trackster do
     require 'analytics/log_analyser_daemon'
     Rails.logger.info "Starting import of tracking log."    
     if Rails.env == "development"
-      Session.delete_all
-      Event.delete_all
+      #Session.delete_all
+      #Event.delete_all
       $RUNNING = true
       log_tailer = LogAnalyserDaemon.new
       log_tailer.log_analyser_loop :return_if_eof => true
@@ -18,15 +18,13 @@ namespace :trackster do
     end
   end
   
-  desc "Get staging tracker log file from vietools"
+  desc "Get staging tracker log file from traphos"
   task(:get_staging_log => :environment) do
-    `rm tmp/test_data/track_data`
-    `scp -P 9876 kip@vietools.com:/usr/local/nginx/logs/tracker_access_staging.log tmp/test_data/track_data`
+    `scp -P 9876 kip@traphos.com:/opt/nginx/logs/tracker_access_staging.log tmp/`
   end
 
-  desc "Get production tracker log file from vietools"
+  desc "Get production tracker log file from traphos"
   task(:get_production_log => :environment) do
-    `rm tmp/test_data/track_data`
-    `scp -P 9876 kip@vietools.com:/usr/local/nginx/logs/tracker_access_production.log tmp/test_data/track_data`
+    `scp -P 9876 kip@traphos.com:/opt/nginx/logs/tracker_access_production.log tmp/`
   end
 end
