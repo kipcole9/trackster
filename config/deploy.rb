@@ -93,19 +93,20 @@ task :update_search_engines, :roles => :app do
   run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_search_engine_list"
 end
 
-desc "Start log analyser"
-task :start_log_analyser, :roles => :app do
-  run <<-EOF
-    export RAILS_ENV=#{rails_env}
-    cd #{release_path} && lib/daemons/log_analyser_ctl start
-  EOF
-end
+namespace :log_analyser do
+  desc "Start log analyser"
+  task :start, :roles => :app do
+    run <<-EOF
+      export RAILS_ENV=#{rails_env} &&
+      cd #{current_path} && lib/daemons/log_analyser_ctl start
+    EOF
+  end
 
-desc "Stop log analyser"
-task :stop_log_analyser, :roles => :app do
-  run <<-EOF
-    export RAILS_ENV=#{rails_env}  
-    cd #{release_path} && lib/daemons/log_analyser_ctl stop
-  EOF
+  desc "Stop log analyser"
+  task :stop, :roles => :app do
+    run <<-EOF
+      export RAILS_ENV=#{rails_env} &&
+      cd #{current_path} && lib/daemons/log_analyser_ctl stop
+    EOF
+  end
 end
-

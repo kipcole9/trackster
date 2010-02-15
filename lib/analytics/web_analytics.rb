@@ -64,12 +64,12 @@ class WebAnalytics
       row = parse_tracker_url_parameters(entry[:url])
     end
     if row
-      get_log_data!(row, entry)
-      get_traffic_source!(row)
-      platform.get_info!(row)
-      get_email_client!(row) if Event.email_opening?(row)
-      get_visitor!(row)
-      get_session!(row)
+      log_data!(row, entry)
+      traffic_source!(row)
+      platform.info!(row)
+      email_client!(row) if Event.email_opening?(row)
+      visitor!(row)
+      session!(row)
       geocode!(row)
       time_zone_from_longitude!(row) if row[:longitude] && !row[:timezone]
     end
@@ -123,7 +123,7 @@ class WebAnalytics
   
   # Based upon the referrer decide is the traffic source is
   # search, direct or referred
-  def get_traffic_source!(row)
+  def traffic_source!(row)
     referrer = row[:referrer]
     if referrer.blank? || referrer == "-" || referrer == 'mhtmlmain:'
       row[:traffic_source] = 'direct'
@@ -177,7 +177,7 @@ private
     row[:lon_local_time] = true
   end
   
-  def get_log_data!(row, entry)
+  def log_data!(row, entry)
     row[:ip_address]  = entry[:ip_address]
     row[:tracked_at]  = entry[:datetime]
     row[:user_agent]  = entry[:user_agent]
@@ -188,7 +188,7 @@ private
   # => 1: Number of visits
   # => 2: Current session timestamp
   # => 3: Previous session timestamp
-  def get_visitor!(row)
+  def visitor!(row)
     return if row[:visitor].blank?
     parts = row[:visitor].split('.')
     raise "[Web Analytics] Badly formed visitor variable: '#{v}'" if parts.size > 4
@@ -200,7 +200,7 @@ private
   # Session has two possible parts
   # => Session id (a timestamp)
   # => A pageview count incremented on each pageview for this session
-  def get_session!(row)
+  def session!(row)
     return if row[:session].blank?
     parts = row[:session].split('.')
     row[:session] = parts[0]
@@ -208,7 +208,7 @@ private
   end
 
   # This needs to be rewritten as a proper analyser
-  def get_email_client!(row)
+  def email_client!(row)
     original_browser = row[:browser]
     if row[:user_agent] =~ /MSOffice 12/i
       row[:email_client] = "Outlook 2007"

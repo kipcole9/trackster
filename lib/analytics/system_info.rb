@@ -9,7 +9,7 @@ class SystemInfo
       @cached_entries = {}
     end
     
-    def get_device_from_user_agent(user_agent)
+    def device_from_user_agent(user_agent)
       device = {}
       return device if device = @cached_entries[user_agent]
       device = @device_atlas.getProperties(@tree, user_agent)
@@ -25,15 +25,15 @@ class SystemInfo
     @device = MobileDevice.new
   end
   
-  def get_info!(row)
-    get_platform_info!(row)
-    get_device_info!(row)
+  def info!(row)
+    platform_info!(row)
+    device_info!(row)
     transform_platform_info!(row)
   end
   
 protected
   
-  def get_platform_info!(row)
+  def platform_info!(row)
     if agent = browscap.query(row[:user_agent])
       row[:browser] = agent.browser
       row[:browser_version] = agent.version
@@ -42,8 +42,8 @@ protected
     end
   end
   
-  def get_device_info!(row)
-    device = device.get_device_from_user_agent(row[:user_agent])
+  def device_info!(row)
+    device = device_from_user_agent(row[:user_agent])
     if device['model']
       row[:device] = device['model']
       row[:device_vendor] = device['vendor']
