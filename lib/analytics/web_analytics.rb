@@ -124,10 +124,10 @@ class WebAnalytics
   
   def host_data!(row)
     uri = URI.parse(row[:url])
-    row[:host] = uri[:host]
-    row[:path] = uri[:path]
+    row[:host] = uri.host
+    row[:path] = uri.path
   rescue
-    logger.error "[Web Analytics] Invalid URI detected when extracting host data: '#{url}'"
+    logger.error "[Web Analytics] Invalid URI detected when extracting host data: '#{row[:url]}'"
   end
   
   # Based upon the referrer decide is the traffic source is
