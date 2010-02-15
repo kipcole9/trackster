@@ -6,7 +6,7 @@ html do
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => "/favicon.ico"
     title "#{Trackster::Config.banner}: #{page_title}"
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
-    stylesheet_merged :theme_css
+    stylesheet_merged theme_css
     javascript_merged :base
     javascripts 'swfobject.js'
     javascript yield(:jstemplates)
