@@ -67,6 +67,7 @@ class WebAnalytics
     if row
       row[:logger] = logger
       log_data!(row, entry)
+      host_data!(row)
       traffic_source!(row)
       platform.info!(row)
       email_client!(row) if Event.email_opening?(row)
@@ -86,8 +87,6 @@ class WebAnalytics
   def parse_tracker_url_parameters(url)
     uri = URI.parse(url)
     row = tracker_params_to_hash(uri.query)
-    row[:path] = uri.path
-    row[:host] = uri.host
     row
   rescue URI::InvalidURIError
     logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
@@ -121,6 +120,14 @@ class WebAnalytics
       logger.error "[Web Analytics] #{redirect.inspect}" 
     end  
     row
+  end
+  
+  def host_data!(row)
+    uri = URI.parse(row[:url])
+    row[:host] = uri[:host]
+    row[:path] = uri[:path]
+  rescue
+    logger.error "[Web Analytics] Invalid URI detected when extracting host data: '#{url}'"
   end
   
   # Based upon the referrer decide is the traffic source is
