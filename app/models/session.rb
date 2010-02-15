@@ -9,7 +9,7 @@ class Session < ActiveRecord::Base
   before_save   :update_session_time
   before_save   :update_event_count
   
-  attr_accessor :logger
+  attr_accessor  :logger
   
   EMAIL_CLICK   = 'email'
   
@@ -67,6 +67,7 @@ class Session < ActiveRecord::Base
 private
   def self.new_from_row(row)
     session = new
+    logger = row[:logger] || Rails.logger
     
     # Copy the common attributes from the tracker row
     session.attributes.each do |k, v|
