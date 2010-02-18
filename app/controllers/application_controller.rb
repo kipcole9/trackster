@@ -137,7 +137,7 @@ protected
   end
 
   def account_subdomain
-    @account_subdomain ||= current_subdomain.split('.').first
+    @account_subdomain ||= current_subdomain ? current_subdomain.split('.').first : User::ADMIN_USER
   end
   
   def current_account
