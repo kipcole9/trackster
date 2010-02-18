@@ -21,17 +21,17 @@ class History < ActiveRecord::Base
     @history.save
   end
 
-  # Record tracking events against a contact
-  # Needs revisiting - we don't use Track any more
-  def self.record_tracking_event(track)
-    account = track.account
-    if contact = account.contacts.find_by_contact_code(track.contact_code)
+  # Record events against a contact
+  def self.record_tracking_event(event)
+    return if event.contact_code.blank?
+    account = event.session.account
+    if contact = account.contacts.find_by_contact_code(event.contact_code)
       @history = History.new
-      @history.historical = track
-      @history.created_by = User.admin_user
-      @history.transaction = track.action
+      @history.historical = event
+      @history.created_by = User.current_user
+      @history.transaction = event.action
       @history.actionable = contact
-      @history.updates = {:category => track.category, :label => track.label, :value => track.value}
+      @history.updates = {:category => event.category, :label => event.label, :value => event.value}
       @history.save
     end
   end
