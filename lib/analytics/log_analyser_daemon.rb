@@ -8,8 +8,8 @@ class LogAnalyserDaemon
     # Configuration options
     @logger          = log_from_options(options)
     @options         = options
-    @log_parser      = LogParser.new(:format => :nginx, :logger => @logger)
-    @web_analyser    = WebAnalytics.new(:logger => @logger)
+    @log_parser      = Analytics::LogParser.new(:format => :nginx, :logger => @logger)
+    @web_analyser    = Analytics::WebAnalytics.new(:logger => @logger)
     @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
