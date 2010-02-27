@@ -133,7 +133,7 @@ protected
   end
   
   def account_exists?
-    raise ActiveRecord::RecordNotFound, "No such account: '#{request.domain}'" unless current_account
+    raise ActiveRecord::RecordNotFound, "No such account: '#{request.host}'" unless current_account
   end
 
   def account_subdomain
@@ -141,7 +141,7 @@ protected
   end
   
   def current_account
-    @current_account ||= (Account.find_by_name(account_subdomain) || Account.find_by_custom_domain(request.domain))
+    @current_account ||= (Account.find_by_name(account_subdomain) || Account.find_by_custom_domain(request.host))
   end
   
   def current_user_agent
