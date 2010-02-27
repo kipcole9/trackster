@@ -20,5 +20,8 @@ caerus_form_for @account, :html => { :multipart => true } do |account|
     store image_tag(@account.logo(:banner)) if @account.logo?
     account.file_field    :logo
   end
+  fieldset t('accounts.advanced_options') do
+    account.text_field    :custom_domain, :validate => :validations
+  end
   submit_combo
 end

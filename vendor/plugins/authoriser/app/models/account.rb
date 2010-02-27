@@ -1,12 +1,13 @@
 class Account < ActiveRecord::Base
   unloadable if Rails.env == 'development'
   include         Analytics::Model
-  ADMIN_USER      = 'admin'
+  
+  ADMIN_USER            = 'admin'
+  CUSTOM_DOMAIN_REGEX   = /\A#{User::DOMAIN_HEAD_REGEX}#{User::DOMAIN_TLD_REGEX}\z/i
   
   authenticates_many  :user_sessions
   has_many        :account_users
   has_many        :users, :through => :account_users
-  
   has_many        :properties
   has_many        :tracks
   has_many        :traffic_sources
@@ -28,6 +29,10 @@ class Account < ActiveRecord::Base
   validates_length_of       :name,            :within => 3..40
   validates_format_of       :name,            :with => /\A[a-zA-Z0-9-]+\Z/
   validates_exclusion_of    :name,            :in => %w( support blog www billing help api video map )
+
+  validates_format_of       :custom_domain,   :with => CUSTOM_DOMAIN_REGEX, :allow_blank => true
+  validates_length_of       :custom_domain,   :within => 5..100
+  validates_uniqueness_of   :custom_domain
   
   validates_format_of       :email_from,      :with => User::EMAIL_REGEX, :allow_blank => true
   validates_format_of       :email_reply_to,  :with => User::EMAIL_REGEX, :allow_blank => true

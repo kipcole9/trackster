@@ -1,7 +1,7 @@
 class AddCustomDomainToAccounts < ActiveRecord::Migration
   def self.up
     add_column :accounts, :custom_domain, :string, :limit => 100
-    add_index :accounts, :custom_domain
+    add_index :accounts, :custom_domain, :unique => true
   end
 
   def self.down

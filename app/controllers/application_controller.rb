@@ -152,8 +152,10 @@ protected
     request.xhr? ? false : super
   end
   
+  # IE is detected the MSIE string followed by a version number
+  # The string itself is in many other browsers of the past
   def internet_explorer?
-    current_user_agent =~ /.*MSIE.*/
+    current_user_agent =~ /MSIE \d/
   end
   
   # Scope to controller for translation keys

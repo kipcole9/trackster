@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20100227122315) do
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
-  add_index "accounts", ["custom_domain"], :name => "index_accounts_on_custom_domain"
+  add_index "accounts", ["custom_domain"], :name => "index_accounts_on_custom_domain", :unique => true
   add_index "accounts", ["name"], :name => "index_accounts_on_name", :unique => true
   add_index "accounts", ["tracker"], :name => "index_accounts_on_tracker", :unique => true
 

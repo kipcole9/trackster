@@ -48,6 +48,7 @@ en-US:
         account:                Details
         email_config:           Email Configuration
         presentation:           Site presentation
+        advanced_options:       Advanced Options
         account_created:        "Account '{{name}}' created"
         account_not_created:    "Account '{{name}}' was not created"
         account_updated:        "Account '{{name}}' updated"
@@ -217,6 +218,8 @@ en-US:
             email_from:     "Campaigns will be sent from this email address by default."
             email_reply_to: "Replies to campaign emails will be sent to this address by default."
             unsubscribe_url:    "Clicking on the default unsubscribe link will redirect here.  You may include parameters."
+            custom_domain:  "This site can masquarade as part of your own domain if you add an 'A' record to your domain's DNS that points to this server."
+            tracker:        "This code is used to uniquely identify analytics data for your account.  It is required when tagging your web pages or emails."
         user:
             account_id:     "Which account will the new user be part of?"
             role:           "What role (authority) will the new user have?"
