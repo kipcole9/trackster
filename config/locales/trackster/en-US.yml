@@ -49,12 +49,6 @@ en-US:
         email_config:           Email Configuration
         presentation:           Site presentation
         advanced_options:       Advanced Options
-        account_created:        "Account '{{name}}' created"
-        account_not_created:    "Account '{{name}}' was not created"
-        account_updated:        "Account '{{name}}' updated"
-        account_not_updated:    "Account '{{name}}' was not updated"
-        account_deleted:        "Account '{{name}}' deleted"
-        account_not_deleted:    "Account '{{name}}' was not deleted"
                                                 
     backgrounds:
         updated:                Background has been updated.
@@ -74,15 +68,8 @@ en-US:
         edit:
             edit_user:          "Profile details"
             user_type:          "User's role"
-            access_which_properties: "Which web properties can this user access?"
             
-    redirects:
-        redirect_created:        "Redirect '{{name}}' created"
-        redirect_not_created:    "Redirect '{{name}}' was not created"
-        redirect_updated:        "Redirect '{{name}}' updated"
-        redirect_not_udpated:    "Redirect '{{name}}' was not updated"
-        redirect_deleted:        "Redirect '{{name}}' deleted"
-        redirect_not_deleted:    "Redirect '{{name}}' was not deleted"        
+    redirects:       
         redirect_summary:
             redirect_to:    Redirects to
             redirect_from:  Redirects from
@@ -125,12 +112,6 @@ en-US:
             campaign_clicks:    Campaign clicks            
 
     properties:
-        property_created:        "Property '{{name}}' defined"
-        property_not_created:    "Property '{{name}}' was not defined"
-        property_updated:        "Property '{{name}}' updated"
-        property_not_udpated:    "Property '{{name}}' was not updated"
-        property_deleted:        "Property '{{name}}' deleted"
-        property_not_deleted:    "Property '{{name}}' was not deleted"
         edit_redirects:          "Show redirects"
         index:
             name:           "Web Properties"
