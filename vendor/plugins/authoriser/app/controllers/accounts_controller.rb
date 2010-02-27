@@ -5,18 +5,7 @@ class AccountsController < TracksterResources
   defaults            :collection_name => 'clients'
   has_scope           :search
 
-  def update
-    update! do |success, failure|
-      success.html { redirect_back_or_default }
-    end
-  end
-  
-  def create
-    create! do |success, failure|
-      success.html { redirect_back_or_default }
-    end
-  end
-
+protected
   def _page_title
     @account ? @account.name : super
   end

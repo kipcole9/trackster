@@ -18,7 +18,7 @@ class Property < ActiveRecord::Base
   
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
-    {:conditions => ['name like ? or url like ?', search, search ]}
+    {:conditions => ['name like ? or host like ?', search, search ]}
   }
   
   validates_associated      :account
@@ -35,8 +35,12 @@ class Property < ActiveRecord::Base
 
   validates_format_of       :search_parameter, :with => /[a-z0-9]+/i, :allow_nil => true, :allow_blank => true
 
-  def url=(val)
+  def host=(val)
     super(val.sub(/\/\Z/,''))
+  end
+  
+  def url
+    "http://#{self.host}"
   end
   
   def get_absolute_url(url)

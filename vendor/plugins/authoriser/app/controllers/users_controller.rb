@@ -3,12 +3,6 @@ class UsersController < InheritedResources::Base
   before_filter       :set_mailer_url_defaults, :only => [:create, :activate]
   has_scope           :search
 
-  def index
-    index! do |success, failure|
-      success.html { request.xhr? ? render(:partial => 'index') : render('index') }
-    end
-  end
-  
   def create
     @user = User.new(params[:user])
     @user.reset_password if @user.password.blank?
