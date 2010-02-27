@@ -2,12 +2,6 @@ class PropertiesController < TracksterResources
   layout              :select_template
   respond_to          :html, :xml, :json
   has_scope           :search
-
-  def update
-    update! do |success, failure|
-      success.html { redirect_back_or_default }
-    end
-  end
   
   def destroy
     destroy! do |success, failure|

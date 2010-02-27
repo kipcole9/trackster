@@ -43,10 +43,6 @@ table {
   border: none;
   color: white;
 }
-div.box.table div {
-  padding-left: 10px;
-  padding-right: 10px;
-}
 thead th { background: black; }
 tfoot th { background: black; }
 tfoot td { background: black; }
@@ -90,24 +86,36 @@ div.listItem:hover {
   -moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
 }
 div.box h2 {
+  padding-top: 10px;
   -webkit-border-top-left-radius: 5px;
   -webkit-border-top-right-radius: 5px;
   -moz-border-radius-topleft: 5px;
   -moz-border-radius-topright: 5px;
 }
-div.box.accordian, div.box.table { padding-bottom: 5px; }
-.concertina h3.trig {
+div.box h3 {
+  color: white;
+  font-weight: normal;
+}
+div.box.table h3 {
+  color: white;
+  font-weight: normal;
+}
+div.box h3 { padding: 0 0 5px; }
+div.box.table h3 { padding: 5px 10px 10px; }
+.accordion .targ p a {
+  color: white;
+  font-weight: normal;
+}
+.accordion .targ p a:visited {
+  color: white;
+  font-weight: normal;
+}
+.accordion h3.trig {
   background: black;
   color: white;
   border: none;
-}
-.concertina .targ {
-  margin-top: 5px;
-  border-top: 2px solid #272727;
-}
-.concertina .targ a {
-  color: #b4b4b4;
-  font-weight: normal;
+  font-weight: bold;
+  -webkit-box-shadow: none;
 }
 div.listItem, fieldset {
   background: #323232;
@@ -142,7 +150,6 @@ p.prompt { color: #aaaaaa; }
   color: white;
   background: black;
 }
-div#about { padding-top: 0; }
 div.contactCard {
   background: #222222;
   color: #cccccc;
@@ -154,12 +161,10 @@ div.contactCard:hover { cursor: inherit; }
 div.contactCard a { color: white; }
 div.contactCard a:hover { color: #ff8c25; }
 div#about .contactCard {
-  margin-left: 2px;
   background: black;
   border: none;
   color: #cccccc;
   height: auto;
-  margin-bottom: 5px;
 }
 div#about .contactCard a { color: white; }
 div.address + div.address { border-top: 1px solid #555555; }
