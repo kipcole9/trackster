@@ -139,7 +139,8 @@ en-US:
             new_property:   "New Web Property details"        
         edit:
             new_property:   "Enter the new web property's details"
-            edit_property:  "Update the '{{name}}' web property"             
+            edit_property:  "Update the '{{name}}' web property"
+    reports:                   
         site_summary:
             country:        Countries
             browser:        Browsers
