@@ -246,7 +246,7 @@ en-US:
         property:
             tracker:        "This is the code that uniquely identifies your web property.  It is used in tagged links, javascripts and redirects. It can't be changed."
             description:    "A description of your web property."
-            url:            "The root (main) url of your web property.  To be tracked correctly, all tracking data must originate from pages that begin with this url."
+            host:           "The hostname of your web property.  To be tracked correctly, all tracking data must originate from this domain."
             name:           "A name for your web property.  It can be any text that uniquely identifies this web property."
             search_parameter: "The parameter on this property's URLs that indicate an internal search request.  For example in http://www.yoursite.com?q='widget', the search parameter would be 'q' (without the quotes).  Consult your webmaster if in doubt or simply leave the field blank."
            

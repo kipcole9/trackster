@@ -1,12 +1,14 @@
 class Property < ActiveRecord::Base
   include     Analytics::Model
+  DOMAIN_HEAD_REGEX   = '(?:[A-Z0-9\-]+\.)+'.freeze
+  DOMAIN_TLD_REGEX    = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum|local)'.freeze
+  DOMAIN_REGEX        = /\A#{DOMAIN_HEAD_REGEX}#{DOMAIN_TLD_REGEX}\z/i
+  
   has_many    :campaigns
   has_many    :sessions
   has_many    :tracks
   has_many    :redirects
   belongs_to  :account
-
-  before_save         :update_host_column
 
   has_attached_file :thumb, :styles => { :thumb => "100x100" }
   
@@ -26,10 +28,10 @@ class Property < ActiveRecord::Base
   validates_length_of       :name,    :within => 3..40
   validates_uniqueness_of   :name,    :scope => :account_id
   
-  validates_presence_of     :url
-  validates_length_of       :url,     :within => 5..100
-  validates_uniqueness_of   :url
-  validates_format_of       :url,     :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix
+  validates_presence_of     :host
+  validates_length_of       :host,    :within => 5..100
+  validates_uniqueness_of   :host,    :scope => :account_id
+  validates_format_of       :host,    :with => DOMAIN_REGEX
 
   validates_format_of       :search_parameter, :with => /[a-z0-9]+/i, :allow_nil => true, :allow_blank => true
 
@@ -45,13 +47,4 @@ class Property < ActiveRecord::Base
     end
   end
   
-private
-  
-  def update_host_column
-    begin
-      self.host = URI.parse(self.url).host
-    rescue
-      Rails.logger.error "[property] Could not parse property url to create host: '#{self.url}'"
-    end
-  end
 end

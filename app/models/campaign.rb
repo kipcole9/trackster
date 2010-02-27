@@ -13,7 +13,7 @@ class Campaign < ActiveRecord::Base
   
   validates_presence_of     :name
   validates_length_of       :name,    :within => 3..150
-  validates_uniqueness_of   :name,    :scope => :property_id
+  validates_uniqueness_of   :name,    :scope => :account_id
   
   validates_numericality_of :cost,          :allow_nil => true  
   validates_numericality_of :bounces,       :allow_nil => true

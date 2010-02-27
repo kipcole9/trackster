@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100227122315) do
+ActiveRecord::Schema.define(:version => 20100227155603) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -314,7 +314,6 @@ ActiveRecord::Schema.define(:version => 20100227122315) do
     t.string   "tracker"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
     t.string   "search_parameter"
     t.string   "thumb_file_name",    :limit => 100
     t.string   "thumb_content_type", :limit => 50
