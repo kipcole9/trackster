@@ -37,11 +37,20 @@ class Session < ActiveRecord::Base
     super
   end
 
+  # Languange is the first part of the locale.  
+  # ie. from en-US the language is 'en'.
   def language=(l)
     return if l.blank?
-    super(l.downcase)
+    language_parts = l.split('-')
+    super(language_parts.first.downcase)
   end
-
+  
+  # Dialect only applicable if it is multiple part locale
+  # ie. 'en-US' is OK, 'en' is not (that's just the language part)
+  def dialect=(d)
+    super(d.downcase) unless d.blank? || (d !~ /-/)
+  end
+  
   def save_time_metrics(row)
     self.date   = self.started_at.to_date
     self.day_of_week = self.started_at.wday

@@ -57,59 +57,6 @@ module Caerus
       end
     end
   
-    # Render a collection is a standard list format 
-    # relies on css classes and javascript for behavior
-    def render_list(collection, options)
-      return if collection.empty?
-      raise ArgumentError, "render_list: options must include :partial: #{options.inspect}" unless partial = options.delete(:partial)
-      klass = collection.first.class.name.downcase
-      klass_sym = klass.to_sym
-      list_id = "#{klass}List"
-      with_tag(:ul, :id => list_id, :class => 'list') do
-        collection.each {|item| render_list_member(item, partial, options) }
-      end
-      nil
-    end
-  
-    def render_list_member(item, partial, options)
-      with_tag(:li, :class => "listMember", :id => list_member(item)) do
-        render_list_item(item, partial, options)
-      end
-      nil
-    end
-  
-    def classes_from_accepts(options)
-      return [] unless accepts = options[:accepts]
-      accepts = [accepts] unless accepts.respond_to?(:each)
-      classes = []
-      accepts.each {|accept| classes << "accept_#{accept}"}
-      classes
-    end
-  
-    def render_list_item(item, partial, options)
-      classes = ["listItem", classes_from_accepts(options)].flatten.compact.join(' ')
-      with_tag(:div, :class => classes, :id => list_item(item)) do
-        store render(:partial => partial, :locals => {item.class.name.downcase.to_sym => item, :options => options})
-      end
-      nil
-    end
-  
-    def list_member(object)
-      return unless object
-      klass = object.class.name.downcase    
-      "#{klass}_listMember_#{object.id}"
-    end
-  
-    def list_item(object)
-      return unless object
-      klass = object.class.name.downcase
-      "#{klass}_listItem_#{object.id}"
-    end
-  
-    def element_from(object)
-      "#{object.class.name.downcase}_#{object.id}"
-    end
-  
     # Display validation and active record errors
     def display_errors(model)
       store error_messages_for(model.to_s, :class => "box errorExplanation", :id => "#{model.to_s}_errors")

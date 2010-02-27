@@ -57,7 +57,19 @@ $.extend({
 				$(this).css('margin-right', cardRightMargin + 'px')
 			}
 		});
-     },
+	},
+	
+	updateContactCards: function() {
+		// Resize cards to fit after ajax update
+		$.resizeContactCards();
+		$.setContactsDraggable();
+	},
+	
+	setContactsDraggable: function() {
+		// Drag and drop cards to merge
+		$('.contactCard').draggable({revert: true, helper: 'clone', opacity: 0.7});
+		$('.contactCard').droppable({accept: '.contactCard', hoverClass: 'canDrop'});
+    },
 
 	// When a form is "inline" we want the field message (used for validation)
 	// to be moved to the end of the enclosing div. That allows us to
@@ -198,19 +210,16 @@ $(document).ready(function(){
 	/* For contact cards and resizing */
 	if ($('#contactCards')) {
 		$.resizeContactCards();
+		$.setContactsDraggable();
 		/* $('.contactCard').quickFlip({ noResize : true }); */
 		$(window).bind('resize', function() {
 			$.resizeContactCards();
 		});
-		
-		// Drag and drop cards to merge
-		$('.contactCard').draggable({revert: true, helper: 'clone', opacity: 0.7});
-		$('.contactCard').droppable({accept: '.contactCard', hoverClass: 'canDrop'});
 	};
 
   	/* Search forms */
 	$('form.search').each(function(i) {
-		$(this).find('input').searchbox({url : $(this).attr('url'), dom_id : '#' + $(this).attr('replace'), param : 'search'});
+		$(this).find('input').searchbox({url : $(this).attr('url'), dom_id : '#' + $(this).attr('data-replace'), param : 'search'});
 	});
 	
 	$(document).bind('after.searchbox', function() {

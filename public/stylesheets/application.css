@@ -575,7 +575,7 @@ ul.tree li.root {
 div.treeItem, div.listItem {
 	border: 1px solid #aaa;
 	background-color: #fff;
-	padding: 5px 5px 7px 5px;
+	padding: 5px;
 	-webkit-border-radius: 5px;  
   	-moz-border-radius:	5px;
 	margin: 0 0 5px 0;
@@ -792,4 +792,25 @@ div.hbar {
 
 .login {
 	margin-top: 1em;
+}
+
+/* List images */
+div.listItem img.list_image {
+	height: 50px;
+	width: inherit;
+}
+
+/* Float helpers */
+.float_left {
+	float: left;
+	margin-bottom: -5px;
+	margin-right: 5px;
+}
+
+.float_right {
+	float: right;	
+}
+
+.clear {
+	clear: both;
 }

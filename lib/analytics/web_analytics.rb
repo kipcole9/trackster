@@ -273,6 +273,7 @@ module Analytics
         end
       end if params
       result[:timezone] = result[:timezone].to_i if result[:timezone]
+      result[:dialect] = result[:language]
       result
     end
   

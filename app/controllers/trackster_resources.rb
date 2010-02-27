@@ -5,11 +5,7 @@ module Responders
     end
 
     def to_html
-      if request.xhr?
-        render :partial => "#{controller.params[:action]}" rescue super
-      else
-        super
-      end
+      request.xhr? ? render(:partial => "#{controller.params[:action]}") : super
     end
   end
 end
@@ -23,6 +19,9 @@ class TracksterResources < InheritedResources::Base
     include Responders::XhrResponder    
   end
 
-  responder = Trackster::Responder
+
+  def responder
+    Trackster::Responder
+  end
   
 end

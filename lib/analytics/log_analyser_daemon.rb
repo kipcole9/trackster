@@ -32,7 +32,7 @@ class LogAnalyserDaemon
         logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
-        logger.info "[Log analyser daemon] Log analyser is terminating as requested (after log reopen)"
+        logger.info "[Log analyser daemon] Log analyser is terminating as requested (detected after log reopen)"
         log.close
         return
       end

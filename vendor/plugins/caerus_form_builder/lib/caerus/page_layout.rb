@@ -6,13 +6,14 @@ module Caerus
   
     DOCTYPE = {
         :xhtml_strict => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-        :xhtml_trans  => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+        :xhtml_trans  => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+        :html5        => '<!DOCTYPE html>'
     }
 
     TAGS      = [:div, :a, :img, :script, :meta]
     INDENT    = 2
   
-    def doctype(type = DOCTYPE[:xhtml_strict])
+    def doctype(type = DOCTYPE[:html5])
       @doctype = store(type)
     end
   
@@ -32,15 +33,16 @@ module Caerus
       store stylesheet_link_merged(*args)
     end
     
-    def html(language = "en", &block)
+    def html(language = "en", options = {}, &block)
       doctype unless @doctype
-      with_tag(:html, :xmlns => "http://www.w3.org/1999/xhtml", :"xml:lang" => language, :lang => language) do
+      with_tag(:html, options) do
         store yield
       end
     end
 
     def head(options = {}, &block)
-      @head = with_tag(:head) do
+      return if @head
+      with_tag(:head) do
         if block_given?
           yield
         else
@@ -48,6 +50,7 @@ module Caerus
           javascripts(:defaults)
         end
       end
+      @head = true
     end  
   
     # Options
@@ -138,10 +141,20 @@ module Caerus
         with_tag(:div, {}, &block)
       end
     end
-  
+    
     def title(t)
       with_tag(:title) { store t }
     end
+    
+    def paginate(options = {})
+      store will_paginate(options)
+    end
+    
+    def float(direction = :left, options = {}, &block)
+      default_options = {:class => :float_left}
+      default_options[:class] = "float_#{direction}".to_sym if direction
+      with_tag(:div, default_options.merge(options), &block)
+    end    
 
     def store(content)
       return unless content
@@ -186,6 +199,7 @@ module Caerus
     def search(title = t('search'), options = {})
       default_options = {:class => 'search'}
       options   = default_options.merge(options)
+      options[:'data-replace'] = options.delete(:replace) if options[:replace]
       search_id = "#{options[:id]}Field"
       with_tag(:form, options) do
         store "<label>#{title}:</label>"
@@ -226,7 +240,7 @@ module Caerus
       yield if block_given?
       decrement_level
       store("</#{tag.to_s}>")
-      ''
+      nil
     end
 
     def class_from_options(options)

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218064559) do
+ActiveRecord::Schema.define(:version => 20100227122315) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
   add_index "account_users", ["account_id", "user_id"], :name => "index_account_users_on_account_id_and_user_id", :unique => true
 
   create_table "accounts", :force => true do |t|
-    t.string   "name"
+    t.string   "name",                :limit => 20
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -36,8 +36,12 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
     t.string   "email_reply_to_name", :limit => 50
     t.string   "unsubscribe_url"
     t.string   "kind",                :limit => 10
+    t.string   "custom_domain",       :limit => 100
   end
 
+  add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
+  add_index "accounts", ["custom_domain"], :name => "index_accounts_on_custom_domain"
+  add_index "accounts", ["name"], :name => "index_accounts_on_name", :unique => true
   add_index "accounts", ["tracker"], :name => "index_accounts_on_tracker", :unique => true
 
   create_table "addresses", :force => true do |t|
@@ -100,6 +104,8 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
     t.string   "unsubscribe_url"
   end
 
+  add_index "campaigns", ["account_id"], :name => "index_campaigns_on_account_id"
+
   create_table "cities", :primary_key => "city", :force => true do |t|
     t.integer "country",                :default => 0,  :null => false
     t.string  "name",    :limit => 200, :default => "", :null => false
@@ -161,7 +167,7 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
     t.string   "name_order",         :limit => 2
     t.string   "honorific_prefix",   :limit => 50
     t.string   "honorific_suffix",   :limit => 50
-    t.string   "type"
+    t.string   "type",               :limit => 20
     t.integer  "employees"
     t.integer  "revenue"
     t.string   "contact_code",       :limit => 50
@@ -263,6 +269,11 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
   add_index "ip4", ["cron"], :name => "kcron"
   add_index "ip4", ["ip"], :name => "kIP"
 
+  create_table "lists", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "logged_exceptions", :force => true do |t|
     t.string   "exception_class"
     t.string   "controller_name"
@@ -311,6 +322,7 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
     t.string   "host",               :limit => 70
   end
 
+  add_index "properties", ["account_id"], :name => "index_properties_on_account_id"
   add_index "properties", ["host"], :name => "index_properties_on_host"
 
   create_table "redirects", :force => true do |t|
@@ -394,6 +406,7 @@ ActiveRecord::Schema.define(:version => 20100218064559) do
     t.integer  "impressions"
     t.string   "contact_code",      :limit => 50
     t.string   "email_client"
+    t.string   "dialect",           :limit => 5
   end
 
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"

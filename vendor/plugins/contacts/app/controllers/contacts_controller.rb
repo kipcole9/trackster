@@ -1,8 +1,8 @@
 class ContactsController < TracksterResources
-  # unloadable
+  unloadable
   has_scope       :search
   before_filter   :resource, :only => [:show, :update]
-
+ 
   def show
     @note = @contact.notes.build
     show!

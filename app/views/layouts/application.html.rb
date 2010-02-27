@@ -9,7 +9,7 @@ html do
     stylesheet_merged theme_css
     javascript_merged :base
     javascripts 'swfobject.js'
-    javascript yield(:jstemplates)
+    javascript yield(:jstemplates) if yield(:jstemplates)
   end
   body do
     theme_has_custom_branding? ? include(theme_branding) : include("widgets/branding")

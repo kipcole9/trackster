@@ -2,7 +2,7 @@ class CampaignsController < TracksterResources
   layout              :choose_layout
   respond_to          :html, :xml, :json
   has_scope           :search
-  
+
   def preview
     if !@campaign.preview_available? && !current_user.is_administrator?
       flash[:notice] = t('.no_preview_available')

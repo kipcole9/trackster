@@ -30,10 +30,7 @@ module Analytics
           # argument to both the SELECT and GROUP.  This simplifies reporting
           # on either aggregate events (ie. 43 page views this month) versus
           # more fine-grained reporting.
-          select = []
-          group = []
-          joins = []
-          conditions = []
+          select = []; group = []; joins = []; conditions = []
           args.each do |dim|
             dim = dim.to_sym
             if self.scopes[dim]

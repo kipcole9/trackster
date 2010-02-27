@@ -1,4 +1,5 @@
 class AccountsController < TracksterResources
+  unloadable
   respond_to          :html, :xml, :json
   layout              'accounts'
   defaults            :collection_name => 'clients'

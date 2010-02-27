@@ -31,7 +31,7 @@ module Analytics
         
         table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
-        table_format :language,       :order => -1, :formatter => :not_set_on_blank
+        # table_format :language,       :order => -1, :formatter => :not_set_on_blank
         table_format :country,        :order => 0,  :formatter => :not_set_on_blank
         table_format :region,         :order => 1 #, :formatter => :not_set_on_blank
         table_format :locality,       :order => 2 #, :formatter => :not_set_on_blank
@@ -56,6 +56,20 @@ module Analytics
         table_format :visit_type,  :order => -1,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("properties.site_summary.#{val}") }
     
+        table_format :language, :order => -1,
+                     :formatter => lambda {|val, options|
+                       return I18n.t('no_set') if val.blank?
+                       lang = val.split('-').first
+                       I18n.t("language.#{lang}", :default => val)
+                     }
+                       
+        table_format :dialect, :order => 5,
+                     :formatter => lambda {|val, options|
+                       return val unless val
+                       dialect = (lang = val.split('-')).size > 1 ? lang.last : nil
+                       dialect ? I18n.t("locale.dialect.#{dialect}", :default => dialect) : I18n.t('not_set')
+                     }        
+        
         table_format :color_depth, :class => 'left',
                      :formatter => lambda{ |val, options| 
                         if options[:cell_type] == :th

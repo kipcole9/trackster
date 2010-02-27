@@ -5,10 +5,10 @@ namespace :trackster do
   desc "Import log for web analytics"
   task(:analyse_log => :environment) do
     require 'analytics/log_analyser_daemon'
-    Rails.logger.info "Starting import of tracking log."    
+    Rails.logger.info "[Trackster] Starting import of tracking log."    
     if Rails.env == "development"
-      #Session.delete_all
-      #Event.delete_all
+      Session.delete_all
+      Event.delete_all
       $RUNNING = true
       log_tailer = LogAnalyserDaemon.new
       log_tailer.log_analyser_loop :return_if_eof => true
