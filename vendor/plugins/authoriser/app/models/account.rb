@@ -29,7 +29,6 @@ class Account < ActiveRecord::Base
   validates_exclusion_of    :name,            :in => %w( support blog www billing help api video map )
 
   validates_format_of       :custom_domain,   :with => Property::DOMAIN_REGEX, :allow_blank => true
-  validates_length_of       :custom_domain,   :within => 5..100
   validates_uniqueness_of   :custom_domain
   
   validates_format_of       :email_from,      :with => User::EMAIL_REGEX, :allow_blank => true
