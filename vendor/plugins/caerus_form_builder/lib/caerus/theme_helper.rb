@@ -30,7 +30,9 @@ module Caerus
   
     def current_theme
       unless @current_theme
-        @current_theme = current_account.theme if current_account
+        if current_account
+          @current_theme = current_account.client_account? ? current_account.agency.theme : current_account.theme
+        end
         @current_theme = Trackster::Config.default_theme if @current_theme.blank?
       end
       @current_theme
