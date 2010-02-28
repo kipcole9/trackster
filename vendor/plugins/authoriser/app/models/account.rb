@@ -29,7 +29,7 @@ class Account < ActiveRecord::Base
   validates_exclusion_of    :name,            :in => %w( support blog www billing help api video map )
 
   validates_format_of       :custom_domain,   :with => Property::DOMAIN_REGEX, :allow_blank => true
-  validates_uniqueness_of   :custom_domain
+  validates_uniqueness_of   :custom_domain,   :allow_nil => true
   
   validates_format_of       :email_from,      :with => User::EMAIL_REGEX, :allow_blank => true
   validates_format_of       :email_reply_to,  :with => User::EMAIL_REGEX, :allow_blank => true
@@ -56,6 +56,10 @@ class Account < ActiveRecord::Base
   
   def self.admin
     find_by_name(ADMIN_USER)
+  end
+  
+  def custom_domain=(domain)
+    domain.blank? ? return : super
   end
   
   def theme

@@ -14,7 +14,8 @@ body, .container_12 {
 .container_12 { margin: 0 auto; }
 .block {
   padding-top: 0px;
-  margin-top: -2px;
+  margin-bottom: 3px;
+  margin-top: 2px;
 }
 div#branding {
   height: 5em;
@@ -129,6 +130,7 @@ div.listItem, fieldset {
 }
 div.listItem a { color: #eeeeee; }
 form.search {
+  margin-top: 3px;
   background: #ec8851;
   color: #eeeeee;
 }
