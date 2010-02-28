@@ -57,6 +57,12 @@ class Account < ActiveRecord::Base
   def self.admin
     find_by_name(ADMIN_USER)
   end
+  
+  def theme
+    return attributes['theme'] unless attributes['theme'].blank?
+    return agent.theme if client_account?
+    nil
+  end
 
 private
   def create_tracker_code
