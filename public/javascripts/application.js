@@ -95,12 +95,12 @@ $.extend({
 	},
 
 	setupValidations: function() {
-		var items = $('input[validate]');
+		var items = $('input[data-validate]');
 		items.each(function(n) {
 			// We use initial_value to determine if we've
 			// already got an Observer set up
 			if (!$(this).attr('initial_value')) {
-				if ($(this).attr('validate') == "unique") {
+				if ($(this).attr('data-validate') == "unique") {
 					$.setupUnique(this);
 				} else {
 					$.setupValidation(this);
@@ -267,6 +267,7 @@ $(document).ready(function(){
 		if (fields.length > 0) fields.first().focus();
 	}));
 	
+	/* Dynamic fieldsets - show and hide the buttons */
 	$('.listItem').live('mouseover', (function(event) {
 		$(this).find('.buttons').first().show();
 	}));
@@ -274,5 +275,10 @@ $(document).ready(function(){
 	$('.listItem').live('mouseout', (function(event) {
 		$(this).find('.buttons').first().hide();
 	}));
+	
+	/* Remove flash notices after 5 seconds */
+	$('.flash_notice').fadeOut(5000, function() {
+	    // Animation complete.
+	});
 
 });   

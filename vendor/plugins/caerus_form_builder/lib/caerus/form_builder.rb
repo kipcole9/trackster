@@ -15,6 +15,7 @@ module Caerus
       field_options = {:before => options.delete(:before), :after => options.delete(:after), 
                        :autocomplete => options.delete(:autocomplete), 
                        :optional => options.delete(:optional), :prompt => options.delete(:prompt)}
+      default_options[:'data-validate'] = options.delete(:validate) if options[:validate]
       with_field(method, field_options) do
         super(method, default_options.merge(options))
       end
