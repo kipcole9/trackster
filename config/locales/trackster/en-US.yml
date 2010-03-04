@@ -44,17 +44,21 @@ en-US:
     users:
         edit_profile:           Edit your profile
         user_updated:           "User profile for '{{name}}' updated."
-        user_not_updated:       "User profile for '{{name}}' was not updated."      
+        user_not_updated:       "User profile for '{{name}}' was not updated."  
+        user_roles:             "What roles does this user have on this account?"
+        user_state:             "User status"
+        states:
+            active:             Active
+            passive:            Inactive
         new:
             new_user:           "New user's details"
-            user_roles:         "What roles does this user have on this account?"
         change_password:
             change_password:    Change your password        
         index:
             user_search:        "Find a user"
         edit:
             edit_user:          "Profile details"
-            user_roles:         "What roles does this user have on this account?"
+
             
     redirects:       
         redirect_summary:

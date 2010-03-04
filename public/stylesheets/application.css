@@ -814,3 +814,18 @@ div.listItem img.list_image {
 .clear {
 	clear: both;
 }
+
+/* User States */
+.passive {
+	color: red;
+}
+
+.passive:before {
+	content: "(";
+}
+
+.passive:after {
+	content: ")";
+}
+
+

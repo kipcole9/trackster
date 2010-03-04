@@ -8,7 +8,7 @@ with_tag(:div, :id => "user_#{user['id']}") do
       end
     end
     float :left do
-      h4 user.name
+      h4 "#{user.name} #{content_tag(:span, I18n.t('users.states.passive'), :class => 'passive') if user.inactive?}"
       p user.email
     end
   end

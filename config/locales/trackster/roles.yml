@@ -1,0 +1,9 @@
+en-US:
+    roles:
+        account_owner:      Account Owner
+        account_admin:      Account Administrator
+        campaign_manager:   Campaign Manager
+        designer:           Designer
+        webmaster:          Webmaster
+        user:               User
+        crm_manager:        CRM Manager

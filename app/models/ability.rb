@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.admin? || user.has_role?(:account_admin)
+    if user.admin? || user.has_role?(:account_admin) || user.has_role?(:account_owner)
       can :manage, :all
     else
       can :read, :all
