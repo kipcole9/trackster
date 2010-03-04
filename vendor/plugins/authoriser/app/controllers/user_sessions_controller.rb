@@ -17,7 +17,7 @@ class UserSessionsController < ApplicationController
       flash[:notice] = I18n.t('logged_in_as', :name => u && u.name)
       redirect_back_or_default('/')
     else
-      flash[:alert] = I18n.t('counld_no_login_as', :name => u && u.name)
+      flash[:alert] = I18n.t('could_not_login_as', :name => u && u.name)
       render :action => :new
     end
   end

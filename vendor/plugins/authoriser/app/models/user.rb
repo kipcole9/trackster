@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   
   # Used by the new_user form
   def roles=(roles)
-    account_roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+    self.account_roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
   end
   
   def roles

@@ -9,6 +9,6 @@ en-US:
     change_password:        Change Password
     remember_me:            Remember me
     logged_in_as:           "Logged in as {{name}}"
-    could_not_login_as:     "Could not login as {{name}}"
+    could_not_login_as:     "Couldn't login as {{name}}"
     unknown_activation_code: The activation code you provided is not known.
     password_changed:       Your password has been changed.
