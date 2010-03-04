@@ -47,7 +47,7 @@ module Caerus
     end
     
     def theme_favicon_path
-      @theme_favicon_path ||= File.exist?("#{current_theme_directory}/favicon.ico") ? "#{current_theme_path}/favicon.ico" : "/favicon.ico"
+      @theme_favicon_path ||= File.exist?("#{current_theme_directory}/favicon.ico") ? "#{current_theme_path}/favicon.ico" : "#{default_theme_path}/favicon.ico"
     end
   
     # Theme directory is the full path to the directory relative to the file system root
@@ -59,6 +59,10 @@ module Caerus
     def current_theme_path
       @current_theme_path ||= "#{Trackster::Config.theme_dir.without_slash}/#{current_theme}"    
     end
+    
+    def default_theme_path
+      @default_theme_path ||= "#{Trackster::Config.theme_dir.without_slash}/#{Trackster::Config.default_theme}"
+    end 
   
   end
 end

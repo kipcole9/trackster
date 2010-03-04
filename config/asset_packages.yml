@@ -30,7 +30,19 @@ stylesheets:
     - application
     - contacts
 - ie: 
-    <<: *base_css
-    - ie 
+    # << : *base_css
+    - reset 
+    - text
+    - "960" 
+    - "960_shim"
+    - nested_grids
+    - layout
+    - nav
+    - forms
+    - jquery-autocomplete
+    - application
+    - contacts    
+    - ie_fixes
+
     
           
