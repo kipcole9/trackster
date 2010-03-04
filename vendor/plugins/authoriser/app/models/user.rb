@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   NAME_REGEX                = /\A[^[:cntrl:]\\<>\/&]*\z/              # Unicode, permissive
   EMAIL_NAME_REGEX          = '[\w\.%\+\-]+'.freeze
   EMAIL_REGEX               = /\A#{EMAIL_NAME_REGEX}@#{Property::DOMAIN_HEAD_REGEX}#{Property::DOMAIN_TLD_REGEX}\z/i
-  ROLES                     = %w[account_admin agent sponsor user]
+  ROLES                     = %w[account_admin campaign_manager designer crm_manager user]
   ADMIN_USER                = 'admin'
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
@@ -83,12 +83,30 @@ class User < ActiveRecord::Base
   
   # Used by the new_user form
   def roles=(roles)
-    account_user.role_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+    account_roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
   end
   
   def roles
-    is_administrator? ? ROLES : ROLES.reject { |r| ((account_user.role_mask || 0) & 2**ROLES.index(r)).zero? }
+    is_administrator? ? ROLES : ROLES.reject { |r| ((self.account_roles_mask || 0) & 2**ROLES.index(r)).zero? }
   end
+  
+  def has_role?(role)
+    roles.include?(role.to_s)
+  end
+  
+  def account_roles_mask=(roles)
+    puts "setting roles mask with #{roles.inspect}"
+    account_user.role_mask = roles
+    #account_user.save!
+  end
+  
+  def account_roles_mask
+    account_user.role_mask
+  end
+  
+  def account_user
+    @account_user ||= (account_users.find_by_account_id(Account.current_account) || account_users.build(:account => Account.current_account))
+  end    
 
   def role_symbols
     roles.map(&:to_sym)
@@ -110,12 +128,10 @@ class User < ActiveRecord::Base
   def self.current_user
     Thread.current[:current_user]
   end
-  
+
 protected
-
-
   def update_roles
-    account_user.save if @account_user
+    account_user.save if account_user
   end
-
+  
 end

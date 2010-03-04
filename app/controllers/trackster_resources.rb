@@ -12,6 +12,7 @@ end
 
 
 class TracksterResources < InheritedResources::Base
+  authorize_resource
   
   class Trackster::Responder < ActionController::Responder
     include Responders::FlashResponder

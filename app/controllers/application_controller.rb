@@ -141,7 +141,11 @@ protected
   end
   
   def current_account
-    @current_account ||= (Account.find_by_name(account_subdomain) || Account.find_by_custom_domain(request.host))
+    unless @current_account 
+      @current_account = (Account.find_by_name(account_subdomain) || Account.find_by_custom_domain(request.host))
+      Account.current_account = @current_account
+    end
+    @current_account
   end
   
   def current_user_agent

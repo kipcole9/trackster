@@ -67,6 +67,15 @@ class Account < ActiveRecord::Base
     return agent.theme if client_account?
     nil
   end
+  
+  def self.current_account=(account)
+    Thread.current[:current_account] = account
+  end
+  
+  def self.current_account
+    Thread.current[:current_account]
+  end
+  
 
 private
   def create_tracker_code

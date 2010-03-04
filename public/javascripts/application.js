@@ -202,16 +202,15 @@ $(document).ready(function(){
 
   	/* Setup for accordions */
   	$(".accordion").accordion();
-  	$.tablesorter.defaults.widgets = ['zebra'];
 
-  	// Tables can be sorted
+	/* And for tablesorter */
+  	$.tablesorter.defaults.widgets = ['zebra'];
   	$('table').tablesorter();
 
 	/* For contact cards and resizing */
 	if ($('#contactCards')) {
 		$.resizeContactCards();
 		$.setContactsDraggable();
-		/* $('.contactCard').quickFlip({ noResize : true }); */
 		$(window).bind('resize', function() {
 			$.resizeContactCards();
 		});
@@ -233,13 +232,7 @@ $(document).ready(function(){
 		optionalFields = fieldset.find('.optional');
 		optionalFields.toggle("slow");
 	});
-	
-	$('span.showOptional input[type="checkbox"]').each(function(n) {
-		fieldset = $(this).parent().next();
-		optionalFields = fieldset.find('.optional');
-		if (this.checked) optionalFields.show();		
-	});
-	
+
 	/* Dynamic fieldsets operations - delete */
 	$('img.delete').live('click', (function(event) {
 		element = $(this).parent();

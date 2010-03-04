@@ -1,4 +1,4 @@
-class UsersController < InheritedResources::Base
+class UsersController < TracksterResources
   respond_to          :html, :xml, :json
   before_filter       :set_mailer_url_defaults, :only => [:create, :activate]
   has_scope           :search

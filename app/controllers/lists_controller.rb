@@ -1,2 +1,3 @@
-class ListsController < ApplicationController
+class ListsController < TracksterResources
+  
 end
