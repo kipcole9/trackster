@@ -1,4 +1,5 @@
 class UsersController < TracksterResources
+  unloadable
   respond_to          :html, :xml, :json
   before_filter       :set_mailer_url_defaults, :only => [:create, :activate]
   has_scope           :search
@@ -6,7 +7,6 @@ class UsersController < TracksterResources
   def create
     @user = User.new(params[:user])
     @user.reset_password if @user.password.blank?
-    current_account.users << @user
     create! do |success, failure|
       success.html { redirect_back_or_default }
     end

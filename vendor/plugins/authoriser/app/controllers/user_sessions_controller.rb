@@ -24,7 +24,7 @@ class UserSessionsController < ApplicationController
   
   def destroy
     current_user_session.destroy if current_user
-    redirect_back_or_default
+    redirect_to login_path
   end
 
   def _page_title

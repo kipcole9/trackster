@@ -8,8 +8,12 @@ panel t('panels.new_user'), :flash => true, :display_errors => :user  do
       end
       fieldset t('.user_roles') do
         User::ROLES.each do |r|
-          user.check_box_tag "roles[]", r
+          with_tag(:div) do
+            store check_box_tag("roles[]", r, @user.has_role?(r))
+            store content_tag(:label, r.humanize, :class => :field_label)
+          end
         end
+        nil
       end
       submit_combo
     end

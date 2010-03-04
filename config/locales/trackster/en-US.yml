@@ -47,15 +47,14 @@ en-US:
         user_not_updated:       "User profile for '{{name}}' was not updated."      
         new:
             new_user:           "New user's details"
-            type_of_new_user:   "New user's role"
-            access_which_properties:    "Which web properties can this user view?"
+            user_roles:         "What roles does this user have on this account?"
         change_password:
             change_password:    Change your password        
         index:
             user_search:        "Find a user"
         edit:
             edit_user:          "Profile details"
-            user_type:          "User's role"
+            user_roles:         "What roles does this user have on this account?"
             
     redirects:       
         redirect_summary:
