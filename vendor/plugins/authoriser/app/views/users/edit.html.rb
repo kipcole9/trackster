@@ -10,8 +10,6 @@ panel t('panels.user'), :flash => true, :display_errors => 'user'  do
         user.file_field       :photo
       end
       fieldset t('users.user_state') do
-        Rails.logger.debug "State is #{@user.state}"
-        Rails.logger.debug "States are #{user_states.inspect}"
         user.select           :state, user_states, :default => I18n.t('users.states.passive')
       end if can? :create, User
       fieldset t('users.user_roles') do
