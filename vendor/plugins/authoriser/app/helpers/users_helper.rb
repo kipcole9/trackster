@@ -14,6 +14,6 @@ module UsersHelper
   end
   
   def user_states
-    I18n.t('users.states').map {|state| [state.second, state.first]}
+    I18n.t('users.states').map {|state| [state.second.to_s, state.first.to_s]}
   end
 end
