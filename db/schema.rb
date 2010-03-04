@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100227155603) do
+ActiveRecord::Schema.define(:version => 20100304035905) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -457,7 +457,6 @@ ActiveRecord::Schema.define(:version => 20100227155603) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",               :limit => 40
     t.string   "given_name",          :limit => 100, :default => ""
     t.string   "email",               :limit => 100
     t.string   "crypted_password"
@@ -489,8 +488,6 @@ ActiveRecord::Schema.define(:version => 20100227155603) do
     t.string   "last_login_ip"
     t.string   "openid_identifier"
   end
-
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
   create_table "views", :force => true do |t|
     t.integer  "session_id"

@@ -1,6 +1,4 @@
 en-US:
-    must_login:             You must login to access that page.
-    not_authorized:         You are not authorized to access that page.
     no_actions_available:   No actions are current available
     cancel:                 Cancel
     help:                   Help
@@ -9,19 +7,9 @@ en-US:
     account_settings:       Account
     or:                     or
     edit:                   edit
-    user_created_pending_activation: User has been created and is now pending activation.
-    please_activate:        Please activate your new account
-    user_login:             Log in to your account
-    login:                  Login
-    logout:                 Logout
-    change_password:        Change Password
-    remember_me:            Remember me
-    logged_in_as:           "Logged in as"
     save:                   Save your changes
     submit:                 Submit
     show_all_fields:        Show optional fields?
-    unknown_activation_code: The activation code you provided is not known.
-    password_changed:       Your password has been changed.
     total:                  Total
     no_data_for_chart:      No data available for this chart.
     not_set:                (Not Set)

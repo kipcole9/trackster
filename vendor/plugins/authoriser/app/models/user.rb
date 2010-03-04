@@ -21,10 +21,11 @@ class User < ActiveRecord::Base
   has_many                  :account_users, :autosave => true
   has_many                  :accounts, :through => :account_users
   
-  validates_presence_of     :login
-  validates_length_of       :login,           :within => 3..40
-  validates_uniqueness_of   :login
-  validates_format_of       :login,           :with => LOGIN_REGEX
+  # Using email address as the login key now.  Leave this here is case we revert
+  #validates_presence_of     :login
+  #validates_length_of       :login,           :within => 3..40
+  #validates_uniqueness_of   :login
+  #validates_format_of       :login,           :with => LOGIN_REGEX
 
   validates_format_of       :given_name,      :with => NAME_REGEX, :allow_nil => true
   validates_length_of       :given_name,      :maximum => 100
@@ -36,8 +37,9 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email
   validates_format_of       :email,           :with => EMAIL_REGEX
 
-  attr_accessible :login, :email, :given_name, :family_name, :password, :password_confirmation, 
+  attr_accessible :email, :given_name, :family_name, :password, :password_confirmation, 
                   :accounts, :remember_me?, :locale, :timezone, :role, :photo
+  attr_accessor   :new_password, :new_password_confirmation
                   
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
@@ -73,7 +75,7 @@ class User < ActiveRecord::Base
   end
   
   def self.admin_user
-    User.find_by_login(ADMIN_USER)
+    User.find(:first, :conditions => "administrator = 1")
   end
   
   # Used by the login form

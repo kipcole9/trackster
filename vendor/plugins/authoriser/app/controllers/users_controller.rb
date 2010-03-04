@@ -17,19 +17,19 @@ class UsersController < TracksterResources
   end
 
   def update_password
-    if @user = User.authenticate(params[:user][:login], params[:user][:password])
-      @user.password = params[:user][:new_password]
-      @user.password_confirmation = params[:user][:new_password_confirmation]  
-      if @user.save
+    if current_user.valid_password?(params[:user][:password])
+      current_user.password = params[:user][:new_password]
+      current_user.password_confirmation = params[:user][:new_password_confirmation]  
+      if current_user.save
         flash[:notice] = t('password_changed')
-        redirect_back_or_default('/')
+        redirect_back_or_default
       else
         flash[:alert] = t('password_could_not_be_changed')
         render :action => :change_password
       end
     else 
       flash[:alert]  = t('unknown_user_or_password')
-      redirect_back_or_default('/')
+      redirect_back_or_default
     end    
   end
 

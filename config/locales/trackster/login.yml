@@ -1,0 +1,14 @@
+en-US:
+    must_login:             You must login to access that page.
+    not_authorized:         You are not authorized to access that page.
+    user_created_pending_activation: User has been created and is now pending activation.
+    please_activate:        Please activate your new account
+    please_log_in:          Log in to your account
+    login:                  Login
+    logout:                 Logout
+    change_password:        Change Password
+    remember_me:            Remember me
+    logged_in_as:           "Logged in as {{name}}"
+    could_not_login_as:     "Could not login as {{name}}"
+    unknown_activation_code: The activation code you provided is not known.
+    password_changed:       Your password has been changed.
