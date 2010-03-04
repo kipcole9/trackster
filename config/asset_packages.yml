@@ -17,7 +17,7 @@ javascripts:
 - tracker:
     - tracker  
 stylesheets:    
-- base:
+- base: &base_css
     - reset 
     - text
     - "960" 
@@ -29,5 +29,8 @@ stylesheets:
     - jquery-autocomplete
     - application
     - contacts
+- ie: 
+    <<: *base_css
+    - ie 
     
           
