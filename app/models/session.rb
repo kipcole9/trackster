@@ -37,7 +37,7 @@ class Session < ActiveRecord::Base
     super
   end
 
-  # Languange is the first part of the locale.  
+  # Language is the first part of the locale.  
   # ie. from en-US the language is 'en'.
   def language=(l)
     return if l.blank?
@@ -97,7 +97,7 @@ private
         session.save_time_metrics(row)
         session.create_campaign_association(row)
       else
-        logger.error "[Session] Host '#{row[:host]}' is not associated with account #{session.account.name}."
+        logger.error "[Session] Host '#{row[:host]}' is not associated with account '#{session.account.name}'."
       end
     else
       logger.error "[Session] Account '#{row[:account_code]}' is not known."

@@ -19,6 +19,7 @@ panel t('panels.navigation')  do
         nav property_report('traffic_source')
         nav link_to("Direct traffic")
         nav link_to("Referrals")
+        nav property_report('referrer_category')
         nav link_to("Search engines")
         nav property_report('keywords')
       end

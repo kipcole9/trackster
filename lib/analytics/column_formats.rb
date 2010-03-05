@@ -31,7 +31,6 @@ module Analytics
         
         table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
-        # table_format :language,       :order => -1, :formatter => :not_set_on_blank
         table_format :country,        :order => 0,  :formatter => :not_set_on_blank
         table_format :region,         :order => 1 #, :formatter => :not_set_on_blank
         table_format :locality,       :order => 2 #, :formatter => :not_set_on_blank
@@ -54,24 +53,28 @@ module Analytics
         table_format :length_of_visit,        :order => -1, 
                      :formatter => lambda{|val, options| "#{val} #{I18n.t('datetime.prompts.second').downcase}" }  
         table_format :visit_type,  :order => -1,
-                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("properties.site_summary.#{val}") }
+                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("property_report.visit_types.#{val}") }
     
         table_format :language, :order => -1,
                      :formatter => lambda {|val, options|
-                       return I18n.t('no_set') if val.blank?
-                       lang = val.split('-').first
-                       I18n.t("language.#{lang}", :default => val)
+                       return I18n.t('not_set') if val.blank?
+                       I18n.t("language.#{val}", :default => val)
                      }
                        
         table_format :dialect, :order => 5,
                      :formatter => lambda {|val, options|
-                       return val unless val
-                       dialect = (lang = val.split('-')).size > 1 ? lang.last : nil
-                       dialect ? I18n.t("locale.dialect.#{dialect}", :default => dialect) : I18n.t('not_set')
+                       return I18n.t('not_set') unless val
+                       I18n.t("locale.dialect.#{val}", :default => val)
                      }        
-        
+
+       table_format :referrer_category, :order => 1,
+                    :formatter => lambda {|val, options|
+                      return I18n.t('not_set') unless val
+                      I18n.t("property_report.referrer_categories.#{val}", :default => val)
+                    }
+                                            
         table_format :color_depth, :class => 'left',
-                     :formatter => lambda{ |val, options| 
+                     :formatter => lambda { |val, options| 
                         if options[:cell_type] == :th
                           val
                         else
@@ -84,7 +87,7 @@ module Analytics
                        if options[:cell_type] == :th
                          val
                        else
-                         val.blank? ? I18n.t('not_set') : I18n.t("properties.site_summary.#{val}", :default => val)
+                         val.blank? ? I18n.t('not_set') : I18n.t("property_report.traffic_sources.#{val}", :default => val)
                        end
                       }
       end

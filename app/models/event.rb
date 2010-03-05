@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   before_save       :update_label
   after_save        :update_video_maxplay
   
-  attr_accessor   :logger
+  attr_accessor     :logger
   
   PAGE_CATEGORY   = "page"
   VIEW_ACTION     = "view"

@@ -74,10 +74,18 @@ module Analytics
           :select => 'referrer_host, traffic_source',
           :group => 'referrer_host, traffic_source'
           
+        named_scope   :referrer_category,
+          :select => 'referrer_category',
+          :group => 'referrer_category'
+          
         named_scope   :keywords,
           :select => 'search_terms',
           :conditions => 'search_terms IS NOT NULL',
           :group => 'search_terms'
+          
+        named_scope   :device,
+          :select => 'trim(concat(if(isnull(device_vendor),\'\',device_vendor), \' \', device)) as device',
+          :group => 'device'
           
         named_scope   :length_of_visit, lambda {
           visit_sql = <<-SELECT
@@ -119,12 +127,17 @@ module Analytics
           self::NON_NULL_DIMENSIONS
         end
 
+        # Here we categorise the dimensions. The categories are defined so that
+        #
+        # 1. We know if we have to join the events table and not just use the sessions table
+        # 2. We can decide what our baseline report will be (visit summary, visitor summary, ....)
+
         # Dimensions that are based only on the sessions table
         # Used in site reporting
         def self.session_dimensions
           unless defined?(@@session_dimensions)
             @@session_dimensions = self.columns_hash.inject([]) { |array, item| array << item.first }
-            @@session_dimensions.reject{|k| k =~ /(_(id|at)|id|user_agent|referrer|event_count|page_views)\Z/ }
+            @@session_dimensions.reject{|k| k =~ /(_(id|at)|\Aid|user_agent|referrer|event_count|page_views)\Z/ }
             @@session_dimensions << ['new_v_returning','traffic_source','keywords']
             @@session_dimensions.flatten!
           end
@@ -135,7 +148,7 @@ module Analytics
         def self.event_dimensions
           unless defined?(@@event_dimensions)
             @@event_dimensions = Event.columns_hash.inject([]) { |array, item| array << item.first }
-            @@event_dimensions.reject{|k| k =~ /(_(id|at)|id)\Z/ }
+            @@event_dimensions.reject{|k| k =~ /(_(id|at)|\Aid)\Z/ }
             @@event_dimensions << ['bounce_page']
             @@event_dimensions.flatten!         
           end

@@ -5,13 +5,17 @@ en-US:
         English (Australian):   "en-AU"
         English (British):      "en-GB"
         English (Singaporian):  "en-SG"
+        English (Canadian):     "en-CA"
         French:                 fr
+        French (Canadian):      "fr-CA"
+        French (Swiss):         "fr-CH"
         German:                 de
         German (Swiss):         "de-CH"
         German (Austrian):      "de-AT"
         Italian:                it
         Spanish:                es
         Chinese:                zh
+        Chinese (Taiwan):       "zh-TW"
         Portugese:              pt
         Portugese (Brazilian):  "pt-BR"
         
