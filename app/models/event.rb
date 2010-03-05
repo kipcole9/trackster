@@ -51,7 +51,8 @@ class Event < ActiveRecord::Base
   def url=(uri)
     parsed_uri = URI.parse(uri) rescue nil
     if parsed_uri
-      path = parsed_uri.path.blank? ? '/' : parsed_uri.path 
+      path = parsed_uri.path.blank? ? '/' : parsed_uri.path
+      path = path.sub("\/#{self.index_page}\Z", '/') unless self.index_page.blank?
       super URI.unescape(path)
     else
       super(URI.unescape(uri)) unless uri.blank?

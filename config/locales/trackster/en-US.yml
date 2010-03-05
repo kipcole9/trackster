@@ -103,7 +103,7 @@ en-US:
             campaign_clicks:    Campaign clicks            
 
     properties:
-        edit_redirects:          "Show redirects"
+        edit_redirects:     "Show redirects"
         index:
             name:           "Web Properties"
         property_form:
@@ -222,6 +222,7 @@ en-US:
             host:           "The hostname of your web property.  To be tracked correctly, all tracking data must originate from this domain."
             name:           "A name for your web property.  It can be any text that uniquely identifies this web property."
             search_parameter: "The parameter on this property's URLs that indicate an internal search request.  For example in http://www.yoursite.com?q='widget', the search parameter would be 'q' (without the quotes).  Consult your webmaster if in doubt or simply leave the field blank."
+            index_page:     "The name of your index pages.  This can be a regular expression (consult your webmaster if you are unsure what this means).  The default is appropriate is most cases."
            
                 
     activerecord:

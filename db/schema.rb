@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100304035905) do
+ActiveRecord::Schema.define(:version => 20100305232235) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -319,6 +319,7 @@ ActiveRecord::Schema.define(:version => 20100304035905) do
     t.string   "thumb_content_type", :limit => 50
     t.integer  "thumb_file_size"
     t.string   "host",               :limit => 70
+    t.string   "index_page",         :limit => 50,  :default => "index.*"
   end
 
   add_index "properties", ["account_id"], :name => "index_properties_on_account_id"
