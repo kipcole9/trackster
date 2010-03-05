@@ -2,7 +2,6 @@ module Analytics
   class WebAnalytics
     REDIRECT_URL = /\A\/r\//
     TRACKER_URL  = /\A\/_tks.gif\?/
-    SECONDS_PER_MINUTE = 60
     VALID_PARAMS = {
                     # The tracking code, linked to an account
                     # Needs to be on each tracking request or URL
@@ -192,7 +191,7 @@ module Analytics
     # All times should be in the clients timezone where possible
     def adjust_time_to_client_zone!(row)
       if row[:timezone]
-        tz_adjustment = row[:timezone] * SECONDS_PER_MINUTE
+        tz_adjustment = row[:timezone].minutes
         row[:tracked_at] = row[:tracked_at] + tz_adjustment
         row[:previous_visit_at] = row[:previous_visit_at] + tz_adjustment if row[:previous_visit_at]
       end

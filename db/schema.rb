@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100305232235) do
+ActiveRecord::Schema.define(:version => 20100305233734) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -398,7 +398,6 @@ ActiveRecord::Schema.define(:version => 20100305232235) do
     t.integer  "day_of_week",       :limit => 1
     t.integer  "timezone",          :limit => 3
     t.string   "user_agent"
-    t.integer  "local_hour",        :limit => 2
     t.boolean  "lon_local_time",                   :default => false
     t.string   "device",            :limit => 50
     t.string   "device_vendor",     :limit => 50
