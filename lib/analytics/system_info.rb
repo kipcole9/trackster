@@ -70,6 +70,9 @@ module Analytics
         row[:os_version] = row[:user_agent].match(/iPhone OS ([0-9_]+) /).try(:[], 1)
       elsif row[:os_name] =~ /Linux/
         row[:device] = "Linux PC"
+      elsif row[:os_name] =~ /SymbianOS/
+        row[:os_name] = "Symbian OS"
+        row[:os_version] = row[:user_agent].match(/SymbianOS\/([0-9\.]+) /).try(:[], 1)
       end
     end
   end
