@@ -57,7 +57,7 @@ module Analytics
       
       def period_from_param(period, default)
         return default unless period
-        today = Date.today
+        today = Date.today + 1.day   # Since today converted to time means midnight today - and no traffic
         period = case period
           when 'today'          then today..today
           when 'this_week'      then first_day_of_this_week..today

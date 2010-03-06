@@ -2,44 +2,44 @@ panel t('panels.navigation')  do
   block do
     accordion do
       accordion_item "Visitors" do  
-        nav property_report('overview')
-        nav property_report('country')
-        nav property_report('locality')        
-        nav property_report('new_v_returning')
-        nav property_report('language')
+        nav report_link('overview')
+        nav report_link('country')
+        nav report_link('locality')        
+        nav report_link('new_v_returning')
+        nav report_link('language')
       end
       accordion_item "Loyalty"  do
         nav link_to("Overview")
         nav link_to("Loyalty")
         nav link_to("Recency")
-        nav property_report('length_of_visit')
-        nav property_report('depth_of_visit')        
+        nav report_link('length_of_visit')
+        nav report_link('depth_of_visit')        
       end
       accordion_item "Traffic Sources" do
-        nav property_report('traffic_source')
+        nav report_link('traffic_source')
         nav link_to("Direct traffic")
         nav link_to("Referrals")
-        nav property_report('referrer_category')
+        nav report_link('referrer_category')
         nav link_to("Search engines")
-        nav property_report('keywords')
+        nav report_link('keywords')
       end
       accordion_item "Campaigns" do
-        nav property_report('campaign_overview')
+        nav report_link('campaign_overview')
         nav link_to("Impressions")
         nav link_to("Clicks-through")
         nav link_to("Link destinations")
       end      
       accordion_item "Content" do 
         nav link_to("Overview")
-        nav property_report('url')
-        nav property_report('page_title')
-        nav property_report('entry_page')
-        nav property_report('exit_page')
-        nav property_report('bounce_page')
+        nav report_link('url')
+        nav report_link('page_title')
+        nav report_link('entry_page')
+        nav report_link('exit_page')
+        nav report_link('bounce_page')
       end
       accordion_item "Events" do
-        nav property_report('events')
-        nav property_report('video')
+        nav report_link('events')
+        nav report_link('video')
         resource.video_labels.each do |video|
           unless video.blank?
             video_label = video.split('/').last
@@ -52,12 +52,12 @@ panel t('panels.navigation')  do
       end 
       accordion_item "Devices" do  
         nav link_to("Overview")
-        nav property_report('device')
-        nav property_report('browser')
-        nav property_report('os_name')
-        nav property_report('color_depth')
-        nav property_report('screen_size')
-        nav property_report('flash_version')
+        nav report_link('device')
+        nav report_link('browser')
+        nav report_link('os_name')
+        nav report_link('color_depth')
+        nav report_link('screen_size')
+        nav report_link('flash_version')
       end    
     end
   end

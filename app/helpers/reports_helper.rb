@@ -1,4 +1,4 @@
-module PropertiesHelper
+module ReportsHelper
   def list_id(list)
     "list_#{list['id']}"
   end
@@ -20,7 +20,7 @@ module PropertiesHelper
   
   # Navigation link to a specfic report.  Translate the report type a the label,
   # apply any additional parameters
-  def property_report(report_type, additional_params = {})
+  def report_link(report_type, additional_params = {})
     link_to t("property_report.#{report_type}"), report_path(resource, report_type, report_params(additional_params))
   end
   
