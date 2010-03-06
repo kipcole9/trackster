@@ -68,6 +68,14 @@ module Analytics
         tracks.visits.by(:date).between(Track.period_from_params(params))
       end
       
+      def visits_by_day_of_week(params = {})
+        tracks.average_visits.by(:day_of_week).between(Track.period_from_params(params))
+      end
+      
+      def visits_by_hour(params = {})
+        tracks.average_visits.by(:hour).between(Track.period_from_params(params))
+      end
+      
       def total_referrers(params = {})
         tracks.visits.filter('referrer_host IS NOT NULL').between(Track.period_from_params(params)).first.visits
       end

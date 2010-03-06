@@ -37,9 +37,15 @@ module Analytics
       end
       
       def period_from_params(params)
-        return nil unless params[:from] || params[:max] || params[:to]
-        to = date_from_param(params[:to], params[:max] || Time.now)
-        from = date_from_param(params[:from], to - 30.days)        
+        return nil unless params[:from] || params[:max] || params[:to] || params[:period]
+        default_to = Time.now
+        default_from = default_to - 30.days
+        if params[:period]
+          from, to = period_from_param(params[:period], default_from..default_to)
+        else
+          to = date_from_param(params[:to], params[:max] || default_to)
+          from = date_from_param(params[:from], default_from)
+        end       
         from..to
       end
       
@@ -47,6 +53,36 @@ module Analytics
         return default unless date
         return date.to_date if date.is_a?(Date) || date.is_a?(Time)
         Time.parse(date) rescue default
+      end
+      
+      def period_from_param(period, default)
+        return default unless period
+        today = Date.today
+        period = case period
+          when 'today'          then today..today
+          when 'this_week'      then first_day_of_this_week..today
+          when 'this_month'     then first_day_of_this_month..today
+          when 'this_year'      then first_day_of_this_year..today
+          when 'last_30_days'   then (today - 30.days)..today
+          when 'last_12_months' then (today - 12.months)..today
+          when 'lifetime'       then (Date.today - 20.years)..today;
+          else default
+        end
+        return period.first, period.last
+      end
+      
+      def first_day_of_this_week
+        Date.today - Date.today.wday
+      end
+    
+      def first_day_of_this_month
+        today = Date.today
+        Date.new(today.year, today.month, 1)
+      end
+    
+      def first_day_of_this_year
+        today = Date.today
+        Date.new(today.year, 1, 1)
       end
     end
     

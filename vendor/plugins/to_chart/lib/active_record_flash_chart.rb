@@ -14,14 +14,14 @@ module ActiveRecord
         default_options = {}
         merged_options = default_options.merge(options)
         @chart = Charting::FlashChart.new(self, column, labels, merged_options, &block)
-        @chart.render_chart
+        @chart.to_html
       end
       
       def to_sparkline(column, options = {}, &block)
         default_options = {}
         merged_options = default_options.merge(options)
         @chart = Charting::Sparkline.new(self, column, merged_options, &block)
-        @chart.render_chart
+        @chart.to_html
       end
     end
   

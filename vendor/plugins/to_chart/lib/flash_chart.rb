@@ -1,11 +1,13 @@
 module Charting
   class FlashChart
-
     include OpenFlashChart::View
     include OpenFlashChart::Controller
     include OpenFlashChart
     include ActiveSupport::CoreExtensions::String::Inflections
     include ActionView::Helpers::NumberHelper
+    
+    MAX_LABELS      =   10
+    MAX_GRIDS       =   5
     PIE_COLOURS     = ["#d01f3c","#356aa0","#C79810",
                       "0x336699", "0x88AACC", "0x999933", "0x666699",
     		              "0xCC9933", "0x006666", "0x3399FF", "0x993300",
@@ -24,8 +26,7 @@ module Charting
                         :fill_alpha         => 0.2,
                         :background_colour  => '#dddddd',
                         :grid_colour        => '#ffffff',
-                        :grid_division      => 5,
-                        :label_steps        => 2,
+                        :grid_division      => MAX_GRIDS,
                         :width              => '100%',
                         :height             => '200',
                         :regression         => false,             # Also produce a regression series?
@@ -54,7 +55,7 @@ module Charting
       Thread.current[:chart_config]
     end
     
-    def render_chart
+    def to_html
       if @chart
         open_flash_chart_embedded(@options[:width], @options[:height], @div_name, @chart.render)
       else
@@ -149,8 +150,10 @@ module Charting
     end
     
     def labels_from_data(data_source, label, options)
+      label_steps = options[:label_steps] ? options[:label_steps] : (data_source.size / MAX_LABELS).to_i
+      label_steps = 1 if label_steps == 0
       data_source.inject([]) do |label_array, item|
-        label_array << label_from_row(item, label, label_visible?(label_array, data_source, options[:label_steps]), options)
+        label_array << label_from_row(item, label, label_visible?(label_array, data_source, label_steps), options)
       end
     end
           
@@ -164,10 +167,10 @@ module Charting
       case label
         when :date
           "#{value.day} #{I18n.t('date.abbr_month_names')[value.month]}"
-        when :hour, :local_hour
+        when :hour
           "#{"%02d" % value}:00"
         when :day_of_week
-          I18n.t('date.abbr_day_names')[value]
+          I18n.t('date.day_names')[value]
         when :month
           I18n.t('date.abbr_month_names')[value]
         when :week, :year, :hour

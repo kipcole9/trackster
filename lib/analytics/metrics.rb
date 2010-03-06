@@ -44,7 +44,12 @@ module Analytics
         named_scope :visits,
           :select => 'count(visit) as visits',
           :conditions => 'visit IS NOT NULL'
-
+          
+        # TODO Want to show average number of visits for day of the week in the given period.    
+        named_scope :average_visits,
+          :select => 'count(visit) as visits',
+          :conditions => 'visit IS NOT NULL'
+            
         # Named to avoid name class with association
         named_scope :event_count, lambda{ |*args|
           if args.first && args.first == :with_events
