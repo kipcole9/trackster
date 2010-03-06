@@ -56,10 +56,10 @@ module Analytics
     # frequently.  However the coding of some parameters isn't as friendly 
     # as we like.  So we add this transformation layer.
     def transform_platform_info!(row)
-      if row[:os_name] =~ /Win(.*)/
+      if row[:os_name] =~ /Win(.*)/ || (row[:os_name] == 'unknown' && row[:user_agent] =~ /Windows (NT)/)
         row[:os_name] = "Windows"
         row[:os_version] = $1
-        row[:device] = "Windows PC"
+        row[:device] = "Windows PC"       
       elsif row[:os_name] =~ /MacOSX/
         row[:os_name] = "Mac OS X"
         row[:os_version] = row[:user_agent].match(/Mac OS X ([0-9_\.]+);/).try(:[], 1)
