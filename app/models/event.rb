@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
   def self.create_from_row(session, row)
-    return nil if !session || unknown_event?(row) || duplicate_event?(session, row)
+    return nil if !session?(session) || unknown_event?(row) || duplicate_event?(session, row)
     @logger ||= row[:logger] || Rails.logger
     
     event = new_from_row(row)
@@ -95,6 +95,11 @@ private
     end
     unknown
   end
+  
+  def self.session?(session)
+    logger.error "[Event] Session is nil, no event can be created." unless session
+    session
+  end    
     
   def self.redirect?(row)
     row[:redirect]
