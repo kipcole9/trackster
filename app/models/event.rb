@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   belongs_to        :session
   belongs_to        :redirect
   before_save       :update_label
+  before_save       :apply_index_path_filter
   after_save        :update_video_maxplay
   
   attr_accessor     :logger
@@ -52,12 +53,7 @@ class Event < ActiveRecord::Base
   def url=(uri)
     parsed_uri = URI.parse(uri) rescue nil
     if parsed_uri
-      path = parsed_uri.path
-      if path.blank? 
-        path = '/'
-      else
-        path = path.sub("\/#{self.session.property.index_page}\Z", '') unless self.session.property.index_page.blank?
-      end
+      path = parsed_uri.path.blank? ? '/' : parsed_uri.path
       super URI.unescape(path)
     else
       super(URI.unescape(uri)) unless uri.blank?
@@ -152,4 +148,10 @@ private
       self.label = self.page_title || self.url
     end
   end
+  
+  def apply_index_path_filter
+    return unless filter = self.session.property.index_page
+    attributes['url'] = attributes['url'].sub("/#{filter}\Z",'')
+  end
+    
 end
