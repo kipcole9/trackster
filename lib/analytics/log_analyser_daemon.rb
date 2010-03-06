@@ -45,6 +45,7 @@ class LogAnalyserDaemon
         entry = log_parser.parse_entry(line)
         if entry[:datetime]
           if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
+            logger.debug "[Log analyser daemon] #{entry[:datetime]} #{entry[:ip_address]} #{entry[:user_agent]}"
             log_parser.save_web_analytics!(web_analyser, entry)
           end
         else
@@ -112,7 +113,7 @@ private
     last_event = Event.last
     last_session = last_event.session
     @last_log_entry = last_session.timezone ? last_event.tracked_at - last_event.session.timezone.minutes : last_event.tracked_at
-    logger.info "[Log Analyser] Last event saved before restart was at #{last_log_entry}."
+    logger.info "[Log analyser daemon] Last event saved before restart was at #{last_log_entry}."
     @last_log_entry
   end
 end
