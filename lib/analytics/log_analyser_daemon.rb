@@ -111,7 +111,7 @@ private
   def last_log_entry
     return @last_log_entry if defined?(@last_log_entry)
     last_event = Event.last
-    @last_log_entry = event.tracked_at - event.session.timezone
+    @last_log_entry = last_event.tracked_at - last_event.session.timezone
     logger.info "[Log analyser daemon] Last event saved before restart was at #{last_log_entry}."
     @last_log_entry
   end
