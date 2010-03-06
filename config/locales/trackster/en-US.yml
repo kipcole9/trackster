@@ -10,10 +10,7 @@ en-US:
     save:                   Save your changes
     submit:                 Submit
     show_all_fields:        Show optional fields?
-    total:                  Total
     no_data_for_chart:      No data available for this chart.
-    not_set:                (Not Set)
-    unknown:                (Unknown)
     no_data_yet:            No data available for this report.
     no_search_terms_found:  No search terms currently recorded.
     no_page_views_yet:      No page views currently recorded.

@@ -13,7 +13,7 @@ module HtmlTables
       default_options = {}
       merged_options = default_options.merge(options)
       @formatter = TableFormatter.new(self, merged_options)
-      @formatter.render_table
+      @formatter.to_html
     end
   end
   

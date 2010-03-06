@@ -1,11 +1,20 @@
 class TableFormatter
-  attr_accessor   :html, :table_columns, :klass, :merged_options, :rows, :totals
-  include         ::ActionView::Helpers::NumberHelper
-  EXCLUDE_COLUMNS       = [:id, :updated_at, :created_at]
-  DEFAULT_OPTIONS       = {:exclude => EXCLUDE_COLUMNS, :exclude_ids => true, :odd_row => "odd", :even_row => "even", :totals => true}
-  CALCULATED_COLUMNS    = /(percent|percentage|difference|diff)_of_(.*)/
-  MIN_PERCENT_BAR_VALUE = 0.5   # Below which no bar is drawn
-  REDUCTION_FACTOR      = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
+  attr_accessor           :html, :table_columns, :klass, :merged_options, :rows, :totals
+  include                 ::ActionView::Helpers::NumberHelper
+  EXCLUDE_COLUMNS         = [:id, :updated_at, :created_at]
+  DEFAULT_OPTIONS         = {
+      :exclude      => EXCLUDE_COLUMNS, 
+      :exclude_ids  => true, 
+      :odd_row      => "odd", 
+      :even_row     => "even", 
+      :totals       => true,
+      :total_key    => 'tables.total',
+      :unknown_key  => 'tables.unknown',
+      :not_set_key  => 'tables.not_set'
+  }
+  CALCULATED_COLUMNS      = /(percent|percentage|difference|diff)_of_(.*)/
+  MIN_PERCENT_BAR_VALUE   = 0.5   # Below which no bar is drawn
+  REDUCTION_FACTOR        = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
 
   def initialize(results, options)
     raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
@@ -23,7 +32,7 @@ class TableFormatter
   end
 
   # Main method for rendering a table
-  def render_table
+  def to_html
     options = merged_options
     table_options = {}
     html.table table_options do
@@ -38,6 +47,7 @@ class TableFormatter
     end 
   end
 
+protected
   # Outputs colgroups and column headings
   def output_table_headings(options)
     # Table heading
@@ -80,7 +90,7 @@ class TableFormatter
       html.tr do
         first_column = true
         table_columns.each do |column| 
-          value = first_column ? I18n.t('total') : totals[column[:name].to_s]
+          value = first_column ? first_column_total(options) : totals[column[:name].to_s]
           output_cell_value(:th, value, column, options)
           first_column = false
         end
@@ -145,6 +155,10 @@ private
     totals    
   end
   
+  def first_column_total(options)
+    I18n.t(options[:total_key], :row_count => rows.count)
+  end
+  
   def column_definition(column, value)
     @column_order += 1
     @default_formatter ||= procify(:default_formatter)
@@ -152,7 +166,7 @@ private
     css_class, formatter = get_column_formatter(column.to_s, value)
     column_order = klass.format_of(column)[:order] || @column_order
     totals = klass.format_of(column)[:total]
-    {
+    return {
       :name       => column,
       :label      => klass.human_attribute_name(column),
       :formatter  => formatter || @default_formatter,
@@ -195,7 +209,7 @@ private
     if options[:cell_type] == :th
       val
     else
-      val.blank? ? I18n.t('not_set') : val
+      val.blank? ? I18n.t(options[:not_set_key]) : val
     end
   end
 
@@ -207,7 +221,7 @@ private
     if options[:cell_type] == :th
       val
     else    
-      val.blank? ? I18n.t('unknown') : val
+      val.blank? ? I18n.t(options[:unknown_key]) : val
     end
   end
 
@@ -234,7 +248,7 @@ private
     number_with_precision(val.to_f, :precision => 1)
   end
   
-  def currency_no_sign(val, options)
+  def currency_without_sign(val, options)
     number_with_precision(val.to_f, :precision => 2)
   end
   
@@ -242,7 +256,7 @@ private
   # No bar if the value is <
   def bar_and_percentage(val, options)
     if options[:cell_type] == :td
-      width = val * reduction_factor(val)
+      width = val * bar_reduction_factor(val)
       bar = (val.to_f > MIN_PERCENT_BAR_VALUE) ? "<div class=\"hbar\" style=\"width:#{width}%\">&nbsp;</div>" : ''
       bar + "<div>" + percentage(val, :precision => 1) + "</div>"
     else
@@ -276,13 +290,11 @@ private
     end  
   end
   
-  def reduction_factor(value)
-    if value > 100 then 
-        0.3
-    elsif value > 80 then
-        0.6
-    else 
-        REDUCTION_FACTOR
+  def bar_reduction_factor(value)
+    case value
+      when 0..79  then  REDUCTION_FACTOR
+      when 80..99 then  0.6
+      else 0.3
     end
   end
 

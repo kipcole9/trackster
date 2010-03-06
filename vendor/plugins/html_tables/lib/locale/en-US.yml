@@ -1,0 +1,5 @@
+en-US:
+    tables:
+        total:          "Total ({{row_count}} rows)"
+        not_set:        (Not Set)
+        unknown:        (Unknown)
