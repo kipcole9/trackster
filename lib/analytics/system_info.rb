@@ -60,14 +60,15 @@ module Analytics
         row[:os_name] = "Windows"
         row[:os_version] = $1
         row[:device] = "Windows PC"
-      elsif row[:os_name] =~ /MacOSX/
-        row[:os_name] = "Mac OS X"
+      elsif row[:os_name] =~ /Mac OS X/
         row[:os_version] = row[:browser].match(/MAC OS X ([0-9_\.]+);/).try(:[], 1)
         row[:device] = "Macintosh"
         row[:device_vendor] = "Apple"
       elsif row[:os_name] =~ /iPhone OSX/
         row[:os_name] = "iPhone OS"
         row[:os_version] = row[:browser].match(/iPhone OS ([0-9_]+) /).try(:[], 1)
+      elsif row[:os_name] =~ /Linux/
+        row[:device] = "Linux PC"
       end
     end
   end
