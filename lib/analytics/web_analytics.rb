@@ -192,14 +192,13 @@ module Analytics
     def adjust_time_to_client_zone!(row)
       if row[:timezone]
         tz_adjustment = row[:timezone].minutes
-        row[:tracked_at] = row[:log_tracked_at] + tz_adjustment
+        row[:tracked_at] = row[:tracked_at] + tz_adjustment
         row[:previous_visit_at] = row[:previous_visit_at] + tz_adjustment if row[:previous_visit_at]
       end
     end
   
     def log_data!(row, entry)
       row[:ip_address]  = entry[:ip_address]
-      row[:log_tracked_at]  = entry[:datetime]
       row[:tracked_at]  = entry[:datetime]
       row[:user_agent]  = entry[:user_agent]
     end    
