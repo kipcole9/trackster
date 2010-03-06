@@ -62,7 +62,7 @@ module Analytics
         row[:device] = "Windows PC"
       elsif row[:os_name] =~ /MacOSX/
         row[:os_name] = "Mac OS X"
-        row[:os_version] = row[:user_agent].match(/MAC OS X ([0-9_\.]+);/).try(:[], 1)
+        row[:os_version] = row[:user_agent].match(/Mac OS X ([0-9_\.]+);/).try(:[], 1)
         row[:device] = "Macintosh"
         row[:device_vendor] = "Apple"
       elsif row[:os_name] =~ /iPhone OSX/
