@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  skip_time_zone_conversion_for_attributes = :tracked_at, :log_tracked_at
+  skip_time_zone_conversion_for_attributes = :tracked_at
   belongs_to        :session
   belongs_to        :redirect
   before_save       :update_label
@@ -56,7 +56,7 @@ class Event < ActiveRecord::Base
       if path.blank? 
         path = '/'
       else
-        path = path.sub("\/#{self.index_page}\Z", '') unless self.index_page.blank?
+        path = path.sub("\/#{self.session.property.index_page}\Z", '') unless self.session.property.index_page.blank?
       end
       super URI.unescape(path)
     else
