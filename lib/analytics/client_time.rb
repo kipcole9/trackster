@@ -5,7 +5,7 @@ module Analytics
         if s.timezone
           s.started_at = s.started_at + s.timezone.minutes
           s.ended_at = s.ended_at + s.timezone.minutes
-          s.events.all do |e|
+          s.events.all.each do |e|
             e.tracked_at += s.timezone.minutes
             e.save!
           end
