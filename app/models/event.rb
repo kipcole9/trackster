@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  skip_time_zone_conversion_for_attributes = :tracked_at
   belongs_to        :session
   belongs_to        :redirect
   before_save       :update_label

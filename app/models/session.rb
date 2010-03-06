@@ -1,4 +1,5 @@
 class Session < ActiveRecord::Base
+  skip_time_zone_conversion_for_attributes = :started_at, :ended_at
   has_many      :events, :dependent => :destroy
   belongs_to    :property
   belongs_to    :account
