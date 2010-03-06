@@ -91,7 +91,7 @@ module Analytics
       row = tracker_params_to_hash(uri.query)
       row
     rescue URI::InvalidURIError
-      logger.error "[Web Analytics] Invalid tracker URI detected: #{url}"
+      logger.error "[Web Analytics] Invalid tracker URI detected: '#{url}'"
       {}
     end
   

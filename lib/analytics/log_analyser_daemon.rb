@@ -10,7 +10,6 @@ class LogAnalyserDaemon
     @options         = options
     @log_parser      = Analytics::LogParser.new(:format => :nginx, :logger => @logger)
     @web_analyser    = Analytics::WebAnalytics.new(:logger => @logger)
-    @last_log_entry  = [(Event.maximum(:tracked_at) || Time.at(0)), (Session.maximum(:ended_at) || Time.at(0))].max
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
 
@@ -24,6 +23,8 @@ class LogAnalyserDaemon
     log.reopen_deleted      = true  # is default
     log.reopen_suspicious   = true  # is default
     log.suspicious_interval = 20    # When several loops of no data - like when logs rotated
+    
+    logger.info "[Log analyser daemon] Log analyser is starting."
     
     # Is called by log tailer when the log file is reopened (which happens after a series
     # of EOF detections)
@@ -104,5 +105,14 @@ private
     logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory
     log_level = log_modes[options[:log_level] || Trackster::Config.log_level || :info]
     logfile ? Logger.new(logfile, log_level) : Rails.logger
+  end
+  
+  def last_log_entry
+    return @last_log_entry if defined?(@last_log_entry)
+    last_event = Event.last
+    last_session = Event.session
+    @last_log_entry = last_session.timezone ? last_event.tracked_at - last_event.session.timezone : last_event.tracked_at
+    logger.info "[Log Analyser] Last event saved before restart was at #{last_log_entry}."
+    @last_log_entry
   end
 end

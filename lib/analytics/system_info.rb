@@ -56,24 +56,20 @@ module Analytics
     # frequently.  However the coding of some parameters isn't as friendly 
     # as we like.  So we add this transformation layer.
     def transform_platform_info!(row)
-      begin
-        if row[:os_name] =~ /Win(.*)/
-          row[:os_name] = "Windows"
-          row[:os_version] = $1
-          row[:device] = "Windows PC"
-        elsif row[:os_name] =~ /MacOSX/
-          row[:os_name] = "Mac OS X"
-          row[:os_version] = row[:user_agent].match(/MAC OS X ([0-9_\.]+);/).try(:[], 1)
-          row[:device] = "Macintosh"
-          row[:device_vendor] = "Apple"
-        elsif row[:os_name] =~ /iPhone OSX/
-          row[:os_name] = "iPhone OS"
-          row[:os_version] = row[:user_agent].match(/iPhone OS ([0-9_]+) /).try(:[], 1)
-        elsif row[:os_name] =~ /Linux/
-          row[:device] = "Linux PC"
-        end
-      rescue
-        logger "[transform_platform] Something bad happened!"
+      if row[:os_name] =~ /Win(.*)/
+        row[:os_name] = "Windows"
+        row[:os_version] = $1
+        row[:device] = "Windows PC"
+      elsif row[:os_name] =~ /MacOSX/
+        row[:os_name] = "Mac OS X"
+        row[:os_version] = row[:user_agent].match(/MAC OS X ([0-9_\.]+);/).try(:[], 1)
+        row[:device] = "Macintosh"
+        row[:device_vendor] = "Apple"
+      elsif row[:os_name] =~ /iPhone OSX/
+        row[:os_name] = "iPhone OS"
+        row[:os_version] = row[:user_agent].match(/iPhone OS ([0-9_]+) /).try(:[], 1)
+      elsif row[:os_name] =~ /Linux/
+        row[:device] = "Linux PC"
       end
     end
   end
