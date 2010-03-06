@@ -33,6 +33,7 @@ en-US:
       eu: Basque
       fa: Persian
       fi: Finnish
+      fil: Filipino
       fj: Fiji
       fo: Faeroese
       fr: French
@@ -84,7 +85,8 @@ en-US:
       na: Nauru
       ne: Nepali
       nl: Dutch
-      no: Norwegian
+      "no": Norwegian
+      nb: Bokmål Norwegian
       oc: Occitan
       om: "(Afan) Oromo"
       or: Oriya
