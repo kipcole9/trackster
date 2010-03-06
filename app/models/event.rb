@@ -31,8 +31,8 @@ class Event < ActiveRecord::Base
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
   def self.create_from_row(session, row)
-    return nil if !session?(session) || unknown_event?(row) || duplicate_event?(session, row)
     @logger ||= row[:logger] || Rails.logger
+    return nil if !session?(session) || unknown_event?(row) || duplicate_event?(session, row)
     
     event = new_from_row(row)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
