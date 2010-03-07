@@ -37,13 +37,12 @@ module Analytics
       end
       
       def period_from_params(params)
-        return nil unless params[:from] || params[:max] || params[:to] || params[:period]
-        default_to = Time.now
-        default_from = default_to - 30.days
+        default_from = Date.today - 30.days
+        default_to = Date.today
         if params[:period]
           from, to = period_from_param(params[:period], default_from..default_to)
         else
-          to = date_from_param(params[:to], params[:max] || default_to)
+          to = date_from_param(params[:to], default_to)
           from = date_from_param(params[:from], default_from)
         end       
         from..to

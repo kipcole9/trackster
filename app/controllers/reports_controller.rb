@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   helper_method :resource
+  before_filter :check_time_period
   
   def events
     # @events_summary = resource.events_summary(params).all
@@ -39,7 +40,7 @@ class ReportsController < ApplicationController
     elsif Track.event_dimensions.include?(params[:action])
       render :action => 'content_summary'
     else
-      super
+      render :action => params[:action]
     end
   end
   
@@ -52,6 +53,10 @@ private
     else
       current_account
     end
+  end
+  
+  def check_time_period
+    params[:period] = 'last_30_days' unless params[:period] || (params[:from] && params[:to])
   end
 
 end
