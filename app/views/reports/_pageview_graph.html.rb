@@ -1,4 +1,4 @@
-panel t('.pageview_graph')  do
+panel t('reports.name.page_views')  do
   block do
     params[:max] = resource.tracks.calculate(:max, :started_at)
     page_views = @page_views || resource.page_views_by_date(params).all

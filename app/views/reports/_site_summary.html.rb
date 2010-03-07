@@ -1,4 +1,4 @@
-panel t(".#{params[:action]}"), :class => 'table'  do
+panel t("reports.name.#{params[:action]}"), :class => 'table'  do
   block do
     if @site_summary.empty?
       h3 t('no_data_yet')

@@ -1,4 +1,4 @@
-panel t('videos.video_maxplay_graph', :name => params[:video] || t('videos.all'))  do
+panel t('reports.name.video_maxplay', :name => params[:video] || t('videos.all'))  do
   block do
     video_maxplays = resource.video_play_time(params).all
     if video_maxplays.empty?

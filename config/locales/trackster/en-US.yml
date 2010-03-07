@@ -92,91 +92,98 @@ en-US:
         campaign_impressions_graph_by_day:            
             impressions_graph_by_day:        Impressions by day
         campaign_overview:
-            campaign_overview: Campaign Summary
-            show:           Campaign summary
+            campaign_overview:      Campaign Summary
+            show:                   Campaign summary
         campaign_impressions:
-            campaign_impressions: Campaign impressions
+            campaign_impressions:   Campaign impressions
         campaign_clicks:
-            campaign_clicks:    Campaign clicks            
+            campaign_clicks:        Campaign clicks            
 
     properties:
-        edit_redirects:     "Show redirects"
+        edit_redirects:             Show redirects
         index:
-            name:           "Web Properties"
+            name:                   Web Properties
         property_form:
-            edit_property:  "Update this property's profile"
-            new_property:   "New Web Property details"        
+            edit_property:          "Update this property's profile"
+            new_property:           "New Web Property details"        
         edit:
-            new_property:   "Enter the new web property's details"
-            edit_property:  "Update the '{{name}}' web property"
-    reports:                   
-        site_summary:
-            country:        Countries
-            browser:        Browsers
-            language:       Languages
-            os_name:        Operating Systems
-            device:         Device types
-            color_depth:    Color Depth
-            screen_size:    Screen Sizes
-            new:            New
-            returning:      Returning
-            new_v_returning: New versus Returning Visitors
-            traffic_source: Type
-            referrer_host:  Source
-            referrer_category: Category
-            direct:         Direct
-            search:         Search
-            referral:       Referral
-            email:          Email
-            keywords:       Keywords
-            entry_page:     Entry pages
-            exit_page:      Exit pages
-            bounce_page:    Bounce pages
-            flash_version:  Flash Version
-            page_title:     Page title
-            localityregioncountry: Locality with Region and Country
-            url:            URL (web page address)
-        visits_graph:    
-            visit_graph:    Visits
-            no_visits_yet:  No visits currently recorded.
-        pageview_graph:
-            pageview_graph: Page views
-        visit_summary:
-            length_of_visit:    Length of Visit
-            depth_of_visit:     Depth of Visit
+            new_property:           "Enter the new web property's details"
+            edit_property:          "Update the '{{name}}' web property"
+            
+    reports:
+        no_visits_yet:              No visits currently recorded.
+        name:                 
+            country:                Countries
+            browser:                Browsers
+            language:               Languages
+            os_name:                Operating Systems
+            device:                 Device Types
+            color_depth:            Color Depth
+            screen_size:            Screen Sizes
+            new_v_returning:        New versus Returning Visitors
+            traffic_source:         Traffic Sources
+            referrer_host:          Source
+            referrer_category:      Category
+            email:                  Email
+            keywords:               Keywords
+            entry_page:             Entry pages
+            exit_page:              Exit pages
+            bounce_page:            Bounce pages
+            flash_version:          Flash Version
+            page_titles:            Page title
+            localityregioncountry:  Locality with Region and Country
+            url:                    URL (web page address)   
+            visits:                 Visits
+            page_views:             Page views
+            length_of_visit:        Length of Visit
+            depth_of_visit:         Depth of Visit
+            referrer_top_10:        Top 10 Referrers
+            search_terms_top_10:    Top 10 Search Terms
+            page_views_top_10:      Top 10 Pages Viewed
+            pageview_graph:         Page Views Trend
+            events_summary:         Events Summary
+            video_summary:          "Video Summary for {{name}}"
+            video_maxplay:          Maximum Video Play Time            
+        traffic_sources:
+            direct:                 Direct
+            search:                 Search
+            referral:               Referral
+            image search:           Image Search
+            blog search:            Blog Search
+        visit_types:
+            new:                    New
+            returning:              Returning
+        categories:
+            page:                   Page
+        actions:
+            view:                   View       
                     
     panels:
-        emails_opened:      "Emails opened"
-        emails_clicked:     "Emails clicked"
-        emails_summary:     "Emails summary"
-        user_pick_list:     "User Directory"
-        login:              "Please log in to access your account"
-        property:           "Property"
-        property_index:     "Web Property Index"
-        property_edit_navigation: "Navigation"
-        new_user:           "Define a new user"
-        user:               "Update your profile"
-        action_sidebar:     "Navigation"
-        navigation:         "Metrics"
-        campaign_navigation: "Actions"
-        campaign_index:     "Campaigns"
-        campaign:           Campaign
-        account_update:     Update Account
-        account_new:        New Account
-        account_index:      Index of accounts
-        redirect_index:     Index of redirects
-        redirect:           Redirect profile
-        dashboard:          Dashboard
-        time_dimension:     Time dimension
-        
-    dashboards:
-        referrer_top_10:    "Top 10 Referrers"
-        search_terms_top_10:    "Top 10 Search Terms"
-        page_views_top_10:  "Top 10 Pages Viewed"
-        pageview_graph:     "Page Views Trend"
-        events_summary:     "Events Summary"
-        video_summary:      "Video Summary for {{name}}"
-    
+        emails_opened:              Emails opened
+        emails_clicked:             Emails clicked
+        emails_summary:             Emails summary
+        user_pick_list:             User Directory
+        login:                      Please log in to access your account
+        property:                   Property
+        property_index:             Web Property Index
+        property_edit_navigation:   Navigation
+        new_user:                   Define a new user
+        user:                       Update your profile
+        action_sidebar:             Navigation
+
+        campaign_navigation:        Actions
+        campaign_index:             Campaigns
+        campaign:                   Campaign
+        account_update:             Update Account
+        account_new:                New Account
+        account_index:              Index of accounts
+        redirect_index:             Index of redirects
+        redirect:                   Redirect profile
+        dashboard:                  Dashboard
+    navigation:    
+        time_dimension:             Time dimension
+        reports:                    Metrics
+          
     column_descriptions:
         email:              "This is the email address for any correspondence. It can be changed any time."
         login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."

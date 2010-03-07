@@ -1,4 +1,4 @@
-panel t('dashboards.referrer_top_10'), :class => 'table'  do
+panel t('reports.name.referrer_top_10'), :class => 'table'  do
   block do
     total_referrers = resource.total_referrers(params)
     referrers = resource.visits_by_referrer(params).limit(10).all

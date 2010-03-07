@@ -1,4 +1,4 @@
-panel t('.visit_graph')  do
+panel t('reports.name.visits')  do
   block do
     visits = resource.visits_by_day_of_week(params).all
     if visits.empty? || (visits.size == 1 && visits.first.visits == "0")

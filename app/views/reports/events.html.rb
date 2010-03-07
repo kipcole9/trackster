@@ -1,14 +1,10 @@
 clear do
   column :width => 9, :class => 'main' do
     clear do
-      column :width => 12 do
-        # include "events_graph"
-      end
+      # include "events_graph"
     end
     clear do
-      column :width => 12 do
-        include "events_summary"
-      end
+      include "events_summary"
     end
   end
   

@@ -1,4 +1,4 @@
-panel t('dashboards.video_summary', :name => params[:video] || t('videos.all')), :class => 'table'  do
+panel t('reports.name.video_summary', :name => params[:video] || t('videos.all')), :class => 'table'  do
   if @videos.empty?
     block do
       h3 t('videos.no_video_plays_yet')

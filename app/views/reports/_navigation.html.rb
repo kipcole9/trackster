@@ -1,4 +1,4 @@
-panel t('panels.navigation')  do
+panel t('navigation.reports')  do
   block do
     accordion do
       accordion_item "Visitors" do  

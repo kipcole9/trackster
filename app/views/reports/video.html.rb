@@ -1,14 +1,10 @@
 clear do
   column :width => 9, :class => 'main' do
     clear do
-      column :width => 12 do
-        include "video_graph"
-      end
+      include "video_graph"
     end
     clear do
-      column :width => 12 do
-        include "video_summary"
-      end
+      include "video_summary"
     end
   end
   

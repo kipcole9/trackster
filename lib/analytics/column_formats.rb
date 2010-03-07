@@ -19,15 +19,15 @@ module Analytics
         table_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
         table_format :impressions,    :total => :sum, :order => 20, :class => 'right', :formatter => :integer_with_delimiter 
         table_format :cost,           :total => :sum, :order => 30, :class => 'right', :formatter => :integer_with_delimiter 
-        table_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_no_sign
+        table_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_without_sign
 
         table_format :clicks_through,  :total => :sum, :order => 22, :class => 'right', :formatter => :integer_with_delimiter
         table_format :click_through_rate, :total => :avg, :order => 25, :formatter => :bar_and_percentage
-        table_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_no_sign
+        table_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
 
-        table_format :label,          :order => -1, :formatter => :not_set_on_blank 
-        table_format :value,          :class => 'right', :formatter => :integer_with_delimiter
-        table_format :events,         :class => 'right', :formatter => :integer_with_delimiter
+        table_format :label,          :order => -1,       :formatter => :not_set_on_blank 
+        table_format :value,          :class => 'right',  :formatter => :integer_with_delimiter
+        table_format :events,         :class => 'right',  :formatter => :integer_with_delimiter
         
         table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
@@ -44,17 +44,22 @@ module Analytics
         table_format :percent_of_page_views,  :total => :sum, :order => 98, :class => 'page_views', :formatter => :bar_and_percentage 
         table_format :open_rate,              :total => :sum, :order => 22, :class => 'page_views', :formatter => :bar_and_percentage 
         table_format :percent_of_impressions, :total => :sum, :order => 23, :class => 'page_views', :formatter => :bar_and_percentage 
-        table_format :bounce_rate,            :total => :avg, :order => 101, :class => 'right', :formatter => :percentage
+        table_format :bounce_rate,            :total => :avg, :order => 101,:class => 'right', :formatter => :percentage
         table_format :exit_rate,              :total => :avg, :order => 97, :class => 'right', :formatter => :percentage  
         table_format :entry_rate,             :total => :avg, :order => 96, :class => 'right', :formatter => :percentage
-        table_format :new_visit_rate,         :total => :avg, :order => 100, :class => 'right', :formatter => :percentage
+        table_format :new_visit_rate,         :total => :avg, :order => 100,:class => 'right', :formatter => :percentage
         table_format :page_views_per_visit,   :total => :avg, :order => 99, :class => 'right', :formatter => :float_with_precision  
 
         table_format :length_of_visit,        :order => -1, 
                      :formatter => lambda{|val, options| "#{val} #{I18n.t('datetime.prompts.second').downcase}" }  
         table_format :visit_type,  :order => -1,
-                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("property_report.visit_types.#{val}") }
+                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.visit_types.#{val}", :default => val) }
     
+        table_format :category,
+                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
+        table_format :action,
+                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.actions.#{val}", :default => val) }
+        
         table_format :language, :order => -1,
                      :formatter => lambda {|val, options|
                        return I18n.t('not_set') if val.blank?
@@ -70,7 +75,7 @@ module Analytics
        table_format :referrer_category, :order => 1,
                     :formatter => lambda {|val, options|
                       return I18n.t('not_set') unless val
-                      I18n.t("property_report.referrer_categories.#{val}", :default => val)
+                      I18n.t("reports.referrer_categories.#{val}", :default => val)
                     }
                                             
         table_format :color_depth, :class => 'left',
@@ -87,7 +92,7 @@ module Analytics
                        if options[:cell_type] == :th
                          val
                        else
-                         val.blank? ? I18n.t('not_set') : I18n.t("property_report.traffic_sources.#{val}", :default => val)
+                         val.blank? ? I18n.t('not_set') : I18n.t("reports.traffic_sources.#{val}", :default => val)
                        end
                       }
       end

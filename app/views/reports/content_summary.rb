@@ -1,14 +1,10 @@
 clear do
   column :width => 9, :class => 'main' do
     clear do
-      column :width => 12 do
-        include "pageview_graph"
-      end
+      include "pageview_graph"
     end
     clear do
-      column :width => 12 do
-        include "site_summary"
-      end
+      include "site_summary"
     end
   end
   

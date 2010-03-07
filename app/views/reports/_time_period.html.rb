@@ -1,4 +1,4 @@
-panel t('panels.time_dimension')  do
+panel t('navigation.time_dimension')  do
   block do
     accordion do
       accordion_item "Time Period" do  
