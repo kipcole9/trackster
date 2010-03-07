@@ -136,25 +136,26 @@ en-US:
             last_12_months:             "for the last 12 months"
             last_week:                  "for the last week"
         name:                 
-            country:                Countries
-            locality:               Localities
             visit_overview:         Visit Overview
             loyalty_overview:       Loyalty Overview
             device_overview:        Device Overview
-            loyalty:                Loyalty
-            recency:                Recency
-            browser:                Browsers
-            language:               Languages
-            os_name:                Operating Systems
-            device:                 Device Types
-            color_depth:            Color Depth
-            screen_size:            Screen Sizes
-            new_v_returning:        'New & Returning Visitors'
             traffic_source_overview: Traffic Source Overview
-            traffic_source:         Traffic Sources
-            search_engines:         Search Engines
+            
+            country:                "Countries {{time_period}}"
+            locality:               "Localities {{time_period}}"            
+            loyalty:                "Loyalty {{time_period}}"
+            recency:                "Recency {{time_period}}"
+            browser:                "Browsers {{time_period}}"
+            language:               "Languages {{time_period}}"
+            os_name:                "Operating Systems {{time_period}}"
+            device:                 "Device Types {{time_period}}"
+            color_depth:            "Color Depth {{time_period}}"
+            screen_size:            "Screen Sizes {{time_period}}"
+            new_v_returning:        "New & Returning Visitors {{time_period}}"
+            traffic_source:         "Traffic Sources {{time_period}}"
+            search_engines:         "Search Engines {{time_period}}"
             referrer_host:          Source
-            referrer_category:      Traffic Source Categories
+            referrer_category:      "Traffic Source Categories {{time_period}}"
             email:                  Email
             keywords:               "Keywords {{time_period}}"
             entry_page:             "Entry pages {{time_period}}"
