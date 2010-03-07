@@ -13,7 +13,7 @@ class TableFormatter
       :not_set_key  => 'tables.not_set'
   }
   CALCULATED_COLUMNS      = /(percent|percentage|difference|diff)_of_(.*)/
-  MIN_PERCENT_BAR_VALUE   = 0.5   # Below which no bar is drawn
+  MIN_PERCENT_BAR_VALUE   = 2.0   # Below which no bar is drawn
   REDUCTION_FACTOR        = 0.80  # Scale the bar graps so they have room for the percentage number in most cases
 
   def initialize(results, options)

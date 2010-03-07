@@ -18,16 +18,16 @@ module Analytics
           .between(Track.period_from_params(params))
       end
 
-      def visit_summary(params = {})
-        tracks.visits.page_views.event_count.by(params[:action]).between(Track.period_from_params(params))
-      end
+      #def visit_summary(params = {})
+      #  tracks.visits.page_views.event_count.by(params[:action]).between(Track.period_from_params(params))
+      #end
 
       def content_summary(params = {})
         tracks.page_views(:with_events).page_duration.bounce_rate.exit_rate.entry_rate.by(params[:action])\
           .order('page_views DESC').between(Track.period_from_params(params))
       end
       
-      def site_summary(params = {})
+      def visits_summary(params = {})
         tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
           .having('visits > 0').order('visits DESC').between(Track.period_from_params(params))
       end
@@ -44,18 +44,35 @@ module Analytics
         tracks.page_views.by(:date).between(Track.period_from_params(params))
       end
       
+      def page_views_by_day(params = {})
+        tracks.page_views.by(:month, :day).order('month ASC, day ASC').between(Track.period_from_params(params))
+      end
+
+      def page_views_by_hour(params = {})
+        tracks.page_views.by(:hour).order('hour ASC').between(Track.period_from_params(params))
+      end
+
+      def page_views_by_day_of_week(params = {})
+        tracks.page_views.by(:day_of_week).order('day_of_week ASC').between(Track.period_from_params(params))
+      end
+
+      def page_views_by_month(params = {})
+        tracks.page_views.by(:year, :month).order('year ASC, month ASC').between(Track.period_from_params(params))
+      end
+
+      # No point in applying a date range on a summary by year
+      def page_views_by_year(params = {})
+        tracks.page_views.by(:year).order('year ASC')
+      end
+
       def page_views_by_url(params = {})
         tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).between(Track.period_from_params(params))
       end
       
       def total_page_views(params = {})
         tracks.page_views.between(Track.period_from_params(params)).first.page_views
-      end
-      
-      def page_views_by_day(params = {})
-        tracks.page_views.by(:day).between(Track.period_from_params(params))
-      end
-      
+      end  
+
       def visits_by_referrer(params = {})
         tracks.visits.by(:referrer_host).order('visits DESC').between(Track.period_from_params(params))
       end

@@ -1,3 +1,4 @@
+# This is the main summary page of reporting
 column :width => 9 do
   include "reports/pageview_graph"
   include "reports/pageview_top_10"

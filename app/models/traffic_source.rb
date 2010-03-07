@@ -3,7 +3,7 @@ class TrafficSource < ActiveRecord::Base
   validates_associated    :account
   validates_presence_of   :account_id
   validates_uniqueness_of :host, :scope => :account_id
-  after_save              :update_sessions
+  #after_save              :update_sessions
   
   def self.import_search_engines
     account = Account.admin

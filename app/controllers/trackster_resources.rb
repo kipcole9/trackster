@@ -36,4 +36,9 @@ class TracksterResources < InheritedResources::Base
     Trackster::Responder
   end
   
+private
+  def begin_of_association_chain
+    current_account
+  end  
+  
 end

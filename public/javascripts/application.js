@@ -201,7 +201,7 @@ $(document).ready(function(){
   	});
 
   	/* Setup for accordions */
-  	$(".accordion").accordion();
+  	$(".accordion").accordion({navigation: true});
 
 	/* And for tablesorter */
   	$.tablesorter.defaults.widgets = ['zebra'];

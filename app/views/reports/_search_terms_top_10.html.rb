@@ -1,4 +1,4 @@
-panel t('reports.name.search_terms_top_10'), :class => 'table'  do
+panel t('reports.name.search_terms_top_10', :time_group => time_group_t, :time_period => time_period_t), :class => 'table'  do
   block do
     begin
       total_search_terms = resource.total_visits(params)

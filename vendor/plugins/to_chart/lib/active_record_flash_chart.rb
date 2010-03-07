@@ -13,7 +13,7 @@ module ActiveRecord
       def to_chart(column, labels = nil, options = {}, &block)
         default_options = {}
         merged_options = default_options.merge(options)
-        @chart = Charting::FlashChart.new(self, column, labels, merged_options, &block)
+        @chart = Charting::FlashChart.new(self, column, labels.to_sym, merged_options, &block)
         @chart.to_html
       end
       

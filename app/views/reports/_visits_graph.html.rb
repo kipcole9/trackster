@@ -1,10 +1,10 @@
-panel t('reports.name.visits')  do
+panel t('reports.name.visits', :time_group => time_group_t, :time_period => time_period_t)  do
   block do
-    visits = resource.visits_by_day_of_week(params).all
-    if visits.empty? || (visits.size == 1 && visits.first.visits == "0")
-      h3 t('.no_visits_yet')
+    @visits_graph ||= resource.send("visits_by_#{time_group}", params).all
+    if @visits_graph.empty?
+      h3 t('reports.no_visits_recorded')
     else
-      store visits.to_chart(:visits, :day_of_week, :tooltip => "Date: #x_label#\nVisits: #val#", :regression => true)
+      store @visits_graph.to_chart(:visits, time_group, :tooltip => "At: #x_label#\nVisits: #val#", :regression => true)
     end
   end
 end

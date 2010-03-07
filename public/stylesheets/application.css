@@ -669,6 +669,7 @@ img.accordion_item_image {
 	padding:			5px;
 	-webkit-box-shadow: 3px 3px 3px #999;
 	-moz-box-shadow: 	3px 3px 3px #999;
+	outline:			0px;
 }
 
 .accordion h3:hover {

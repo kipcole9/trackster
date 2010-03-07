@@ -1,11 +1,10 @@
-panel t('reports.name.page_views')  do
+panel t('reports.name.page_views', :time_group => time_group_t, :time_period => time_period_t_for_graph)  do
   block do
-    params[:max] = resource.tracks.calculate(:max, :started_at)
-    page_views = @page_views || resource.page_views_by_date(params).all
-    if page_views.empty? || (page_views.size == 1 && page_views.first.page_views == "0")
+    @page_views_by ||= resource.send("page_views_by_#{time_group}", params).all
+    if @page_views_by.empty?
       h3 t('no_page_views_yet')
     else
-      store page_views.to_chart(:page_views, :date, :tooltip => "Date: #x_label#\nViews: #val#", :regression => true)
+      store @page_views_by.to_chart(:page_views, time_group, :tooltip => "At: #x_label#\nViews: #val#", :regression => true)
     end
   end
 end

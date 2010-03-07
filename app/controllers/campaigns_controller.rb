@@ -11,7 +11,7 @@ class CampaignsController < TracksterResources
     elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
       flash[:alert] = t('.translink_errors')
     end
-    redirect_back_or_default('/') unless flash.empty?
+    redirect_back_or_default unless flash.empty?
   end
   
   def destroy
@@ -22,10 +22,6 @@ class CampaignsController < TracksterResources
   
 
 private
-  def begin_of_association_chain
-    current_account
-  end
-
   def collection
     @campaigns ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end

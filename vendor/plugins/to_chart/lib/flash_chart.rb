@@ -158,22 +158,24 @@ module Charting
     end
           
     def label_from_row(item, attrib, visible, options)
-      label = format_label(item, attrib)
+      label = format_label(item, attrib, options)
       {:text => label, :visible => visible, :justify => 'center', :colour => options[:x_label_colour]}
     end
     
-    def format_label(item, label)
+    def format_label(item, label, options)
       value = item[label]  
       case label
         when :date
           "#{value.day} #{I18n.t('date.abbr_month_names')[value.month]}"
         when :hour
           "#{"%02d" % value}:00"
+        when :day
+          "#{value} #{I18n.t('date.abbr_month_names')[item.month]}"
         when :day_of_week
           I18n.t('date.day_names')[value]
         when :month
-          I18n.t('date.abbr_month_names')[value]
-        when :week, :year, :hour
+          "#{I18n.t('date.abbr_month_names')[value]} #{item.year}"
+        when :week, :year
           value.to_s
         else case value
           when Integer, Fixnum, Bignum, Float

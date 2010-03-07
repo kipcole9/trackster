@@ -10,15 +10,14 @@ protected
     controller_name = params['controller'].singularize
     text = page_subject || ''
     if action == 'index'
-      default = "#{controller_name.titleize} #{action.downcase}"
+      default = "#{controller_name.titleize} #{action.titleize}"
     else
-      default = "#{action.titleize} #{controller_name.downcase} #{text}".strip
+      default = "#{action.titleize} #{controller_name.titleize} #{text}".strip
     end        
     I18n.t("page.#{controller_name}.#{action}", :default => default, :text => text)
   end
 
   def page_subject=(t)
-    raise t.inspect
     @page_subject = t
   end
 
