@@ -5,7 +5,7 @@ panel t('reports.name.device_pie_graph', :time_group => time_group_t, :time_peri
       h3 t('reports.no_visits_recorded')
     else
       device_pie_graph = collapse_data(@device_pie_graph, :device, :visits)
-      store device_pie_graph.to_chart(:visits, :device, :tooltip => "#label#\nDevice: #val# (#percent#)", :type => OpenFlashChart::Pie)
+      store device_pie_graph.to_chart(:visits, :device, :tooltip => "#label#\nVisits: #val# (#percent#)", :type => OpenFlashChart::Pie)
     end
   end
 end
