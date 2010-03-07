@@ -151,7 +151,7 @@ private
   
   def apply_index_path_filter
     return unless filter = self.session.property.index_page
-    attributes['url'] = attributes['url'].sub("/#{filter}\Z",'')
+    attributes['url'] = attributes['url'].sub(/\/#{filter}\Z/,'/')
   end
     
 end
