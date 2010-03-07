@@ -15,6 +15,8 @@ en-US:
         hour:                       Hour of Day
         year:                       Year
         day:                        Day of Month
+        other_device:               Other Devices
+        other_os_name:              Other OS
         period:
             time_period:                "from {{from}} to {{to}}"
             last_30_days:               "for the last 30 days"
@@ -61,6 +63,8 @@ en-US:
             referrer_top_10:        "Top 10 Referrers {{time_period}}"
             search_terms_top_10:    "Top 10 Search Terms {{time_period}}"
             page_views_top_10:      "Top 10 Pages Viewed {{time_period}}"
+            device_pie_graph:       "Common Device Types {{time_period}}"
+            os_pie_graph:           "Operating Systems {{time_period}}"
             pageview_graph:         Page Views Trend
             events_summary:         Events Summary
             video_summary:          "Video Summary for {{name}}"

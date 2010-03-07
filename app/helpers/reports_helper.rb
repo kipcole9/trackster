@@ -63,4 +63,25 @@ module ReportsHelper
   def dimension_label(options)
     t("reports.#{options.first[1]}")
   end
+  
+  # Show only the email clients that have 10% or more
+  # collaps the others into "Other" category
+  def collapse_data(data, label_column, value_column, options = {})
+    default_options = {:min_percent => 0.05}
+    options = default_options.merge(options)
+    other = 0; new_data = []    
+    total_data = data.inject(0) {|sum, row| sum += row[value_column].to_f}
+    data.sort! {|a, b| a[value_column] <=> b[value_column]}.reverse!
+    data.each do |i|
+      if (i[value_column].to_f / total_data) >= options[:min_percent]
+        new_data << i
+      else
+        other = other + i[value_column].to_f
+      end
+    end
+    new_track = Track.new
+    new_track[label_column] = I18n.t("reports.other_#{label_column.to_s}")
+    new_track[value_column] = other
+    new_data << new_track
+  end  
 end

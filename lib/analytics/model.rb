@@ -93,6 +93,18 @@ module Analytics
         tracks.average_visits.by(:hour).between(Track.period_from_params(params))
       end
       
+      def visits_by_browser(params = {})
+        tracks.visits.by(:browser).between(Track.period_from_params(params))
+      end
+      
+      def visits_by_device(params = {})
+        tracks.visits.by(:device).between(Track.period_from_params(params))
+      end
+
+      def visits_by_os(params = {})
+        tracks.visits.by(:os_name).between(Track.period_from_params(params))
+      end
+ 
       def total_referrers(params = {})
         tracks.visits.filter('referrer_host IS NOT NULL').between(Track.period_from_params(params)).first.visits
       end
