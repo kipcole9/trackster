@@ -17,6 +17,7 @@ en-US:
         day:                        Day of Month
         other_device:               Other Devices
         other_os_name:              Other OS
+        other_os_version:           Other Versions
         period:
             time_period:                "from {{from}} to {{to}}"
             last_30_days:               "for the last 30 days"
@@ -26,6 +27,7 @@ en-US:
             this_week:                  "for this week"
             last_12_months:             "for the last 12 months"
             last_week:                  "for the last week"
+            lifetime:                   "since account creation"
         name:                 
             visit_overview:         Visit Overview
             loyalty_overview:       Loyalty Overview
@@ -65,6 +67,7 @@ en-US:
             page_views_top_10:      "Top 10 Pages Viewed {{time_period}}"
             device_pie_graph:       "Common Device Types {{time_period}}"
             os_pie_graph:           "Operating Systems {{time_period}}"
+            windows_version_graph:  "Windows Versions {{time_period}}"
             pageview_graph:         Page Views Trend
             events_summary:         Events Summary
             video_summary:          "Video Summary for {{name}}"

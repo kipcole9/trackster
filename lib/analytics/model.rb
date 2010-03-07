@@ -104,7 +104,11 @@ module Analytics
       def visits_by_os(params = {})
         tracks.visits.by(:os_name).between(Track.period_from_params(params))
       end
- 
+
+      def visits_by_windows_version(params = {})
+        tracks.visits.by(:os_version).filter("os_name = 'Windows'").between(Track.period_from_params(params))
+      end
+
       def total_referrers(params = {})
         tracks.visits.filter('referrer_host IS NOT NULL').between(Track.period_from_params(params)).first.visits
       end
