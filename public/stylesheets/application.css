@@ -744,14 +744,14 @@ div.block table thead th {
 col.page_views, col.event_count {
 	width: 5em; /* 10%; */
 }
-col.count, col.traffic_source, col.visits, col.exit_rate,
+col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
 col.events {
 	width: 6em; /* 13%; */
 }
-col.bounce_rate, col.value {
+col.bounce_rate, col.value, col.traffic_source  {
 	width: 7.5em;
 }
 col.entry_rate {
