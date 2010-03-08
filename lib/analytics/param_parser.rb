@@ -51,7 +51,7 @@ module Analytics
       def period_in_text_from_params(params)
         return I18n.t("reports.period.#{params[:period]}") if params[:period]
         range = period_from_params(params)
-        I18n.t('reports.period.time_period', :from => range.first, :to => range.last, :default => range.to_s)
+        I18n.t('reports.period.time_period', :from => range.first.to_date, :to => range.last.to_date, :default => range.to_s)
       end
       
       def date_from_param(date, default)
