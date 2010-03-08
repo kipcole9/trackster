@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100308030537) do
+ActiveRecord::Schema.define(:version => 20100308031813) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -215,8 +215,10 @@ ActiveRecord::Schema.define(:version => 20100308030537) do
     t.string   "contact_code",          :limit => 50
   end
 
+  add_index "events", ["label"], :name => "index_events_on_label"
   add_index "events", ["session_id"], :name => "index_events_on_session_id"
   add_index "events", ["tracked_at"], :name => "index_events_on_tracked_at"
+  add_index "events", ["url"], :name => "index_events_on_url"
 
   create_table "files", :force => true do |t|
     t.datetime "created_at"
