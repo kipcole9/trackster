@@ -117,6 +117,14 @@ module Analytics
         tracks.visits.between(Track.period_from_params(params)).first.visits
       end
       
+      def loyalty(params = {})
+        tracks.find_by_sql <<-SQL
+          select visit_count, sum(visit_count) as visits 
+          from (select count(visit) as visit_count from sessions group by visitor) as visit_summary
+          group by visit_count;
+        SQL
+      end
+      
       def video_labels(params = {})
         conditions = params['video'] ? ["category = 'video' and label = ?", params['video']] : "category = 'video'"
         tracks.find(:all, :select => "DISTINCT label", :conditions => conditions, :order => 'label', :joins => :events).map(&:label)

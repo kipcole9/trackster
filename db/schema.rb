@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100305233734) do
+ActiveRecord::Schema.define(:version => 20100308024457) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(:version => 20100305233734) do
   end
 
   add_index "events", ["session_id"], :name => "index_events_on_session_id"
+  add_index "events", ["tracked_at"], :name => "index_events_on_tracked_at"
 
   create_table "files", :force => true do |t|
     t.datetime "created_at"
@@ -409,7 +410,14 @@ ActiveRecord::Schema.define(:version => 20100305233734) do
   end
 
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"
+  add_index "sessions", ["date"], :name => "index_sessions_on_date"
+  add_index "sessions", ["day"], :name => "index_sessions_on_day"
+  add_index "sessions", ["day_of_week"], :name => "index_sessions_on_day_of_week"
+  add_index "sessions", ["hour"], :name => "index_sessions_on_hour"
+  add_index "sessions", ["month"], :name => "index_sessions_on_month"
   add_index "sessions", ["property_id"], :name => "index_sessions_on_property_id"
+  add_index "sessions", ["started_at"], :name => "index_sessions_on_started_at"
+  add_index "sessions", ["year"], :name => "index_sessions_on_year"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
