@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100308024457) do
+ActiveRecord::Schema.define(:version => 20100308030537) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -409,13 +409,21 @@ ActiveRecord::Schema.define(:version => 20100308024457) do
     t.string   "dialect",           :limit => 5
   end
 
+  add_index "sessions", ["browser"], :name => "index_sessions_on_browser"
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"
+  add_index "sessions", ["country"], :name => "index_sessions_on_country"
   add_index "sessions", ["date"], :name => "index_sessions_on_date"
   add_index "sessions", ["day"], :name => "index_sessions_on_day"
   add_index "sessions", ["day_of_week"], :name => "index_sessions_on_day_of_week"
+  add_index "sessions", ["device"], :name => "index_sessions_on_device"
   add_index "sessions", ["hour"], :name => "index_sessions_on_hour"
+  add_index "sessions", ["language"], :name => "index_sessions_on_language"
   add_index "sessions", ["month"], :name => "index_sessions_on_month"
+  add_index "sessions", ["os_name"], :name => "index_sessions_on_os_name"
+  add_index "sessions", ["os_version"], :name => "index_sessions_on_os_version"
   add_index "sessions", ["property_id"], :name => "index_sessions_on_property_id"
+  add_index "sessions", ["referrer_host"], :name => "index_sessions_on_referrer_host"
+  add_index "sessions", ["search_terms"], :name => "index_sessions_on_search_terms"
   add_index "sessions", ["started_at"], :name => "index_sessions_on_started_at"
   add_index "sessions", ["year"], :name => "index_sessions_on_year"
 
