@@ -1,6 +1,6 @@
 panel t('navigation.reports')  do
   block do
-    accordion do
+    accordion :id => 'report_navigation' do
       accordion_item "Visitors" do  
         nav report_link('visit_overview')
         nav report_link('country')

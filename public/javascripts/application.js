@@ -201,7 +201,13 @@ $(document).ready(function(){
   	});
 
   	/* Setup for accordions */
-  	$(".accordion").accordion({navigation: true});
+  	$(".accordion").each(function(i) {
+		if ($(this).attr('id') == "report_navigation") {
+			$(this).accordion({navigation: true});
+		} else {
+			$(this).accordion();
+		}
+	});
 
 	/* And for tablesorter */
   	$.tablesorter.defaults.widgets = ['zebra'];
@@ -270,8 +276,8 @@ $(document).ready(function(){
 	}));
 	
 	/* Remove flash notices after 5 seconds */
-	$('.flash_notice').fadeOut(5000, function() {
+	//$('.flash_notice').fadeOut(5000, function() {
 	    // Animation complete.
-	});
+	//});
 
 });   
