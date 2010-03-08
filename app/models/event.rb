@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   belongs_to        :session
   belongs_to        :redirect
   before_save       :update_label
+  before_save       :check_page_view
   before_save       :apply_index_path_filter
   after_save        :update_video_maxplay
   
@@ -153,5 +154,10 @@ private
     return unless filter = self.session.property.index_page
     self.url = self.url.sub(/\/#{filter}\Z/,'/')
   end
-    
+  
+  def check_page_view
+    if self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
+      self.page_view = true
+    end
+  end
 end

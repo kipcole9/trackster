@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100308031813) do
+ActiveRecord::Schema.define(:version => 20100308070456) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -213,9 +213,11 @@ ActiveRecord::Schema.define(:version => 20100308031813) do
     t.integer  "redirect_id"
     t.integer  "duration"
     t.string   "contact_code",          :limit => 50
+    t.boolean  "page_view"
   end
 
   add_index "events", ["label"], :name => "index_events_on_label"
+  add_index "events", ["page_view"], :name => "index_events_on_page_view"
   add_index "events", ["session_id"], :name => "index_events_on_session_id"
   add_index "events", ["tracked_at"], :name => "index_events_on_tracked_at"
   add_index "events", ["url"], :name => "index_events_on_url"
