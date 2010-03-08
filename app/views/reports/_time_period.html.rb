@@ -4,7 +4,10 @@ panel t('navigation.time_dimension')  do
       accordion_item "Time Period" do  
         nav add_dimension(current_action, :period => 'today')
         nav add_dimension(current_action, :period => 'this_week')
-        nav add_dimension(current_action, :period => 'this_month')        
+        nav add_dimension(current_action, :period => 'this_month')       
+        nav add_dimension(current_action, :period => 'last_week')  
+        nav add_dimension(current_action, :period => 'last_month')  
+        nav add_dimension(current_action, :period => 'last_year')        
         nav add_dimension(current_action, :period => 'last_30_days')
         nav add_dimension(current_action, :period => 'last_12_months')
         nav add_dimension(current_action, :period => 'lifetime')        

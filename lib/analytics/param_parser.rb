@@ -62,32 +62,66 @@ module Analytics
       
       def period_from_param(period, default)
         return default unless period
-        today = Date.today + 1.day   # Since today converted to time means midnight today - and no traffic
+        today = Date.today.to_time
+        tomorrow = today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
         period = case period
-          when 'today'          then today..today
-          when 'this_week'      then first_day_of_this_week..today
-          when 'this_month'     then first_day_of_this_month..today
-          when 'this_year'      then first_day_of_this_year..today
-          when 'last_30_days'   then (today - 30.days)..today
-          when 'last_12_months' then (today - 12.months)..today
-          when 'lifetime'       then (Date.today - 20.years)..today;
+          when 'today'          then today..tomorrow
+          when 'this_week'      then first_day_of_this_week..tomorrow
+          when 'this_month'     then first_day_of_this_month..tomorrow
+          when 'this_year'      then first_day_of_this_year..tomorrow
+          when 'last_week'      then first_day_of_last_week..last_day_of_last_week
+          when 'last_month'     then first_day_of_last_month..last_day_of_last_month
+          when 'last_year'      then first_day_of_last_year..last_day_of_last_year
+          when 'last_30_days'   then (today - 30.days)..tomorrow
+          when 'last_12_months' then (today - 12.months)..tomorrow
+          when 'lifetime'       then beginning_of_epoch..tomorrow;
           else default
         end
         return period.first, period.last
       end
       
+      def beginning_of_epoch
+        (Date.today - 20.years).to_time
+      end
+      
       def first_day_of_this_week
-        Date.today - Date.today.wday
+        (Date.today - Date.today.wday).to_time
       end
     
       def first_day_of_this_month
         today = Date.today
-        Date.new(today.year, today.month, 1)
+        Date.new(today.year, today.month, 1).to_time
+      end
+      
+      def first_day_of_last_week
+        (first_day_of_this_week - 7.days).to_time
+      end
+      
+      def last_day_of_last_week
+        first_day_of_last_week + 7.days - 1.second
+      end
+      
+      def first_day_of_last_month
+        last_month = Date.today - 1.month
+        Date.new(last_month.year, last_month.month, 1).to_time
+      end
+      
+      def last_day_of_last_month
+        first_day_of_last_month + 1.month - 1.second
       end
     
       def first_day_of_this_year
         today = Date.today
-        Date.new(today.year, 1, 1)
+        Date.new(today.year, 1, 1).to_time
+      end
+      
+      def first_day_of_last_year
+        today = Date.today
+        Date.new(today.year - 1, 1, 1).to_time
+      end
+      
+      def last_day_of_last_year
+        first_day_of_last_year + 1.year - 1.second
       end
     end
     

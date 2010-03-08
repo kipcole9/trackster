@@ -7,6 +7,7 @@ en-US:
         last_week:                  Last Week
         last_30_days:               Last 30 Days
         last_month:                 Last Month
+        last_year:                  Last Year
         last_12_months:             Last 12 Months
         lifetime:                   Lifetime
         date:                       Date
@@ -20,13 +21,14 @@ en-US:
         other_os_version:           Other Versions
         period:
             time_period:                "from {{from}} to {{to}}"
-            last_30_days:               "for the last 30 days"
-            last_month:                 "for the last month"
-            this_month:                 "for this month"
             today:                      "for today"
+            last_30_days:               "for the last 30 days"
+            this_month:                 "for this month"
             this_week:                  "for this week"
+            last_week:                  "for last week"
+            last_month:                 "for last month"
             last_12_months:             "for the last 12 months"
-            last_week:                  "for the last week"
+            last_year:                  "for last year"
             lifetime:                   "since account creation"
         name:                 
             visit_overview:         Visit Overview
