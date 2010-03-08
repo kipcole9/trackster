@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100308070456) do
+ActiveRecord::Schema.define(:version => 20100308160044) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -202,14 +202,14 @@ ActiveRecord::Schema.define(:version => 20100308070456) do
     t.string   "url"
     t.string   "page_title"
     t.datetime "tracked_at"
-    t.boolean  "entry_page",                          :default => true
-    t.boolean  "exit_page",                           :default => true
+    t.boolean  "entry_page",                           :default => true
+    t.boolean  "exit_page",                            :default => true
     t.datetime "created_at"
-    t.string   "category"
-    t.string   "action"
-    t.string   "label"
+    t.string   "category",              :limit => 20
+    t.string   "action",                :limit => 20
+    t.string   "label",                 :limit => 50
     t.float    "value"
-    t.string   "internal_search_terms"
+    t.string   "internal_search_terms", :limit => 100
     t.integer  "redirect_id"
     t.integer  "duration"
     t.string   "contact_code",          :limit => 50
@@ -371,13 +371,13 @@ ActiveRecord::Schema.define(:version => 20100308070456) do
     t.string   "os_version",        :limit => 10
     t.string   "flash_version",     :limit => 10
     t.string   "campaign_name",     :limit => 50
-    t.string   "campaign_source"
-    t.string   "campaign_medium"
-    t.string   "campaign_content"
+    t.string   "campaign_source",   :limit => 50
+    t.string   "campaign_medium",   :limit => 50
+    t.string   "campaign_content",  :limit => 50
     t.string   "ip_address",        :limit => 20
-    t.string   "locality"
-    t.string   "region"
-    t.string   "country"
+    t.string   "locality",          :limit => 50
+    t.string   "region",            :limit => 30
+    t.string   "country",           :limit => 30
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "duration",                         :default => 0
@@ -392,7 +392,7 @@ ActiveRecord::Schema.define(:version => 20100308070456) do
     t.boolean  "mobile_device"
     t.string   "referrer"
     t.string   "referrer_host",     :limit => 100
-    t.string   "search_terms"
+    t.string   "search_terms",      :limit => 100
     t.string   "traffic_source",    :limit => 50
     t.date     "date"
     t.integer  "day"
@@ -409,7 +409,7 @@ ActiveRecord::Schema.define(:version => 20100308070456) do
     t.string   "referrer_category", :limit => 50
     t.integer  "impressions"
     t.string   "contact_code",      :limit => 50
-    t.string   "email_client"
+    t.string   "email_client",      :limit => 20
     t.string   "dialect",           :limit => 5
   end
 

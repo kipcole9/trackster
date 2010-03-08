@@ -39,12 +39,14 @@ panel t('navigation.reports')  do
       accordion_item "Events" do
         nav report_link('events')
         nav report_link('video')
-        resource.video_labels.each do |video|
-          unless video.blank?
-            video_label = video.split('/').last
-            nav video_report(video_label, :video => video) 
-          end
-        end; nil
+        # Very database inefficient to scan for
+        # video names so we won't do this for now
+        #resource.video_labels.each do |video|
+        #  unless video.blank?
+        #    video_label = video.split('/').last
+        #    nav video_report(video_label, :video => video) 
+        #  end
+        #end; nil
       end
       accordion_item "Internal Search" do         
         nav report_link("internal_search_overview")
