@@ -8,6 +8,7 @@ html do
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
     stylesheet_merged theme_css
     stylesheet_merged :print, :media => 'print'
+    stylesheet_merged theme_print_css, :media => 'print'    
     javascript_merged :base
     javascripts 'swfobject.js'
     javascript yield(:jstemplates) if yield(:jstemplates)

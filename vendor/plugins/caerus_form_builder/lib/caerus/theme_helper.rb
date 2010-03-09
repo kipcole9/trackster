@@ -4,6 +4,10 @@ module Caerus
     def theme_css
       @theme_css ||= "#{Trackster::Config.theme_dir.without_slash}/#{current_theme}/theme.css"
     end
+
+    def theme_print_css
+      @theme_print_css ||= "#{Trackster::Config.theme_dir.without_slash}/#{current_theme}/print.css"
+    end
   
     def theme_branding
       @theme_branding ||= "#{current_theme_directory}/branding.html.rb"
