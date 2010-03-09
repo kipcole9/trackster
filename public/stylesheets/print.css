@@ -24,3 +24,8 @@ body {
 #menu, #navigation, #branding, #site_info {
 	display: none;
 }
+
+#logo {
+	float: right;
+	height: 5em;
+}
