@@ -9,12 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100308160044) do
+ActiveRecord::Schema.define(:version => 20100309133237) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
     t.integer "user_id"
     t.integer "role_mask"
+    t.string  "tags"
   end
 
   add_index "account_users", ["account_id", "user_id"], :name => "index_account_users_on_account_id_and_user_id", :unique => true

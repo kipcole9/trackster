@@ -213,6 +213,9 @@ $(document).ready(function(){
   	$.tablesorter.defaults.widgets = ['zebra'];
   	$('table').tablesorter();
 
+	/* Set up tagslists. Some CSS work required */
+	//$('.tags').textboxlist();
+
 	/* For contact cards and resizing */
 	if ($('#contactCards')) {
 		$.resizeContactCards();

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   disable_perishable_token_maintenance true
 
   before_validation_on_create :reset_perishable_token
-  after_save                  :update_roles
+  after_save                  :update_account_user
   
   LOGIN_REGEX               = /\A\w[\w\.\-_@]+\z/                     # ASCII, strict
   # self.login_regex        = /\A[[:alnum:]][[:alnum:]\.\-_@]+\z/     # Unicode, strict
@@ -37,8 +37,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email
   validates_format_of       :email,           :with => EMAIL_REGEX
 
-  attr_accessible :email, :given_name, :family_name, :password, :password_confirmation, 
-                  :accounts, :remember_me?, :locale, :timezone, :role, :photo, :state
+  attr_accessible :email, :given_name, :family_name, :password, :password_confirmation,
+                  :accounts, :remember_me?, :locale, :timezone, :roles, :photo, :state, :tags
   attr_accessor   :new_password, :new_password_confirmation
                   
   named_scope :search, lambda {|criteria|
@@ -93,31 +93,24 @@ class User < ActiveRecord::Base
   end
   
   def roles
-    is_administrator? ? ROLES : ROLES.reject { |r| ((self.account_roles_mask || 0) & 2**ROLES.index(r)).zero? }
+    ROLES.reject { |r| ((self.account_roles_mask || 0) & 2**ROLES.index(r)).zero? }
   end
   
   def has_role?(role)
     roles.include?(role.to_s)
   end
   
-  def account_roles_mask=(roles)
-    puts "setting roles mask with #{roles.inspect}"
-    account_user.role_mask = roles
-    #account_user.save!
+  # Defines the tags that scope permitted access to
+  # Sessions
+  def tags=(tag_list)
+    account_user.tags = tag_list
   end
   
-  def account_roles_mask
-    account_user.role_mask
+  def tags
+    account_user.tags
   end
-  
-  def account_user
-    @account_user ||= (account_users.find_by_account_id(Account.current_account) || account_users.build(:account => Account.current_account))
-  end    
 
-  def role_symbols
-    roles.map(&:to_sym)
-  end
-   
+  # Helper type methods
   def member_of?(account)
     accounts.find_by_name(account.name) || is_administrator?
   end
@@ -136,7 +129,25 @@ class User < ActiveRecord::Base
   end
 
 protected
-  def update_roles
+  def account_roles_mask=(roles)
+    account_user.role_mask = roles
+  end
+
+  def account_roles_mask
+    account_user.role_mask
+  end
+
+  def account_user
+    @account_user ||= (account_users.find_by_account_id(Account.current_account) || 
+                      account_users.build(:account => Account.current_account, :role_mask => 0))
+  end    
+
+  def role_symbols
+    roles.map(&:to_sym)
+  end
+
+private
+  def update_account_user
     account_user.save if account_user
   end
   

@@ -1,8 +1,9 @@
 module UsersHelper
   def user_roles_check_boxes(user)
+    store label_tag(I18n.t('activerecord.attributes.user.roles'))    
     User::ROLES.each do |r|
       with_tag(:div) do
-        store check_box_tag("roles[]", r, user.has_role?(r))
+        store check_box_tag("user[roles][]", r, user.has_role?(r))
         store content_tag(:label, I18n.t("roles.#{r}"), :class => :field_label)
       end
     end

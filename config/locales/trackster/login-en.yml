@@ -1,4 +1,4 @@
-en-US:
+en:
     must_login:             You must login to access that page.
     not_authorized:         You are not authorized to access that page.
     user_created_pending_activation: User has been created and is now pending activation.

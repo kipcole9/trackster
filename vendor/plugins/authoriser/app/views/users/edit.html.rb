@@ -13,6 +13,7 @@ panel t('panels.user'), :flash => true, :display_errors => 'user'  do
         user.select           :state, user_states, :default => I18n.t('users.states.passive')
       end if can? :create, User
       fieldset t('users.user_roles') do
+        user.text_field       :tags, :class => 'tags'
         user_roles_check_boxes(@user)
       end if can? :create, User
       submit_combo
