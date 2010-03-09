@@ -83,6 +83,7 @@ private
     session.attributes.each do |k, v|
       session.send("#{k.to_s}=",  row[k.to_sym])
     end
+    session.tag_list    = row[:tags] if row[:tags]
     session.started_at  = row[:tracked_at]
     session.ended_at    = session.started_at
     

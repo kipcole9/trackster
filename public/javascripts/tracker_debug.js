@@ -1,8 +1,8 @@
 function _tks(account)  {
-	this.version		= "1.0";
+	this.version		= "1.1";
 	var self = this;
 	this.account 		= "undefined";
-	this.trackerHost	= "Traphos:8080";
+	this.trackerHost	= "trackster.local:8080";
 	this.trackerImage	= "/_tks.gif";
 	this.videoPlayer	= "xrdPlayer";
 	this.parameters 	= new Object();  // Parsed URL parameters
@@ -20,6 +20,9 @@ function _tks(account)  {
 	
 	// The ID of the user (note - requires privacy policy)
 	this.cid = '';
+	
+	// Any session tags
+	this.tag = '';
 	
 	// The tracking cookie values
 	this.tdsv = null;
@@ -65,8 +68,15 @@ function _tks(account)  {
 		self.cid = id;
 	}
 	this.getCid = function() {
-		return self.cid;
+		return (self.cid.length > 0) ? encodeURIComponent(self.cid) : self.parameters['utid'];
 	}
+	this.setTags = function(tags) {
+		self.tag = tags;
+	}
+	this.getTags = function() {
+		console.log("Tag is '" + self.tag + "'");
+		return (self.tag.length > 0) ? encodeURIComponent(self.tag) : self.parameters['utags'];
+	}	
 	this.getScreenSize = function() {
 		return screen.width + 'x' + screen.height;
 	};
@@ -572,7 +582,7 @@ function _tks(account)  {
 		"utmn": this.getUniqueRequest, "utref": this.getReferrer, "uttz": this.getTimeZoneOffset,
 		"utm_campaign": this.getCampName, "utm_source": this.getCampSource,
 		"utm_medium": this.getCampMedium, "utm_content": this.getCampContent,
-		"utmp": this.getUrl
+		"utmp": this.getUrl, "utags": this.getTags
 	};
 };
 

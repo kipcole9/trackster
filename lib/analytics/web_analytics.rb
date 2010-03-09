@@ -42,6 +42,11 @@ module Analytics
                     :utact        =>  :action,
                     :utlab        =>  :label,
                     :utval        =>  :value,
+                    
+                    # Sessions (NOT Events) can have tags that can
+                    # later be used to segment visits. Tags are
+                    # comma-separated lists or arbitrary text.
+                    :utags        => :tags,
                   
                     # An identifier of this user in a customer
                     # cms system. Must be manually added through

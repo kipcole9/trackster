@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "1.0";
+	this.version		= "1.1";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "{{SITE}}";
@@ -20,6 +20,9 @@ function _tks(account)  {
 	
 	// The ID of the user (note - requires privacy policy)
 	this.cid = '';
+	
+	// Any session tags
+	this.tag = '';
 	
 	// The tracking cookie values
 	this.tdsv = null;
@@ -61,12 +64,18 @@ function _tks(account)  {
         image.src = url; // Triggers image loading
 		return;	
 	};
-	this.setCid = function(id) {
+	this.setId = function(id) {
 		self.cid = id;
 	}
-	this.getCid = function() {
-		return self.cid;
+	this.getId = function() {
+		return (self.cid.length > 0) ? encodeURIComponent(self.cid) : self.parameters['utid'];
 	}
+	this.setTags = function(tags) {
+		self.tag = tags;
+	}
+	this.getTags = function() {
+		return (self.tag.length > 0) ? encodeURIComponent(self.tag) : self.parameters['utags'];
+	}	
 	this.getScreenSize = function() {
 		return screen.width + 'x' + screen.height;
 	};
@@ -566,13 +575,13 @@ function _tks(account)  {
 	this.parameters = this.parseParameters();
 	this.urlParams = {
 		// &utses must be before &utvis
-		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor, "utid": this.getCid,
+		"utac": this.getAccount, "utses": this.getSession, "utvis": this.getVisitor, "utid": this.getId,
 		"utmdt": this.getPageTitle,	"utmsr": this.getScreenSize, "utmsc": this.getColorDepth, 
 		"utmul": this.getLanguage, "utmcs": this.getCharset, "utmfl": this.getFlashVersion, 
 		"utmn": this.getUniqueRequest, "utref": this.getReferrer, "uttz": this.getTimeZoneOffset,
 		"utm_campaign": this.getCampName, "utm_source": this.getCampSource,
 		"utm_medium": this.getCampMedium, "utm_content": this.getCampContent,
-		"utmp": this.getUrl
+		"utmp": this.getUrl, "utags": this.getTags
 	};
 };
 
