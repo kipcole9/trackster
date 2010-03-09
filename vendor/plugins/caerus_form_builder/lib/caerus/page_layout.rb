@@ -58,10 +58,8 @@ module Caerus
     # :prefix => 'container'; name of CSS class prefix
     def body(args = {}, &block)
       head unless @head
-      default_options = {:columns => 12, :prefix => "container" }
-      options = default_options.merge(args)
       with_tag(:body) do
-        container(&block)
+        container(:id => :wrapper, &block)
       end
     end
 
@@ -80,8 +78,8 @@ module Caerus
     def container(args = {}, &block)
       default_options = {:columns => 12, :prefix => "container" }
       options = default_options.merge(args)
-      with_tag(:div, :class => "#{options[:prefix]}_#{options[:columns]}", &block)
-      clear
+      options = options.merge(:class => "#{options.delete(:prefix)}_#{options.delete(:columns)} clearfix")
+      with_tag(:div, options , &block)
     end
 
     def column(args, &block)

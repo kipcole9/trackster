@@ -1,4 +1,4 @@
-with_tag :div, :class => "grid_12" do
+with_tag :div, :class => "grid_12", :id => 'menu' do
   main_menu do
     menu_item 'Dashboard', :href => dashboard_path
     menu_item "Web Properties" do
