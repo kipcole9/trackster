@@ -54,7 +54,11 @@ module Analytics
         table_format :visit_type,  :order => -1,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.visit_types.#{val}", :default => val) }
         table_format :country,     :order => 0,
-                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("countries.#{val}", :default => val) }
+                     :formatter => lambda {|val, options| 
+                          return val if options[:cell_type] == :th
+                          return I18n.t('tables.not_set') unless val
+                          return I18n.t("countries.#{val}", :default => val) 
+                     }
         table_format :category,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
         table_format :action,
@@ -62,8 +66,8 @@ module Analytics
         
         table_format :language, :order => -1,
                      :formatter => lambda {|val, options|
-                       return I18n.t('not_set') if val.blank?
-                       I18n.t("language.#{val}", :default => val)
+                        return I18n.t('tables.not_set') if val.blank?
+                        I18n.t("language.#{val}", :default => val)
                      }
                        
         table_format :dialect, :order => 5,
