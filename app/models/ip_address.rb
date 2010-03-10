@@ -21,12 +21,12 @@ class IpAddress < ActiveRecord::Base
       raise row.inspect
     end
     if lookup = find(:first, :conditions => ['ip = ?', convert_to_integer_cidr24(ip_address)])
-      country = Country.find_by_id(lookup.country)
       city = City.find_by_country_and_city(lookup.country, lookup.city)
       if row 
-        if country
-          row[:country] = country.name.titleize unless country.name.blank?
-        end
+        # We store the country code only and translate on output so we can
+        # have locale specific country names. We can't really do that for
+        # region and locality though.
+        row[:country] = lookup.country.upcase
         if city
           row[:locality]  = Iconv.iconv('utf8','iso-8859-1', URI.decode(city.name.split(',').first.strip)).first.titleize unless city.name.blank?
           row[:region]    = city.state.titleize unless city.state.blank?
@@ -35,10 +35,10 @@ class IpAddress < ActiveRecord::Base
         end
         row[:geocoded_at] = Time.now
       end
-    elsif !row[:country_code].blank? && country = Country.find_by_code(row[:country_code])
-      # No IP Address lookup, but check if there was a search engine that got us here.
-      # and perhaps we can use the country suffix to tell us the probable country
-      row[:country] = country.name.titleize unless country.name.blank?
+    else
+      # If we can't geocode but we got here via a search engine, then try to use the
+      # country TLD of the search engine and make an assumption about the country.
+      row[:country] = row[:country_code] unless row[:country_code].blank?
     end
   end
     
