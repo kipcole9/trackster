@@ -31,7 +31,6 @@ module Analytics
         
         table_format :referrer_host,  :order => -1, :formatter => :not_set_on_blank   
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
-        table_format :country,        :order => 0,  :formatter => :not_set_on_blank
         table_format :region,         :order => 1 #, :formatter => :not_set_on_blank
         table_format :locality,       :order => 2 #, :formatter => :not_set_on_blank
         table_format :os_name,        :order => -1, :formatter => :not_set_on_blank 
@@ -54,7 +53,8 @@ module Analytics
                      :formatter => lambda{|val, options| "#{val} #{I18n.t('datetime.prompts.second').downcase}" }  
         table_format :visit_type,  :order => -1,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.visit_types.#{val}", :default => val) }
-    
+        table_format :country,     :order => 0,
+                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("countries.#{val}", :default => val) }
         table_format :category,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
         table_format :action,
