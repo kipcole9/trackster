@@ -78,6 +78,11 @@ class Session < ActiveRecord::Base
     return if ip_address.blank?
     geodata = IpAddress.reverse_geocode(self.ip_address)
     self.country = geodata[:country]
+    self.region   = geodata[:region]
+    self.locality = geodata[:locality]
+    self.latitude = geodata[:latitude]
+    self.longitude = geodata[:longitude]
+    self.geocoded_at = geodata[:geocoded_at]
   end
 
 private
