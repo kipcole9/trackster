@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100309133237) do
+ActiveRecord::Schema.define(:version => 20100310162031) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -378,7 +378,7 @@ ActiveRecord::Schema.define(:version => 20100309133237) do
     t.string   "ip_address",        :limit => 20
     t.string   "locality",          :limit => 50
     t.string   "region",            :limit => 30
-    t.string   "country",           :limit => 30
+    t.string   "country",           :limit => 2
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "duration",                         :default => 0
