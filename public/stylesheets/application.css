@@ -829,4 +829,10 @@ div.listItem img.list_image {
 	content: ")";
 }
 
+/* Flags */
+.flag {
+	position: relative;
+	top: 1px;
+}
+
 

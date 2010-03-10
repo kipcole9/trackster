@@ -57,7 +57,9 @@ module Analytics
                      :formatter => lambda {|val, options| 
                           return val if options[:cell_type] == :th
                           return I18n.t('tables.not_set') unless val
-                          return I18n.t("countries.#{val}", :default => val) 
+                          flag = "<img src=/images/flags/#{val.downcase}.png class=flag >"
+                          country = I18n.t("countries.#{val}", :default => val)
+                          return "#{flag} #{country}" 
                      }
         table_format :category,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
