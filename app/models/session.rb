@@ -73,6 +73,12 @@ class Session < ActiveRecord::Base
       logger.error "[session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
     end
   end
+  
+  def reverse_geocode
+    return if ip_address.blank?
+    geodata = IpAddress.reverse_geocode(self.ip_address)
+    self.country = geodata[:country]
+  end
 
 private
   def self.new_from_row(row)
