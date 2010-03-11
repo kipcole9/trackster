@@ -78,11 +78,11 @@ module Analytics
                        I18n.t("locale.dialect.#{val}", :default => val)
                      }        
 
-       table_format :referrer_category, :order => 1,
-                    :formatter => lambda {|val, options|
-                      return I18n.t('tables.not_set') unless val
-                      I18n.t("reports.referrer_categories.#{val}", :default => val)
-                    }
+        table_format :referrer_category, :order => 1,
+                     :formatter => lambda {|val, options|
+                       return I18n.t('tables.not_set') unless val
+                       I18n.t("reports.referrer_categories.#{val}", :default => val)
+                     }
                                             
         table_format :color_depth, :class => 'left',
                      :formatter => lambda { |val, options| 
@@ -91,16 +91,14 @@ module Analytics
                         else
                           val.blank? ? I18n.t('unknown') : "#{val} #{I18n.t('bits')}"
                         end
-                      }
+                     }
 
         table_format :traffic_source,   :order => 0,
                      :formatter => lambda {|val, options| 
-                       if options[:cell_type] == :th
-                         val
-                       else
-                         val.blank? ? I18n.t('not_set') : I18n.t("reports.traffic_sources.#{val}", :default => val)
-                       end
-                      }
+                       return val options[:cell_type] == :th
+                       return I18n.t('tables.not_set') if val.blank?
+                       I18n.t("reports.traffic_sources.#{val}", :default => val)
+                     }
       end
     end
   end

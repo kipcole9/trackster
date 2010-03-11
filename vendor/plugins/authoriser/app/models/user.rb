@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   }
   
   def timezone=(zone)
-    super unless timezone.blank?
+    super unless zone.blank?
   end
   
   def active?

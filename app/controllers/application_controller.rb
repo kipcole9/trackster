@@ -46,6 +46,8 @@ protected
     I18n.locale = locale || I18n.default_locale
   end
 
+  # Set the timezone to the users timezone. If there is none
+  # or it cannot be set then use the browsers timezone.
   def set_timezone
     Time.zone = current_user.try(:timezone) || browser_timezone
   end

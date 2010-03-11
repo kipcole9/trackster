@@ -11,7 +11,6 @@ module Analytics
     #
     # Each named scoped is a metric that builds up a column of a report. (see Analytics::Metrics)
     # #by method build the dimension we're reporting (see Analytics::Dimensions)
-    
     module InstanceMethods  
       def campaign_summary(params = {})
         tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name)\
@@ -57,7 +56,7 @@ module Analytics
       end
 
       def page_views_by_month(params = {})
-        tracks.page_views.by(:year, :month).order('year ASC, month ASC').between(Track.period_from_params(params))
+        content_summary(params.merge(:action => 'visit_type'))
       end
 
       # No point in applying a date range on a summary by year
@@ -67,6 +66,10 @@ module Analytics
 
       def page_views_by_url(params = {})
         tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).between(Track.period_from_params(params))
+      end
+      
+      def page_views_by_visit_type(params = {})
+        tracks.page_views.by(:visit_type).order('page_views DESC').limit(10).between(Track.period_from_params(params))
       end
       
       def total_page_views(params = {})
