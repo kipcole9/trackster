@@ -62,8 +62,6 @@ module Analytics
       
       def period_from_param(period, default)
         return default unless period
-        today = Date.today.to_time
-        tomorrow = today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
         period = case period
           when 'today'          then today..tomorrow
           when 'this_week'      then first_day_of_this_week..tomorrow
@@ -80,16 +78,23 @@ module Analytics
         return period.first, period.last
       end
       
+      def today
+        @today ||= Time.zone.now.to_date.to_time
+      end
+      
+      def tomorrow
+        @tomorrow ||= today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
+      end
+      
       def beginning_of_epoch
-        (Date.today - 20.years).to_time
+        (today - 20.years).to_time
       end
       
       def first_day_of_this_week
-        (Date.today - Date.today.wday).to_time
+        (today - today.wday).to_time
       end
     
       def first_day_of_this_month
-        today = Date.today
         Date.new(today.year, today.month, 1).to_time
       end
       
@@ -111,12 +116,10 @@ module Analytics
       end
     
       def first_day_of_this_year
-        today = Date.today
         Date.new(today.year, 1, 1).to_time
       end
       
       def first_day_of_last_year
-        today = Date.today
         Date.new(today.year - 1, 1, 1).to_time
       end
       
