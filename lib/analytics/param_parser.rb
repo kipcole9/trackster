@@ -91,7 +91,7 @@ module Analytics
       end
       
       def first_day_of_this_week
-        (today - today.wday).to_time
+        today - today.wday.days
       end
     
       def first_day_of_this_month
