@@ -159,7 +159,7 @@ private
   
   def apply_index_path_filter
     return unless filter = self.session.property.index_page
-    self.url = self.url.sub(/\/#{filter}\Z/,'/')
+    self.url = self.url.sub(/\/#{filter}\Z/,'/') unless self.url.blank? || filter.blank?
   end
   
   def check_page_view
