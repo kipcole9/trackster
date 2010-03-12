@@ -104,8 +104,9 @@ en:
         index:
             name:                   Web Properties
         property_form:
-            edit_property:          "Update this property's profile"
-            new_property:           "New Web Property details"        
+            edit_property:          "Property's profile"
+            new_property:           "New Web Property details"
+            advanced:               "Advanced Properties"       
         edit:
             new_property:           "Enter the new web property's details"
             edit_property:          "Update the '{{name}}' web property"

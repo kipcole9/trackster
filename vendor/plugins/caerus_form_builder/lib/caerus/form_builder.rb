@@ -34,7 +34,7 @@ module Caerus
     end
      
     def text_area(method, options = {})
-      default_options = {:size => "50x5"}
+      default_options = {:size => "50x3"}
       with_field(method, options) do
         super(method, default_options.merge(options))
       end 
