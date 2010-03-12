@@ -36,7 +36,7 @@ class Event < ActiveRecord::Base
     @logger ||= row[:logger] || Rails.logger
     return nil if !session?(session) || unknown_event?(row) || duplicate_event?(session, row)
     
-    event = new_from_row(row)
+    event = new_from_row(session, row)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       previous_event.exit_page = false
       previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
@@ -45,7 +45,6 @@ class Event < ActiveRecord::Base
     else
       event.entry_page = true
     end
-    event.session = session
     event.exit_page = true
     session.ended_at = event.tracked_at
     event
@@ -109,8 +108,9 @@ private
     row[:redirect]
   end
 
-  def self.new_from_row(attrs)
+  def self.new_from_row(session, attrs)
     event = new
+    event.session - session
     event.attributes.each do |k, v|
       event.send("#{k.to_s}=",  attrs[k.to_sym])
     end
