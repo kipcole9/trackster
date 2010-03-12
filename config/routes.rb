@@ -13,8 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   
   # Reporting for analytics
   map.property_report '/properties/:property_id/reports/:action', :controller => 'reports'
-  map.account_report  '/accounts/:account_id/reports/:action',    :controller => 'reports'
   map.campaign_report '/campaigns/:campaign_id/reports/:action',  :controller => 'reports'
+  map.account_report  '/reports/:action', :controller => 'reports'
     
   # Application exception reporting
   map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"

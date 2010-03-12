@@ -60,6 +60,13 @@ class Event < ActiveRecord::Base
       super(URI.unescape(uri)) unless uri.blank?
     end
   end
+  
+  # If configured in the web property, delete the matched
+  # regexp. Helpful if page titles have a common prefix
+  def page_title=(title)
+    title_prefix = self.session.property.title_prefix
+    title_prefix.blank? ? super : super(title.sub(Regexp.new(title_prefix),''))
+  end
 
   def pageview?
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION

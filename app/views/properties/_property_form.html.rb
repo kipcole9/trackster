@@ -4,6 +4,7 @@ caerus_form_for property, :html => {:multipart => true} do |property|
     property.text_field     :host,              :validate => :validations
     property.text_field     :search_parameter,  :validate => :validations
     property.text_field     :index_page
+    property.text_field     :title_prefix
     property.text_area      :description
     store(image_tag(property.object.thumb(:thumb))) if property.object.thumb?
     property.file_field     :thumb

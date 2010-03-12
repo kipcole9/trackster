@@ -8,6 +8,7 @@ en:
         attributes:
             property:
                 url:            Web address (URL)
+                title_prefix:   Page title prefix
             account:
                 name:           Account name
                 company_name:   Company name

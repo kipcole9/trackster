@@ -33,7 +33,11 @@ module ReportsHelper
   end
   
   def report_path(resource, report_type, params)
-    send("#{resource.class.name.downcase}_report_path", resource.id, report_type, params)
+    if resource.is_a?(Account)
+      send("account_report_path", report_type, params)
+    else
+      send("#{resource.class.name.downcase}_report_path", resource.id, report_type, params)
+    end
   end
 
   def time_group
