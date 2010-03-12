@@ -110,7 +110,7 @@ private
 
   def self.new_from_row(session, attrs)
     event = new
-    event.session - session
+    event.session = session
     event.attributes.each do |k, v|
       event.send("#{k.to_s}=",  attrs[k.to_sym])
     end
