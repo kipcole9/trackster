@@ -25,5 +25,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
     menu_item "Site" do
       menu_item "Site performance",     :href => site_path
     end
+    menu_item "Logout",                 {:href => logout_path}, :class => :secondary
+    menu_item "Profile",                {:href => edit_user_path(current_user)}, :class => :secondary
   end
 end

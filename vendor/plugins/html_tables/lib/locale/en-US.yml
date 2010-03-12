@@ -1,5 +1,6 @@
 en-US:
     tables:
-        total:          "Total ({{row_count}} rows)"
+        total_many:     "Total ({{row_count}} rows)"
+        total_one:      "Total (one row)"
         not_set:        (Not Set)
         unknown:        (Unknown)

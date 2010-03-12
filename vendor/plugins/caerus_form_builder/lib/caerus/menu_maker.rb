@@ -6,9 +6,9 @@ module Caerus
       end
     end
   
-    def menu_item(item, options = {})
-      with_tag :li do
-        with_tag :a, options do
+    def menu_item(item, link_options = {}, item_options = {})
+      with_tag :li, item_options do
+        with_tag :a, link_options do
           store item
         end
         with_tag :ul do

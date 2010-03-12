@@ -6,3 +6,7 @@ label {
 input[type='text'], input[type='password'], textarea {
 	width: 98%;
 }
+
+select {
+	display: block;
+}

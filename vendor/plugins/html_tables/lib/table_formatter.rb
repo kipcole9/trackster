@@ -8,7 +8,8 @@ class TableFormatter
       :odd_row      => "odd", 
       :even_row     => "even", 
       :totals       => true,
-      :total_key    => 'tables.total',
+      :total_one    => 'tables.total_one',
+      :total_many   => 'tables.total_many',
       :unknown_key  => 'tables.unknown',
       :not_set_key  => 'tables.not_set'
   }
@@ -156,7 +157,11 @@ private
   end
   
   def first_column_total(options)
-    I18n.t(options[:total_key], :row_count => rows.count)
+    if rows.count > 1
+      I18n.t(options[:total_many], :row_count => rows.count)
+    else
+      I18n.t(options[:total_one], :row_count => rows.count)
+    end
   end
   
   def column_definition(column, value)

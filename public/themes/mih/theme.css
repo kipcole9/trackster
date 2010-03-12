@@ -75,6 +75,20 @@ ul.nav.main li a {
   background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
   background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
 }
+ul.nav.main li:hover a:active {
+  background: url(/themes/mih/menu_grad.jpg) repeat;
+  background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
+  background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
+}
+ul.nav.main li.secondary a {
+  background: url(/themes/mih/menu_grad.jpg) repeat;
+  background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
+  background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
+}
+ul.nav.main li.secondary { background: transparent !important; }
+ul.nav.main li.secondary a { background: transparent !important; }
+ul.nav.main li.secondary:hover { background: transparent !important; }
+ul.nav.main li.secondary { background: transparent !important; }
 ul.nav.main li a:hover { color: #212121; }
 ul.nav.main li ul li a { background: #212121; }
 ul.nav.main li ul li a:hover { background: #343434; }
