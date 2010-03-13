@@ -33,7 +33,6 @@ module Analytics
         table_format :page_title,     :order => -1, :formatter => :not_set_on_blank   
         table_format :region,         :order => 1 #, :formatter => :not_set_on_blank
         table_format :locality,       :order => 2 #, :formatter => :not_set_on_blank
-        table_format :os_name,        :order => -1, :formatter => :not_set_on_blank 
         table_format :device,         :class => 'left', :formatter => :not_set_on_blank             
         table_format :flash_version,  :class => 'left', :formatter => :not_set_on_blank               
         table_format :visitors,       :total => :sum, :order => 99, :class => 'visitors right'
@@ -67,7 +66,15 @@ module Analytics
                           return I18n.t('tables.not_set') unless val
                           browser = "<img src=/images/browsers/#{val.downcase}(16x16).png class='browser' >"
                           return "#{browser} #{val}" 
-                     }           
+                     }
+                     
+        table_format :os_name,      :order => -1,
+                     :formatter => lambda {|val, options| 
+                         return val if options[:cell_type] == :th
+                         return I18n.t('tables.not_set') unless val
+                         browser = "<img src='/images/os/#{val.downcase}.png' class='browser' >"
+                         return "#{browser} #{val}" 
+                     }                
         table_format :category,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
         table_format :action,
