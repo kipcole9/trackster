@@ -1,0 +1,61 @@
+en:
+    authorizer:
+        help:                   Help
+        login_button:           Login
+        login_panel:            Login to access your account
+        must_login:             You must login to access that page.
+        not_authorized:         You are not authorized to access that page.
+        user_created_pending_activation: User has been created and is now pending activation.
+        please_activate:        Please activate your new account
+        please_log_in:          Please enter your credentials
+        login:                  Login
+        logout:                 Logout
+        change_password:        Change Password
+        remember_me:            Remember me on this computer?
+        logged_in_as:           "Logged in as {{name}}"
+        could_not_login_as:     "Couldn't login as {{name}}"
+        unknown_activation_code: The activation code you provided is not known.
+        password_changed:       Your password has been changed.
+        forgotten_password:     Forgotten your email address or password?
+    
+    column_descriptions:
+        user:
+            tags:               "If tags are specified then only events that are also tagged will be visible to this user"
+            photo:              "Can you upload an image as part of your profile.  It will be visible to other people on your account."
+            email:              "This is your login id. <em>It can't be changed later.</em> An activation email will be sent to this address."
+            login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."
+            locale:             "Your preferred language, which can be changed at any time."
+            timezone:           "The time zone in which you mostly work. You can change it at any time."    
+
+    users:
+        edit_profile:           Edit your profile
+        user_updated:           "User profile for '{{name}}' updated."
+        user_not_updated:       "User profile for '{{name}}' was not updated."  
+        user_roles:             "What capabilities does this user have on account '{{account_name}}'?"
+        user_state:             User status
+        new_user:               "New user's details"
+        edit_user:              Profile details
+        change_password:        Change your password        
+        user_search:            Find a user
+        states:
+            active:             Active
+            passive:            Inactive
+                    
+    activerecord:
+        attributes:
+            user_session:
+                email:          Email Address
+                password:       Password    
+                remember_me?:   Remember me on this computer? 
+            account:
+                name:           Account name
+                company_name:   Company name
+                timezone:       Time zone
+            user:
+                login:          User name
+                password_confirmation:  Password again
+                email:          E-mail address
+                timezone:       Time Zone
+                locale:         Preferred Language
+                roles:          Account Roles
+                tags:           Authorized tags    

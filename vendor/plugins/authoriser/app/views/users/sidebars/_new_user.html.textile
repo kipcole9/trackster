@@ -1,0 +1,12 @@
+h4. New Users 
+
+After you enter the details and register the user an activation email will be sent that will provide the user with their new account link and default password.  After activation the user will be able to change their password and update their profile details such as timezone, language/locale and name. *The email address can't be changed after the user is created*.
+
+h4. User Capabilities
+
+A user is only ever registered once, but may have access to several accounts.  This give you, as an account owner or administrator, a lot of flexibility in providing access appropriate to the persons needs.
+
+h4. Tag Filter
+
+You might want to restrict this user to a subset of your data by entering a comma-separated list of content tags.  This depends on how your webmaster tagged the content on your web site(s).
+

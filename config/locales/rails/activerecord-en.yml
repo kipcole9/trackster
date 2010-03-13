@@ -9,18 +9,6 @@ en:
             property:
                 url:            Web address (URL)
                 title_prefix:   Page title prefix
-            account:
-                name:           Account name
-                company_name:   Company name
-                timezone:       Time zone
-            user:
-                login:          User name
-                password_confirmation:  Password again
-                email:          E-mail
-                timezone:       Time Zone
-                locale:         Preferred Language
-                roles:          Account Roles
-                tags:           Authorized tags
             email:
                 address:        Address
             website:

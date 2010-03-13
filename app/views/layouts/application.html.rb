@@ -15,8 +15,9 @@ html do
   end
   body do
     theme_has_custom_branding? ? include(theme_branding) : include("widgets/branding")
-    include "widgets/main_menu" 
-    include "widgets/page_heading"
+    include "widgets/main_menu"
+    with_tag (:div, :class => "grid_12") { display_flash } if flash.any?
+    #include "widgets/page_heading"
     
     store (yield(:page) || yield)
    

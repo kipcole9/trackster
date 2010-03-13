@@ -14,10 +14,10 @@ class UserSessionsController < ApplicationController
       @user_session = current_account.user_sessions.new(params[:user_session])
     end
     if @user_session.save
-      flash[:notice] = I18n.t('logged_in_as', :name => u && u.name)
-      redirect_back_or_default('/')
+      flash[:notice] = I18n.t('authorizer.logged_in_as', :name => u && u.name)
+      redirect_to root_path
     else
-      flash[:alert] = I18n.t('could_not_login_as', :name => u && u.name)
+      flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => u && u.name)
       render :action => :new
     end
   end

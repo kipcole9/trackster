@@ -68,8 +68,9 @@ module ReportsHelper
     t("reports.#{options.first[1]}")
   end
   
-  # Show only the email clients that have 10% or more
-  # collaps the others into "Other" category
+  # Summarise an AR collection by collapsing all records that are
+  # less than a given percentage of the total down to an "other"
+  # row that is added to the collection
   def collapse_data(data, label_column, value_column, options = {})
     default_options = {:min_percent => 0.05}
     options = default_options.merge(options)

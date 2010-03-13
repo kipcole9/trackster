@@ -279,8 +279,6 @@ $(document).ready(function(){
 	}));
 	
 	/* Remove flash notices after 5 seconds */
-	//$('.flash_notice').fadeOut(5000, function() {
-	    // Animation complete.
-	//});
+	$('.flash_notice').delay(10000).slideUp(1000);
 
 });   

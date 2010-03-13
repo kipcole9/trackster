@@ -12,7 +12,7 @@ panel t('panels.user'), :flash => true, :display_errors => 'user'  do
       fieldset t('users.user_state') do
         user.select           :state, user_states, :default => I18n.t('users.states.passive')
       end if can? :create, User
-      fieldset t('users.user_roles') do
+      fieldset t('users.user_roles', :account_name => current_account.name) do
         user.text_field       :tags, :class => 'tags'
         user_roles_check_boxes(@user)
       end if can? :create, User

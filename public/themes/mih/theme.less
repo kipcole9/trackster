@@ -339,6 +339,11 @@ div.autocomplete ul {
 	background: @pagination_border;
 }
 
+div.flash_notice, div.flash_error, div.flash_alert {
+	.box_borders;
+	.box_shadow;
+}
+
 div.box.flash_alert {
 	background-color: @flash_alert_bg;
 }
@@ -348,5 +353,12 @@ div.box.flash_notice {
 }
 
 .history p {
+	color: @light_text;
+}
+
+.login_options {
+	color: @brand_text;
+}
+.login_options a {
 	color: @light_text;
 }

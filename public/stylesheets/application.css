@@ -85,6 +85,7 @@ div.sitename div.fieldWithErrors {
 div.box {
 	margin-bottom: 10px;
 }
+
 div#branding , div#site_info .box {
 	background-color:  #CFECEC;
 }
@@ -107,6 +108,7 @@ div#site_info p {
 div#branding {
 	padding: 10px 10px 13px;
 	height: 1.7em;
+	margin-bottom: 5px;
 }
 
 div#branding h1 {
@@ -154,8 +156,7 @@ p {
 /* Flash */
 div.flash_notice, div.flash_error, div.flash_alert {
 	padding: 5px;
-	margin-top: 5px;
-	margin-bottom: 0px;
+	margin-bottom: 5px;
 	background-color: #bfb;
 	border: 1px solid #999;
 }
@@ -346,18 +347,21 @@ p {
 	margin-bottom: 0;
 }
 
+/* Help sidebars */
+.sidebar.help p {
+	margin-top: 0.5em;
+}
+.sidebar.help h4 {
+	font-size: 130%;
+}
+.sidebar.help p + h4 {
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+
 /* Date multi select boxes in line */
 div.date select {
 	display: inline;
-}
-
-/* Help boxes */
-div.help dl {
-	margin-bottom: 5px;
-}
-
-div.help h2 a {
-	background-color: #777;
 }
 
 /* Signup banner */
@@ -452,6 +456,10 @@ div.inline label {
 /* Menu transparency */
 ul.main li ul {
   opacity: 0.9;
+}
+
+#menu {
+	margin-bottom: 5px;
 }
 
 /* Formatting for addresses */
@@ -835,4 +843,8 @@ div.listItem img.list_image {
 	top: 1px;
 }
 
+/* Login options */
+.login_options {
+	margin-bottom: 10px;
+}
 

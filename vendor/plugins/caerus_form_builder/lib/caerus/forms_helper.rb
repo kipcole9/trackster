@@ -79,6 +79,11 @@ module Caerus
         :class => "submit_button"
       )
     end
+    
+    def submit_button(options = {})
+      text = options.delete(:text) || :save
+      with_tag(:div, :class => "submit_button") { store submit_tag(text, options) } 
+    end 
   
     def sidebar(content)
       @sidebars ||= []
@@ -160,7 +165,6 @@ module Caerus
     def buttons(buttons)
       store buttons_from(:buttons => buttons)
     end
-    
     
     def capture(&block)
       temp_output_buffer = @output_buffer

@@ -38,24 +38,6 @@ en:
     backgrounds:
         updated:                Background has been updated.
         no_bio_available:       There's no background information yet.  Click the 'edit' link to enter background information for this contact.     
-    users:
-        edit_profile:           Edit your profile
-        user_updated:           "User profile for '{{name}}' updated."
-        user_not_updated:       "User profile for '{{name}}' was not updated."  
-        user_roles:             "What capabilities does this user have on this account?"
-        user_state:             "User status"
-        states:
-            active:             Active
-            passive:            Inactive
-        new:
-            new_user:           "New user's details"
-        change_password:
-            change_password:    Change your password        
-        index:
-            user_search:        "Find a user"
-        edit:
-            edit_user:          "Profile details"
-
             
     redirects:       
         redirect_summary:
@@ -138,11 +120,6 @@ en:
         reports:                    Metrics
           
     column_descriptions:
-        email:              "This is the email address for any correspondence. It can be changed any time."
-        login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."
-        locale:             "Your preferred language, which can be changed at any time."
-        timezone:           "The time zone in which you mostly work. You can change it at any time."
-        
         account:
             name:           "Your account name.  It can't be changed once created."
             email_from:     "Campaigns will be sent from this email address by default."
@@ -150,9 +127,7 @@ en:
             unsubscribe_url:    "Clicking on the default unsubscribe link will redirect here.  You may include parameters."
             custom_domain:  "This site can masquarade as part of your own domain if you add an 'A' record to your domain's DNS that points to this server."
             tracker:        "This code is used to uniquely identify analytics data for your account.  It is required when tagging your web pages or emails."
-        user:
-            tags:           "If tags are specified then only events that are also tagged will be visible to this user"
-            photo:          "Can you upload an image as part of your profile.  It will be visible to other people on your account."
+      
         person:
             honorific_prefix:   "For example: Mr., Mrs., Dr., Rev. ..."
             honorific_suffix:   "For example: Phd., FRCS, KCMG"
