@@ -74,7 +74,9 @@ module Analytics
         row[:os_name] = "Symbian OS"
         row[:os_version] = row[:user_agent].match(/SymbianOS\/([0-9\.]+) /).try(:[], 1)
       elsif row[:browser] =~ /Chrome 4/
-        row[:browser] = "Chrome" 
+        row[:browser] = "Chrome"
+      elsif row[:os_name] =~ /Android/
+        row[:os_version] = row[:user_agent].match(/Android ([0-9\.]+)/).try(:[], 1)
       end
     end
   end

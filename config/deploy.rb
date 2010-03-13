@@ -1,6 +1,17 @@
 set :application,   "trackster"
 set :default_stage, "staging"
 set :app_dir,       "/u/apps"
+set :config_dir,    "#{app_dir}/#{application}/config"
+set :db_config,     "#{config_dir}/database.yml"
+set :god_config,    "#{config_dir}/trackster.god"
+set :site_keys,     "#{config_dir}/site_keys.rb"
+set :mailer_config, "#{config_dir}/mailer.yml"
+set :browscap,      "#{config_dir}/browscap.ini"
+set :crossdomain,   "#{config_dir}/crossdomain.xml"
+set :device_atlas,  "#{config_dir}/device_atlas.json"
+set :app_conf,      "#{config_dir}/trackster_config.yml"
+set :newrelic,      "#{config_dir}/newrelic.yml"
+
 require 'capistrano/ext/multistage'
 
 
@@ -43,7 +54,7 @@ end
 # statements.  Do this before asset_packager kicks in.
 task :create_production_tracker, :roles => :web do
   run <<-EOF
-    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker --trace
+    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker
   EOF
 
 end
@@ -56,17 +67,6 @@ end
 # Secure config files
 desc "Link production configuration files"
 task :update_config, :roles => :app do
-  config_dir    = "#{app_dir}/#{application}/config"
-  db_config     = "#{config_dir}/database.yml"
-  god_config    = "#{config_dir}/trackster.god"
-  site_keys     = "#{config_dir}/site_keys.rb"
-  mailer_config = "#{config_dir}/mailer.yml"
-  browscap      = "#{config_dir}/browscap.ini"
-  crossdomain   = "#{config_dir}/crossdomain.xml"
-  device_atlas  = "#{config_dir}/device_atlas.json"
-  app_conf      = "#{config_dir}/trackster_config.yml"
-  newrelic      = "#{config_dir}/newrelic.yml"
-  
   run "ln -s #{mailer_config} #{release_path}/config/mailer.yml"
   run "ln -s #{app_conf}  #{release_path}/config/trackster_config.yml"  
   run "ln -s #{db_config} #{release_path}/config/database.yml"
@@ -93,6 +93,13 @@ end
 desc "Update search engines"
 task :update_search_engines, :roles => :app do
   run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_search_engine_list"
+end
+
+desc "Add browscap additions"
+task :augment_browscap, :roles => :app do
+  src_file = File.join(File.dirname(__FILE__), 'browscap', 'browscap_additions.ini')
+  `scp -P 9876 #{src_file} kip@traphos.com:/u/apps/trackster/config`
+  run "cd #{config_dir} && cp browscap.ini.orig browscap.ini && cat browscap_additions.ini >>browscap.ini"
 end
 
 namespace :log_analyser do
