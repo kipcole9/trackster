@@ -77,6 +77,9 @@ module Analytics
         row[:browser] = "Chrome"
       elsif row[:os_name] =~ /Android/
         row[:os_version] = row[:user_agent].match(/Android ([0-9\.]+)/).try(:[], 1)
+      elsif row[:os_name] =~ /Wii/
+        row[:device] = "Wii"
+        row[:device_vendor] = "Nintendo"
       end
     end
   end
