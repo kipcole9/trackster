@@ -837,10 +837,16 @@ div.listItem img.list_image {
 	content: ")";
 }
 
-/* Flags */
+/* Flags and other icons */
 .flag {
 	position: relative;
 	top: 1px;
+}
+
+.browser {
+	position: relative;
+	top: 2px;
+	height: 12px;
 }
 
 /* Login options */
