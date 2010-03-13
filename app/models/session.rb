@@ -52,6 +52,10 @@ class Session < ActiveRecord::Base
     super(d.downcase) unless d.blank? || (d !~ /-/)
   end
   
+  def browser=(b)
+    (b && b == 'IE') ? super('Internet Explorer') : super
+  end
+  
   def save_time_metrics(row)
     self.date   = self.started_at.to_date
     self.day_of_week = self.started_at.wday
