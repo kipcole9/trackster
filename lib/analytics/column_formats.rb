@@ -64,7 +64,7 @@ module Analytics
                      :formatter => lambda {|val, options| 
                           return val if options[:cell_type] == :th
                           return I18n.t('tables.not_set') unless val
-                          browser = "<img src=/images/browsers/#{val.downcase}(16x16).png class='browser' >"
+                          browser = "<img src=/images/browsers/#{val.downcase}(12x12).png class='browser' >"
                           return "#{browser} #{val}" 
                      }
                      
@@ -72,7 +72,7 @@ module Analytics
                      :formatter => lambda {|val, options| 
                          return val if options[:cell_type] == :th
                          return I18n.t('tables.not_set') unless val
-                         browser = "<img src='/images/os/#{val.downcase}.png' class='browser' >"
+                         browser = "<img src='/images/os/#{val.downcase}(12x12).png' class='browser' >"
                          return "#{browser} #{val}" 
                      }                
         table_format :category,
