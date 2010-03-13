@@ -5,11 +5,6 @@ class AccountsController < TracksterResources
   defaults            :collection_name => 'clients'
   has_scope           :search
 
-protected
-  def _page_title
-    @account ? @account.name : super
-  end
-
 private
   def begin_of_association_chain
     current_account
