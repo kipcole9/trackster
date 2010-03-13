@@ -51,10 +51,11 @@ module Analytics
                      :formatter => lambda{|val, options| "#{val} #{I18n.t('datetime.prompts.second').downcase}" }  
         table_format :visit_type,  :order => -1,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.visit_types.#{val}", :default => val) }
+        
         table_format :country,     :order => 0,
                      :formatter => lambda {|val, options| 
                           return val if options[:cell_type] == :th
-                          return I18n.t('tables.not_set') unless val
+                          return I18n.t('tables.not_set') if val.blank?
                           flag = "<img src=/images/flags/#{val.downcase}.png class='flag' >"
                           country = I18n.t("countries.#{val}", :default => val)
                           return "#{flag} #{country}" 
@@ -63,7 +64,7 @@ module Analytics
         table_format :browser,      :order => -1, 
                      :formatter => lambda {|val, options| 
                           return val if options[:cell_type] == :th
-                          return I18n.t('tables.not_set') unless val
+                          return I18n.t('tables.not_set') if val.blank?
                           browser = "<img src='/images/browsers/#{val.downcase}(12x12).png' class='browser' >"
                           return "#{browser} #{val}" 
                      }
@@ -71,10 +72,11 @@ module Analytics
         table_format :os_name,      :order => -1,
                      :formatter => lambda {|val, options| 
                          return val if options[:cell_type] == :th
-                         return I18n.t('tables.not_set') unless val
+                         return I18n.t('tables.not_set') if val.blank?
                          browser = "<img src='/images/os/#{val.downcase}(12x12).png' class='browser' >"
                          return "#{browser} #{val}" 
-                     }                
+                     }
+                                     
         table_format :category,
                      :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
         table_format :action,
