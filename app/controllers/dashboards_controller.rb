@@ -5,7 +5,7 @@ class DashboardsController < ApplicationController
   end
   
   def index
-
+    redirect_to account_report_path(:action => 'visit_overview')
   end
   
 private
