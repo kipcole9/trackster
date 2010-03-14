@@ -21,7 +21,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
       menu_item "Create a new user",    :href => new_user_path            if can? :create, User
       menu_item "Show all accounts",    :href => accounts_path
       menu_item "Create a new account", :href => new_account_path         if can? :create, Account
-    end
+    end if current_user.admin?
     menu_item "Site" do
       menu_item "Site performance",     :href => site_path
     end if current_user.admin?
