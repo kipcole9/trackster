@@ -1,3 +1,20 @@
+# Reporting - html only (not data extract)
+#
+# Basic idea is that we're pivoting different metrics about different dimensions. 
+# This means that the processing can be generalised and only a few methods need 
+# to be defined where they deviate from the 'standard' metrics for reporting.
+#
+# Analytics:Model for the main methods used for information retrieval
+# Analytics:ColumnFormats define the output format for a table
+# Analytics:Metrics for the metrics that can be retrieved
+# Analytics:Dimensions for the dimenstions around which we can pivot
+#
+# Reports can be scoped by:
+# => The account
+# => A Web Property
+# => A Campaign
+# => A Contact
+#
 class ReportsController < ApplicationController
   helper_method :resource
   before_filter :check_time_period
@@ -5,14 +22,8 @@ class ReportsController < ApplicationController
   def new_v_returning;    end
   def entry_page;         end
   def exit_page;          end
-  
-  def events
-    # @events_summary = resource.events_summary(params).all
-  end
-
-  def video
-    # @videos = resource.video_labels(params)
-  end
+  def events;             end
+  def video;              end
 
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can

@@ -37,7 +37,7 @@ module Analytics
       end
       
       def entry_exit_summary(params = {})
-        tracks.page_views(:with_events).page_duration.bounce_rate.by(params[:action])\
+        tracks.page_views(:with_events).page_duration.by(params[:action])\
           .order('page_views DESC').between(Track.period_from_params(params))
       end
 
