@@ -2,6 +2,10 @@ class ReportsController < ApplicationController
   helper_method :resource
   before_filter :check_time_period
   
+  def new_v_returning;    end
+  def entry_page;         end
+  def exit_page;          end
+  
   def events
     # @events_summary = resource.events_summary(params).all
   end
@@ -50,6 +54,8 @@ private
       current_account.properties.find(params[:property_id])
     elsif params[:campaign_id]
       current_account.campaigns.find(params[:campaign_id])
+    elsif params[:contact_id]
+      current_account.contacts.find(params[:contact_id])      
     else
       current_account
     end

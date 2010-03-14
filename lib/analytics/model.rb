@@ -30,7 +30,17 @@ module Analytics
         tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
           .having('visits > 0').order('visits DESC').between(Track.period_from_params(params))
       end
+
+      def new_v_returning_summary(params = {})
+        tracks.visits.page_views_per_visit.duration.bounce_rate.by(params[:action])\
+          .having('visits > 0').order('visits DESC').between(Track.period_from_params(params))
+      end
       
+      def entry_exit_summary(params = {})
+        tracks.page_views(:with_events).page_duration.bounce_rate.by(params[:action])\
+          .order('page_views DESC').between(Track.period_from_params(params))
+      end
+
       def events_summary(params = {})
         tracks.event_count(:with_events).value.by(:label, :category, :action).between(Track.period_from_params(params))
       end
