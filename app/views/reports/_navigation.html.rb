@@ -9,17 +9,17 @@ panel t('navigation.reports')  do
         nav report_link('language')
       end
       accordion_item "Loyalty"  do
-        nav report_link("loyalty_overview")
-        nav report_link("loyalty")
-        nav report_link("recency")
+        nav report_link("loyalty_overview") if current_user.admin?
+        nav report_link("loyalty") if current_user.admin?
+        nav report_link("recency") if current_user.admin?
         nav report_link('length_of_visit')
         nav report_link('depth_of_visit')        
       end
       accordion_item "Traffic Sources" do
-        nav report_link('traffic_source_overview')
+        nav report_link('traffic_source_overview') if current_user.admin?
         nav report_link("traffic_source")
         nav report_link('referrer_category')
-        nav report_link("search_engines")
+        nav report_link("search_engines") if current_user.admin?
         nav report_link('keywords')
       end
       accordion_item "Campaigns" do
@@ -27,9 +27,9 @@ panel t('navigation.reports')  do
         nav report_link("impressions")
         nav report_link("clicks_through")
         nav report_link("link_destinations")
-      end      
+      end if current_user.admin?
       accordion_item "Content" do 
-        nav report_link("content_overview")
+        nav report_link("content_overview") if current_user.admin?
         nav report_link('url')
         nav report_link('page_title')
         nav report_link('entry_page')
@@ -38,7 +38,7 @@ panel t('navigation.reports')  do
       end
       accordion_item "Events" do
         nav report_link('events')
-        nav report_link('video')
+        nav report_link('video') if current_user.admin?
         # Very database inefficient to scan for
         # video names so we won't do this for now
         #resource.video_labels.each do |video|
@@ -50,7 +50,7 @@ panel t('navigation.reports')  do
       end
       accordion_item "Internal Search" do         
         nav report_link("internal_search_overview")
-      end 
+      end if current_user.admin?
       accordion_item "Devices" do  
         nav report_link("device_overview")
         nav report_link('device')
