@@ -111,7 +111,7 @@ module Analytics
 
         table_format :traffic_source,   :order => 0,
                      :formatter => lambda {|val, options| 
-                       return val options[:cell_type] == :th
+                       return val if options[:cell_type] == :th
                        return I18n.t('tables.not_set') if val.blank?
                        I18n.t("reports.traffic_sources.#{val}", :default => val)
                      }
