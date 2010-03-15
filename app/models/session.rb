@@ -37,6 +37,10 @@ class Session < ActiveRecord::Base
     return if r.blank? || r == '-'
     super
   end
+  
+  def country(c)
+    super(c.upcase) unless c.blank?
+  end
 
   # Language is the first part of the locale.  
   # ie. from en-US the language is 'en'.
