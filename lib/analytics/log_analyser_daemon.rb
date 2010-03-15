@@ -2,7 +2,7 @@ class LogAnalyserDaemon
   # Check that a log entry matches a logging record
   # First kind is a regular .gif request.
   # The second is a redirect record
-  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger
+  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger, :log
   
   def initialize(options = {})
     # Configuration options
@@ -16,7 +16,7 @@ class LogAnalyserDaemon
   def log_analyser_loop(options = {})
     default_options = {:forward => 0}
     options     = @options.merge(default_options).merge(options) 
-    log         = File::Tail::Logfile.open(log_file, options)
+    @log         = File::Tail::Logfile.open(log_file, options)
     @log_inode  = File.stat(log_file).ino
     log.interval            = 1     # Initial sleep interval when no data
     log.max_interval        = 5     # Maximum sleep interval when no data
@@ -30,7 +30,7 @@ class LogAnalyserDaemon
     # of EOF detections)
     log.after_reopen do
       if running?
-        logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
+        # logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
         logger.info "[Log analyser daemon] Log analyser is terminating as requested (detected after log reopen)"
@@ -73,7 +73,6 @@ class LogAnalyserDaemon
   end
   
 private
-  
   def log_file
     # The log file we're importing.  Implies knowledge of the deployment strategy and development
     # environment.
