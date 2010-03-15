@@ -64,6 +64,7 @@ module Analytics
         return default unless period
         period = case period
           when 'today'          then today..tomorrow
+          when 'yesterday'      then yesterday..today
           when 'this_week'      then first_day_of_this_week..tomorrow
           when 'this_month'     then first_day_of_this_month..tomorrow
           when 'this_year'      then first_day_of_this_year..tomorrow
@@ -80,6 +81,10 @@ module Analytics
       
       def today
         @today ||= Time.zone.now.to_date.to_time
+      end
+      
+      def yesterday
+        today - 1.day + 1.second
       end
       
       def tomorrow
