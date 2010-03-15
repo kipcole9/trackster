@@ -24,6 +24,7 @@ en:
         period:
             time_period:                "from {{from}} to {{to}}"
             today:                      "for today"
+            yesterday:                  "for yesterday"
             last_30_days:               "for the last 30 days"
             this_month:                 "for this month"
             this_week:                  "for this week"
@@ -31,6 +32,7 @@ en:
             last_month:                 "for last month"
             last_12_months:             "for the last 12 months"
             last_year:                  "for last year"
+            this_year:                  "for this year"
             lifetime:                   "since account creation"
         name:                 
             visit_overview:         Visit Overview
