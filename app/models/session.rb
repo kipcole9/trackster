@@ -38,7 +38,7 @@ class Session < ActiveRecord::Base
     super
   end
   
-  def country(c)
+  def country=(c)
     super(c.upcase) unless c.blank?
   end
 
