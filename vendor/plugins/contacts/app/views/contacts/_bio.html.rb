@@ -6,4 +6,4 @@ panel t('contacts.bio', :name => @contact.full_name), :edit => edit_contact_back
       p t('backgrounds.no_bio_available')
     end
   end
-end
+end if @contact

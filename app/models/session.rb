@@ -29,13 +29,15 @@ class Session < ActiveRecord::Base
   end
   
   def referrer=(r)
-    return if r.blank? || r == '-'
-    super
+    super unless r.blank? || r == '-'
   end
   
   def flash_version=(r)
-    return if r.blank? || r == '-'
-    super
+    super unless r.blank? || r == '-'
+  end
+
+  def forwared_for=(r)
+    super unless r.blank? || r == '-'
   end
   
   def country=(c)

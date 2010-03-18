@@ -22,7 +22,7 @@ class LogAnalyserDaemon
   def log_analyser_loop(options = {})
     default_options = {:forward => 0}
     options     = @options.merge(default_options).merge(options) 
-    @log         = File::Tail::Logfile.open(log_file, options)
+    @log        = File::Tail::Logfile.open(log_file, options)
     @log_inode  = File.stat(log_file).ino
     log.interval            = 1     # Initial sleep interval when no data
     log.max_interval        = 5     # Maximum sleep interval when no data
