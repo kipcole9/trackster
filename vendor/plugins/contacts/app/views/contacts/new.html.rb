@@ -1,6 +1,6 @@
 # Create and edit a contact
-panel t('panels.edit_contact', :name => @contact.full_name), :flash => true, :display_errors => :contact  do
-  caerus_form_for initialize_contact(@contact), :url => contact_path(@contact), :html => { :multipart => true }  do |contact|
+panel t('panels.new_contact'), :display_errors => :contact  do
+  caerus_form_for initialize_contact(@contact), :url => new_contact_path, :html => { :multipart => true }  do |contact|
     content_for :jstemplates, associated_template_for_new(contact, :emails)
     content_for :jstemplates, associated_template_for_new(contact, :websites)
     content_for :jstemplates, associated_template_for_new(contact, :phones)

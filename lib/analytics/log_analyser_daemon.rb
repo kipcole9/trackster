@@ -4,6 +4,12 @@ class LogAnalyserDaemon
   # The second is a redirect record
   attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger, :log
   
+  class TracksterLogger < Logger
+    def format_message(severity, timestamp, progname, msg)
+      "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n" 
+    end 
+  end
+  
   def initialize(options = {})
     # Configuration options
     @logger          = log_from_options(options)
@@ -104,7 +110,7 @@ private
     return options[:logger] if options[:logger]
     logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory
     log_level = log_modes[options[:log_level] || Trackster::Config.log_level || :info]
-    logfile ? Logger.new(logfile, log_level) : Rails.logger
+    logfile ? TracksterLogger.new(logfile, log_level) : Rails.logger
   end
   
   def last_log_entry
