@@ -3,13 +3,7 @@ class LogAnalyserDaemon
   # First kind is a regular .gif request.
   # The second is a redirect record
   attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger, :log
-  
-  class TracksterLogger < Logger
-    def format_message(severity, timestamp, progname, msg)
-      "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n" 
-    end 
-  end
-  
+
   def initialize(options = {})
     # Configuration options
     @logger          = log_from_options(options)
