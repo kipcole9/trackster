@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100318104157) do
+ActiveRecord::Schema.define(:version => 20100320074853) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(:version => 20100318104157) do
     t.string   "title_prefix",       :limit => 50
   end
 
+  add_index "properties", ["account_id", "name"], :name => "index_properties_on_account_id_and_name", :unique => true
   add_index "properties", ["account_id"], :name => "index_properties_on_account_id"
   add_index "properties", ["host"], :name => "index_properties_on_host"
 
@@ -511,6 +512,8 @@ ActiveRecord::Schema.define(:version => 20100318104157) do
     t.string   "last_login_ip"
     t.string   "openid_identifier"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
   create_table "views", :force => true do |t|
     t.integer  "session_id"
