@@ -119,3 +119,21 @@ namespace :log_analyser do
     EOF
   end
 end
+
+namespace :delayed_job do
+  desc "Start log analyser"
+  task :start, :roles => :app do
+    run <<-EOF
+      export RAILS_ENV=#{rails_env} &&
+      cd #{current_path} && lib/daemons/delayed_job_ctl start
+    EOF
+  end
+
+  desc "Stop log analyser"
+  task :stop, :roles => :app do
+    run <<-EOF
+      export RAILS_ENV=#{rails_env} &&
+      cd #{current_path} && lib/daemons/delayed_job_ctl stop
+    EOF
+  end
+end

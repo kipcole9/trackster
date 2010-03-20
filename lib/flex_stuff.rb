@@ -31,6 +31,7 @@ module ActiveSupport #:nodoc:
     end
   end
 end
+
 module ActiveRecord #:nodoc:
   module Serialization
     # We force :dasherize to be false, since we never want it to
