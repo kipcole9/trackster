@@ -24,7 +24,7 @@ class LogAnalyserDaemon
     log.reopen_suspicious   = true  # is default
     log.suspicious_interval = 20    # When several loops of no data - like when logs rotated
     
-    logger.info "[Log analyser daemon] Log analyser is starting."
+    logger.info "[Log analyser daemon] Log analyser loop is beginning."
     
     # Is called by log tailer when the log file is reopened (which happens after a series
     # of EOF detections)
@@ -45,7 +45,6 @@ class LogAnalyserDaemon
         entry = log_parser.parse_entry(line)
         if entry[:datetime]
           if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
-            # logger.info "[Log analyser daemon] #{entry[:datetime]} #{entry[:ip_address]} #{entry[:user_agent]}"
             log_parser.save_web_analytics!(web_analyser, entry)
           end
         else
