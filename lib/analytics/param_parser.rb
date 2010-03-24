@@ -61,7 +61,7 @@ module Analytics
       end
       
       def period_from_param(period, default)
-        return default unless period
+        return default.first, default.last unless period
         period = case period
           when 'today'          then today..tomorrow
           when 'yesterday'      then yesterday..today
@@ -76,11 +76,14 @@ module Analytics
           when 'lifetime'       then beginning_of_epoch..tomorrow;
           else default
         end
+        Rails.logger.info "Period from param: '#{period}': #{period.first}-#{period.last}"
         return period.first, period.last
       end
       
       def today
         @today ||= Time.zone.now.to_date.to_time
+        Rails.logger.info "Today in zone #{Time.zone.to_s} is #{@today}"
+        @today
       end
       
       def yesterday

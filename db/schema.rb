@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100320131317) do
+ActiveRecord::Schema.define(:version => 20100320135927) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -172,6 +172,10 @@ ActiveRecord::Schema.define(:version => 20100320131317) do
     t.integer  "employees"
     t.integer  "revenue"
     t.string   "contact_code",       :limit => 50
+    t.string   "currency_code",      :limit => 3
+    t.string   "industry",           :limit => 100
+    t.string   "industry_code",      :limit => 5
+    t.date     "birthday"
   end
 
   add_index "contacts", ["account_id", "contact_code"], :name => "index_contacts_on_account_id_and_contact_code", :unique => true
