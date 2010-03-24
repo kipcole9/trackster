@@ -16,7 +16,8 @@ module Analytics
       end
     end
       
-    module ClassMethods  
+    module ClassMethods
+      extend ActiveSupport::Memoizable
       def params_to_scope(params)
         metric      = metric_from_params(params)
         dimensions  = dimensions_from_params(params)
@@ -76,62 +77,76 @@ module Analytics
           when 'lifetime'       then beginning_of_epoch..tomorrow;
           else default
         end
-        Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
+        # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
         return period_range.first, period_range.last
       end
+      memoize :period_from_param
       
       def today
-        @today ||= Time.zone.now.to_date.to_time
+        Time.zone.now.to_date.to_time
       end
+      memoize :today
       
       def yesterday
         today - 1.day + 1.second
       end
+      memoize :yesterday
       
       def tomorrow
-        @tomorrow ||= today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
+        today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
       end
+      memoize :tomorrow
       
       def beginning_of_epoch
         (today - 20.years).to_time
       end
+      memoize :beginning_of_epoch
       
       def first_day_of_this_week
         today - today.wday.days
       end
+      memoize :first_day_of_this_week
     
       def first_day_of_this_month
         Date.new(today.year, today.month, 1).to_time
       end
+      memoize :first_day_of_this_month
       
       def first_day_of_last_week
         (first_day_of_this_week - 7.days).to_time
       end
+      memoize :first_day_of_last_week
       
       def last_day_of_last_week
         first_day_of_last_week + 7.days - 1.second
       end
+      memoize :last_day_of_last_week
       
       def first_day_of_last_month
         last_month = Date.today - 1.month
         Date.new(last_month.year, last_month.month, 1).to_time
       end
+      memoize :first_day_of_last_month
       
       def last_day_of_last_month
         first_day_of_last_month + 1.month - 1.second
       end
+      memoize :last_day_of_last_month
     
       def first_day_of_this_year
         Date.new(today.year, 1, 1).to_time
       end
+      memoize :first_day_of_this_year
       
       def first_day_of_last_year
         Date.new(today.year - 1, 1, 1).to_time
       end
+      memoize :first_day_of_last_year
       
       def last_day_of_last_year
         first_day_of_last_year + 1.year - 1.second
       end
+      memoize :last_day_of_last_year
     end
     
     module InstanceMethods
