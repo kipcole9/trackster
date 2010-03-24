@@ -8,8 +8,9 @@ module ReportsHelper
   end
 
   def report_params(options = {})
-    ['campaign', 'time_group', 'from', 'to', 'by', 'period'].each do |arg|
-      if ['from', 'to'].include?(arg)
+    options.symbolize_keys!
+    [:campaign, :time_group, :from, :to, :by, :period].each do |arg|
+      if [:from, :to].include?(arg)
         options[arg] = params[arg].to_date.to_s(:db) if params[arg] && !params[:period]
       else
         options[arg] = params[arg] if params[arg]
