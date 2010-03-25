@@ -17,7 +17,17 @@ module Analytics
     end
       
     module ClassMethods
+      def period_in_text_from_params(params)
+        return I18n.t("reports.period.#{params[:period]}") if params[:period]
+        range = period_from_params(params)
+        I18n.t('reports.period.time_period', :from => range.first.to_date, :to => range.last.to_date, :default => range.to_s)
+      end
+
+    end
+    
+    module InstanceMethods
       extend ActiveSupport::Memoizable
+    private  
       def params_to_scope(params)
         metric      = metric_from_params(params)
         dimensions  = dimensions_from_params(params)
@@ -48,13 +58,7 @@ module Analytics
         end       
         from..to
       end
-      
-      def period_in_text_from_params(params)
-        return I18n.t("reports.period.#{params[:period]}") if params[:period]
-        range = period_from_params(params)
-        I18n.t('reports.period.time_period', :from => range.first.to_date, :to => range.last.to_date, :default => range.to_s)
-      end
-      
+     
       def date_from_param(date, default)
         return default unless date
         return date.to_date if date.is_a?(Date) || date.is_a?(Time)
@@ -146,11 +150,7 @@ module Analytics
       def last_day_of_last_year
         first_day_of_last_year + 1.year - 1.second
       end
-      memoize :last_day_of_last_year
-    end
-    
-    module InstanceMethods
-      
+      memoize :last_day_of_last_year      
     end
   end
 end
