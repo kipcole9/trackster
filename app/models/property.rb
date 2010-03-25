@@ -1,6 +1,5 @@
 class Property < ActiveRecord::Base
   include     Analytics::Model
-  include     Analytics::ParamParser
   
   DOMAIN_HEAD_REGEX   = '(?:[A-Z0-9\-]+\.)+'.freeze
   DOMAIN_TLD_REGEX    = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum|local)'.freeze

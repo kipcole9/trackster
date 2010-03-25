@@ -11,58 +11,58 @@ module Analytics
     #
     # Each named scoped is a metric that builds up a column of a report. (see Analytics::Metrics)
     # #by method build the dimension we're reporting (see Analytics::Dimensions)
-    module InstanceMethods  
+    module InstanceMethods
       def campaign_summary(params = {})
         tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name)\
-          .between(period_from_params(params))
+          .between(Period.from_params(params))
       end
 
       #def visit_summary(params = {})
-      #  tracks.visits.page_views.event_count.by(params[:action]).between(period_from_params(params))
+      #  tracks.visits.page_views.event_count.by(params[:action]).between(Period.from_params(params))
       #end
 
       def content_summary(params = {})
         tracks.page_views(:with_events).page_duration.bounce_rate.exit_rate.entry_rate.by(params[:action])\
-          .order('page_views DESC').between(period_from_params(params))
+          .order('page_views DESC').between(Period.from_params(params))
       end
       
       def visits_summary(params = {})
         tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
-          .having('visits > 0').order('visits DESC').between(period_from_params(params))
+          .having('visits > 0').order('visits DESC').between(Period.from_params(params))
       end
 
       def new_v_returning_summary(params = {})
         tracks.visits.page_views_per_visit.duration.bounce_rate.by(params[:action])\
-          .having('visits > 0').order('visits DESC').between(period_from_params(params))
+          .having('visits > 0').order('visits DESC').between(Period.from_params(params))
       end
       
       def entry_exit_summary(params = {})
         tracks.page_views(:with_events).page_duration.by(params[:action])\
-          .order('page_views DESC').between(period_from_params(params))
+          .order('page_views DESC').between(Period.from_params(params))
       end
 
       def events_summary(params = {})
-        tracks.event_count(:with_events).value.by(:label, :category, :action).between(period_from_params(params))
+        tracks.event_count(:with_events).value.by(:label, :category, :action).between(Period.from_params(params))
       end
       
       def one_event_summary(params = {})
-        tracks.event_count(:with_events).value.by(:action).between(period_from_params(params))
+        tracks.event_count(:with_events).value.by(:action).between(Period.from_params(params))
       end
       
       def page_views_by_date(params = {})
-        tracks.page_views.by(:date).between(period_from_params(params))
+        tracks.page_views.by(:date).between(Period.from_params(params))
       end
       
       def page_views_by_day(params = {})
-        tracks.page_views.by(:month, :day).order('month ASC, day ASC').between(period_from_params(params))
+        tracks.page_views.by(:month, :day).order('month ASC, day ASC').between(Period.from_params(params))
       end
 
       def page_views_by_hour(params = {})
-        tracks.page_views.by(:hour).order('hour ASC').between(period_from_params(params))
+        tracks.page_views.by(:hour).order('hour ASC').between(Period.from_params(params))
       end
 
       def page_views_by_day_of_week(params = {})
-        tracks.page_views.by(:day_of_week).order('day_of_week ASC').between(period_from_params(params))
+        tracks.page_views.by(:day_of_week).order('day_of_week ASC').between(Period.from_params(params))
       end
 
       def page_views_by_month(params = {})
@@ -75,59 +75,59 @@ module Analytics
       end
 
       def page_views_by_url(params = {})
-        tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).between(period_from_params(params))
+        tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).between(Period.from_params(params))
       end
       
       def page_views_by_visit_type(params = {})
-        tracks.page_views.by(:visit_type).order('page_views DESC').limit(10).between(period_from_params(params))
+        tracks.page_views.by(:visit_type).order('page_views DESC').limit(10).between(Period.from_params(params))
       end
       
       def total_page_views(params = {})
-        tracks.page_views.between(period_from_params(params)).first.page_views
+        tracks.page_views.between(Period.from_params(params)).first.page_views
       end  
 
       def visits_by_referrer(params = {})
-        tracks.visits.by(:referrer_host).order('visits DESC').between(period_from_params(params))
+        tracks.visits.by(:referrer_host).order('visits DESC').between(Period.from_params(params))
       end
       
       def visits_by_search_terms(params = {})
-        tracks.visits.by(:search_terms).order('visits DESC').between(period_from_params(params))
+        tracks.visits.by(:search_terms).order('visits DESC').between(Period.from_params(params))
       end
       
       def visits_by_date(params = {})
-        tracks.visits.by(:date).between(period_from_params(params))
+        tracks.visits.by(:date).between(Period.from_params(params))
       end
       
       def visits_by_day_of_week(params = {})
-        tracks.average_visits.by(:day_of_week).between(period_from_params(params))
+        tracks.average_visits.by(:day_of_week).between(Period.from_params(params))
       end
       
       def visits_by_hour(params = {})
-        tracks.average_visits.by(:hour).between(period_from_params(params))
+        tracks.average_visits.by(:hour).between(Period.from_params(params))
       end
       
       def visits_by_browser(params = {})
-        tracks.visits.by(:browser).between(period_from_params(params))
+        tracks.visits.by(:browser).between(Period.from_params(params))
       end
       
       def visits_by_device(params = {})
-        tracks.visits.by(:device).between(period_from_params(params))
+        tracks.visits.by(:device).between(Period.from_params(params))
       end
 
       def visits_by_os(params = {})
-        tracks.visits.by(:os_name).between(period_from_params(params))
+        tracks.visits.by(:os_name).between(Period.from_params(params))
       end
 
       def visits_by_windows_version(params = {})
-        tracks.visits.by(:os_version).filter("os_name = 'Windows'").between(period_from_params(params))
+        tracks.visits.by(:os_version).filter("os_name = 'Windows'").between(Period.from_params(params))
       end
 
       def total_referrers(params = {})
-        tracks.visits.filter('referrer_host IS NOT NULL').between(period_from_params(params)).first.visits
+        tracks.visits.filter('referrer_host IS NOT NULL').between(Period.from_params(params)).first.visits
       end
       
       def total_visits(params = {})
-        tracks.visits.between(period_from_params(params)).first.visits
+        tracks.visits.between(Period.from_params(params)).first.visits
       end
       
       def loyalty(params = {})
@@ -149,12 +149,12 @@ module Analytics
       
       def video_play_time(params = {})
         conditions = params['video'] ? ["label = ?", params['video']] : ''
-        tracks.video_views.filter(conditions).between(period_from_params(params)).by(:max_play_time)
+        tracks.video_views.filter(conditions).between(Period.from_params(params)).by(:max_play_time)
       end
     end
     
     module ClassMethods
-      
+
     end
   end
 end

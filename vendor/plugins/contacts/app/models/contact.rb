@@ -1,7 +1,6 @@
 class Contact < ActiveRecord::Base
   unloadable
   include       Analytics::Model
-  include       Analytics::ParamParser
   default_scope :order => 'family_name ASC'
     
   include Vcard::Import

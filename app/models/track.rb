@@ -11,7 +11,6 @@ class Track < ActiveRecord::Base
     
   include Analytics::Metrics
   include Analytics::Dimensions
-  include Analytics::ParamParser
   include Analytics::ColumnFormats
 
   named_scope :having, lambda {|having| {:having => having} }

@@ -1,6 +1,6 @@
 class Campaign < ActiveRecord::Base
   include       Analytics::Model
-  include       Analytics::ParamParser
+  
   MAGIC_MARKER  = "ZZXZXXZZXZYYXZQQQQ"
   belongs_to    :property
   belongs_to    :account

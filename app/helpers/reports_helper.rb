@@ -1,4 +1,5 @@
 module ReportsHelper
+  
   def list_id(list)
     "list_#{list['id']}"
   end
@@ -45,7 +46,7 @@ module ReportsHelper
   end
   
   def time_period
-    @time_period ||= Track.period_from_params(params)
+    @time_period ||= Period.from_params(params)
   end
   
   def time_group_t
@@ -57,7 +58,7 @@ module ReportsHelper
   end
   
   def time_period_t
-    Track.period_in_text_from_params(params)
+    Period.in_text_from_params(params)
   end
 
   def current_action
