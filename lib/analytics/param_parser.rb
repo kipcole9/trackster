@@ -77,7 +77,7 @@ module Analytics
           when 'lifetime'       then beginning_of_epoch..tomorrow;
           else default
         end
-        # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
+        Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
         return period_range.first, period_range.last
       end
       memoize :period_from_param
