@@ -45,7 +45,11 @@ class User < ActiveRecord::Base
     search = "%#{criteria}%"
     {:conditions => ['given_name like ? or family_name like ?', search, search ]}
   }
-
+  
+  def timezone=(zone)
+    zone.blank? ? super(nil) : super
+  end
+  
   def active?
     state == 'active'
   end

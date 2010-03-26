@@ -19,6 +19,7 @@ en:
     no_events_yet:          No events currently recorded.
     bits:                   bits
     other_email_clients:    Other Clients
+    current_timezone:       "Operating in {{timezone}} timezone."
 
     videos:
         video:                  "Video: {{name}}"
