@@ -70,7 +70,7 @@ class Period
       when 'lifetime'       then beginning_of_epoch..tomorrow;
       else default
     end
-    Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
+    # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
     return period_range.first, period_range.last
   end
   memoize :from_param
@@ -81,17 +81,17 @@ class Period
   memoize :today
 
   def yesterday
-    today - 1.day + 1.second
+    today - 1.day
   end
   memoize :yesterday
 
   def tomorrow
-    today + 1.day - 1.second   # Since today converted to time means midnight today - and no traffic
+    today + 1.day
   end
   memoize :tomorrow
 
   def beginning_of_epoch
-    (today - 20.years).to_time
+    today - 20.years
   end
   memoize :beginning_of_epoch
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100320135927) do
+ActiveRecord::Schema.define(:version => 20100326001646) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(:version => 20100320135927) do
     t.datetime "created_at"
     t.string   "category",              :limit => 20
     t.string   "action",                :limit => 20
-    t.string   "label",                 :limit => 50
+    t.string   "label"
     t.float    "value"
     t.string   "internal_search_terms", :limit => 100
     t.integer  "redirect_id"
