@@ -25,7 +25,7 @@ en:
             email:              "This is your login id. <em>It can't be changed later.</em> An activation email will be sent to this address."
             login:              "This is the name that is used to log in to the system. <em>It can't be changed later.</em>."
             locale:             "Your preferred language, which can be changed at any time."
-            timezone:           "The time zone in which you mostly work. You can change it at any time."    
+            timezone:           "The time zone in which you mostly work. You can change it at any time. When set to blank your browser's timezone will be used."    
 
     users:
         edit_profile:           Edit your profile

@@ -1,7 +1,7 @@
 panel t('panels.user'), :flash => true, :display_errors => 'user'  do
   block do
     caerus_form_for @user, :html => { :multipart => true } do |user|
-      fieldset t('.edit_user', :name => @user.name) do
+      fieldset t('users.edit_user', :name => @user.name) do
         user.text_field       :email
         user.text_field       :given_name
         user.text_field       :family_name        
