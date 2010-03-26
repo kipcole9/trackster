@@ -106,7 +106,7 @@ class Period
   memoize :first_day_of_this_month
 
   def first_day_of_last_week
-    (first_day_of_this_week - 7.days).to_time
+    first_day_of_this_week - 7.days
   end
   memoize :first_day_of_last_week
 

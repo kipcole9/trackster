@@ -8,15 +8,14 @@ module ReportsHelper
     "listMember_#{list['id']}"
   end
 
-  def report_params(options = {})
-    ['campaign', 'time_group', 'from', 'to', 'by', 'period'].each do |arg|
-      if ['from', 'to'].include?(arg)
-        options[arg] = params[arg].to_date.to_s(:db) if params[arg] && !params['period']
-      else
-        options[arg] = params[arg] if params[arg]
-      end
+  def report_params(additional_params = {})
+    new_params = {}
+    [:from, :to, :period, :time_group, :campaign].each do |param|
+      new_params[param] = params[param] if params[param]
+      new_params[param] = additional_params[param] if additional_params[param]
     end
-    options
+    new_params.delete_if {|k, v| [:from, :to].include?(k) } if new_params[:period]
+    new_params
   end
   
   # Navigation link to a specfic report.  Translate the report type a the label,
@@ -30,14 +29,14 @@ module ReportsHelper
   end
   
   def add_dimension(report_type, additional_params = {})
-    link_to dimension_label(additional_params), report_path(resource, report_type, report_params(additional_params))    
+    link_to dimension_label(additional_params), report_path(resource, report_type, report_params(additional_params))
   end
   
-  def report_path(resource, report_type, params)
+  def report_path(resource, report_type, additional_params)
     if resource.is_a?(Account)
-      send("account_report_path", report_type, params)
+      path = send("account_report_path", report_type, additional_params)
     else
-      send("#{resource.class.name.downcase}_report_path", resource.id, report_type, params)
+      path = send("#{resource.class.name.downcase}_report_path", resource, report_type, additional_params)
     end
   end
 
