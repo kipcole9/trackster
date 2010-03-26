@@ -6,7 +6,7 @@ panel t('panels.user'), :flash => true, :display_errors => 'user'  do
         user.text_field       :given_name
         user.text_field       :family_name        
         user.select           :locale, locales, :default => I18n.locale
-        user.time_zone_select :timezone, time_zones_like(Time.zone), :default => Time.zone.name        
+        user.time_zone_select :timezone, time_zones_like(Time.zone), :default => Time.zone.name, :include_blank => true       
         user.file_field       :photo
       end
       fieldset t('users.user_state') do
