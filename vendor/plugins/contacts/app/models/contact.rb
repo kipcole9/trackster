@@ -1,9 +1,11 @@
 class Contact < ActiveRecord::Base
   unloadable
   include       Analytics::Model
+  include       Vcard::Import 
+  include       Csv::Import
+   
   default_scope :order => 'family_name ASC'
     
-  include Vcard::Import
   acts_as_taggable_on :permissions, :categories, :tags
   before_save   :check_name_order
   belongs_to    :account

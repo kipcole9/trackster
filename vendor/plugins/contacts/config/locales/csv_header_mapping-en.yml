@@ -1,0 +1,74 @@
+# Basic import strategy (for all file types) is to convert the content to
+# VCard format and then delegate the actual import to Vcard::Import
+# We aim to cover the full set of field names as exported by Outlook, Outlook Express, Apple Addressbook
+# and later on SFDC, ACT! and so on.  The idea is to get rid of the usual manual field
+# mapping.
+      
+#"Business Street","Business Street 2","Business Street 3","Business City","Business State","Business Postal Code",
+#"Business Country", "Business Address PO Box",
+
+#"Home Street","Home Street 2","Home Street 3","Home City","Home State","Home Postal Code",
+#"Home Country",
+
+#"Other Street","Other Street 2","Other Street 3","Other City","Other State","Other Postal Code",
+#"Other Country",
+
+#"Business Fax","Business Phone","Business Phone 2","Callback","Car Phone",
+#"Company Main Phone","Home Fax","Home Phone","Home Phone 2","ISDN","Mobile Phone","Other Fax","Other Phone",
+#"Pager","Primary Phone","Radio Phone",
+
+##"E-mail Address","E-mail Type","E-mail Display Name","E-mail 2 Address","E-mail 2 Type","E-mail 2 Display Name",
+#"E-mail 3 Address","E-mail 3 Type","E-mail 3 Display Name","Home Address PO Box",
+#"Initials",
+#,"Other Address PO Box",
+#"Web Page" 
+     
+en:
+    contact_csv_headings:
+        # Person attributes
+        firstname:          given_name
+        middlename:         middle_name
+        lastname:           family_name
+        prefix:             name_prefix
+        suffix:             name_suffix
+        email:              email_1
+        contact_email:      email_1
+        birthday:           birthday
+        anniversary:        anniversary
+        gender:             gender
+        spouse:             partner
+        partner:            partner
+        language:           language
+        categories:         tags
+        keywords:           tags
+    
+        # Role attributes
+        title:              title
+        jobtitle:           title
+        department:         department
+        contacttitle:       title
+        profession:         job_function
+        jobfunction:        job_function
+        joblevel:           job_level
+    
+        # Organization attributes
+        companyid:          organization_id
+        organizationalidnumber: organization_id
+        company:            organization_name
+        companyname:        organization_name
+        industry:           industry
+        employeenumber:     employees
+        revenue:            revenue
+        currency:           currency
+    
+        # Address attributes
+        address:            street_1
+        address1:           street_1
+        address2:           street_2
+        suburb:             street_3
+        city:               locality
+        state:              region
+        country:            country
+        postcode:           postalcode
+        zip:                postalcode
+        zipcode:            postalcode
