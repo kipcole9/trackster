@@ -81,6 +81,15 @@ class Contact < ActiveRecord::Base
     self
   end
   
+  def full_name
+    (given_first? ? [self.given_name, self.family_name] : [self.family_name, self.given_name]).compact.join(' ')
+  end
+  
+protected
+  def given_first?
+    self.name_order == "gf"
+  end
+  
 private
   def check_name_order
     self.name_order = "gf" if self.name_order.blank?

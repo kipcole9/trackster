@@ -8,7 +8,6 @@
 # => to=
 
 class Period
-  include Singleton
   extend ActiveSupport::Memoizable
 
   def in_text_from_params(params)
@@ -142,7 +141,9 @@ class Period
   memoize :last_day_of_last_year
 
   def self.method_missing(method, *args)
-    self.instance_methods.include?(method.to_s) ? self.instance.send(method, *args) : super
+    Thread.current[:period] = new unless Thread.current[:period]
+    _period = Thread.current[:period]
+    self.instance_methods.include?(method.to_s) ? _period.send(method, *args) : super
   end
 end
    

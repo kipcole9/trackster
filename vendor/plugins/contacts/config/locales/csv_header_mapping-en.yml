@@ -3,37 +3,22 @@
 # We aim to cover the full set of field names as exported by Outlook, Outlook Express, Apple Addressbook
 # and later on SFDC, ACT! and so on.  The idea is to get rid of the usual manual field
 # mapping.
-      
-#"Business Street","Business Street 2","Business Street 3","Business City","Business State","Business Postal Code",
-#"Business Country", "Business Address PO Box",
-
-#"Home Street","Home Street 2","Home Street 3","Home City","Home State","Home Postal Code",
-#"Home Country",
-
-#"Other Street","Other Street 2","Other Street 3","Other City","Other State","Other Postal Code",
-#"Other Country",
-
-#"Business Fax","Business Phone","Business Phone 2","Callback","Car Phone",
-#"Company Main Phone","Home Fax","Home Phone","Home Phone 2","ISDN","Mobile Phone","Other Fax","Other Phone",
-#"Pager","Primary Phone","Radio Phone",
 
 ##"E-mail Address","E-mail Type","E-mail Display Name","E-mail 2 Address","E-mail 2 Type","E-mail 2 Display Name",
-#"E-mail 3 Address","E-mail 3 Type","E-mail 3 Display Name","Home Address PO Box",
-#"Initials",
-#,"Other Address PO Box",
+#"E-mail 3 Address","E-mail 3 Type","E-mail 3 Display Name"
+
 #"Web Page" 
      
 en:
     contact_csv_headings:
         # Person attributes
-        firstname:          given_name
-        middlename:         middle_name
-        lastname:           family_name
-        prefix:             name_prefix
-        suffix:             name_suffix
-        email:              email_1
-        contact_email:      email_1
+        firstname:          given
+        middlename:         additional
+        lastname:           family
+        prefix:             prefix
+        suffix:             suffix 
         birthday:           birthday
+        bday:               birthday
         anniversary:        anniversary
         gender:             gender
         spouse:             partner
@@ -54,21 +39,82 @@ en:
         # Organization attributes
         companyid:          organization_id
         organizationalidnumber: organization_id
-        company:            organization_name
-        companyname:        organization_name
+        company:            org
+        companyname:        org
         industry:           industry
         employeenumber:     employees
         revenue:            revenue
         currency:           currency
     
+        # Emails
+        email:              work_email_1
+        contact_email:      work_email_1
+        emailaddress:       work_email_1
+        email2address:      work_email_2
+        email3address:      work_email_3
+        
         # Address attributes
-        address:            street_1
-        address1:           street_1
-        address2:           street_2
-        suburb:             street_3
-        city:               locality
-        state:              region
-        country:            country
-        postcode:           postalcode
-        zip:                postalcode
-        zipcode:            postalcode
+        address:            work_street_1
+        address1:           work_street_1
+        address2:           work_street_2
+        address3:           work_street_3
+        suburb:             work_suburb
+        city:               work_locality
+        state:              work_region
+        country:            work_country
+        postalcode:         work_postalcode
+        postcode:           work_postalcode
+        zip:                work_postalcode
+        zipcode:            work_postalcode        
+        
+        # Outlook address header names
+        businessaddresspobox: work_pobox
+        businessstreet:     work_street_1
+        businessstreet2:    work_street_2
+        businessstreet3:    work_street_3
+        businesscity:       work_locality
+        businessstate:      work_region
+        businesscountry:    work_country
+        businesspostalcode: work_postalcode
+      
+        homeaddresspobox:   home_pobox
+        homestreet:         home_street_1
+        homestreet2:        home_street_2
+        homestreet3:        home_street_3
+        homecity:           home_locality
+        homestate:          home_region
+        homecountry:        home_country
+        homepostalcode:     home_postalcode
+        
+        otheraddresspobox:  other_pobox
+        otherstreet:        other_street_1
+        otherstreet2:       other_street_2
+        otherstreet3:       other_street_3
+        othercity:          other_locality
+        otherstate:         other_region
+        othercountry:       other_country
+        otherpostalcode:    other_postalcode
+        
+        # Phone numbers
+        contactphone:       work_phone
+        businessphone:      work_phone
+        businessfax:        work_fax_phone
+        homephone:          home_phone
+        homefax:            home_fax_phone
+        otherphone:         other_phone
+        otherfax:           other_fax_phone
+        carphone:           car_phone
+        mobilephone:        mobile_phone
+        companymainphone:   company_phone
+        
+        # URLs
+        webpage:            url
+        url:                url
+        web:                url
+        website:            url
+        site:               url
+        
+        # Other fields
+        note:               note
+        notes:              note
+        

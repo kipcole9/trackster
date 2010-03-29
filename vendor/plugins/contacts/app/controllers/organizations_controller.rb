@@ -1,4 +1,5 @@
 class OrganizationsController < ContactsController
+  unloadable
   
   def index
     index! do |success, failure|
