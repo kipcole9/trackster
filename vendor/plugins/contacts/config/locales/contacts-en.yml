@@ -15,7 +15,7 @@ en:
                                 ["Skype", "skype"], ["Main", "main"], ["Fax", "fax"], 
                                 ["Pager", "pager"], ["Other", "other"]]
         affiliations:           [["Family", "family"], ["Friends", "friends"], ["Colleagues", "colleagues"]]
-        gender:                 [["Male", "male"], ["Female", "female"], ["Unknown", "unknown"]]
+        gender:                 [["Male", "male"], ["Female", "female"], ["Unknown", "unknown"], ["Unstated", "unstated"]]
         name_order:             [["Given then Family", 'gf'], ["Family then Given", "fg"]]
         index:
             name_search:        Search by name

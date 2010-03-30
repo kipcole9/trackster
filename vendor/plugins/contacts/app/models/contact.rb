@@ -8,10 +8,17 @@ class Contact < ActiveRecord::Base
     
   acts_as_taggable_on :permissions, :categories, :tags
   before_save   :check_name_order
+  
+  # Analytics data
+  has_many      :tracks,              :foreign_key => :contact_code, :primary_key => :contact_code
+  
+  # Contact relationships
   belongs_to    :account
   belongs_to    :team
   belongs_to    :created_by,          :class_name => "User", :foreign_key => :created_by
   belongs_to    :updated_by,          :class_name => "User", :foreign_key => :updated_by
+  
+  # Contact related-data
   has_one       :background
   has_many      :affiliates  
   has_many      :actions,             :as => :actionable, :class_name => "History", :order => "created_at DESC"
