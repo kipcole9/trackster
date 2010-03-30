@@ -1,11 +1,15 @@
 class OrganizationsController < ContactsController
   unloadable
   
-  def index
-    index! do |success, failure|
-      success.html { render 'contacts/index' }
+  
+  def create
+    @contact = Organization.new(params[:organization])
+    @contact.created_by = current_user
+    create! do |success, failure|
+      success.html { redirect_back_or_default }
     end
   end
+
     
   def autocomplete
     query = params[:q]

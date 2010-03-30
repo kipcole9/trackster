@@ -3,7 +3,8 @@ class Contact < ActiveRecord::Base
   include       Analytics::Model
   include       Vcard::Import 
   include       Csv::Import
-   
+  
+  validate      :must_have_name_or_code 
   default_scope :order => 'family_name ASC'
     
   acts_as_taggable_on :permissions, :categories, :tags
@@ -43,6 +44,8 @@ class Contact < ActiveRecord::Base
     end
   end
   
+  validates_uniqueness_of :contact_code, :scope => :account_id, :allow_nil => true, :allow_blank => true
+  
   named_scope :for_user, lambda {|user|
     { :joins => {:team => :users}, :conditions => ["users.id = ?", user.id] } 
   }
@@ -75,21 +78,12 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :addresses,           
                                 :allow_destroy => true, 
                                 :reject_if => proc { |attributes| attributes.all? {|k, v| v.blank?} }
-  accepts_nested_attributes_for :affiliates,          
-                                :allow_destroy => true, 
-                                :reject_if => proc { |attributes| attributes['address'].blank? }
 
-
-  
   # Used by History#record which decides who the parent object is.  By default it
   # will look for a relevant belongs_to, but sometimes defining it directly is
   # appropriate.
   def refers_to
     self
-  end
-  
-  def full_name
-    (given_first? ? [self.given_name, self.family_name] : [self.family_name, self.given_name]).compact.join(' ')
   end
   
 protected
@@ -104,6 +98,10 @@ private
   
   def self.quote_string(string)
     ActiveRecord::Base.connection.quote_string(string)
+  end
+  
+  def must_have_name_or_code
+    errors.add_to_base(I18n.t('contacts.need_name_or_code')) if given_name.blank? && family_name.blank? && contact_code.blank?
   end  
 
 end

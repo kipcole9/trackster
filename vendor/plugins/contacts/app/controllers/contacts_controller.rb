@@ -7,14 +7,9 @@ class ContactsController < TracksterResources
     @note = @contact.notes.build
     show!
   end
-  
-  def new
-    @contact = Person.new
-    new!
-  end
 
   def create
-    @contact = Contact.new(params[:person] || params[:organization])
+    @contact = Contact.new(params[:contact])
     @contact.created_by = current_user
     create! do |success, failure|
       success.html { redirect_back_or_default }

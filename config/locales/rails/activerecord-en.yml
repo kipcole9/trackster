@@ -1,46 +1,30 @@
 en:
     activerecord:
-        # This is where we translate our model and attribute names
-        models:
-            website:            Web Sites
-            contact:            Contacts
-            email:              Email addresses
-        attributes:
-            property:
-                url:            Web address (URL)
-                title_prefix:   Page title prefix
-            email:
-                address:        Address
-            website:
-                url:            Address
-            campaign:
-                code:           Campaign tracking code
-                cost:           Total Cost
-            track:
-                ip_address:             IP Address
-                page_views:             Views
-                url:                    Page
-                percent_of_page_views:  % Views
-                percent_of_visits:      % Visits
-                percent_of_impressions: % Impressions
-                new_visit_rate:         % New 
-                page_views_per_visit:   Pages/Visit
-                new_v_returning:        New vs. Returning
-                referrer_host:          Referrer
-                traffic_source:         Source
-                bounce_rate:            % Bounce
-                entry_rate:             % Entry
-                exit_rate:              % Exit
-                depth_of_visit:         Depth of visit (pages)
-                event_count:            Events
-                cost_per_impression:    CPI
-                campaign_name:          Campaign
-                deliveries:             Delivered
-                distribution:           Sent
-                unsubscribes:           Unsubs.
-                cost_per_click:         CPC
-                clicks_through:         Clicks
-                click_through_rate:     CTR
-                impressions:            Viewed
-                value:                  Avg. value
-                os_name:                Operating System
+        track:
+            ip_address:             IP Address
+            page_views:             Views
+            url:                    Page
+            percent_of_page_views:  % Views
+            percent_of_visits:      % Visits
+            percent_of_impressions: % Impressions
+            new_visit_rate:         % New 
+            page_views_per_visit:   Pages/Visit
+            new_v_returning:        New vs. Returning
+            referrer_host:          Referrer
+            traffic_source:         Source
+            bounce_rate:            % Bounce
+            entry_rate:             % Entry
+            exit_rate:              % Exit
+            depth_of_visit:         Depth of visit (pages)
+            event_count:            Events
+            cost_per_impression:    CPI
+            campaign_name:          Campaign
+            deliveries:             Delivered
+            distribution:           Sent
+            unsubscribes:           Unsubs.
+            cost_per_click:         CPC
+            clicks_through:         Clicks
+            click_through_rate:     CTR
+            impressions:            Viewed
+            value:                  Avg. value
+            os_name:                Operating System

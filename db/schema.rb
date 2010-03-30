@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100326001646) do
+ActiveRecord::Schema.define(:version => 20100330190223) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -146,11 +146,11 @@ ActiveRecord::Schema.define(:version => 20100326001646) do
   create_table "contacts", :force => true do |t|
     t.string   "given_name"
     t.string   "family_name"
-    t.string   "salutation",         :limit => 30
-    t.string   "nickname",           :limit => 20
-    t.string   "name",               :limit => 100
-    t.string   "locale",             :limit => 50
-    t.string   "timezone",           :limit => 50
+    t.string   "salutation_template"
+    t.string   "nickname",            :limit => 20
+    t.string   "name",                :limit => 100
+    t.string   "locale",              :limit => 50
+    t.string   "timezone",            :limit => 50
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
@@ -162,23 +162,23 @@ ActiveRecord::Schema.define(:version => 20100326001646) do
     t.integer  "created_by"
     t.integer  "updated_by"
     t.integer  "organization_id"
-    t.string   "gender",             :limit => 10,  :default => "unknown"
-    t.string   "role_function",      :limit => 50
-    t.string   "role_level",         :limit => 50
-    t.string   "name_order",         :limit => 2
-    t.string   "honorific_prefix",   :limit => 50
-    t.string   "honorific_suffix",   :limit => 50
-    t.string   "type",               :limit => 20
+    t.string   "gender",              :limit => 10,  :default => "unknown"
+    t.string   "role_function",       :limit => 50
+    t.string   "role_level",          :limit => 50
+    t.string   "name_order",          :limit => 2
+    t.string   "honorific_prefix",    :limit => 50
+    t.string   "honorific_suffix",    :limit => 50
+    t.string   "type",                :limit => 20
     t.integer  "employees"
     t.integer  "revenue"
-    t.string   "contact_code",       :limit => 50
-    t.string   "currency_code",      :limit => 3
-    t.string   "industry",           :limit => 100
-    t.string   "industry_code",      :limit => 5
+    t.string   "contact_code",        :limit => 50
+    t.string   "currency_code",       :limit => 3
+    t.string   "industry",            :limit => 100
+    t.string   "industry_code",       :limit => 5
     t.date     "birthday"
   end
 
-  add_index "contacts", ["account_id", "contact_code"], :name => "index_contacts_on_account_id_and_contact_code", :unique => true
+  add_index "contacts", ["account_id", "contact_code"], :name => "index_contacts_on_account_id_and_contact_code"
   add_index "contacts", ["family_name"], :name => "index_contacts_on_family_name"
   add_index "contacts", ["given_name"], :name => "index_contacts_on_given_name"
   add_index "contacts", ["name"], :name => "index_contacts_on_name"

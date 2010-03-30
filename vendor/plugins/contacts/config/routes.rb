@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :contacts, :has_one => :background
-  map.resources :people, :has_one => :background
+  map.resources :contacts,      :has_one => :background
+  map.resources :people,        :has_one => :background
   map.resources :organizations, :has_one => :background, :collection => {:autocomplete => :get}
   map.resources :notes
   map.resources :tickets

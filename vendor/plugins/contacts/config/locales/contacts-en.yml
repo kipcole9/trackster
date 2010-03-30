@@ -1,5 +1,30 @@
 en:
+    activerecord:
+        models:
+            website:            Web Sites
+            contact:            Contacts
+            email:              Email addresses
+        attributes:
+            property:
+                url:            Web address (URL)
+                title_prefix:   Page title prefix
+            email:
+                address:        Email
+            website:
+                url:            URL
+            campaign:
+                code:           Campaign tracking code
+                cost:           Total Cost
+                
     contacts:
+        contact:                "Contact's Details"
+        person:                 "Person's Details"
+        organization:           "Organization's Details"
+        phones:                 "Phone Numbers"
+        email_addresses:        "Email Addresses"
+        addresses:              "Addresses"
+        websites:               "Websites"
+        salutation:             "Dear {{informal_name}}"
         name_card:              "name card"
         bio:                    Biographical notes
         bio_formatting:         Formatting options
@@ -7,6 +32,7 @@ en:
         edit_background:        "Edit {{name}}'s background"
         navigation:             Contact actions
         important_dates:        Important dates
+        need_name_or_code:      'A contact must have at least one of the following: given name, family name or contact code'
         add_important_date:     You can add a new date by selecting the 'Add important date' in the panel on the left.
         email_types:            [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
         website_types:          [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
@@ -23,4 +49,21 @@ en:
     panels:
         contacts_index:     "Contact cards"
         edit_contact:       "Update {{name}}'s details"
+        new_contact:        "Create a new contact"
+        
+    column_descriptions:
+        account:
+            name:           "Your account name.  It can't be changed once created."
+            email_from:     "Campaigns will be sent from this email address by default."
+            email_reply_to: "Replies to campaign emails will be sent to this address by default."
+            unsubscribe_url:    "Clicking on the default unsubscribe link will redirect here.  You may include parameters."
+            custom_domain:  "This site can masquarade as part of your own domain if you add an 'A' record to your domain's DNS that points to this server."
+            tracker:        "This code is used to uniquely identify analytics data for your account.  It is required when tagging your web pages or emails."
+      
+        person:
+            honorific_prefix:   "For example: Mr., Mrs., Dr., Rev. ..."
+            honorific_suffix:   "For example: Phd., FRCS, KCMG"
+            salutation_template:    "Used when addressing correspondance. For example: 'Dear Sir'. Variables can be inserted such as [[given_name]], [[informal_name]], [[full_name]], [[formal_name]]."
+            contact_code:       "The code or ID that identifies this person in your CRM system.  It is also use to link an event stream (like viewing a web page) to a contact."
+            
         

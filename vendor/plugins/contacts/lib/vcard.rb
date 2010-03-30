@@ -8,18 +8,18 @@ module Vcard
     end
     
     module ClassMethods
-      def import_vcard_file(card_file)
+      def import_vcard_file(account, card_file)
         cards = Vpim::Vcard.decode(File.open(card_file).read)
-        import_vcards(cards)
+        import_vcards(account, cards)
       end
       
-      def import_vcards(cards)
-        cards.each {|card| import_vcard(card) }
+      def import_vcards(account, cards)
+        cards.each {|card| import_vcard(account, card) }
         cards
       end
 
-      def import_vcard(card)
-        if contact = find_or_create_by_vcard(card)
+      def import_vcard(account, card)
+        if contact = find_or_create_by_vcard(account, card)
           contact.import_from_vcard(card)
         else
           logger.debug "Could not import vcard"
@@ -30,27 +30,27 @@ module Vcard
 
       def find_or_create_by_vcard(card)
         strip_content!(card)
-        contact = find_by_vcard(card) || create_from_vcard(card)
+        contact = find_by_vcard(account, card) || create_from_vcard(account, card)
       end
 
-      def find_by_vcard(card)
-        find_by_emails(card) || find_by_names_and_company(card)
+      def find_by_vcard(account, card)
+        find_by_emails(account, card) || find_by_names_and_company(account, card)
       end
 
-      def create_from_vcard(card)
+      def create_from_vcard(account, card)
         conditions = find_by_names_and_company_conditions(card)
         if conditions[:given_name] || conditions[:last_name]
-          Person.new
+          account.people.new
         elsif conditions[:organization]
-          Organization.new
+          account.organizations.new
         else
           nil
         end
       end
   
-      def find_by_emails(card)
+      def find_by_emails(account, card)
         return nil if (emails = card.emails.dup.map(&:to_s).uniq).empty?
-        contact_email_addresses = Email.find(:all, :select => "DISTINCT contact_id", :conditions => {:address => emails})
+        contact_email_addresses = account.emails.find(:all, :select => "DISTINCT contact_id", :conditions => {:address => emails})
         return nil if contact_email_addresses.empty?
   
         if contact_email_addresses.length > 1
@@ -71,10 +71,10 @@ module Vcard
       # Look up the organization first, if there is one.  If there is then
       # it's either an "organization only" card, or the organization is the
       # scope within which to lookup the name.
-      def find_by_names_and_company(card)
+      def find_by_names_and_company(account, card)
         conditions = find_by_names_and_company_conditions(card)
         if conditions[:organization]
-          return nil unless organization = Organization.find_by_name(conditions.delete(:organization))
+          return nil unless organization = account.organizations.find_by_name(conditions.delete(:organization))
           find_base = organization.contacts
         else
           find_base = self

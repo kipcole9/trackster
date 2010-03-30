@@ -14,16 +14,15 @@ module Csv
         I18n.t("contact_csv_headings.#{normalized_column}", :default => normalized_column).to_sym
       }
       
-      def import_csv_file(csv_file)
+      def import_csv_file(account, csv_file)
         FasterCSV.foreach(csv_file, :headers => true, :header_converters => HEADER_CONVERTER) do |row|
-          import_csv_record(row.to_hash)
+          import_csv_record(account, row.to_hash)
         end
       end
       
-      def import_csv_record(record)
+      def import_csv_record(account, record)
         vcard = vcard_from_csv_hash(record)
-        puts vcard.to_s
-        #import_vcard(vcard)
+        import_vcard(account, vcard)
       end
       
       private
