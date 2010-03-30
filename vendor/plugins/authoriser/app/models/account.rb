@@ -69,6 +69,10 @@ class Account < ActiveRecord::Base
     nil
   end
   
+  def add_user(user, roles)
+    self.account_users.create(:user => user, :roles => roles)
+  end
+  
   def self.current_account=(account)
     Thread.current[:current_account] = account
   end

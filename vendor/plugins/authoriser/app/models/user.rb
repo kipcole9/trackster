@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   NAME_REGEX                = /\A[^[:cntrl:]\\<>\/&]*\z/              # Unicode, permissive
   EMAIL_NAME_REGEX          = '[\w\.%\+\-]+'.freeze
   EMAIL_REGEX               = /\A#{EMAIL_NAME_REGEX}@#{Property::DOMAIN_HEAD_REGEX}#{Property::DOMAIN_TLD_REGEX}\z/i
-  ROLES                     = %w[account_owner account_admin campaign_manager designer crm_manager user]
   ADMIN_USER                = 'admin'
   
   has_attached_file         :photo, :styles => { :avatar => "50x50#" },
@@ -89,11 +88,11 @@ class User < ActiveRecord::Base
   
   # Used by the new_user form
   def roles=(roles)
-    self.account_roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+    self.account_roles_mask = (roles & AccountUser::ROLES).map { |r| 2**AccountUser::ROLES.index(r) }.sum
   end
   
   def roles
-    ROLES.reject { |r| ((self.account_roles_mask || 0) & 2**ROLES.index(r)).zero? }
+    AccountUser::ROLES.reject { |r| ((self.account_roles_mask || 0) & 2**AccountUser::ROLES.index(r)).zero? }
   end
   
   def has_role?(role)

@@ -5,6 +5,8 @@ en:
     search:                 Search
     my_settings:            Settings
     account_settings:       Account
+    must_login:             You must login to access that page.
+    not_authorized:         You are not authorized to access that page.
     or:                     or
     edit:                   edit
     save:                   Save your changes
