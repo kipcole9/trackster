@@ -2,6 +2,7 @@ class ContactsController < TracksterResources
   unloadable
   has_scope       :search
   before_filter   :resource, :only => [:show, :update]
+  layout          :choose_layout
  
   def show
     @note = @contact.notes.build
@@ -35,6 +36,13 @@ private
 
   def resource
     @contact ||= end_of_association_chain.find(params[:id], :include => [:emails, :addresses, :websites, :phones])
+  end
+  
+  def choose_layout
+    case params[:action]
+      when 'show', 'index' then 'application'
+      else 'contacts'
+    end
   end
 
 end

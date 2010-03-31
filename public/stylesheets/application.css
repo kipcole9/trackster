@@ -433,7 +433,6 @@ div.inline textarea {
 	vertical-align: top;
 	float: right;
 }
-
 div.inline select, fieldset#address select {
 	width: 20%;
 }
@@ -463,10 +462,12 @@ ul.main li ul {
 }
 
 /* Formatting for addresses */
-fieldset#address input, fieldset#address textarea, fieldset#address select {
-	margin-bottom: 0.7em;
+fieldset#address input, fieldset#address select {
+	margin-bottom: 0;
 }
-
+fieldset.address div.field + fieldset.address div.field {
+	margin-top: 0;
+}
 fieldset#address textarea, fieldset#address select, fieldset#address span {
 	vertical-align: top;
 	float: left;
@@ -475,6 +476,7 @@ fieldset#address textarea, fieldset#address select, fieldset#address span {
 fieldset#address textarea {
 	margin-left: 0;
 	line-height: 1.2em;
+	margin-bottom: 0.5em;
 }
 
 fieldset#address div {

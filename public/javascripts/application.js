@@ -249,7 +249,7 @@ $(document).ready(function(){
 			element.remove();
 		} else {
 			delete_field = element.find('._destroy').first();
-			delete_field.value = "1";
+			delete_field.val("1");
 			element.hide();
 		};
 	}));
