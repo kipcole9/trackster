@@ -4,7 +4,9 @@ class Contact < ActiveRecord::Base
   include       Vcard::Import 
   include       Csv::Import
   
-  validate      :must_have_name_or_code 
+  validates_associated    :account
+  validates_presence_of   :account_id
+  
   default_scope :order => 'family_name ASC'
     
   acts_as_taggable_on :permissions, :categories, :tags
@@ -43,8 +45,6 @@ class Contact < ActiveRecord::Base
       find(:first, :conditions => sanitize_sql_for_conditions(conditions))
     end
   end
-  
-  validates_uniqueness_of :contact_code, :scope => :account_id, :allow_nil => true, :allow_blank => true
   
   named_scope :for_user, lambda {|user|
     { :joins => {:team => :users}, :conditions => ["users.id = ?", user.id] } 

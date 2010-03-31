@@ -28,8 +28,8 @@ html do
     end
     case Rails.env 
       when "development"
-        store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"
-        store "<script>tracker = new _tks; tracker.trackPageview();</script>"
+        # store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"
+        # store "<script>tracker = new _tks; tracker.trackPageview();</script>"
       when "staging"
         store "<script src='http://traphos.com:8080/_tks.js' type='text/javascript' ></script>"
       else

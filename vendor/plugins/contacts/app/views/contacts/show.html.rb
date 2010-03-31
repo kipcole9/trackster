@@ -1,4 +1,4 @@
-panel @contact.full_name_and_title, :flash => true do
+panel @contact.full_name_and_title do
   block do
     tab "contact_#{@contact['id']}" do
       tab_item "Add a Note" do

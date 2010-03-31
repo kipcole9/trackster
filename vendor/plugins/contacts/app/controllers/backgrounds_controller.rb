@@ -1,29 +1,19 @@
-class BackgroundsController < ApplicationController
-  before_filter   :retrieve_contact
-  before_filter   :retrieve_background
+class BackgroundsController < TracksterResources
+  unloadable
+  belongs_to    :contact
   helper ContactsHelper
   layout 'contacts'
   
-  def edit
-    
+  def create
+    resource
+    create!
   end
-  
-  def update
-    if @background.update_attributes(params[:background])
-      flash[:notice] = I18n.t('backgrounds.updated')
-    else
-      flash[:error] = I18n.t('background.not_updated')
-    end
-    redirect_back_or_default('/')
-  end
-  
+
 private
-  def retrieve_contact
-    @contact = Contact.find(params[:contact_id])
-  end
-  
-  def retrieve_background
+  def resource
+    @contact = current_account.contacts.find(params[:contact_id])
     @background = @contact.background || @contact.build_background
   end
+  
   
 end

@@ -121,7 +121,7 @@ module Caerus
       errors_on = options.delete(:display_errors)
       with_tag(:div, options) do
         with_tag(:h2, :class => 'heading') do
-          store link_to(title)
+          store link_to(title, :class => 'panel-heading')
           with_tag(:div, :class => 'panel-links') do
             store link_to(t('edit'), options[:edit])
           end if options[:edit]

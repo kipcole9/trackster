@@ -1,9 +1,11 @@
 class Person < Contact
   unloadable  
-  belongs_to    :organization
+  belongs_to              :organization, :autosave => true
+  validate                :must_have_name_or_code
+  validates_uniqueness_of :contact_code, :scope => :account_id, :allow_blank => true
   
   def organization_name=(name)
-    self.organization = Organization.find_or_create_by_name(:name => name, :account_id => self.account_id) unless name.blank?
+    self.organization = account.organizations.find_by_name(name) || account.organizations.create(:name => name) unless name.blank?
   end
 
   def organization_name
@@ -36,6 +38,14 @@ class Person < Contact
     else
       I18n.t("contacts.salutation", :informal_name => self.informal_name)
     end
+  end
+  
+  def job_level=(level)
+    return if level.blank?
+  end
+  
+  def job_function=(function)
+    return if function.blank?
   end
 
 

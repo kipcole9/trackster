@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100330190223) do
+ActiveRecord::Schema.define(:version => 20100331071436) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -38,6 +38,9 @@ ActiveRecord::Schema.define(:version => 20100330190223) do
     t.string   "unsubscribe_url"
     t.string   "kind",                :limit => 10
     t.string   "custom_domain",       :limit => 100
+    t.string   "timezone",            :limit => 20
+    t.string   "salutation",          :limit => 100
+    t.string   "currency_code",       :limit => 3
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"

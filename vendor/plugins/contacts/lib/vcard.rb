@@ -22,13 +22,13 @@ module Vcard
         if contact = find_or_create_by_vcard(account, card)
           contact.import_from_vcard(card)
         else
-          logger.debug "Could not import vcard"
-          logger.debug card.inspect
+          puts "Could not import vcard"
+          puts card.inspect
         end
         contact
       end
 
-      def find_or_create_by_vcard(card)
+      def find_or_create_by_vcard(account, card)
         strip_content!(card)
         contact = find_by_vcard(account, card) || create_from_vcard(account, card)
       end
@@ -50,13 +50,12 @@ module Vcard
   
       def find_by_emails(account, card)
         return nil if (emails = card.emails.dup.map(&:to_s).uniq).empty?
-        contact_email_addresses = account.emails.find(:all, :select => "DISTINCT contact_id", :conditions => {:address => emails})
-        return nil if contact_email_addresses.empty?
-  
-        if contact_email_addresses.length > 1
+        contacts = account.contacts.find(:all, :include => :emails, :conditions => {:'emails.address' => emails})
+        return nil if contacts.empty?
+        if contacts.length > 1
           raise "Don't know how to import a card that spans multiple existing contact email addresses: #{emails.join(', ')}"
         end
-        contact_email_addresses.first.contact
+        contacts.first
       end
   
       def find_by_names_and_company_conditions(card)
@@ -98,20 +97,27 @@ module Vcard
     module InstanceMethods
       def import_from_vcard(card)
         if self.is_a?(Person)
-          self.given_name = card.name.given unless card.name.given.blank?
-          self.family_name = card.name.family unless card.name.family.blank?
-          self.role = card.title unless card.title.blank?
+          self.given_name        = card.name.given     unless card.name.given.blank?
+          self.family_name       = card.name.family    unless card.name.family.blank?
+          self.nickname          = card.name.nickname  unless card.name.nickname.blank?
+          self.role              = card.title          unless card.title.blank?
+          self.honorific_prefix  = card.name.prefix    unless card.name.prefix.blank?
+          self.honorific_suffix  = card.name.suffix    unless card.name.suffix.blank?
+          self.birthday          = card.birthday       unless card.birthday.blank?
+          self.role_level        = card['JOB_LEVEL']
+          self.role_function     = card['JOB_FUNCTION']
           self.organization_name = card.org.first.strip if card.org
         else
-          self.name = card.org.first.strip if card.org
+          self.name              = card.org.first.strip if card.org
         end
 
         Contact.transaction do
-          logger.error self.errors.inspect unless self.save
+          raise self.errors.inspect unless save
           import_emails(card.emails)
           import_websites(card.urls)
           import_addresses(card.addresses)
           import_telephones(card.telephones)
+          import_organization_data(card)
         end
       end
   
@@ -129,7 +135,7 @@ module Vcard
           email.kind      = card_email.location.first
           email.address   = email_address
           email.preferred = card_email.preferred
-          logger.error email.errors.inspect unless email.save
+          raise email.errors.inspect unless email.save
         end
       end
 
@@ -138,7 +144,7 @@ module Vcard
           website_address = card_website.uri.gsub('\\','')
           website         = self.websites.find_by_url(website_address) || self.websites.build
           website.url     = website_address
-          logger.error website.errors.inspect unless website.save
+          raise website.errors.inspect unless website.save
         end
       end
 
@@ -149,7 +155,7 @@ module Vcard
           phone.kind      = card_phone.location.first
           phone.number    = number
           phone.preferred = card_phone.preferred
-          logger.error  phone.errors.inspect unless phone.save
+          raise phone.errors.inspect unless phone.save
         end
       end
 
@@ -163,8 +169,16 @@ module Vcard
           address.country     = card_address.country
           address.postalcode  = card_address.postalcode
           address.preferred   = card_address.preferred
-          logger.error  address.errors.inspect unless address.save
+          raise address.errors.inspect unless address.save
         end
+      end
+      
+      def import_organization_data(card)
+        organization = self.organization
+        organization.revenue    = card['REVENUE']
+        organization.employees  = card['EMPLOYEES']
+        organization.industry   = card['INDUSTRY']
+        organization.save
       end
     end
   end

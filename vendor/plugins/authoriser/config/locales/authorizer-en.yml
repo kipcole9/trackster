@@ -19,6 +19,10 @@ en:
         forgotten_password:     Forgotten your email address or password?
     
     column_descriptions:
+        account:
+            currency_code:      "The default currency which is used to interpret organization revenue when no specific currency is provided."
+            timezone:           "The default timezone for the account.  Used if no timezone is provided for your contacts."
+            salutation:         "The default salutation template used if your contacts do not have a specific salutation specified.  You might, for example, put 'Dear [[informal_name]]' here."
         user:
             tags:               "If tags are specified then only events that are also tagged will be visible to this user"
             photo:              "Can you upload an image as part of your profile.  It will be visible to other people on your account."
@@ -50,7 +54,7 @@ en:
             account:
                 name:           Account name
                 company_name:   Company name
-                timezone:       Time zone
+                timezone:       Default Time zone
             user:
                 login:          User name
                 password_confirmation:  Password again

@@ -16,6 +16,10 @@ en:
                 code:           Campaign tracking code
                 cost:           Total Cost
                 
+    people:
+        index:                  "Search by name"
+    organizations:
+        index:                  "Search by name"
     contacts:
         contact:                "Contact's Details"
         person:                 "Person's Details"

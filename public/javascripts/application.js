@@ -48,7 +48,7 @@ $.extend({
 		//Set exact width of the re-adjusted column
 		// have to subtract 20 to fit properly - dunno why?
 		cards = $(".contactCard");
-		if (cards.size() <= colNum) colFixed = cardMinSize + 20;
+		if (cards.size() < colNum) colFixed = cardMinSize + 20;
 		cards.each(function(n) {
 			$(this).css('width', (colFixed - 20) + 'px');
 			if ((n + 1) % colNum == 0) {
@@ -195,7 +195,7 @@ $(document).ready(function(){
 	$.reorderInlineFieldMessages();
 
 	/* Shows/hides panels */
- 	$("h2.heading a").click(function(event){
+ 	$("h2.heading a.panel-heading").click(function(event){
 		$(this).parent().next().slideToggle();
 		return false;
   	});

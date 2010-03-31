@@ -140,6 +140,7 @@ div.box.table { padding-bottom: 2px; }
   border: none;
   font-weight: bold;
   -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 div.listItem, fieldset {
   background: #323232;
@@ -192,6 +193,14 @@ div#about .contactCard {
   height: auto;
 }
 div#about .contactCard a { color: white; }
+div.contactCard h3 {
+  margin: 0;
+  padding: 0;
+}
+div.contactCard h4 {
+  margin: 0;
+  padding: 0;
+}
 div.address + div.address { border-top: 1px solid #555555; }
 .pagination a {
   color: #cccccc;

@@ -72,22 +72,22 @@ class Period
     # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
     return period_range.first, period_range.last
   end
-  memoize :from_param
+  #memoize :from_param
 
   def today
     Time.zone.now.to_date.to_time
   end
-  memoize :today
+  #memoize :today
 
   def yesterday
     today - 1.day
   end
-  memoize :yesterday
+  #memoize :yesterday
 
   def tomorrow
     today + 1.day
   end
-  memoize :tomorrow
+  #memoize :tomorrow
 
   def beginning_of_epoch
     today - 20.years
@@ -97,7 +97,7 @@ class Period
   def first_day_of_this_week
     today - today.wday.days
   end
-  memoize :first_day_of_this_week
+  #memoize :first_day_of_this_week
 
   def first_day_of_this_month
     Date.new(today.year, today.month, 1).to_time
@@ -140,10 +140,10 @@ class Period
   end
   memoize :last_day_of_last_year
 
+  # Arrange for instance methods to be called as if class methods.  Make threadsafe.
   def self.method_missing(method, *args)
     Thread.current[:period] = new unless Thread.current[:period]
-    _period = Thread.current[:period]
-    self.instance_methods.include?(method.to_s) ? _period.send(method, *args) : super
+    self.instance_methods.include?(method.to_s) ? Thread.current[:period].send(method, *args) : super
   end
 end
    
