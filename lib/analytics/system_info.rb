@@ -85,6 +85,7 @@ module Analytics
         row[:device_vendor] = "Apple"
         row[:device] = "iPad"
         row[:os_version] = row[:user_agent].match(/CPU OS ([0-9_])/).try(:[], 1)
+      end
     end
   end
 end
