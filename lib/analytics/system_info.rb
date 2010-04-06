@@ -80,7 +80,11 @@ module Analytics
       elsif row[:os_name] =~ /Wii/
         row[:device] = "Wii"
         row[:device_vendor] = "Nintendo"
-      end
+      elsif row[:os_name] == "iPad"
+        row[:os_name] = "iPhone OS"
+        row[:device_vendor] = "Apple"
+        row[:device] = "iPad"
+        row[:os_version] = row[:user_agent].match(/CPU OS ([0-9_])/).try(:[], 1)
     end
   end
 end
