@@ -1,0 +1,10 @@
+h4. Keeping a contact profile.
+
+This is handy for storing information that doesn't readily fit in a structured form. Biographical data, profile information, relationship history. Whatever you need.
+
+h4. Formatting your notes.
+
+The formatting approach is called *textile* and the basics are these:
+
+* Bullet points can be created by starting a line with a '*' and a space
+* Bold text can be created by surrounding the text with '*'.

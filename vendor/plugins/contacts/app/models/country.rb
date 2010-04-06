@@ -4,9 +4,17 @@ class Country < ActiveRecord::Base
   def self.name_like(name)
     I18n.translate('countries').reject{|k, v| !(v =~ Regexp.new(".*#{name}.*", true))}
   end
+
+  def self.countries
+    @countries ||= I18n.translate('countries')
+  end
+
+  def self.name(country_code)
+    self.countries[country_code.to_sym]
+  end
   
-  def all
-    I18N.translate('countries')
+  def self.code(country)
+    self.countries.index(country).try(:to_s)
   end
 
 end

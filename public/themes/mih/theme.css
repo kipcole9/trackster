@@ -191,6 +191,8 @@ div#about .contactCard {
   border: none;
   color: #cccccc;
   height: auto;
+  margin-left: 2px;
+  margin-bottom: 5px;
 }
 div#about .contactCard a { color: white; }
 div.contactCard h3 {

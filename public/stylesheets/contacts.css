@@ -20,6 +20,11 @@ div.contactCard {
 	cursor: move;
 }
 
+div.contactCard div {
+	height: 125px;  /* height of contactCard - the top + bottom padding */
+	overflow: hidden;
+}
+
 div.contactCard.canDrop {
 	background-color: #CFECEC;
 }
@@ -84,6 +89,8 @@ div.contactCard p {
 div.contactCard p.email a, div.contactCard p.website a {
 	font-weight: normal;
 }
+
+/* Contact card when displayed in the sidebar */
 div#about .contactCard {
 	width: 100%;
 	float: none;
@@ -95,7 +102,25 @@ div#about .contactCard {
 	cursor: inherit;
 	margin-bottom: 2px;
 	background: inherit;
+	height: auto;
 }
+
+div#about .contactCard div {
+	height: auto;
+}
+
+#about {
+	padding-bottom: 5px;
+}
+
+#about, #about h3, #about h4, #about p {
+	font-size:	100%;
+}
+
+#about p {
+	padding-bottom: 0;
+}
+
 
 /* Must be same as the size of the inline label */
 .inline .field_message {

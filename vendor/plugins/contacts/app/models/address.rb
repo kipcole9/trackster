@@ -4,18 +4,14 @@ class Address < ActiveRecord::Base
 
   def country=(name)
     return nil if name.blank?
-    self["country"] = countries.index(name).to_s || name
+    super Country.code(name) || name
   end
   
   def country
-    return nil if self["country"].blank?
-    countries[self["country"].to_sym] || self["country"]
+    return nil unless self['country']
+    Country.name(self['country'])
   end
-  
-  def countries
-    @countries ||= I18n.translate('countries')
-  end
-  
+
   # So the form builder will ask us properly for the country value
   # Don't know why it defaults to using before_type_case
   # The way it works is that if the before_type_case method doesn't

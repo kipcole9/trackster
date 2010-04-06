@@ -10,7 +10,8 @@ namespace :trackster do
       `cd #{DIR} && curl http://browsers.garykeith.com/stream.asp?BrowsCapINI >browscap.ini`      
     else
       DIR = "/u/apps/trackster/config"
-      `cd #{DIR} && wget http://browsers.garykeith.com/stream.asp?BrowsCapINI -O #{DIR}/browscap.ini`
+      `cd #{DIR} && wget http://browsers.garykeith.com/stream.asp?BrowsCapINI -O #{DIR}/browscap.ini.orig`
+      `cd #{DIR} && cp browscap.ini.orig browscap.ini && cat browscap_additions.ini >> browscap.ini`
       `ln -s #{DIR}/browscap.ini vendor/plugins/browscap/lib/browscap.ini`   
     end
   end

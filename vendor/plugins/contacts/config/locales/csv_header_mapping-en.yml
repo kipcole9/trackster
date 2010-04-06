@@ -4,14 +4,11 @@
 # and later on SFDC, ACT! and so on.  The idea is to get rid of the usual manual field
 # mapping.
 
-##"E-mail Address","E-mail Type","E-mail Display Name","E-mail 2 Address","E-mail 2 Type","E-mail 2 Display Name",
-#"E-mail 3 Address","E-mail 3 Type","E-mail 3 Display Name"
-
-#"Web Page" 
-     
 en:
     contact_csv_headings:
         # Person attributes
+        title:              honorific_prefix
+        honorific:          honorific_prefix
         firstname:          given
         middlename:         additional
         lastname:           family
@@ -26,12 +23,19 @@ en:
         language:           language
         categories:         tags
         keywords:           tags
+        contactid:          contact_code
+        contactcode:        contact_code
+        id:                 contact_code
+        crm:                contact_code
     
         # Role attributes
-        title:              title
         jobtitle:           title
         department:         department
+        dept:               department
         contacttitle:       title
+        position:           title
+        jobposition:        title
+        companyposition:    title
         profession:         job_function
         jobfunction:        job_function
         joblevel:           job_level
@@ -104,7 +108,7 @@ en:
         otherphone:         other_phone
         otherfax:           other_fax_phone
         carphone:           car_phone
-        mobilephone:        mobile_phone
+        mobilephone:        cell_phone
         companymainphone:   company_phone
         
         # URLs

@@ -8,34 +8,16 @@ class History < ActiveRecord::Base
   def self.record(record, transaction)
     return nil if transaction == :update && record.changes.blank?
     @refers_to = nil
-    @history = History.new
-    @history.historical = record
-    @history.created_by = User.current_user
-    @history.transaction = transaction.to_s
-    @history.actionable = refers_to(record)
+    @history = History.new(:historical => record, :created_by => User.current_user, 
+                           :transaction => transaction.to_s, :actionable => refers_to(record))
     if transaction == :delete
       @history.updates = delete_metadata(record, record.attributes)
     else      
       @history.updates = delete_metadata(record, record.changes)
     end
-    @history.save
+    @history.save!
   end
 
-  # Record events against a contact
-  def self.record_tracking_event(event)
-    return if event.contact_code.blank?
-    account = event.session.account
-    if contact = account.contacts.find_by_contact_code(event.contact_code)
-      @history = History.new
-      @history.historical = event
-      @history.created_by = User.current_user
-      @history.transaction = event.action
-      @history.actionable = contact
-      @history.updates = {:category => event.category, :label => event.label, :value => event.value}
-      @history.save
-    end
-  end
-  
 private
   def self.delete_metadata(record, attribs)
     attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }

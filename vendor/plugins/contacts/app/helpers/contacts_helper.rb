@@ -17,4 +17,8 @@ module ContactsHelper
     end, :class => :icon)
   end
   
+  def contacts
+    @contacts = (@contacts  || @people || @organizations)
+  end
+  
 end

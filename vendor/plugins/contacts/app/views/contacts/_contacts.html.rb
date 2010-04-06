@@ -1,3 +1,3 @@
-store render :partial => 'contacts/contact', :collection => (@contacts || @people || @organizations), :as => :contacts
+store render :partial => 'contacts/contact', :collection => contacts, :as => :contacts
 clear
-paginate(@contacts  || @people || @organizations)
+paginate contacts

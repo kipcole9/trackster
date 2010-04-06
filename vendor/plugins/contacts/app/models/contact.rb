@@ -1,8 +1,7 @@
 class Contact < ActiveRecord::Base
   unloadable
   include       Analytics::Model
-  include       Vcard::Import 
-  include       Csv::Import
+  include       Contacts::VcardImporter
   
   validates_associated    :account
   validates_presence_of   :account_id
@@ -37,12 +36,16 @@ class Contact < ActiveRecord::Base
     # varies widely.  We'll use city, region, country
     # and kind as the "close enough" test.
     def find_by_vcard(card_address)
-      conditions = {}
-      ["locality", "region", "country", "postalcode"].each do |a|
-        conditions[a] = card_address.send(a) unless card_address.send(a).blank?
+      conditions = ["locality", "region", "country", "postalcode"].inject(Hash.new) do |conditions, address|
+        address_part = card_address.send(address)
+        conditions.merge!(address => address_part) unless address_part.blank?
+        conditions
       end
-      conditions["kind"] = card_address.location.first
-      find(:first, :conditions => sanitize_sql_for_conditions(conditions))
+      if conditions && !conditions.blank?
+        conditions['country'] = Country.code(conditions['country']) if conditions['country'] 
+        address = find(:first, :conditions => sanitize_sql_for_conditions(conditions))
+      end
+      address
     end
   end
   
@@ -50,11 +53,9 @@ class Contact < ActiveRecord::Base
     { :joins => {:team => :users}, :conditions => ["users.id = ?", user.id] } 
   }
   
-
   named_scope :search, lambda {|criteria|
-    conditions = []
     names = criteria.split(' ').map(&:strip)
-    names.each do |name|
+    conditions = names.inject([]) do |conditions, name|
       conditions << "given_name LIKE '%#{quote_string(name)}%' OR family_name LIKE '%#{quote_string(name)}%' or name LIKE '%#{quote_string(name)}%'" unless name.blank?
     end
     { :conditions => conditions.join(' OR ') }

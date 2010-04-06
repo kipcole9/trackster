@@ -6,5 +6,8 @@ class Email < ActiveRecord::Base
   validates_format_of       :address,         :with => User::EMAIL_REGEX
   validates_uniqueness_of   :address
   
+  def kind=(k)
+    k.blank? ? nil : super
+  end
   
 end

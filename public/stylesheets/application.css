@@ -15,13 +15,18 @@ ul {
 
 body {
 	padding-bottom 0;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 input[type="text"] {
 	line-height: 1em;
 	padding-top: 3px;
 	padding-bottom: 3px;
+}
+
+input[type="submit"] {
+	font-size: 13px;
+	line-height: 2em;
 }
 
 /* Primarily because we put code inside pre */
@@ -147,9 +152,10 @@ h1#branding, h2#page-heading {
 	float: right;
 	color: white;
 	position: relative;
-	top: -14px;
+	top: -15px;
 	text-transform: none;
 }
+
 p {
 	line-height: 1.3em;
 }
@@ -441,7 +447,7 @@ div.inline label {
 	margin-right: 3px;
 }
 
-div.inline + div.inline div label, div.address._new label {
+div.inline + div.inline div label, div.address + div.address div label, div.address._new label {
 	color: #aaa;
 }
 
@@ -508,7 +514,7 @@ fieldset#address img.delete {
 	margin-left: 0.25em;
 }
 
-div.address._new {
+div.address + div.address, div.address._new {
 	margin-top: 0.6em;
 	padding-top: 1em;
 	border-top: 1px dotted #ccc;
@@ -789,9 +795,8 @@ div.hbar {
 	background-color: rgb(25,135,213);
 }
 
-/* Bio specific formatting */
-#bio {
-	padding-bottom: 10px;
+.block div p {
+	padding-bottom: 5px;
 }
 #bio h2 {
 	margin-top: 0;

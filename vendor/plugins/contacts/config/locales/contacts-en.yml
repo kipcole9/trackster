@@ -36,6 +36,7 @@ en:
         edit_background:        "Edit {{name}}'s background"
         navigation:             Contact actions
         important_dates:        Important dates
+        no_events_detected:     No events currently detected.
         need_name_or_code:      'A contact must have at least one of the following: given name, family name or contact code'
         add_important_date:     You can add a new date by selecting the 'Add important date' in the panel on the left.
         email_types:            [["Work", "work"], ["Personal", "personal"], ["Other", "other"]]
@@ -54,6 +55,9 @@ en:
         contacts_index:     "Contact cards"
         edit_contact:       "Update {{name}}'s details"
         new_contact:        "Create a new contact"
+        contact_history:    "{{name}}'s Recent Updates"
+        contact_events:     "{{name}}'s Event Stream"
+        contact_actions:    "Actions for {{name}}"        
         
     column_descriptions:
         account:

@@ -1,5 +1,5 @@
 class HistoryObserver < ActiveRecord::Observer
-  observe :person, :organization, :website, :phone, :address, :email, :note, :campaign, :property, :account
+  observe :contact, :person, :organization, :website, :phone, :address, :email, :note, :campaign, :property, :account, :background
 
   def before_update(record)
     History.record(record, :update)

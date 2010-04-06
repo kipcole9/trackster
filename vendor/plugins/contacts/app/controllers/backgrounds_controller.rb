@@ -1,19 +1,11 @@
 class BackgroundsController < TracksterResources
   unloadable
-  belongs_to    :contact
-  helper ContactsHelper
-  layout 'contacts'
+  belongs_to      :contact, :singleton => true
   
   def create
-    resource
-    create!
+    create! do |success, failure|
+      success.html { redirect_back_or_default }
+    end
   end
 
-private
-  def resource
-    @contact = current_account.contacts.find(params[:contact_id])
-    @background = @contact.background || @contact.build_background
-  end
-  
-  
 end

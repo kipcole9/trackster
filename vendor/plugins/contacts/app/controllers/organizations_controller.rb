@@ -1,7 +1,11 @@
 class OrganizationsController < ContactsController
   unloadable
   
-  
+  def new
+    @contact = Organization.new
+    new!
+  end
+
   def create
     @contact = Organization.new(params[:organization])
     @contact.created_by = current_user
@@ -10,7 +14,6 @@ class OrganizationsController < ContactsController
     end
   end
 
-    
   def autocomplete
     query = params[:q]
     results = Organization.name_like(query)

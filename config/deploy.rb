@@ -96,10 +96,10 @@ task :update_search_engines, :roles => :app do
 end
 
 desc "Add browscap additions"
-task :augment_browscap, :roles => :app do
+task :update_browscap, :roles => :app do
   src_file = File.join(File.dirname(__FILE__), 'browscap', 'browscap_additions.ini')
   `scp -P 9876 #{src_file} kip@traphos.com:/u/apps/trackster/config`
-  run "cd #{config_dir} && cp browscap.ini.orig browscap.ini && cat browscap_additions.ini >>browscap.ini"
+  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_browscap"
 end
 
 namespace :log_analyser do
@@ -121,7 +121,7 @@ namespace :log_analyser do
 end
 
 namespace :delayed_job do
-  desc "Start log analyser"
+  desc "Start delayed job"
   task :start, :roles => :app do
     run <<-EOF
       export RAILS_ENV=#{rails_env} &&
@@ -129,7 +129,7 @@ namespace :delayed_job do
     EOF
   end
 
-  desc "Stop log analyser"
+  desc "Stop delayed job"
   task :stop, :roles => :app do
     run <<-EOF
       export RAILS_ENV=#{rails_env} &&
