@@ -1,3 +1,4 @@
+# Instance Methods to be included in the contacts model
 module Contacts
   module VcardImporter
     def error_messages

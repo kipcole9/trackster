@@ -36,17 +36,17 @@ module Analytics
   
     def platform_info!(row)
       if agent = browscap.query(row[:user_agent])
-        row[:browser] = agent.browser
+        row[:browser]         = agent.browser
         row[:browser_version] = agent.version
-        row[:os_name] = agent.platform
-        row[:mobile_device] ||= agent.is_mobile_device    
+        row[:os_name]         = agent.platform
+        row[:mobile_device]   ||= agent.is_mobile_device    
       end
     end
   
     def device_info!(row)
       item = device.from_user_agent(row[:user_agent])
       if item['model']
-        row[:device] = item['model']
+        row[:device]        = item['model']
         row[:device_vendor] = item['vendor']
         row[:mobile_device] ||= item['mobileDevice']
       end

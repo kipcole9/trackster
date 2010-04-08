@@ -4,12 +4,12 @@ class Address < ActiveRecord::Base
 
   def country=(name)
     return nil if name.blank?
-    super Country.code(name) || name
+    super Country.code_for(name) || name
   end
   
   def country
     return nil unless self['country']
-    Country.name(self['country'])
+    Country.name_from(self['country'])
   end
 
   # So the form builder will ask us properly for the country value

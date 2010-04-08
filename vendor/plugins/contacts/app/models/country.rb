@@ -9,11 +9,11 @@ class Country < ActiveRecord::Base
     @countries ||= I18n.translate('countries')
   end
 
-  def self.name(country_code)
+  def self.name_from(country_code)
     self.countries[country_code.to_sym]
   end
   
-  def self.code(country)
+  def self.code_for(country)
     self.countries.index(country).try(:to_s)
   end
 

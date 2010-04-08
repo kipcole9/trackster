@@ -42,7 +42,7 @@ class Contact < ActiveRecord::Base
         conditions
       end
       if conditions && !conditions.blank?
-        conditions['country'] = Country.code(conditions['country']) if conditions['country'] 
+        conditions['country'] = Country.code_for(conditions['country']) if conditions['country'] 
         address = find(:first, :conditions => sanitize_sql_for_conditions(conditions))
       end
       address
