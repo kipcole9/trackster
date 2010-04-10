@@ -1,24 +1,34 @@
 class History < ActiveRecord::Base
+  belongs_to    :account
   belongs_to    :historical, :polymorphic => true
   belongs_to    :actionable, :polymorphic => true
   belongs_to    :created_by, :class_name => "User", :foreign_key => :created_by
   serialize     :updates
-  default_scope :order => "created_at DESC"
+  default_scope :order => "id DESC"
+  
+  CONTACT_TABLES = ["Contact", "Phone", "Website", "Address", "Email"]
+  
+  named_scope :for_contacts, :conditions => {:actionable_type => CONTACT_TABLES}, :order => "id DESC"
+  named_scope :back_to, lambda {|time|
+    time ? { :conditions => ["created_at >= ?", time] } : { }
+  }
   
   def self.record(record, transaction)
     return nil if transaction == :update && record.changes.blank?
     @refers_to = nil
     @history = History.new(:historical => record, :created_by => User.current_user, 
                            :transaction => transaction.to_s, :actionable => refers_to(record))
-    if transaction == :delete
-      @history.updates = delete_metadata(record, record.attributes)
-    else      
-      @history.updates = delete_metadata(record, record.changes)
-    end
+    @history.updates = transaction == :delete ? record.attributes : record.changes
+    @history.account = @history.actionable.try(:account)
+    @history.created_at = Time.zone.now  # in case ActiveRecord::Base.record_timestamps is turned off
     @history.save!
   end
+  
 
 private
+  # No longer delete metadata since we want the rollback
+  # to be as close to possible as the actual conditions at
+  # the time before the CRUD occurred. Hence we don't currently invoke this
   def self.delete_metadata(record, attribs)
     attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }
   end

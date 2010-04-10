@@ -32,7 +32,7 @@ module Contacts
         import_telephones(card.telephones)
         import_organization_data(card) unless self.is_a?(Organization)
       end
-      @error_messages
+      error_messages
     end
 
   private

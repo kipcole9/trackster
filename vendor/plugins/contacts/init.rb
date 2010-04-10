@@ -1,4 +1,4 @@
-require 'contacts/import_export'
+require 'contacts/import'
 require 'contacts/vcard_importer'
 require 'contacts/vcard/import'
 require 'contacts/csv/import'

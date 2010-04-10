@@ -1,37 +1,85 @@
 module Contacts
-  class ImportExport
-    attr_reader       :error_messages
-    attr_reader       :importer
+  class Import
+    attr_accessor       :importer, :account
     
+    unless self.class == Contacts::Import
+      attr_reader       :error_messages
+      attr_accessor     :started_at, :ended_at
+      attr_accessor     :records
+    end
+    
+    LOCKDIR   = "#{Rails.root}/public/system"
     IMPORTERS = {".csv" => Contacts::Csv::Import, ".vcf" => Contacts::Vcard::Import}
     
-    def initialize
-      # Only do this in the concrete subclasses
-      @error_messages = [] unless self.class == ImportExport
-    end
-    
-    def self.import(account, file)
-      Thread.current[:importer] = new
-      Thread.current[:importer].import(account, file)
-      Thread.current[:importer]
+    def initialize(account)
+      @records          = 0
+      @error_messages   = []
+      @account          = account
     end
    
-    def import(account, file)
-      raise "Must provide account and file" unless account && !file.blank?
-      raise "File does not exist" unless File.exist?(file)
-      
-      extension = File.extname(file)
-      importer_class = IMPORTERS[extension]
-      raise "Don't know how to import files of type #{File.extname(file)}" unless importer_class
+    def import(file, options = {})
+      importer = importer_from_params(file, options)           
+      lockfile.new account_lockfile do
+        importer.records    = 0
+        importer.started_at = Time.now
+        importer.import_file(file)
+        importer.ended_at   = Time.now
+        # account.imports.create_from_importer(importer, options)
+      end
+      importer
+    end
+    
+    # Rollback updates to contacts - either one at a time
+    # or back to a particular point in time.  These are done in strict
+    # reverse sequence.  Although mostly useful related to an import
+    # activity not that this will 'undo' all updates whether through UI,
+    # API or import
+    def rollback(time = nil)
+      lockfile.new account_lockfile do
+        ActiveRecord::Base.record_timestamps = false
+        account.history.for_contacts.back_to(time).each do |history|
+          # puts "Processing History##{history.id}"
+          case history.attributes['transaction'] 
+          when 'delete'
+            item = object_from(history)
+            item.send "attributes=", history.updates, false
+            item.save!
+          when 'create'
+            if parent_record?(history)
+              item = history.historical
+              raise "Should have historical #{history.historical_type}:#{history.historical_id} but not found" unless item
+              item.destroy
+            end
+          when 'update'
+            item = history.historical
+            history.updates.each do |attribute, changes|
+              item.send "#{attribute}=", changes.first
+            end
+            item.save!
+          else
+            puts "[History] Unknown Transaction type: #{history.attributes['transaction']}"
+          end
+          history.destroy
+        end
+        ActiveRecord::Base.record_timestamps = true
+      end
+    end
+    
+    def started_at
+      @importer ? @importer.started_at : @started_at 
+    end
 
-      @importer = importer_class.new
-      importer.import_file(account, file) if importer
+    def ended_at
+      @importer ? @importer.ended_at : @ended_at  
     end
-    
+
     def errors
-      importer ? @importer.error_messages : error_messages
+      @importer ? @importer.error_messages : @error_messages
     end
     
+    def records
+      @importer ? @importer.records : @records
+    end
     
     # Create a VCard from a hash
     # Standard import transformation - from a VCard we can import
@@ -128,6 +176,35 @@ module Contacts
       locality = [record.fetch("#{type}_suburb".to_sym, nil), record.fetch("#{type}_locality".to_sym, nil)].compact.join(',')
       return nil if locality.blank?
       locality
-    end    
+    end 
+    
+    def inspect
+      if started_at && ended_at
+        puts "Imported #{records} records in about #{(ended_at - started_at).to_i} seconds with #{errors.size} messages."
+      else
+        puts "Importer ready."
+      end
+    end
+    
+  private
+    def importer_from_params(file, options)
+      raise "File does not exist" unless File.exist?(file)
+      extension = File.extname(file)
+      importer_class = IMPORTERS[extension]
+      raise "Don't know how to import files of type #{File.extname(file)}" unless importer_class
+      importer_class.new(account)
+    end 
+    
+    def account_lockfile
+      "#{LOCKDIR}/#{account.name}_contacts.lock"
+    end 
+    
+    def parent_record?(history)
+      history.historical_type == history.actionable_type && history.historical_id == history.actionable_id
+    end
+    
+    def object_from(history)
+      history.historical_type.constantize.new
+    end
   end
 end
