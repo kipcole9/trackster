@@ -10,7 +10,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
       menu_item "Show all campaigns",     :href => campaigns_path
     end if current_user.admin?
     menu_item "Contacts" do
-      menu_item "Create a new contact",   :href => new_contact_path       if can? :create, Contact
+      menu_item "Create a new contact",   :href => new_person_path        if can? :create, Contact
       menu_item "People",                 :href => people_path
       menu_item "Organizations",          :href => organizations_path            
       menu_item "All contacts",           :href => contacts_path
