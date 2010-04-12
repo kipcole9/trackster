@@ -6,8 +6,6 @@ class History < ActiveRecord::Base
   serialize     :updates
   default_scope :order => "id DESC"
   
-  before_save   :ensure_updates_is_not_nil
-  
   CONTACT_TABLES = ["Contact", "Phone", "Website", "Address", "Email"]
   
   named_scope :for_contacts, :conditions => {:actionable_type => CONTACT_TABLES}, :order => "id DESC"
@@ -20,7 +18,7 @@ class History < ActiveRecord::Base
     @refers_to = nil
     @history = History.new(:historical => record, :created_by => User.current_user, 
                            :transaction => transaction.to_s, :actionable => refers_to(record))
-    @history.updates = (transaction == :delete) ? record.attributes : record.changes
+    # @history.updates = (transaction == :delete) ? record.attributes : record.changes
     @history.account = @history.actionable.try(:account)
     @history.created_at = Time.zone.now  # in case ActiveRecord::Base.record_timestamps is turned off
     @history.save!
@@ -32,7 +30,8 @@ private
   # to be as close to possible as the actual conditions at
   # the time before the CRUD occurred. Hence we don't currently invoke this
   def self.delete_metadata(record, attribs)
-    attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }
+#   attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }
+    attribs.delete_if{|k, v| k.to_s =~ /_(at|on|id|by|type)\Z/ }
   end
   
   def self.refers_to(record)
