@@ -1,5 +1,5 @@
 class Website < ActiveRecord::Base
-  unloadable  
+  unloadable if Rails.env == 'development' 
   belongs_to    :contact
   
 

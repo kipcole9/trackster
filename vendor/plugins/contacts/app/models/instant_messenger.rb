@@ -1,3 +1,3 @@
 class InstantMessenger < ActiveRecord::Base
-  unloadable
+  unloadable if Rails.env == 'development'
 end

@@ -1,5 +1,5 @@
 class Person < Contact
-  unloadable  
+  unloadable if Rails.env == 'development' 
   belongs_to              :organization, :autosave => true
   validate                :must_have_name_or_code
   validates_uniqueness_of :contact_code, :scope => :account_id, :allow_blank => true

@@ -1,5 +1,5 @@
 class Email < ActiveRecord::Base
-  unloadable  
+  unloadable if Rails.env == 'development' 
   belongs_to                :contact
   validates_presence_of     :address
   validates_length_of       :address,         :within => 6..100 #r@a.wk

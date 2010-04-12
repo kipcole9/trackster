@@ -1,5 +1,5 @@
 class Phone < ActiveRecord::Base
-  unloadable  
+  unloadable if Rails.env == 'development'  
   belongs_to          :contact
   
   # These days a phone number can be pretty much anything - ie. Skype IDs, ....

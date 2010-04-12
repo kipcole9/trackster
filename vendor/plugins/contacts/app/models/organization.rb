@@ -1,5 +1,5 @@
 class Organization < Contact
-  unloadable  
+  unloadable if Rails.env == 'development' 
   has_many      :contacts
   
   # Used in autocomplete
