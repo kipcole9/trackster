@@ -3,12 +3,15 @@ module Contacts
     class Import < Contacts::Import   
       def import_file(card_file)
         cards = Vpim::Vcard.decode(File.open(card_file).read)
+        raise ArgumentError, "Cards appears to be empty." unless cards
         import_vcards(cards)
         error_messages.empty? ? cards.size : nil
       end
   
       def import_vcards(cards)
+        Rails.logger.info "Import vcards"
         cards.each {|card| import_vcard(card) }
+        Rails.logger.info "End import vcards"
         error_messages.flatten!.compact!
       end
 
