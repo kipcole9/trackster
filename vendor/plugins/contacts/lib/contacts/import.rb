@@ -1,30 +1,33 @@
 module Contacts
   class Import
-    attr_accessor       :importer, :account
+    attr_accessor       :importer, :account, :user
     
     unless self.class == Contacts::Import
       attr_reader       :error_messages
       attr_accessor     :started_at, :ended_at
-      attr_accessor     :records
+      attr_accessor     :records, :created, :updated
     end
     
     LOCKDIR   = "#{Rails.root}/public/system"
     IMPORTERS = {".csv" => Contacts::Csv::Import, ".vcf" => Contacts::Vcard::Import}
     
-    def initialize(account)
-      @records          = 0
+    def initialize(account, user = nil)
+      reset_counters
       @error_messages   = []
       @account          = account
+      @user             = user || User.current_user
+      raise ArgumentError, "No user identified, please set User.current_user or provide a user to Import#new" unless user
+      User.current_user = user unless User.current_user   # For when we're running in delayed_job and no user is set
     end
    
     def import(file, options = {})
-      importer = importer_from_params(file, options)           
-      lockfile.new account_lockfile do
-        importer.records    = 0
-        importer.started_at = Time.now
+      @importer = importer_from_params(file, options)
+      Lockfile.new account_lockfile do 
+        reset_counters
+        importer.started_at   = Time.now
         importer.import_file(file)
-        importer.ended_at   = Time.now
-        # account.imports.create_from_importer(importer, options)
+        importer.ended_at     = Time.now
+        account.imports.create_from_importer(importer, options)
       end
       importer
     end
@@ -37,32 +40,10 @@ module Contacts
     def rollback(time = nil)
       lockfile.new account_lockfile do
         ActiveRecord::Base.record_timestamps = false
-        account.history.for_contacts.back_to(time).each do |history|
-          # puts "Processing History##{history.id}"
-          case history.attributes['transaction'] 
-          when 'delete'
-            item = object_from(history)
-            item.send "attributes=", history.updates, false
-            item.save!
-          when 'create'
-            if parent_record?(history)
-              item = history.historical
-              raise "Should have historical #{history.historical_type}:#{history.historical_id} but not found" unless item
-              item.destroy
-            end
-          when 'update'
-            item = history.historical
-            history.updates.each do |attribute, changes|
-              item.send "#{attribute}=", changes.first
-            end
-            item.save!
-          else
-            puts "[History] Unknown Transaction type: #{history.attributes['transaction']}"
-          end
-          history.destroy
-        end
-        ActiveRecord::Base.record_timestamps = true
+        account.history.for_contacts.back_to(time).each {|history| rollback_one_row(history) }
       end
+    ensure
+      ActiveRecord::Base.record_timestamps = true      
     end
     
     def started_at
@@ -81,6 +62,18 @@ module Contacts
       @importer ? @importer.records : @records
     end
     
+    def created
+      @importer ? @importer.created : @created
+    end
+        
+    def updated
+      @importer ? @importer.updated : @updated
+    end
+
+    def user
+      @importer ? @importer.user : @user
+    end
+       
     # Create a VCard from a hash
     # Standard import transformation - from a VCard we can import
     # to the database in the Contacts::VCard module
@@ -178,21 +171,46 @@ module Contacts
       locality
     end 
     
-    def inspect
-      if started_at && ended_at
-        puts "Imported #{records} records in about #{(ended_at - started_at).to_i} seconds with #{errors.size} messages."
-      else
-        puts "Importer ready."
-      end
-    end
+    #def inspect
+    #  if started_at && ended_at
+    #    puts "Imported #{records} records in about #{(ended_at - started_at).to_i} seconds with #{errors.size} messages."
+    #  else
+    #    puts "Importer ready."
+    #  end
+    #end
     
   private
+    def rollback_one_row(history)
+      # puts "Processing History##{history.id}"
+      case history.attributes['transaction'] 
+      when 'delete'
+        item = object_from(history)
+        item.send "attributes=", history.updates, false
+        item.save!
+      when 'create'
+        if parent_record?(history)
+          item = history.historical
+          raise "Should have historical #{history.historical_type}:#{history.historical_id} but not found" unless item
+          item.destroy
+        end
+      when 'update'
+        item = history.historical
+        history.updates.each do |attribute, changes|
+          item.send "#{attribute}=", changes.first
+        end
+        item.save!
+      else
+        puts "[History] Unknown Transaction type: #{history.attributes['transaction']}"
+      end
+      history.destroy
+    end      
+    
     def importer_from_params(file, options)
       raise "File does not exist" unless File.exist?(file)
-      extension = File.extname(file)
+      extension = File.extname(file).downcase
       importer_class = IMPORTERS[extension]
       raise "Don't know how to import files of type #{File.extname(file)}" unless importer_class
-      importer_class.new(account)
+      importer_class.new(account, user)
     end 
     
     def account_lockfile
@@ -206,5 +224,18 @@ module Contacts
     def object_from(history)
       history.historical_type.constantize.new
     end
+    
+    def reset_counters
+      if importer
+        importer.records      = 0
+        importer.created      = 0
+        importer.updated      = 0
+      else
+        @records              = 0
+        @created              = 0
+        @updated              = 0
+      end
+    end
+    
   end
 end

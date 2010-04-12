@@ -14,7 +14,8 @@ module Contacts
 
       def import_vcard(card)
         if contact = find_or_create_by_vcard(card)
-          contact.import_from_vcard(card)
+          contact.new_record? ? @created += 1 : @updated += 1
+          contact.import_from_vcard(card, user)
           @records += 1
         else
           puts "Could not import vcard"

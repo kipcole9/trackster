@@ -1,9 +1,8 @@
-panel t('panels.new_import')  do
-  block do
-    caerus_form_for @import, :html => { :multipart => true }  do |import|
-      fieldset I18n.t('imports.import_dialog') do
-        import.file_field     :import
-      end
-    end
-  end
+column :width => 8 do
+  include 'new'
 end
+
+column :width => 4, :class => 'sidebar help' do
+  include 'new_help'
+end
+

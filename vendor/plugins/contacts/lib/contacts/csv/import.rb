@@ -9,7 +9,6 @@ module Contacts
       def import_file(csv_file)
         FasterCSV.foreach(csv_file, :headers => true, :header_converters => HEADER_CONVERTER) do |row|
           import_csv_record(row.to_hash)
-          @records += 1
         end
         error_messages.flatten!.compact!
       end

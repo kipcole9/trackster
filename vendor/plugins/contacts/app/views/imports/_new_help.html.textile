@@ -1,0 +1,18 @@
+h4. Importing Contacts.
+
+Type and optional description and select the file you want to upload - it's as easy as that.
+
+h4. What can be imported?
+
+Currently comma-separated data and 'vcard' files can be imported.  
+
+* Comma-separated (CSV) files should be named with a *'.csv'* file extension.  We automatically detect column mappings from common input sources like Outlook, Outlook Express.
+
+* Vcard files should be named with a *'.vcf'* file extension.  A Vcard file may contain one (as export from Outlook) or many (as exported from the Apple Address Book) contact records.
+
+h4. Background importing
+
+Depending on the number of contacts you are importing we may chose to import them in the background. This means you don't have to wait around for the import to happen.  
+
+Eventually we'll send you an email when the import is complete but today you can check the import listing to see if your import is complete.
+

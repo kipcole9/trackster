@@ -10,6 +10,7 @@ class Contact < ActiveRecord::Base
     
   acts_as_taggable_on :permissions, :categories, :tags
   before_save   :check_name_order
+  before_save   :set_updated_by
   
   # Analytics data
   has_many      :tracks,              :foreign_key => :contact_code, :primary_key => :contact_code
@@ -105,4 +106,9 @@ private
     errors.add_to_base(I18n.t('contacts.need_name_or_code')) if given_name.blank? && family_name.blank? && contact_code.blank?
   end  
 
+  def set_updated_by
+    return if User.current_user.blank?
+    self.created_by = User.current_user if self.new_record?
+    self.updated_by = User.current_user
+  end
 end

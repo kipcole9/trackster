@@ -5,7 +5,7 @@ module Contacts
       @error_messages
     end
   
-    def import_from_vcard(card)
+    def import_from_vcard(card, user = nil)
       @error_messages = []
       if self.is_a?(Person)
         self.given_name        = card.name.given      unless card.name.given.blank?
@@ -20,6 +20,7 @@ module Contacts
         self.contact_code      = card['CONTACT_CODE'] unless card['CONTACT_CODE'].blank?
         self.organization_name = card.org.first.strip if card.org
         import_photo(card.photos.first) if card.photos.first
+        set_audit_user(user)
       else
         self.name              = card.org.first.strip if card.org
       end
@@ -107,6 +108,12 @@ module Contacts
       File.open(path, "wb") { |disk_file| disk_file << photo.to_io.read }
       File.open(path) { |photo_file| self.photo = photo_file }
       FileUtils.rm path
+    end
+    
+    def set_audit_user(user)
+      effective_user = user || User.current_user
+      self.created_by = effective_user if self.new_record?
+      self.updated_by = effective_user
     end
   end
 end

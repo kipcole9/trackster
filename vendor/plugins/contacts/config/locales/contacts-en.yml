@@ -20,6 +20,9 @@ en:
         index:                  "Search by name"
     organizations:
         index:                  "Search by name"
+    imports:
+        import_dialog:          Import source
+        import_button:          Import
     contacts:
         contact:                "Contact's Details"
         person:                 "Person's Details"
@@ -57,7 +60,8 @@ en:
         new_contact:        "Create a new contact"
         contact_history:    "{{name}}'s Recent Updates"
         contact_events:     "{{name}}'s Event Stream"
-        contact_actions:    "Actions for {{name}}"        
+        contact_actions:    "Actions for {{name}}"
+        new_import:         "Import Contacts"       
         
     column_descriptions:
         account:
@@ -74,4 +78,8 @@ en:
             salutation_template:    "Used when addressing correspondance. For example: 'Dear Sir'. Variables can be inserted such as [[given_name]], [[informal_name]], [[full_name]], [[formal_name]]."
             contact_code:       "The code or ID that identifies this person in your CRM system.  It is also use to link an event stream (like viewing a web page) to a contact."
             
-        
+        import:
+            description:        Describe the source of your import data
+            source_file:        A .csv or .vcf file containing your contacts
+            
+            
