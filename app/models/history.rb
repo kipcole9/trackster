@@ -30,8 +30,7 @@ private
   # to be as close to possible as the actual conditions at
   # the time before the CRUD occurred. Hence we don't currently invoke this
   def self.delete_metadata(record, attribs)
-#   attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }
-#   attribs.delete_if{|k, v| k.to_s =~ /_(at|on|id|by|type)\Z/ }
+    attribs.delete_if{|k, v| k.to_s == record.class.primary_key || k.to_s =~ /_(at|on|id|by|type)\Z/ }
   end
   
   def self.refers_to(record)
