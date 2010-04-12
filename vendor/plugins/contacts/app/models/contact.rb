@@ -1,5 +1,5 @@
 class Contact < ActiveRecord::Base
-  unloadable
+  unloadable if Rails.env == 'development'
   include       Analytics::Model
   include       Contacts::VcardImporter
   
