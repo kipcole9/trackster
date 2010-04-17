@@ -1,0 +1,12 @@
+# In table_formatter we user the decimal:patterns:short so we need to make sure it's there
+# Some risk it is redefined by someone else too of course - but it's not part of the standard
+# cldr database so should be OK.
+en: 
+  numbers: 
+    formats: 
+      decimal: 
+        patterns: 
+          short:  "#,##0"
+      percent: 
+        patterns:
+          full:  "#,##0.###%"

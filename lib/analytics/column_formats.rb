@@ -10,8 +10,8 @@ module Analytics
         table_format :bounces,        :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
         table_format :unsubscribes,   :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
         table_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
-        table_format :visits,         :total => :sum, :order => 50, :class => 'right'
-        table_format :page_views,     :total => :sum, :order => 50, :class => 'right'
+        table_format :visits,         :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
+        table_format :page_views,     :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
         table_format :duration,       :total => :avg, :order => 98, :class => 'right', :formatter => :seconds_to_time
         table_format :hour,           :total => :avg, :order => 90, :class => 'right', :formatter => :hours_to_time
 
@@ -49,8 +49,12 @@ module Analytics
 
         table_format :length_of_visit,        :order => -1, 
                      :formatter => lambda{|val, options| "#{val} #{I18n.t('datetime.prompts.second').downcase}" }  
+        
         table_format :visit_type,  :order => -1,
-                     :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.visit_types.#{val}", :default => val) }
+                     :formatter => lambda {|val, options| 
+                       return val if options[:cell_type] == :th
+                       I18n.t("reports.visit_types.#{val}", :default => val) 
+                     }
         
         table_format :country,     :order => 0,
                      :formatter => lambda {|val, options| 

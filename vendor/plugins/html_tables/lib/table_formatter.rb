@@ -119,7 +119,12 @@ private
   end
   
   def default_formatter(data, options)
-    data.to_s
+    case data
+    when Fixnum
+      integer_with_delimiter(data, options)
+    else
+      data.to_s
+    end
   end
   
   def table_has_totals?
@@ -158,9 +163,9 @@ private
   
   def first_column_total(options)
     if rows.count > 1
-      I18n.t(options[:total_many], :row_count => rows.count)
+      I18n.t(options[:total_many], :count => rows.count)
     else
-      I18n.t(options[:total_one], :row_count => rows.count)
+      I18n.t(options[:total_one], :count => rows.count)
     end
   end
   
@@ -245,8 +250,12 @@ private
     number_to_percentage(val ? val.to_f : 0, :precision => 1)
   end
   
-  def integer_with_delimiter(val, options)
-    number_with_delimiter(val.to_i)
+  def integer_with_delimiter(val, options = {})
+    if I18n::Backend::Simple.included_modules.include? Cldr::Format 
+      I18n.localize(val, :format => :short)
+    else 
+      number_with_delimiter(val.to_i)
+    end
   end
   
   def float_with_precision(val, options)

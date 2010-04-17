@@ -1,0 +1,12 @@
+en: 
+  numbers: 
+    formats: 
+      decimal: 
+        patterns: 
+          default: "#,##0.###"
+          short:  "#,##0"
+      percent: 
+        patterns: 
+          default: "#,##0%"
+          full:  "#,##0.###%"
+          
