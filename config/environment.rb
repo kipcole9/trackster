@@ -36,6 +36,9 @@ Rails::Initializer.run do |config|
   config.gem 'fastercsv'
   config.gem 'delayed_job'
   config.gem 'lockfile'
+  config.gem 'i18n'
+  config.gem 'ruby-cldr', :lib => 'cldr'
+
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

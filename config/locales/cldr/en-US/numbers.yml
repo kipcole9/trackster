@@ -1,0 +1,20 @@
+en-US: 
+  numbers: 
+    formats: 
+      currency: 
+        unit: 
+          other: "{0} {1}"
+
+    symbols: 
+      decimal: "."
+      exponential: E
+      group: ","
+      infinity: ∞
+      list: ;
+      minus_sign: "-"
+      nan: NaN
+      native_zero_digit: 0
+      pattern_digit: "#"
+      per_mille: ‰
+      percent_sign: "%"
+      plus_sign: +

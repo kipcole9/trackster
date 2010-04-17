@@ -18,6 +18,9 @@ vendor/plugins/browscap/lib/browscap.ini
 public/email_client_test.html
 lib/analytics/wurfl.xml
 lib/analytics/device_atlas.json
+vendor/cldr/**/*
+config/cldr_data/**/*
+
 
 
 

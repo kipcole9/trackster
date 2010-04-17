@@ -1,0 +1,23 @@
+de: 
+  units: 
+    day: 
+      one: "{0} Tag"
+      other: "{0} Tage"
+    hour: 
+      one: "{0} Std."
+      other: "{0} Std."
+    minute: 
+      one: "{0} Min."
+      other: "{0} Min."
+    month: 
+      one: "{0} Monat"
+      other: "{0} Monate"
+    second: 
+      one: "{0} Sek."
+      other: "{0} Sek."
+    week: 
+      one: "{0} Woche"
+      other: "{0} Wochen"
+    year: 
+      one: "{0} Jahr"
+      other: "{0} Jahre"

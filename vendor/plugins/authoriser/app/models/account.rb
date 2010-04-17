@@ -18,6 +18,7 @@ class Account < ActiveRecord::Base
   has_many        :organizations
   has_many        :teams
   has_many        :imports
+  has_many        :contents
   has_many        :history, :class_name => "History"
   
   # Client/agent relationships.  An account can have many clients.  A client can have only 

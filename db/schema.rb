@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100411123810) do
+ActiveRecord::Schema.define(:version => 20100417020648) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -186,6 +186,27 @@ ActiveRecord::Schema.define(:version => 20100411123810) do
   add_index "contacts", ["given_name"], :name => "index_contacts_on_given_name"
   add_index "contacts", ["name"], :name => "index_contacts_on_name"
 
+  create_table "content_variants", :force => true do |t|
+    t.integer  "content_id"
+    t.string   "name",        :limit => 100
+    t.text     "description"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contents", :force => true do |t|
+    t.integer  "account_id"
+    t.string   "name",        :limit => 100
+    t.text     "description"
+    t.string   "purpose",     :limit => 50
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "countries", :force => true do |t|
     t.string "name", :limit => 48, :default => "", :null => false
     t.string "code", :limit => 2,  :default => "", :null => false
@@ -310,6 +331,19 @@ ActiveRecord::Schema.define(:version => 20100411123810) do
   add_index "ip4", ["country"], :name => "kCountry"
   add_index "ip4", ["cron"], :name => "kcron"
   add_index "ip4", ["ip"], :name => "kIP"
+
+  create_table "language_versions", :force => true do |t|
+    t.integer  "content_variant_id"
+    t.string   "language",           :limit => 50
+    t.string   "url"
+    t.text     "content"
+    t.string   "original_file_name"
+    t.string   "mime_type",          :limit => 50
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "lists", :force => true do |t|
     t.datetime "created_at"

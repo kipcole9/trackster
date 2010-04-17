@@ -1,0 +1,22 @@
+# Use in the English domain since this is our default locale
+# and fallbacks always arrive here not matter what the locale
+# is set to.
+#
+# Symbol list from http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5B%3Asc%3A%5D
+en:
+    currencies:
+        symbol:
+            USD:    $
+            AUD:    $
+            CAD:    $
+            HKD:    $
+            GBP:    £
+            JPY:    ¥
+            CNY:    ¥
+            THB:    ฿
+            KRW:    ₩
+            INR:    ₨
+            VND:    ₫
+            EUR:    €
+            LAK:    ₭
+            

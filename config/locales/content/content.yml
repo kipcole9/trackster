@@ -1,0 +1,16 @@
+en:
+    activerecord:
+        models:
+            content:            Content
+
+        attributes:
+            content:
+                url:            Web address (URL)
+                
+    panels:
+        content_form:       Content
+    contents:
+        content_form:
+            new_content:    Add New Content
+            source:         Content Source
+            purpose:        [["Email", 'email'], ["Landing Page", "landing_page"]]

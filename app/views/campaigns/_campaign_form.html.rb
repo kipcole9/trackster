@@ -1,6 +1,5 @@
 caerus_form_for campaign, :html => {:multipart => true} do |campaign|
   fieldset campaign.object.new_record? ? t('.new_campaign') : t('.edit_campaign', :name => campaign.object.name) do
-    campaign.hidden_field   :account_id
     campaign.text_field     :name
     campaign.datetime_select  :effective_at
     campaign.text_area      :description

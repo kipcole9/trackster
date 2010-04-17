@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :relates
   map.resources :campaigns
+  map.resources :contents
   map.resources :properties do |properties|
     properties.resources :redirects
   end

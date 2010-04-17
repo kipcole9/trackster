@@ -1,0 +1,23 @@
+en: 
+  units: 
+    day: 
+      one: "{0} day"
+      other: "{0} days"
+    hour: 
+      one: "{0} hr"
+      other: "{0} hrs"
+    minute: 
+      one: "{0} min"
+      other: "{0} mins"
+    month: 
+      one: "{0} mth"
+      other: "{0} mths"
+    second: 
+      one: "{0} sec"
+      other: "{0} secs"
+    week: 
+      one: "{0} wk"
+      other: "{0} wks"
+    year: 
+      one: "{0} yr"
+      other: "{0} yrs"

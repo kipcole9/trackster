@@ -1,0 +1,145 @@
+en-Shaw: 
+  calendars: 
+    gregorian: 
+      days: 
+        format: 
+          abbreviated: 
+            fri: ·𐑓𐑮
+            mon: ·𐑥𐑭
+            sat: ·𐑕𐑨
+            sun: ·𐑕𐑭
+            thu: ·𐑔𐑻
+            tue: ·𐑑𐑵
+            wed: ·𐑢𐑧
+          narrow: :"calendars.gregorian.days.stand-alone.narrow"
+          wide: 
+            fri: ·𐑓𐑮𐑲𐑛𐑱
+            mon: ·𐑥𐑭𐑙𐑛𐑱
+            sat: ·𐑕𐑨𐑛𐑻𐑛𐑱
+            sun: ·𐑕𐑭𐑙𐑛𐑱
+            thu: ·𐑔𐑻𐑟𐑛𐑱
+            tue: ·𐑑𐑵𐑟𐑛𐑱
+            wed: ·𐑢𐑧𐑙𐑟𐑛𐑱
+        stand-alone: 
+          abbreviated: :"calendars.gregorian.days.format.abbreviated"
+          narrow: 
+            fri: 𐑓
+            mon: 𐑥
+            sat: 𐑕
+            sun: 𐑕
+            thu: 𐑔
+            tue: 𐑑
+            wed: 𐑢
+          wide: :"calendars.gregorian.days.format.wide"
+      fields: 
+        day: 𐑛𐑱
+        dayperiod: 𐑨𐑥/𐑐𐑥
+        era: 𐑽𐑭
+        hour: 𐑬𐑮
+        minute: 𐑥𐑦𐑙𐑦𐑑
+        month: 𐑥𐑭𐑙𐑔
+        second: 𐑕𐑧𐑒𐑭𐑙𐑛
+        week: 𐑢𐑰𐑒
+        weekday: "𐑛𐑱 𐑝 𐑞 𐑢𐑰𐑒"
+        year: 𐑘𐑽
+        zone: 𐑟𐑴𐑯
+      formats: 
+        date: 
+          default: :"calendars.gregorian.formats.date.medium"
+          full: 
+            pattern: "EEEE, y MMMM dd"
+          long: 
+            pattern: "y MMMM d"
+          medium: 
+            pattern: "y MMM d"
+          short: 
+            pattern: yyyy-MM-dd
+        datetime: 
+          default: :"calendars.gregorian.formats.datetime.medium"
+          full: 
+            pattern: "{1} {0}"
+          long: 
+            pattern: "{1} {0}"
+          medium: 
+            pattern: "{1} {0}"
+          short: 
+            pattern: "{1} {0}"
+        time: 
+          default: :"calendars.gregorian.formats.time.medium"
+          full: 
+            pattern: "HH:mm:ss zzzz"
+          long: 
+            pattern: "HH:mm:ss z"
+          medium: 
+            pattern: "HH:mm:ss"
+          short: 
+            pattern: "HH:mm"
+      months: 
+        format: 
+          abbreviated: 
+            1: ·𐑡𐑨
+            10: ·𐑷𐑒
+            11: ·𐑯𐑴
+            12: ·𐑛𐑭
+            2: ·𐑓𐑧
+            3: ·𐑥𐑸
+            4: ·𐑱𐑐
+            5: ·𐑥𐑱
+            6: ·𐑡𐑵
+            7: ·𐑡𐑫
+            8: ·𐑪𐑜
+            9: ·𐑕𐑧
+          narrow: :"calendars.gregorian.months.stand-alone.narrow"
+          wide: 
+            1: ·𐑡𐑨𐑙𐑘𐑭𐑢𐑺𐑰
+            10: ·𐑷𐑒𐑑𐑴𐑚𐑸
+            11: ·𐑯𐑴𐑝𐑧𐑥𐑚𐑸
+            12: ·𐑛𐑭𐑕𐑧𐑥𐑚𐑸
+            2: ·𐑓𐑧𐑚𐑘𐑵𐑢𐑺𐑰
+            3: ·𐑥𐑸𐑗
+            4: ·𐑱𐑐𐑮𐑭𐑤
+            5: ·𐑥𐑱
+            6: ·𐑡𐑵𐑯
+            7: ·𐑡𐑫𐑤𐑲
+            8: ·𐑪𐑜𐑭𐑕𐑑
+            9: ·𐑕𐑧𐑐𐑑𐑧𐑥𐑚𐑸
+        stand-alone: 
+          abbreviated: :"calendars.gregorian.months.format.abbreviated"
+          narrow: 
+            1: 𐑡
+            10: 𐑷
+            11: 𐑯
+            12: 𐑛
+            2: 𐑓
+            3: 𐑥
+            4: 𐑱
+            5: 𐑥
+            6: 𐑡
+            7: 𐑡
+            8: 𐑪
+            9: 𐑕
+          wide: :"calendars.gregorian.months.format.wide"
+      periods: 
+        am: 𐑨𐑥
+        pm: 𐑐𐑥
+      quarters: 
+        format: 
+          abbreviated: 
+            1: 𐑒1
+            2: 𐑒2
+            3: 𐑒3
+            4: 𐑒4
+          narrow: :"calendars.gregorian.quarters.stand-alone.narrow"
+          wide: 
+            1: "1𐑕𐑑 𐑒𐑢𐑸𐑛𐑸"
+            2: "2𐑯𐑛 𐑒𐑢𐑸𐑛𐑸"
+            3: "3𐑻𐑛 𐑒𐑢𐑸𐑛𐑸"
+            4: "4𐑹𐑔 𐑒𐑢𐑸𐑛𐑸"
+        stand-alone: 
+          abbreviated: :"calendars.gregorian.quarters.format.abbreviated"
+          narrow: 
+            1: 1
+            2: 2
+            3: 3
+            4: 4
+          wide: :"calendars.gregorian.quarters.format.wide"

@@ -3,3 +3,7 @@
 # Add new mime types for use in respond_to blocks:
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register_alias "text/html", :iphone
+
+# For producing xml in an Xcelsius-specific format
+Mime::Type.register_alias "text/xml", :xcelsius
+Mime::Type.register_alias "text/plain", :vcard

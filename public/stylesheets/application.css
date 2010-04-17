@@ -267,6 +267,11 @@ textarea {
 div.field {
 	margin-bottom: 0.5em;
 }
+
+p + div.field {
+	margin-top: 0.5em;
+}
+
 .datetime {
 	width: 15%;
 	display: inline;

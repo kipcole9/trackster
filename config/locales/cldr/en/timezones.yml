@@ -1,0 +1,30 @@
+en: 
+  timezones: 
+    America/Indiana/Knox: 
+      city: "Knox, Indiana"
+    America/Indiana/Marengo: 
+      city: "Marengo, Indiana"
+    America/Indiana/Petersburg: 
+      city: "Petersburg, Indiana"
+    America/Indiana/Tell_City: 
+      city: "Tell City, Indiana"
+    America/Indiana/Vevay: 
+      city: "Vevay, Indiana"
+    America/Indiana/Vincennes: 
+      city: "Vincennes, Indiana"
+    America/Indiana/Winamac: 
+      city: "Winamac, Indiana"
+    America/Kentucky/Monticello: 
+      city: "Monticello, Kentucky"
+    America/North_Dakota/Center: 
+      city: "Center, North Dakota"
+    America/North_Dakota/New_Salem: 
+      city: "New Salem, North Dakota"
+    America/St_Johns: 
+      city: "St. John's"
+    Antarctica/DumontDUrville: 
+      city: "Dumont d’Urville"
+    Etc/Unknown: 
+      city: Unknown
+    Europe/Dublin: {}
+    Europe/London: {}

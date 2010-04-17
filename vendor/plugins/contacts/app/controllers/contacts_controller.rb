@@ -1,5 +1,6 @@
 class ContactsController < TracksterResources
-  unloadable
+  unloadable if Rails.env == 'development'
+  respond_to      :html, :xml, :json, :vcard, :xcelsius
   has_scope       :search
   before_filter   :resource, :only => [:show, :update]
   layout          :choose_layout
@@ -10,8 +11,6 @@ class ContactsController < TracksterResources
   end
 
   def create
-    @contact = Contact.new(params[:contact])
-    @contact.created_by = current_user
     create! do |success, failure|
       success.html { redirect_back_or_default }
     end
@@ -19,7 +18,6 @@ class ContactsController < TracksterResources
 
   def update
     @contact.attributes = params[:person] || params[:organization]
-    @contact.updated_by = current_user
     update! do |success, failure|
       success.html { redirect_back_or_default }
     end
