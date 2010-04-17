@@ -2,3 +2,7 @@ en:
     sum:            Sum
     average:        Average
     count:          Count
+    tables:
+        not_set:    (Not Set)
+        total_many: "Total ({{count}} rows)"
+        total_one:  "Total (1 row)"
