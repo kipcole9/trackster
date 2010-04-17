@@ -252,7 +252,7 @@ private
   
   def integer_with_delimiter(val, options = {})
     if I18n::Backend::Simple.included_modules.include? Cldr::Format 
-      I18n.localize(val, :format => :short)
+      I18n.localize(val.to_i, :format => :short)
     else 
       number_with_delimiter(val.to_i)
     end
