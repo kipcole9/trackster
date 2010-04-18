@@ -63,6 +63,10 @@ class Session < ActiveRecord::Base
   end
   
   def save_time_metrics
+    @logger ||= row[:logger] || Rails.logger    
+    logger.error "========Started_at = #{self.started_at}"
+    logger.error self.inspect
+    
     self.date   = self.started_at.to_date
     self.day_of_week = self.started_at.wday
     self.hour   = self.started_at.hour
@@ -116,9 +120,6 @@ private
     session.tag_list    = row[:tags] if row[:tags]
     session.started_at  = row[:tracked_at]
     session.ended_at    = session.started_at
-    logger.error "========Started_at = #{session.started_at}"
-    logger.error "========Row========="
-    logger.error row.inspect
     
     # See if there was a previous session
     if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
