@@ -72,6 +72,7 @@ class Session < ActiveRecord::Base
     self.year   = self.started_at.year
     self.timezone = row[:timezone] if row[:timezone]
   rescue NoMethodError => e
+    @logger ||= row[:logger] || Rails.logger
     logger.error "BAD BAD BAD BAD BAD"
     logger.error row.inspect
     logger.error self.inspect
