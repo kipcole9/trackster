@@ -63,10 +63,6 @@ class Session < ActiveRecord::Base
   end
   
   def save_time_metrics(row)
-    @logger ||= row[:logger] || Rails.logger    
-    logger.error "========Started_at = #{self.started_at}"
-    logger.error self.inspect
-    
     self.date   = self.started_at.to_date
     self.day_of_week = self.started_at.wday
     self.hour   = self.started_at.hour
