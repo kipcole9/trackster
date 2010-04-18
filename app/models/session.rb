@@ -71,6 +71,11 @@ class Session < ActiveRecord::Base
     self.month  = self.started_at.month
     self.year   = self.started_at.year
     self.timezone = row[:timezone] if row[:timezone]
+  rescue NoMethodError => e
+    logger.error "BAD BAD BAD BAD BAD"
+    logger.error row.inspect
+    logger.error self.inspect
+    raise "Stop Here"
   end
 
   def create_campaign_association(row)
@@ -108,7 +113,6 @@ private
   def self.new_from_row(row)
     session = new
     logger = row[:logger] || Rails.logger
-    logger.error "BAD BAD BAD BAD BAD #{row.inspect}" unless row[:tracked_at]
     
     # Copy the common attributes from the tracker row
     session.attributes.each do |k, v|
