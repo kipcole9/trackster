@@ -107,7 +107,7 @@ module Analytics
   
     # A redirect URL. Parameters are kept in the 
     # Redirects table
-    def parse_redirect_parameters(url)
+    def parse_redirect_parameters(row)
       begin
         return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
         [:category, :action, :label, :value, :url].each do |attrib|
