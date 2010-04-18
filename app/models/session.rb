@@ -62,7 +62,7 @@ class Session < ActiveRecord::Base
     (b && b == 'IE') ? super('Internet Explorer') : super
   end
   
-  def save_time_metrics(row)
+  def save_time_metrics
     self.date   = self.started_at.to_date
     self.day_of_week = self.started_at.wday
     self.hour   = self.started_at.hour
@@ -71,12 +71,6 @@ class Session < ActiveRecord::Base
     self.month  = self.started_at.month
     self.year   = self.started_at.year
     self.timezone = row[:timezone] if row[:timezone]
-  rescue NoMethodError => e
-    @logger ||= row[:logger] || Rails.logger
-    logger.error "BAD BAD BAD BAD BAD"
-    logger.error row.inspect
-    logger.error self.inspect
-    raise "Stop Here"
   end
 
   def create_campaign_association(row)
@@ -122,6 +116,9 @@ private
     session.tag_list    = row[:tags] if row[:tags]
     session.started_at  = row[:tracked_at]
     session.ended_at    = session.started_at
+    logger.error "========Started_at = #{session.started_at}"
+    logger.error "========Row========="
+    logger.error row.inspect
     
     # See if there was a previous session
     if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
@@ -132,7 +129,7 @@ private
     # tied to an account else it's a bogus session
     # If a host is defined it must be hooked to that too or its bogus.
     if session.account = Account.find_by_tracker(row[:account_code])
-      session.save_time_metrics(row)
+      session.save_time_metrics
       session.create_campaign_association(row)
       session.create_property_association(row)
     else
