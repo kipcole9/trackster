@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.redirector      '/r/:redirect', :controller => 'redirects', :action => 'redirect'
   
   map.resources :relates
-  map.resources :campaigns
+  map.resources :campaigns, :member => {:preview => :get}
   map.resources :contents
   map.resources :properties do |properties|
     properties.resources :redirects

@@ -2,11 +2,12 @@ class CampaignsController < TracksterResources
   layout              :choose_layout
   respond_to          :html, :xml, :json
   has_scope           :search
+  before_filter       :resource, :only => :preview
 
   def preview
     if !@campaign.preview_available? && !current_user.is_administrator?
       flash[:notice] = t('.no_preview_available')
-    elsif @campaign.email_html.blank? 
+    elsif @campaign.email_content.content.blank? 
       flash[:notice] = t('.no_email_html')
     elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
       flash[:alert] = t('.translink_errors')

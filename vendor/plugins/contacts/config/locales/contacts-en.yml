@@ -17,9 +17,11 @@ en:
                 cost:           Total Cost
                 
     people:
-        index:                  "Search by name"
+        index:
+            name_search:       "Search by name"
     organizations:
-        index:                  "Search by name"
+        index:
+            name_search:        "Search by name"
     imports:
         import_dialog:          Import source
         import_button:          Import

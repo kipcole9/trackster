@@ -1,10 +1,10 @@
 class Redirect < ActiveRecord::Base
-  belongs_to                    :property
+  belongs_to                    :account
   has_many                      :events
   before_validation_on_create   :create_redirect_url 
   
-  validates_associated      :property
-  validates_presence_of     :property_id
+  validates_associated      :account
+  validates_presence_of     :account_id
   
   validates_presence_of     :name
   validates_length_of       :name,    :within => 1..250
@@ -21,16 +21,16 @@ class Redirect < ActiveRecord::Base
     {:conditions => ['name like ? or url like ?', search, search ]}
   }
 
-  def self.find_or_create_from_link(property, url, link_content)
+  def self.find_or_create_from_link(email_content, url, link_content)
     return nil if url.blank?
-    absolute_url = property.get_absolute_url(url)
-    redirect = property.redirects.find_by_url(absolute_url.with_slash) ||
-               property.redirects.find_by_url(absolute_url.without_slash) ||  
-               property.redirects.create!(
+    absolute_url = get_absolute_url(email_content, url) 
+    account = Account.current_account
+    redirect = account.redirects.find_by_url(absolute_url.with_slash) ||
+               account.redirects.find_by_url(absolute_url.without_slash) ||  
+               account.redirects.create!(
                   :url => absolute_url, 
-                  :name => redirect_name_from(link_content, absolute_url.with_slash),
-                  :account => property.account,
-                  :property => property)
+                  :name => redirect_name_from(link_content, absolute_url.with_slash)
+               )
     redirect
   end
   
@@ -51,6 +51,14 @@ class Redirect < ActiveRecord::Base
     
   def self.name_from_url(url)
     path = URI.parse(url).path
+  end
+  
+  def self.get_absolute_url(email_content, url)
+    if URI.parse(url).scheme
+      url
+    else
+      [email_content.base_url, url].join('')
+    end
   end
   
 end

@@ -18,7 +18,7 @@ caerus_form_for campaign, :html => {:multipart => true} do |campaign|
     campaign.text_field     :contact_code
   end
   fieldset t('.html') do
-    campaign.file_field     :email_html, :accept => 'text/html'
+    campaign.select         :email, current_account.contents.all.map{|c| [c.name, c.id]}
     campaign.text_field     :image_directory
     campaign.check_box      :preview_available if current_user.is_administrator?    
   end

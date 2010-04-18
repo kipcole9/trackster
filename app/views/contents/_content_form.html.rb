@@ -7,7 +7,8 @@ caerus_form_for @content, :html => {:multipart => true} do |content|
   fieldset t('.source') do
     p "Enter either the URL where your content is located OR select the local file that contains the content"
     content.text_field       :url
-    content.file_field       :content_file
+    #content.file_field       :content_file
+    content.text_field       :base_url
   end
   submit_combo
 end

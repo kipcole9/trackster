@@ -1,0 +1,45 @@
+en:
+    menu:
+        dashboard:          Dashboard
+        web_properties:     Web Properties
+        contacts:           Contacts
+        contents:           Content
+        campaigns:          Campaigns
+        accounts:           Account
+        profile:            Profile
+        logout:             Logout
+        sites:              Site
+        
+        property:
+            define:         Define a Web Property
+            index:          Web Property Index
+            
+        contact:
+            define:         Define a Contact
+            people:         People Index
+            organizations:  Organization Index
+            index:          All Contacts
+            
+        campaign:
+            define:         Define a Campaing
+            index:          Campaign Index
+            
+        content:
+            define:         Define Content
+            index:          Content Index
+            
+        account:
+            edit:           Edit your account
+            users:          Account Users Index
+            user:
+                define:     Define a new user
+            index:          Account Index
+            define:         Define a New Account
+        
+        site:
+            performance:    Site Update Latency
+            
+            
+                    
+            
+            

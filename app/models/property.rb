@@ -44,12 +44,5 @@ class Property < ActiveRecord::Base
     "http://#{self.host}"
   end
   
-  def get_absolute_url(url)
-    if URI.parse(url).scheme
-      url
-    else
-      [self.url, url].join('')
-    end
-  end
   
 end

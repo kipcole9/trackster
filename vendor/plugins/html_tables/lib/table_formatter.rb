@@ -250,6 +250,8 @@ private
     number_to_percentage(val ? val.to_f : 0, :precision => 1)
   end
   
+  # TODO this should be done just once at instantiation but we have a potential
+  # ordering issue  since I18n initializer may not have run yet (needs to be checked)
   def integer_with_delimiter(val, options = {})
     if I18n::Backend::Simple.included_modules.include? Cldr::Format 
       I18n.localize(val.to_i, :format => :short)

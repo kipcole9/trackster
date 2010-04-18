@@ -2,15 +2,16 @@ class Campaign < ActiveRecord::Base
   include       Analytics::Model
   
   MAGIC_MARKER  = "ZZXZXXZZXZYYXZQQQQ"
-  belongs_to    :property
+  REDIRECT_SCHEMES = %w(http https ftp)
   belongs_to    :account
   has_many      :sessions
   has_many      :tracks
+  belongs_to    :email_content, :class_name => 'Content', :foreign_key => :content_id
   
   before_create  :create_campaign_code
 
-  validates_associated    :account
-  validates_presence_of   :account_id
+  validates_associated      :account
+  validates_presence_of     :account_id
   
   validates_presence_of     :name
   validates_length_of       :name,    :within => 3..150
@@ -33,79 +34,86 @@ class Campaign < ActiveRecord::Base
     {:conditions => ['name like ? or description like ?', search, search ]}
   }
 
-  def landing_page_html=(html)
-    html.class.name == "Tempfile" ? super(html.read) : super(html)
+  def email=(c)
+    self.content_id = c
+    self.content_id_will_change!
   end
   
+  def email
+    self.email_content.id rescue nil
+  end
+
   # Remove leading and trailing '/'
   def image_directory=(directory)
     super(directory.sub(/\A\//,'').sub(/\/\Z/,'')) unless directory.blank?
   end
-  
-  def email_html=(html)
-    html_text = html.class.name == "Tempfile" ? html.read : html
-    super(html_text) unless html_text.blank?
-  end
-  
+
   def relink_email_html!(&block)
-    return nil if self.email_html.blank?
-    
-    email = ::Nokogiri::HTML(fix_entities(self.email_html))
-    fix_anchors!(email, &block)
-    fix_images!(email)    
-    add_tracker_link!(email)
+    return nil if (email_content = self.email_content.content).blank?
+    html = ::Nokogiri::HTML(fix_entities(email_content))
+    fix_anchors!(self.email_content, html, &block)
+    fix_images!(self.email_content, html)    
+    add_tracker_link!(self.email_content, html)
     if errors.empty?
-      self.email_production_html = email.to_html.gsub(MAGIC_MARKER, self.contact_code)
-      self.save
+      self.email_production_html = html.to_html.gsub(MAGIC_MARKER, self.contact_code)
+      self.save!
       self
     else
       nil
     end
   end
   
-  def fix_anchors!(email, &block)  
+  def fix_anchors!(email_content, email, &block)  
     (email/"a").each do |link|
       url = link['href']
       link_content = link.content
       next if url == '#' || url.blank? || url =~ /\Amailto/
       begin
-        query_string = URI.parse(url).query
+        parsed_url = URI.parse(url)
+        query_string = parsed_url.query
+        next unless REDIRECT_SCHEMES.include? parsed_url.scheme
         url = url.sub("?#{query_string}", '') unless query_string.blank?
-        new_href = yield(Redirect.find_or_create_from_link(property, url, link_content).redirect_url)
+        new_href = yield(Redirect.find_or_create_from_link(self.email_content, url, link_content).redirect_url)
         parameters = [query_string, view_parameters].compact.join('&')
         new_href += '?' + parameters unless parameters.blank?
         link.set_attribute 'href', new_href if new_href
       rescue URI::InvalidURIError => e
-        Rails.logger.error "Fix Anchors: Invalid URL error detected: '#{link}'"
+        Rails.logger.error "[Campaign] Translink Fix Anchors: Invalid URL error detected: '#{link}'"
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error "Fix Anchors: Active record error: #{e.message}"
-        Rails.logger.error "URL was '#{url}'"
+        Rails.logger.error "[Campaign] Translink Fix Anchors: Active record error: #{e.message}"
+        Rails.logger.error "[Campaign] Translink URL was '#{url}'"
         errors.add :email_html, e.message 
       end
     end
   end
   
-  def fix_images!(email)  
+  def fix_images!(email_content, email)  
     (email/"img").each do |link|
       url = link['src']
       next if url == '#'
       begin
         uri = URI.parse(url)
         next if uri.scheme
-        new_url = [property.url, image_directory, url].compact.join('/')
+        new_url = [email_content.base_url, image_directory, url].compact.join('/')
         link.set_attribute 'src', new_url
       rescue URI::InvalidURIError => e
-        Rails.logger.error "Fix Images: Invalid URL: '#{link}'"
+        Rails.logger.error "[Campaign] Translink Fix Images: Invalid URL: '#{link}'"
         errors.add :email_html, I18n.t('campaigns.bad_uri', :url => link)
       end
     end
   end
   
-  def add_tracker_link!(email)
+  def add_tracker_link!(email_content, email)
     tracking_node = Nokogiri::XML::Node.new('img', email)
     tracking_node['src'] = [Trackster::Config.tracker_url, open_parameters].join('?')
-    email.css("body").first.add_child(tracking_node)
+    tracking_node['style'] = "display:none"
+    body = email.css("body").first
+    body.add_child(tracking_node)
+  end
+  
+  def refers_to
+    self
   end
   
 private
@@ -119,7 +127,7 @@ private
   end
   
   def campaign_parameters
-    params = "utac=#{property.tracker}&utm_campaign=#{self.code}&utm_medium=#{self.medium}"
+    params = "utac=#{Account.current_account.tracker}&utm_campaign=#{self.code}&utm_medium=#{self.medium}"
     params += "&utm_content=#{self.content}" unless self.content.blank?
     params += "&utm_source=#{self.source}" unless self.source.blank?
     params += "&utid=#{MAGIC_MARKER}" unless self.contact_code.blank?

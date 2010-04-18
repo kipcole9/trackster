@@ -8,7 +8,7 @@ private
   end
 
   def collection
-    @content ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
+    @contents ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
 end

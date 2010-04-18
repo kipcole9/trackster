@@ -9,8 +9,11 @@ en:
                 
     panels:
         content_form:       Content
+        content_index:      Content Index
+        
     contents:
         content_form:
             new_content:    Add New Content
+            edit_content:   Update Content
             source:         Content Source
             purpose:        [["Email", 'email'], ["Landing Page", "landing_page"]]

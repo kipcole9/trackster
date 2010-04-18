@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100417020648) do
+ActiveRecord::Schema.define(:version => 20100418082051) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20100417020648) do
     t.string   "timezone",            :limit => 20
     t.string   "salutation",          :limit => 100
     t.string   "currency_code",       :limit => 3
+    t.string   "default_locale",      :limit => 10
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
@@ -78,12 +79,9 @@ ActiveRecord::Schema.define(:version => 20100417020648) do
   end
 
   create_table "campaigns", :force => true do |t|
-    t.integer  "property_id"
     t.integer  "account_id"
     t.string   "name"
     t.text     "description"
-    t.text     "email_html"
-    t.text     "landing_page_html"
     t.integer  "cost"
     t.integer  "distribution"
     t.integer  "bounces"
@@ -106,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20100417020648) do
     t.string   "email_reply_to",        :limit => 50
     t.string   "email_reply_to_name",   :limit => 50
     t.string   "unsubscribe_url"
+    t.integer  "content_id"
   end
 
   add_index "campaigns", ["account_id"], :name => "index_campaigns_on_account_id"
@@ -343,6 +342,7 @@ ActiveRecord::Schema.define(:version => 20100417020648) do
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "base_url"
   end
 
   create_table "lists", :force => true do |t|
@@ -414,7 +414,6 @@ ActiveRecord::Schema.define(:version => 20100417020648) do
     t.string   "redirect_url"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "property_id"
   end
 
   create_table "search_engines", :force => true do |t|

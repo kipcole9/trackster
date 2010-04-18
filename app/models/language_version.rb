@@ -14,7 +14,7 @@ class LanguageVersion < ActiveRecord::Base
   # all cases without a typical user having to get involved in any
   # complexity.
   def language=(lang)
-    
+    super
   end
   
   
