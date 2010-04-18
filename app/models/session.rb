@@ -108,6 +108,7 @@ private
   def self.new_from_row(row)
     session = new
     logger = row[:logger] || Rails.logger
+    logger.error "BAD BAD BAD BAD BAD #{row.inspect}" unless row[:tracked_at]
     
     # Copy the common attributes from the tracker row
     session.attributes.each do |k, v|
