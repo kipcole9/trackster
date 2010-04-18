@@ -65,7 +65,7 @@ module Analytics
     # From a parsed log entry create the source of data for
     # Session and Event entries.
     def create(entry)
-      unless row = parse_tracker_url_parameters(entry[:url])
+      if row = parse_tracker_url_parameters(entry[:url])
         row[:logger] = logger
         log_data!(row, entry)
         host_data!(row)
