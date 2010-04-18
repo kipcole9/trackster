@@ -62,7 +62,7 @@ class Session < ActiveRecord::Base
     (b && b == 'IE') ? super('Internet Explorer') : super
   end
   
-  def save_time_metrics
+  def save_time_metrics(row)
     @logger ||= row[:logger] || Rails.logger    
     logger.error "========Started_at = #{self.started_at}"
     logger.error self.inspect
@@ -130,7 +130,7 @@ private
     # tied to an account else it's a bogus session
     # If a host is defined it must be hooked to that too or its bogus.
     if session.account = Account.find_by_tracker(row[:account_code])
-      session.save_time_metrics
+      session.save_time_metrics(row)
       session.create_campaign_association(row)
       session.create_property_association(row)
     else
