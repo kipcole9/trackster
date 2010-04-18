@@ -65,15 +65,11 @@ module Analytics
     # From a parsed log entry create the source of data for
     # Session and Event entries.
     def create(entry)
-      if entry[:url] =~ REDIRECT_URL
-        row = parse_redirect_parameters(entry[:url])
-      else
-        row = parse_tracker_url_parameters(entry[:url])
-      end
-      if row
+      unless row = parse_tracker_url_parameters(entry[:url])
         row[:logger] = logger
         log_data!(row, entry)
         host_data!(row)
+        parse_redirect_parameters(row) if entry[:url] =~ REDIRECT_URL
         traffic_source!(row)
         platform.info!(row)
         email_client!(row) if Event.email_opening?(row)
@@ -97,7 +93,7 @@ module Analytics
       row
     rescue URI::InvalidURIError
       logger.error "[Web Analytics] Invalid tracker URI detected: '#{url}'"
-      {}
+      nil
     end
   
     # Parse any url parameters (not tracker specific)
@@ -113,7 +109,6 @@ module Analytics
     # Redirects table
     def parse_redirect_parameters(url)
       begin
-        return nil unless row = parse_tracker_url_parameters(url)
         return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
         [:category, :action, :label, :value, :url].each do |attrib|
           row[attrib] = redirect.send(attrib) unless row[attrib]
