@@ -55,7 +55,7 @@ class Campaign < ActiveRecord::Base
     fix_images!(self.email_content, html)    
     add_tracker_link!(self.email_content, html)
     if errors.empty?
-      self.email_production_html = html.to_html.gsub(MAGIC_MARKER, self.contact_code)
+      self.email_production_html = unfix_entities(html.to_html.gsub(MAGIC_MARKER, self.contact_code))
       self.save!
       self
     else
@@ -142,7 +142,12 @@ private
     campaign_parameters + "&utcat=email&utact=open"
   end
   
+  MAGIC_ENTITY = 'ZZZZZ'
   def fix_entities(text)
-    text
+    text.gsub('&#',MAGIC_ENTITY)
+  end
+  
+  def unfix_entities(text)
+    text.gsub(MAGIC_ENTITY,'&#')
   end
 end
