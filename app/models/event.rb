@@ -63,7 +63,7 @@ class Event < ActiveRecord::Base
   # If configured in the web property, delete the matched
   # regexp. Helpful if page titles have a common prefix
   def page_title=(title)
-    title_prefix = self.session.property.title_prefix
+    title_prefix = self.session.property.title_prefix if self.session.property
     title_prefix.blank? ? super : super(title.sub(Regexp.new(title_prefix),''))
   end
 
