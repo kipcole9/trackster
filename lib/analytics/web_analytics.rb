@@ -119,13 +119,13 @@ module Analytics
         row[:redirect] = true
       rescue NoMethodError => e
         logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
+        logger.error "[Web Analytics] #{row.inspect}" 
         logger.error "[Web Analytics] #{redirect.inspect}" 
       end  
       row
     end
   
     def host_data!(row)
-      return if row[:url].blank?
       uri = URI.parse(row[:url])
       row[:host] = uri.host
       row[:path] = uri.path
