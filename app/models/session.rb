@@ -77,10 +77,19 @@ class Session < ActiveRecord::Base
     return unless row[:campaign_name]
     @logger ||= row[:logger] || Rails.logger
         
-    if self.campaign = Campaign.find_by_code(row[:campaign_name])
+    if self.campaign = self.account.campaigns.find_by_code(row[:campaign_name])
       self.campaign_name = self.campaign.name
     else
-      logger.error "[session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
+      logger.error "[Session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
+    end
+  end
+  
+  def create_property_association(row)
+    return if row[:host].blank?
+    @logger ||= row[:logger] || Rails.logger
+    
+    unless self.property = self.account.properties.find_by_host(row[:host])
+      logger.error "[Session] Host '#{row[:host]}' is not associated with account '#{self.account.name}'."
     end
   end
   
@@ -114,18 +123,18 @@ private
     end
     
     # Note session relevant data.  Session must be
-    # tied to an account and property else it's a bogus session
+    # tied to an account else it's a bogus session
+    # If a host is defined it must be hooked to that too or its bogus.
     if session.account = Account.find_by_tracker(row[:account_code])
-      if session.property = session.account.properties.find_by_host(row[:host])
-        session.save_time_metrics(row)
-        session.create_campaign_association(row)
-      else
-        logger.error "[Session] Host '#{row[:host]}' is not associated with account '#{session.account.name}'."
-      end
+      session.save_time_metrics(row)
+      session.create_campaign_association(row)
+      session.create_property_association(row)
     else
-      logger.error "[Session] Account '#{row[:account_code]}' is not known."
+      logger.error "[Session] Account '#{row[:account_code]}' is not known. Session will not be created."
     end
-    session.account && session.property ? session : nil
+    return nil unless session.account
+    return nil if     row[:host] && !session.property
+    return session
   end
 
   def update_event_count
