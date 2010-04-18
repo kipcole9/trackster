@@ -98,7 +98,7 @@ module Analytics
     end
   
     def extract_internal_search_terms!(row, session, web_analyser)
-      return unless search_param = session.property.search_parameter
+      return unless session.property && (search_param = session.property.search_parameter)
       internal_search = internal_search_terms(search_param, row[:url], web_analyser)
       row[:internal_search_terms] = internal_search if internal_search
     end
