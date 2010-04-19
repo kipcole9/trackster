@@ -131,6 +131,7 @@ module Analytics
     end
   
     def host_data!(row)
+      return nil if row[:url].blank?  # as it will be for redirects
       uri = URI.parse(row[:url])
       row[:host] = uri.host
       row[:path] = uri.path
