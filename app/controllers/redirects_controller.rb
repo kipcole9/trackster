@@ -1,4 +1,5 @@
 class RedirectsController < TracksterResources
+  authorize_resource  :except => :redirect
   respond_to          :html, :xml, :json
   
   def create
