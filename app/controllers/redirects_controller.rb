@@ -1,7 +1,5 @@
 class RedirectsController < TracksterResources
-  authorize_resource :except => :redirect
   respond_to          :html, :xml, :json
-  belongs_to          :property
   
   def create
     create! do |success, failure|

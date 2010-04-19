@@ -12,7 +12,7 @@ end
 
 
 class TracksterResources < InheritedResources::Base
-  unloadable
+  unloadable if Rails.env == "development"
   authorize_resource
   
   class Trackster::Responder < ActionController::Responder

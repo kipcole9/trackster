@@ -13,13 +13,13 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :account_exists?
-  after_filter      :store_location, :except => [:new, :create, :update, :destroy, :edit, :validations, :preview,
+  before_filter     :account_exists?,         :except => :redirect
+  after_filter      :store_location,          :except => [:new, :create, :update, :destroy, :edit, :validations, :preview,
                                                 :unique, :activate, :change_password, :update_password, :redirect]
-  before_filter     :force_login_if_required
-  before_filter     :set_locale
-  before_filter     :set_timezone
-  before_filter     :set_chart_theme
+  before_filter     :force_login_if_required, :except => :redirect
+  before_filter     :set_locale,              :except => :redirect
+  before_filter     :set_timezone,            :except => :redirect
+  before_filter     :set_chart_theme,         :except => :redirect
   
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
