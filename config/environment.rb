@@ -28,7 +28,7 @@ Rails::Initializer.run do |config|
   config.gem 'RedCloth'
   config.gem "vpim"
   config.gem "authlogic"
-  config.gem "cancan"
+  config.gem "cancan", :version => "1.1.1"
   config.gem "inherited_resources", :version => "1.0.3"
   config.gem "has_scope"
   config.gem "newrelic_rpm"
