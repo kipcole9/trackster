@@ -156,6 +156,7 @@ module Caerus
 
     def store(content)
       return unless content
+      # Rails.logger.debug "STORE: #{content}"
       @level ||= 0
       spacing = " " * (@level * INDENT)
       concat(spacing + content + "\n")
@@ -225,6 +226,20 @@ module Caerus
         end
       else
         super
+      end
+    end
+    
+    def cache(name = {}, options = {}, &block)
+      if @controller.perform_caching
+        if cache = @controller.read_fragment(name, options)
+          @output_buffer << cache
+        else
+          pos = @output_buffer.length
+          block.call
+          @controller.write_fragment(name, @output_buffer[pos..-1], options)
+        end
+      else
+        block.call
       end
     end
   

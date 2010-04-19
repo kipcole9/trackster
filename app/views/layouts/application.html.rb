@@ -15,10 +15,10 @@ html do
   end
   body do
     theme_has_custom_branding? ? include(theme_branding) : include("widgets/branding")
-    include "widgets/main_menu"
+    cache "main-menu/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}" do
+      include "widgets/main_menu"
+    end
     with_tag (:div, :class => "grid_12") { display_flash } if flash.any?
-    #include "widgets/page_heading"
-    
     store (yield(:page) || yield)
    
     clear do

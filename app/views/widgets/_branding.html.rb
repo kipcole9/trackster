@@ -1,4 +1,4 @@
-#cache :controller => 'accounts', :key => ['branding', current_account['id']] do
+cache "branding/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}" do
   column :width => 12 do
     with_tag(:div, :id => 'branding') do
       if current_account && current_account.logo?
@@ -8,5 +8,5 @@
       end
     end
   end
-#end
+end
 
