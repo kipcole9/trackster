@@ -1,4 +1,4 @@
-cache "branding/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}" do
+cache "branding/#{current_account['id']}/#{current_user ? current_user['id'] : 'login'}/#{I18n.locale}" do
   column :width => 12 do
     with_tag(:div, :id => 'branding') do
       if current_account && current_account.logo?
