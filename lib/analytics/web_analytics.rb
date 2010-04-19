@@ -185,7 +185,7 @@ module Analytics
     def redirect_code_from(url)
       uri = URI.parse(url)
       code = uri.path.split('/').last
-      logger.info "[Web Analytics] Parsed redirect url '#{url}' and got code '#{code}'"
+      # logger.info "[Web Analytics] Parsed redirect url '#{url}' and got code '#{code}'"
       code
     rescue URI::InvalidURIError
       logger.error "[Web Analytics] Invalid redirect detected extracting redirect code: '#{url}'"
@@ -273,7 +273,7 @@ module Analytics
       elsif row[:user_agent] =~ /MSIE/
         row[:email_client] = 'Outlook 2003'
       else
-        logger.error "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
+        logger.info "[Web Analytics] Unknown Email Client: '#{row[:user_agent]}'"
       end
       if row[:email_client]
         row[:traffic_source] = 'email'
