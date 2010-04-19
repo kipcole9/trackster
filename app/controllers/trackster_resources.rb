@@ -13,7 +13,7 @@ end
 
 class TracksterResources < InheritedResources::Base
   unloadable if Rails.env == "development"
-  authorize_resource
+  # authorize_resource
   
   class Trackster::Responder < ActionController::Responder
     include Responders::FlashResponder
