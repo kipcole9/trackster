@@ -1,4 +1,4 @@
-cache :key => ['branding', current_account.name] do
+cache :key => ['branding', current_account['id']] do
   column :width => 12 do
     with_tag(:div, :id => 'branding') do
       if current_account && current_account.logo?

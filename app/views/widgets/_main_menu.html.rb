@@ -1,4 +1,4 @@
-cache :key => [current_account.name, current_user['id']] do
+cache :key => ["main_menu", current_account['id'], current_user['id'], I18n.locale] do
   with_tag :div, :class => "grid_12", :id => 'menu' do
     main_menu do
       menu_item t('menu.dashboard'),                  :href => dashboard_path
