@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100418082051) do
+ActiveRecord::Schema.define(:version => 20100419073755) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -343,6 +343,7 @@ ActiveRecord::Schema.define(:version => 20100418082051) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "base_url"
+    t.datetime "refreshed_at"
   end
 
   create_table "lists", :force => true do |t|
@@ -415,6 +416,10 @@ ActiveRecord::Schema.define(:version => 20100418082051) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "redirects", ["account_id"], :name => "index_redirects_on_account_id"
+  add_index "redirects", ["name"], :name => "index_redirects_on_name"
+  add_index "redirects", ["redirect_url"], :name => "index_redirects_on_redirect_url"
 
   create_table "search_engines", :force => true do |t|
     t.string   "host"
