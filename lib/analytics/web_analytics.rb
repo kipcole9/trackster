@@ -69,7 +69,7 @@ module Analytics
         row[:logger] = logger
         log_data!(row, entry)
         host_data!(row)
-        parse_redirect_parameters(row) if entry[:url] =~ REDIRECT_URL
+        parse_redirect_parameters(entry[:url], row) if entry[:url] =~ REDIRECT_URL
         traffic_source!(row)
         platform.info!(row)
         email_client!(row) if Event.email_opening?(row)
@@ -106,17 +106,22 @@ module Analytics
     end
   
     # A redirect URL. Parameters are kept in the 
-    # Redirects table
-    def parse_redirect_parameters(row)
+    # Redirects table.
+    def parse_redirect_parameters(url, row)
       begin
-        return nil unless redirect = Redirect.find_by_redirect_url(row[:path].sub(REDIRECT_URL, ''))
-        [:category, :action, :label, :value, :url].each do |attrib|
-          row[attrib] = redirect.send(attrib) unless row[attrib]
-        end
-        row[:account_code] = redirect.account.tracker
-        row[:redirect_id] = redirect['id']
-        row[:page_title] = redirect.name
-        row[:redirect] = true
+        redirect_code = redirect_code_from(url)
+        if redirect = Redirect.find_by_redirect_url(redirect_code)
+          [:category, :action, :label, :value, :url].each do |attrib|
+            row[attrib] = redirect.send(attrib) unless row[attrib]
+          end
+          row[:account_code] = redirect.account.tracker
+          row[:redirect_id] = redirect['id']
+          row[:page_title] = redirect.name
+          row[:redirect] = true
+        else
+          logger.error "[Web Analytics] Redirect not found: '#{redirect_code}'"
+          return nil
+        end  
       rescue NoMethodError => e
         logger.error "[Web Analytics] Redirect error detected: #{e.message}"   
         logger.error "[Web Analytics] #{row.inspect}" 
@@ -175,6 +180,17 @@ module Analytics
     end
   
   private
+    # Extract the redirect code from the source URL
+    def redirect_code_from(url)
+      uri = URI.parse(url)
+      code = uri.path.split('/').last
+      logger.info "[Web Analytics] Parsed redirect url '#{url}' and got code '#{code}'"
+      code
+    rescue URI::InvalidURIError
+      logger.error "[Web Analytics] Invalid redirect detected extracting redirect code: '#{url}'"
+      nil     
+    end
+    
     def geocode!(row)
       IpAddress.reverse_geocode(row[:ip_address], row)
     end
