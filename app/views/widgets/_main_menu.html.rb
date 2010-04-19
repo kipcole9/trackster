@@ -1,4 +1,4 @@
-cache :key => ["main_menu", current_account['id'], current_user['id'], I18n.locale] do
+# cache :controller => 'accounts', :key => "main-menu-#{current_account['id']}-#{current_user['id']}-#{I18n.locale}" do
   with_tag :div, :class => "grid_12", :id => 'menu' do
     main_menu do
       menu_item t('menu.dashboard'),                  :href => dashboard_path
@@ -34,4 +34,4 @@ cache :key => ["main_menu", current_account['id'], current_user['id'], I18n.loca
       menu_item t('menu.profile'),                    {:href => edit_user_path(current_user)}, :class => :secondary
     end
   end
-end
+# end
