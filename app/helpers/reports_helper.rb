@@ -85,7 +85,7 @@ module ReportsHelper
       end
     end
     new_track = Track.new
-    new_track[label_column] = I18n.t("reports.other_#{label_column.to_s}")
+    new_track[label_column] = I18n.t("reports.other_#{label_column.to_s}", :default => "Other")
     new_track[value_column] = other
     new_data << new_track
   end  
