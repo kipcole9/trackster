@@ -14,6 +14,6 @@ module CampaignsHelper
         other = other + i.impressions
       end
     end
-    new_impressions << Track.new(:browser => I18n.t('other_email_clients'), :impressions => other)
+    new_impressions << Track.new(:email_client => I18n.t('reports.other_email_clients'), :impressions => other)
   end
 end
