@@ -37,7 +37,7 @@ class Period
 
   def from_params(params = {})
     default_from = today - 30.days
-    default_to = today
+    default_to = tomorrow
     if params[:period]
       from, to = from_param(params[:period], default_from..default_to)
     else
