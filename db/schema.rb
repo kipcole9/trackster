@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419073755) do
+ActiveRecord::Schema.define(:version => 20100421033647) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -205,6 +205,8 @@ ActiveRecord::Schema.define(:version => 20100419073755) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "contents", ["account_id"], :name => "index_contents_on_account_id"
 
   create_table "countries", :force => true do |t|
     t.string "name", :limit => 48, :default => "", :null => false

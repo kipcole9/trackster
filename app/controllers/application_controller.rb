@@ -67,10 +67,8 @@ protected
 
   def current_user
     return @current_user if defined?(@current_user)
-    ApplicationController.benchmark "set current_user" do
-      User.current_user = current_user_session && current_user_session.record
-      @current_user = User.current_user
-    end
+    User.current_user = current_user_session && current_user_session.record
+    @current_user = User.current_user
   end
 
   def store_location
