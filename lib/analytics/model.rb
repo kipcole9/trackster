@@ -13,7 +13,7 @@ module Analytics
     # #by method build the dimension we're reporting (see Analytics::Dimensions)
     module InstanceMethods
       def campaign_summary(params = {})
-        tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:name)\
+        tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name)\
           .between(Period.from_params(params))
       end
 
