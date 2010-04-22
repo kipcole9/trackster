@@ -1,5 +1,7 @@
 class TableFormatter
+  # extend                  ActiveSupport::Memoizable
   attr_accessor           :html, :table_columns, :klass, :merged_options, :rows, :totals
+  attr_accessor           :column_cache
   include                 ::ActionView::Helpers::NumberHelper
   EXCLUDE_COLUMNS         = [:id, :updated_at, :created_at]
   DEFAULT_OPTIONS         = {
@@ -30,6 +32,7 @@ class TableFormatter
     results.sort(options[:sort]) if options[:sort] && options[:sort].is_a?(Proc)
     @merged_options[:rows] = results
     @html = Builder::XmlMarkup.new(:indent => 2)
+    @column_cache   = {}
   end
 
   # Main method for rendering a table
@@ -105,8 +108,15 @@ protected
   end
   
   def output_cell_value(cell_type, value, column, options = {})
-    result = column[:formatter].call(value, {:cell_type => cell_type, :column => column}.merge(options))
-    result = result.nil? ? '' : result
+    column_cache[column] = {} unless column_cache.has_key?(column)
+
+    if column_cache[column].has_key?(value)
+      result = column_cache[column][value]
+    else
+      result = column[:formatter].call(value, options.reverse_merge({:cell_type => cell_type, :column => column}))
+      result = result.nil? ? '' : result
+      column_cache[column][value] = result
+    end
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
     end
