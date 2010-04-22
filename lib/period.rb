@@ -37,7 +37,7 @@ class Period
 
   def from_params(params = {})
     default_from = today - 30.days
-    default_to = tomorrow
+    default_to = tomorrow - 1.second
     if params[:period]
       from, to = from_param(params[:period], default_from..default_to)
     else
@@ -92,7 +92,7 @@ class Period
   def beginning_of_epoch
     today - 20.years
   end
-  memoize :beginning_of_epoch
+  #memoize :beginning_of_epoch
 
   def first_day_of_this_week
     today - today.wday.days
@@ -102,12 +102,12 @@ class Period
   def first_day_of_this_month
     Date.new(today.year, today.month, 1).to_time
   end
-  memoize :first_day_of_this_month
+  #memoize :first_day_of_this_month
 
   def first_day_of_last_week
     first_day_of_this_week - 7.days
   end
-  memoize :first_day_of_last_week
+  #memoize :first_day_of_last_week
 
   def last_day_of_last_week
     first_day_of_last_week + 7.days - 1.second
