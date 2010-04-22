@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   before_filter     :set_locale,              :except => :redirect
   before_filter     :set_timezone,            :except => :redirect
   before_filter     :set_chart_theme,         :except => :redirect
+  before_filter     Period,                   :except => :redirect
   
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 

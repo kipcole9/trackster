@@ -15,6 +15,7 @@ class Period
     range = from_params(params)
     I18n.t('reports.period.time_period', :from => range.first.to_date, :to => range.last.to_date, :default => range.to_s)
   end
+  memoize :in_text_from_params
 
   def to_scope(params)
     metric      = metric_from_params(params)
@@ -46,12 +47,14 @@ class Period
     end       
     from..to
   end
+  memoize :from_params
 
   def date_from_param(date, default)
     return default unless date
     return date.to_date if date.is_a?(Date) || date.is_a?(Time)
     Time.parse(date) rescue default
   end
+  memoize :date_from_param
 
   def from_param(period, default)
     return default.first, default.last unless period
@@ -72,42 +75,42 @@ class Period
     # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
     return period_range.first, period_range.last
   end
-  #memoize :from_param
+  memoize :from_param
 
   def today
     Time.zone.now.to_date.to_time
   end
-  #memoize :today
+  memoize :today
 
   def yesterday
     today - 1.day
   end
-  #memoize :yesterday
+  memoize :yesterday
 
   def tomorrow
     today + 1.day
   end
-  #memoize :tomorrow
+  memoize :tomorrow
 
   def beginning_of_epoch
     today - 20.years
   end
-  #memoize :beginning_of_epoch
+  memoize :beginning_of_epoch
 
   def first_day_of_this_week
     today - today.wday.days
   end
-  #memoize :first_day_of_this_week
+  memoize :first_day_of_this_week
 
   def first_day_of_this_month
     Date.new(today.year, today.month, 1).to_time
   end
-  #memoize :first_day_of_this_month
+  memoize :first_day_of_this_month
 
   def first_day_of_last_week
     first_day_of_this_week - 7.days
   end
-  #memoize :first_day_of_last_week
+  memoize :first_day_of_last_week
 
   def last_day_of_last_week
     first_day_of_last_week + 7.days - 1.second
@@ -139,6 +142,16 @@ class Period
     first_day_of_last_year + 1.year - 1.second
   end
   memoize :last_day_of_last_year
+  
+  # Clear the saved instance which we should do at the start
+  # of each Rails request
+  def self.clear
+    Thread.current[:period] = nil
+  end
+  
+  def self.filter(controller)
+    clear
+  end
 
   # Arrange for instance methods to be called as if class methods.  Make threadsafe.
   def self.method_missing(method, *args)
