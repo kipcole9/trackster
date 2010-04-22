@@ -1,5 +1,5 @@
 class TableFormatter
-  # extend                  ActiveSupport::Memoizable
+  extend                  ActiveSupport::Memoizable
   attr_accessor           :html, :table_columns, :klass, :merged_options, :rows, :totals
   attr_accessor           :column_cache
   include                 ::ActionView::Helpers::NumberHelper
@@ -232,6 +232,7 @@ private
       val.blank? ? I18n.t(options[:not_set_key]) : val
     end
   end
+  memoize :not_set_on_blank
 
   def group_not_set_on_blank(val, options)
     # Need more context to do this
@@ -244,6 +245,7 @@ private
       val.blank? ? I18n.t(options[:unknown_key]) : val
     end
   end
+  memoize :unknown_on_blank
 
   def seconds_to_time(val, options)
     minutes = val / 60
@@ -251,14 +253,17 @@ private
     seconds = val - (hours * 3600) - (minutes * 60)
     "#{"%02d" % hours}:#{"%02d" % minutes}:#{"%02d" % seconds}"
   end
+  memoize :seconds_to_time
   
   def hours_to_time(val, options)
     "#{"%02d" % val}:00"
   end
+  memoize :hours_to_time
   
   def percentage(val, options)
     number_to_percentage(val ? val.to_f : 0, :precision => 1)
   end
+  memoize :percentage
   
   # TODO this should be done just once at instantiation but we have a potential
   # ordering issue  since I18n initializer may not have run yet (needs to be checked)
@@ -269,14 +274,17 @@ private
       number_with_delimiter(val.to_i)
     end
   end
+  memoize :integer_with_delimiter
   
   def float_with_precision(val, options)
     number_with_precision(val.to_f, :precision => 1)
   end
+  memoize :float_with_precision
   
   def currency_without_sign(val, options)
     number_with_precision(val.to_f, :precision => 2)
   end
+  memoize :currency_without_sign
   
   # Output a horizontal bar and value
   # No bar if the value is <
@@ -288,7 +296,8 @@ private
     else
       percentage(val, :precision => 1)
     end
-  end 
+  end
+  memoize :bar_and_percentage
      
   # Decide if the given column is to be displayed in the table
   def include_column?(column, options)
