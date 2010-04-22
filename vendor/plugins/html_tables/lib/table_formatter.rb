@@ -108,14 +108,15 @@ protected
   end
   
   def output_cell_value(cell_type, value, column, options = {})
-    column_cache[column] = {} unless column_cache.has_key?(column)
+    column_name = column[:name].to_sym
+    column_cache[column_name] = {} unless column_cache.has_key?(column_name)
 
-    if column_cache[column].has_key?(value)
-      result = column_cache[column][value]
+    if column_cache[column_name].has_key?(value)
+      result = column_cache[column_name][value]
     else
       result = column[:formatter].call(value, options.reverse_merge({:cell_type => cell_type, :column => column}))
       result = result.nil? ? '' : result
-      column_cache[column][value] = result
+      column_cache[column_name][value] = result
     end
     html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
       html << result
