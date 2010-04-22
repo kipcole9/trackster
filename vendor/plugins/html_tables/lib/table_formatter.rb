@@ -232,7 +232,7 @@ private
       val.blank? ? I18n.t(options[:not_set_key]) : val
     end
   end
-  memoize :not_set_on_blank
+  #memoize :not_set_on_blank
 
   def group_not_set_on_blank(val, options)
     # Need more context to do this
@@ -245,7 +245,7 @@ private
       val.blank? ? I18n.t(options[:unknown_key]) : val
     end
   end
-  memoize :unknown_on_blank
+  #memoize :unknown_on_blank
 
   def seconds_to_time(val, options)
     minutes = val / 60
@@ -253,17 +253,17 @@ private
     seconds = val - (hours * 3600) - (minutes * 60)
     "#{"%02d" % hours}:#{"%02d" % minutes}:#{"%02d" % seconds}"
   end
-  memoize :seconds_to_time
+  #memoize :seconds_to_time
   
   def hours_to_time(val, options)
     "#{"%02d" % val}:00"
   end
-  memoize :hours_to_time
+  #memoize :hours_to_time
   
   def percentage(val, options)
     number_to_percentage(val ? val.to_f : 0, :precision => 1)
   end
-  memoize :percentage
+  #memoize :percentage
   
   # TODO this should be done just once at instantiation but we have a potential
   # ordering issue  since I18n initializer may not have run yet (needs to be checked)
@@ -297,7 +297,7 @@ private
       percentage(val, :precision => 1)
     end
   end
-  memoize :bar_and_percentage
+  #memoize :bar_and_percentage
      
   # Decide if the given column is to be displayed in the table
   def include_column?(column, options)
