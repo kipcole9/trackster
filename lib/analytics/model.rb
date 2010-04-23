@@ -94,6 +94,7 @@ module Analytics
         tracks.visits.by(:search_terms).order('visits DESC').between(Period.from_params(params))
       end
       
+      # Temporal grouping
       def visits_by_date(params = {})
         tracks.visits.by(:date).between(Period.from_params(params))
       end
@@ -105,7 +106,20 @@ module Analytics
       def visits_by_hour(params = {})
         tracks.average_visits.by(:hour).between(Period.from_params(params))
       end
+
+      def visits_by_day(params = {})
+        tracks.average_visits.by(:day).between(Period.from_params(params))
+      end
       
+      def visits_by_month(params = {})
+        tracks.average_visits.by(:month).between(Period.from_params(params))
+      end
+      
+      def visits_by_year(params = {})
+        tracks.average_visits.by(:year).between(Period.from_params(params))
+      end
+            
+      # Platform grouping
       def visits_by_browser(params = {})
         tracks.visits.by(:browser).between(Period.from_params(params))
       end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100421033647) do
+ActiveRecord::Schema.define(:version => 20100423074543) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -493,6 +493,7 @@ ActiveRecord::Schema.define(:version => 20100421033647) do
     t.string   "forwarded_for",     :limit => 100
   end
 
+  add_index "sessions", ["account_id"], :name => "index_sessions_on_account_id"
   add_index "sessions", ["browser"], :name => "index_sessions_on_browser"
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"
   add_index "sessions", ["country"], :name => "index_sessions_on_country"

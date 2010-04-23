@@ -41,11 +41,11 @@ module ReportsHelper
   end
 
   def time_group
-    @time_group ||= params[:time_group] || 'date'
+    params[:time_group] || 'date'
   end
   
   def time_period
-    @time_period ||= Period.from_params(params)
+    Period.from_params(params)
   end
   
   def time_group_t

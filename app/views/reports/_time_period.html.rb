@@ -1,4 +1,4 @@
-cache "reports/navigation/time-dimensions/#{I18n.locale}" do
+cache "reports/navigation/time-dimensions/#{I18n.locale}-#{params[:period] || 'p'}-#{params[:time_group] || 't'}" do
   panel t('navigation.time_dimension')  do
     block do
       accordion do

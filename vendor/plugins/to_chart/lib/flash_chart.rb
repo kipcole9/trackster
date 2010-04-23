@@ -183,7 +183,7 @@ module Charting
           else
             value.to_s
         end  
-      end
+      end 
     end
     
     def label_visible?(array, data_source, modulus)
