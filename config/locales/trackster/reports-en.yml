@@ -17,7 +17,7 @@ en:
         month:                      Month
         hour:                       Hour of Day
         year:                       Year
-        day:                        Day of Month
+        day_of_month:               Day of Month
         other_device:               Other Devices
         other_os_name:              Other OS
         other_os_version:           Other Versions
