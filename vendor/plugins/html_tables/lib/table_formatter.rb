@@ -249,9 +249,11 @@ private
   #memoize :unknown_on_blank
 
   def seconds_to_time(val, options)
-    minutes = val / 60
     hours = val / 3600
-    seconds = val - (hours * 3600) - (minutes * 60)
+    minutes = (val / 60) - (hours * 60)
+    seconds = val % 60
+    (minutes += 1; seconds = 0) if seconds == 60
+    (hours += 1; minutes = 0) if minutes == 60
     "#{"%02d" % hours}:#{"%02d" % minutes}:#{"%02d" % seconds}"
   end
   #memoize :seconds_to_time
