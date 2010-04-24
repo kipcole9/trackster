@@ -162,6 +162,9 @@ module Charting
       {:text => label, :visible => visible, :justify => 'center', :colour => options[:x_label_colour]}
     end
     
+    # Some labels we special case.
+    # TODO need to abstract the special cases into a label formatter
+    # similar to column formatter
     def format_label(item, label, options)
       value = item[label]  
       case label

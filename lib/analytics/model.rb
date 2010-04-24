@@ -49,6 +49,7 @@ module Analytics
         tracks.event_count(:with_events).value.by(:action).between(Period.from_params(params))
       end
       
+      # page_views_by_* methods
       def page_views_by_date(params = {})
         tracks.page_views.by(:date).between(Period.from_params(params))
       end
@@ -66,7 +67,7 @@ module Analytics
       end
 
       def page_views_by_month(params = {})
-        content_summary(params.merge(:action => 'visit_type'))
+        tracks.page_views.by(:month).order('day_of_week ASC').between(Period.from_params(params))
       end
 
       # No point in applying a date range on a summary by year
