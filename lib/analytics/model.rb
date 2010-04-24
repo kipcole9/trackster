@@ -151,12 +151,14 @@ module Analytics
       
       def loyalty(params = {})
         period = Period.from_params(params)
+        resource_scope = "#{self.class.name.downcase}_id = #{self['id']}"
         tracks.find_by_sql <<-SQL
           select visit_count, count(visitors) as visitors, sum(visit_count) as visits, avg(duration) as duration, avg(page_views) as page_views_per_visit
           from (
             select count(visit) as visit_count, count(visitor) as visitors, avg(duration) as duration, avg(page_views) as page_views
               from sessions 
               where started_at >= '#{period.first.to_s(:db)}' and started_at <= '#{period.last.to_s(:db)}'
+              and #{resource_scope}
               group by visitor
           ) as visit_summary
           group by visit_count;
