@@ -36,7 +36,7 @@ module Analytics
         table_format :device,         :class => 'left', :formatter => :not_set_on_blank             
         table_format :flash_version,  :class => 'left', :formatter => :not_set_on_blank
         table_format :email_client,   :class => 'left', :formatter => :not_set_on_blank              
-        table_format :visitors,       :total => :sum, :order => 99, :class => 'visitors right'
+        table_format :visitors,       :total => :sum, :order => 5, :class => 'visitors right'
 
         table_format :percent_of_visits,      :total => :sum, :order => 97, :formatter => :bar_and_percentage
         table_format :percent_of_page_views,  :total => :sum, :order => 96, :class => 'page_views', :formatter => :bar_and_percentage 
