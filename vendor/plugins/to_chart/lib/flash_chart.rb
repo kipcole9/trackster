@@ -172,8 +172,9 @@ module Charting
           "#{value.day} #{I18n.t('date.abbr_month_names')[value.month]}"
         when :hour
           "#{"%02d" % value}:00"
-        when :day
-          "#{value} #{I18n.t('date.abbr_month_names')[item.month]}"
+        when :day_of_month
+          #  1st, 2nd, 3rd, 4th, 5th, .....
+          value.to_s
         when :day_of_week
           I18n.t('date.day_names')[value]
         when :month
