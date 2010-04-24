@@ -108,12 +108,12 @@ module Analytics
         tracks.average_visits.by(:hour).between(Period.from_params(params))
       end
 
-      def visits_by_day(params = {})
-        tracks.average_visits.by(:day).between(Period.from_params(params))
+      def visits_by_day_of_month(params = {})
+        tracks.average_visits.by(:day_of_month).between(Period.from_params(params))
       end
       
       def visits_by_month(params = {})
-        tracks.average_visits.by(:month).between(Period.from_params(params))
+        tracks.average_visits.by(:year, :month).between(Period.from_params(params))
       end
       
       def visits_by_year(params = {})

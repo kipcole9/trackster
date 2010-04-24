@@ -76,7 +76,8 @@ class Period
     return period_range.first, period_range.last
   end
   memoize :from_param
-
+  
+  # Basic markers
   def today
     Time.zone.now.to_date
   end
