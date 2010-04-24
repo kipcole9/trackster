@@ -67,7 +67,7 @@ module Analytics
       end
 
       def page_views_by_month(params = {})
-        tracks.page_views.by(:month).order('day_of_week ASC').between(Period.from_params(params))
+        tracks.page_views.by(:year, :month).order('day_of_week ASC').between(Period.from_params(params))
       end
 
       # No point in applying a date range on a summary by year
