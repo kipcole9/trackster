@@ -1,4 +1,4 @@
-caerus_form_for @account, :html => { :multipart => true } do |account|
+form_for @account, :html => { :multipart => true } do |account|
   fieldset t('accounts.account') do
     if @account.new_record?
       account.text_field   :name, :validate => :validations

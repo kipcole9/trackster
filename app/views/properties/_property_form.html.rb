@@ -1,4 +1,4 @@
-caerus_form_for property do |property|
+form_for property do |property|
   fieldset property.object.new_record? ? t('.new_property') : t('.edit_property', :name => property.object.name) do
     property.text_field     :name,              :validate => :validations
     property.text_area      :description

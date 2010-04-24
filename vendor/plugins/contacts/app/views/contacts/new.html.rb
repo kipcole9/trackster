@@ -1,7 +1,7 @@
 # Create and edit a contact
 panel t('panels.new_contact'), :display_errors => :person  do
   block do
-    caerus_form_for initialize_contact(@person || @organization), :html => { :multipart => true }  do |contact|
+    form_for initialize_contact(@person || @organization), :html => { :multipart => true }  do |contact|
       content_for :jstemplates, associated_template_for_new(contact, :emails)
       content_for :jstemplates, associated_template_for_new(contact, :websites)
       content_for :jstemplates, associated_template_for_new(contact, :phones)

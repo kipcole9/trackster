@@ -1,5 +1,5 @@
 url = redirect.new_record? ? property_redirects_path(@property) : property_redirect_path(@property)
-caerus_form_for redirect, :url => url do |redirect|
+form_for redirect, :url => url do |redirect|
   fieldset redirect.object.new_record? ? t('.new_redirect') : t('.edit_redirect', :name => redirect.object.name) do
     redirect.text_field     :name, :validate => :validations   
     redirect.text_field     :url, :validate => :validations

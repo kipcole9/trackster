@@ -62,6 +62,7 @@ Rails::Initializer.run do |config|
 
   config.after_initialize do
     Synthesis::AssetPackage.merge_environments = ["staging", "production"]
+    ActionView::Base.default_form_builder = Caerus::FormBuilder
   end
 
   config.action_mailer.delivery_method = :smtp

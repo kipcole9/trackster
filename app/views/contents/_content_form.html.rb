@@ -1,4 +1,4 @@
-caerus_form_for @content, :html => {:multipart => true} do |content|
+form_for @content, :html => {:multipart => true} do |content|
   fieldset content.object.new_record? ? t('.new_content') : t('.edit_content', :name => content.object.name) do
     content.text_field       :name
     content.text_area        :description

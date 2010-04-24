@@ -1,6 +1,6 @@
 panel t('panels.new_user'), :flash => true, :display_errors => :user  do
   block do
-    caerus_form_for @user || User.new do |user|
+    form_for @user || User.new do |user|
       fieldset t('users.new_user') do
         user.text_field :email,       :validate => :validations
         user.text_field :given_name,  :validate => :validations
