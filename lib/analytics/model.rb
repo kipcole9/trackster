@@ -27,8 +27,12 @@ module Analytics
       end
       
       def visits_summary(params = {})
-        tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
-          .having('visits > 0').order('visits DESC').between(Period.from_params(params))
+        if params[:action] == 'loyalty'
+          loyalty(params)
+        else
+          tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
+            .having('visits > 0').order("visits DESC").between(Period.from_params(params))
+        end
       end
 
       def new_v_returning_summary(params = {})
@@ -148,9 +152,9 @@ module Analytics
       def loyalty(params = {})
         period = Period.from_params(params)
         tracks.find_by_sql <<-SQL
-          select visit_count, sum(visit_count) as visits 
+          select visit_count, sum(visit_count) as visits, avg(duration) as duration, avg(page_views) as page_views_per_visit
           from (
-            select count(visit) as visit_count 
+            select count(visit) as visit_count, avg(duration) as duration, avg(page_views) as page_views
               from sessions 
               where started_at >= '#{period.first.to_s(:db)}' and started_at <= '#{period.last.to_s(:db)}'
               group by visitor

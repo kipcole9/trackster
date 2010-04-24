@@ -768,7 +768,7 @@ col.page_views, col.event_count {
 }
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
-col.page_views_per_visit, col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
+col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
 col.events {
 	width: 6em; /* 13%; */
@@ -776,7 +776,10 @@ col.events {
 col.bounce_rate, col.value, col.traffic_source  {
 	width: 7.5em;
 }
-col.entry_rate {
+col.page_views_per_visit {
+	width: 7em;
+}
+col.entry_rate{
 	width: 6.5em;
 }
 col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{

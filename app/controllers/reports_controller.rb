@@ -45,10 +45,10 @@ class ReportsController < ApplicationController
       
     # Loyalty Reporting such as length of visit, pages per visit
     # We sort these in place since the column data is derived and
-    # no 'numeric' enough for MySQL to sort   
+    # not 'numeric' enough for MySQL to sort properly
     elsif Track.loyalty_dimensions.include?(params[:action])
-      @visits_summary = resource.visits_summary(params).all\
-        .sort{|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
+      @result = resource.visits_summary(params)
+      @visits_summary = @result.sort {|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
       render :action => 'visit_summary'
       
     # Content info such as URL, page title, entry/exit/bounce pages        
@@ -73,7 +73,7 @@ private
   end
   
   def check_time_period
-    params[:period] = 'last_30_days' unless params[:period] || (params[:from] && params[:to])
+    params[:period] = :last_30_days unless params[:period] || (params[:from] && params[:to])
   end
 
 end
