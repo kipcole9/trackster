@@ -146,9 +146,15 @@ module Analytics
       end
       
       def loyalty(params = {})
+        period = Period.from_params(params)
         tracks.find_by_sql <<-SQL
           select visit_count, sum(visit_count) as visits 
-          from (select count(visit) as visit_count from sessions group by visitor) as visit_summary
+          from (
+            select count(visit) as visit_count 
+              from sessions 
+              where started_at >= '#{period.first.to_s(:db)}' and started_at <= '#{period.last.to_s(:db)}'
+              group by visitor
+          ) as visit_summary
           group by visit_count;
         SQL
       end
