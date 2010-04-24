@@ -63,14 +63,14 @@ class Session < ActiveRecord::Base
   end
   
   def save_time_metrics(row)
-    self.date   = self.started_at.to_date
-    self.day_of_week = self.started_at.wday
-    self.hour   = self.started_at.hour
-    self.week   = self.date.cweek
-    self.day    = self.started_at.day
-    self.month  = self.started_at.month
-    self.year   = self.started_at.year
-    self.timezone = row[:timezone] if row[:timezone]
+    self.date            = self.started_at.to_date
+    self.day_of_week     = self.started_at.wday
+    self.hour            = self.started_at.hour
+    self.week            = self.date.cweek
+    self.day_of_month    = self.started_at.day
+    self.month           = self.started_at.month
+    self.year            = self.started_at.year
+    self.timezone        = row[:timezone] if row[:timezone]
   end
 
   def create_campaign_association(row)
