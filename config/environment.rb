@@ -60,11 +60,6 @@ Rails::Initializer.run do |config|
   config.i18n.load_path += Dir[Rails.root.join("#{Rails.root}", 'config', 'locales', '**', '*.{rb,yml}')]
   config.i18n.default_locale = "en"
 
-  
-  # Make sure the admin user is all sorted.
-  # On an initial deploy this could fail since the 
-  # schema isn't loaded.  Hence the exception
-  # recovery.
   config.after_initialize do
     Synthesis::AssetPackage.merge_environments = ["staging", "production"]
   end
