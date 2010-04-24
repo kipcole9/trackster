@@ -170,11 +170,11 @@ module Charting
         when :hour
           "#{"%02d" % value}:00"
         when :day
-          "#{value} #{I18n.t('date.abbr_month_names')[item.month]}"
+          "#{value} #{I18n.t('date.abbr_month_names')[item.day]}"
         when :day_of_week
           I18n.t('date.day_names')[value]
         when :month
-          "#{I18n.t('date.abbr_month_names')[value]} #{item.year}"
+          "#{I18n.t('date.abbr_month_names')[value]} #{item.month}"
         when :week, :year
           value.to_s
         else case value
