@@ -37,8 +37,8 @@ class Period
   end
 
   def from_params(params = {})
-    default_from = today - 30.days
-    default_to = tomorrow - 1.second
+    default_from  = (today - 30.days).beginning_of_day
+    default_to    = today.end_of_day
     if params[:period]
       from, to = from_param(params[:period], default_from..default_to)
     else
@@ -58,18 +58,18 @@ class Period
 
   def from_param(period, default)
     return default.first, default.last unless period
-    period_range = case period
-      when 'today'          then today..tomorrow
-      when 'yesterday'      then yesterday..today
-      when 'this_week'      then first_day_of_this_week..tomorrow
-      when 'this_month'     then first_day_of_this_month..tomorrow
-      when 'this_year'      then first_day_of_this_year..tomorrow
-      when 'last_week'      then first_day_of_last_week..last_day_of_last_week
-      when 'last_month'     then first_day_of_last_month..last_day_of_last_month
-      when 'last_year'      then first_day_of_last_year..last_day_of_last_year
-      when 'last_30_days'   then (today - 30.days)..tomorrow
-      when 'last_12_months' then (today - 12.months)..tomorrow
-      when 'lifetime'       then beginning_of_epoch..tomorrow;
+    period_range = case period.to_sym
+      when :today          then today.beginning_of_day..today.end_of_day
+      when :yesterday      then yesterday.beginning_of_day..yesterday.end_of_day
+      when :this_week      then first_day_of_this_week.beginning_of_day..last_day_of_this_week.end_of_day
+      when :this_month     then first_day_of_this_month.beginning_of_day..last_day_of_this_month.end_of_day
+      when :this_year      then first_day_of_this_year.beginning_of_day..last_day_of_this_year.end_of_day
+      when :last_week      then first_day_of_last_week.beginning_of_day..last_day_of_last_week.end_of_day
+      when :last_month     then first_day_of_last_month.beginning_of_day..last_day_of_last_month.end_of_day
+      when :last_year      then first_day_of_last_year.beginning_of_day..last_day_of_last_year.end_of_day
+      when :last_30_days   then (today - 30.days).beginning_of_day..today.end_of_day
+      when :last_12_months then (today - 12.months).beginning_of_day..today.end_of_day
+      when :lifetime       then beginning_of_epoch.beginning_of_day..today.end_of_day;
       else default
     end
     # Rails.logger.info "Period from param: '#{period}': #{period_range.first}-#{period_range.last}"
@@ -78,7 +78,7 @@ class Period
   memoize :from_param
 
   def today
-    Time.zone.now.to_date.to_time
+    Time.zone.now.to_date
   end
   memoize :today
 
@@ -97,49 +97,70 @@ class Period
   end
   memoize :beginning_of_epoch
 
+  # This week
   def first_day_of_this_week
     today - today.wday.days
   end
   memoize :first_day_of_this_week
 
+  def last_day_of_this_week
+    first_day_of_this_week + 7.days
+  end
+  memoize :last_day_of_this_week
+
+  # This month
   def first_day_of_this_month
-    Date.new(today.year, today.month, 1).to_time
+    Date.new(today.year, today.month, 1)
   end
   memoize :first_day_of_this_month
 
+  def last_day_of_this_month
+    first_day_of_this_month + 1.month - 1.day
+  end
+  memoize :last_day_of_this_month
+
+  # Last week
   def first_day_of_last_week
     first_day_of_this_week - 7.days
   end
   memoize :first_day_of_last_week
 
   def last_day_of_last_week
-    first_day_of_last_week + 7.days - 1.second
+    first_day_of_last_week + 7.days
   end
   memoize :last_day_of_last_week
 
+  # Last month
   def first_day_of_last_month
     last_month = Date.today - 1.month
-    Date.new(last_month.year, last_month.month, 1).to_time
+    Date.new(last_month.year, last_month.month, 1)
   end
   memoize :first_day_of_last_month
 
   def last_day_of_last_month
-    first_day_of_last_month + 1.month - 1.second
+    first_day_of_last_month + 1.month - 1.day
   end
   memoize :last_day_of_last_month
 
+  # This year
   def first_day_of_this_year
-    Date.new(today.year, 1, 1).to_time
+    Date.new(today.year, 1, 1)
   end
   memoize :first_day_of_this_year
 
+  def last_day_of_this_year
+    Date.new(today.year, 12, 31)
+  end
+  memoize :last_day_of_this_year
+  
+  # Last year
   def first_day_of_last_year
-    Date.new(today.year - 1, 1, 1).to_time
+    Date.new(today.year - 1, 1, 1)
   end
   memoize :first_day_of_last_year
 
   def last_day_of_last_year
-    first_day_of_last_year + 1.year - 1.second
+    Date.new(first_day_of_last_year.year, 12, 31)
   end
   memoize :last_day_of_last_year
   
