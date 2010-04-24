@@ -55,7 +55,7 @@ module Analytics
       end
       
       def page_views_by_day_of_month(params = {})
-        tracks.page_views.by(:day).order('month ASC, day ASC').between(Period.from_params(params))
+        tracks.page_views.by(:day_of_month).order('month ASC, day ASC').between(Period.from_params(params))
       end
 
       def page_views_by_hour(params = {})

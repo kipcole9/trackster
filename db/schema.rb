@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100423074543) do
+ActiveRecord::Schema.define(:version => 20100424020238) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -474,7 +474,7 @@ ActiveRecord::Schema.define(:version => 20100423074543) do
     t.string   "search_terms",      :limit => 100
     t.string   "traffic_source",    :limit => 50
     t.date     "date"
-    t.integer  "day"
+    t.integer  "day_of_month"
     t.integer  "year"
     t.integer  "month"
     t.integer  "hour"
@@ -498,7 +498,7 @@ ActiveRecord::Schema.define(:version => 20100423074543) do
   add_index "sessions", ["campaign_id"], :name => "index_sessions_on_campaign_id"
   add_index "sessions", ["country"], :name => "index_sessions_on_country"
   add_index "sessions", ["date"], :name => "index_sessions_on_date"
-  add_index "sessions", ["day"], :name => "index_sessions_on_day"
+  add_index "sessions", ["day_of_month"], :name => "index_sessions_on_day"
   add_index "sessions", ["day_of_week"], :name => "index_sessions_on_day_of_week"
   add_index "sessions", ["device"], :name => "index_sessions_on_device"
   add_index "sessions", ["hour"], :name => "index_sessions_on_hour"
