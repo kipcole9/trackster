@@ -871,6 +871,8 @@ div.listItem img.list_image {
 .login_options {
 	margin-bottom: 10px;
 }
+
+/* Tabs */
 .ui-tabs, .ui-tabs-nav {
 	padding: 0.2em 0 0 0 !important;
 	border-top: 0 !important;
@@ -883,6 +885,7 @@ div.listItem img.list_image {
 .ui-tabs-panel, li.ui-tabs-selected {
 	background-color: #ddd !important;
 	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
 }
 .tab {
 	margin-top: 5px;
