@@ -882,11 +882,10 @@ div.listItem img.list_image {
 	border-top: 0 !important;
 	margin: -2px -1px 0 -1px !important;
 }
-.ui-tabs-panel, li.ui-tabs-selected {
+li.ui-tabs-selected {
 	background-color: #ddd !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
 }
+
 .tab {
 	margin-top: 5px;
 	margin-bottom: 10px;

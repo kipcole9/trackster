@@ -248,3 +248,23 @@ div.box.flash_notice { background-color: #bbffbb; }
 .history p { color: white; }
 .login_options { color: #ff8c25; }
 .login_options a { color: white; }
+.ui-accordion-content {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  background-color: inherit !important;
+  border: 0 !important;
+}
+.accordion h3.trig {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  background-color: inherit !important;
+  border: 0 !important;
+}
+.ui-tabs-nav, .ui-tabs-panel { background-color: #323232 !important; }
+.ui-tabs-selected a span { color: #ff8c25 !important; }
+li.ui-tabs-selected, li.ui-state-default { background-color: #323232 !important; }
+.ui-tabs.ui-widget-content {
+  border: 1px solid #464646;
+  background: none !important;
+}
+label { color: white; }
