@@ -200,6 +200,9 @@ $(document).ready(function(){
 		return false;
   	});
 
+	/* Tabs */
+	$(".tab").tabs();
+
   	/* Setup for accordions */
   	$(".accordion").each(function(i) {
 		if ($(this).attr('id') == "report_navigation") {

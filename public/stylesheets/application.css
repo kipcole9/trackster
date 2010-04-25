@@ -145,9 +145,7 @@ h1#branding, h2#page-heading {
 .block {
 	padding-top: 5px;
 }
-.block .tab {
-	margin-bottom: 0;
-}
+
 .panel-links {
 	float: right;
 	color: white;
@@ -688,9 +686,15 @@ img.accordion_item_image {
 	margin-bottom: 		0.1em;
 	background:			#eee;
 	padding:			5px;
-	-webkit-box-shadow: 3px 3px 3px #999;
-	-moz-box-shadow: 	3px 3px 3px #999;
 	outline:			0px;
+}
+.ui-accordion-content, .accordion h3.trig {
+	-webkit-box-shadow: 3px 3px 3px #999;
+	-moz-box-shadow: 	3px 3px 3px #999;	
+}
+
+.ui-accordion-content {
+	padding: 0.5em 0 !important;
 }
 
 .accordion h3:hover {
@@ -867,4 +871,20 @@ div.listItem img.list_image {
 .login_options {
 	margin-bottom: 10px;
 }
-
+.ui-tabs, .ui-tabs-nav {
+	padding: 0.2em 0 0 0 !important;
+	border-top: 0 !important;
+}
+.ui-tabs-nav {
+	border-left: 0 !important;
+	border-top: 0 !important;
+	margin: -2px -1px 0 -1px !important;
+}
+.ui-tabs-panel, li.ui-tabs-selected {
+	background-color: #ddd !important;
+	-webkit-border-radius: 0 !important;
+}
+.tab {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}

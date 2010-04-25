@@ -28,6 +28,7 @@ stylesheets:
     - nav
     - forms
     - jquery-autocomplete
+    - jquery-ui
     - textboxlist
     - application
     - contacts
@@ -42,6 +43,7 @@ stylesheets:
     - ie_fixes
     - forms
     - jquery-autocomplete
+    - jquery-ui
     - textboxlist
     - application
     - contacts    
