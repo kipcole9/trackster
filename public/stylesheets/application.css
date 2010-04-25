@@ -882,8 +882,8 @@ div.listItem img.list_image {
 	border-top: 0 !important;
 	margin: -2px -1px 0 -1px !important;
 }
-li.ui-tabs-selected {
-	background-color: #ddd !important;
+li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content {
+	background-color: #ccc !important;
 }
 
 .tab {
