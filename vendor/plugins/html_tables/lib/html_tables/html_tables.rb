@@ -12,7 +12,7 @@ module HtmlTables
     def to_table(options = {})
       default_options = {}
       merged_options = default_options.merge(options)
-      @formatter = TableFormatter.new(self, merged_options)
+      @formatter = HtmlTables::TableFormatter.new(self, merged_options)
       @formatter.to_html
     end
   end
