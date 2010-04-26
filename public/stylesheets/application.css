@@ -688,9 +688,12 @@ img.accordion_item_image {
 	padding:			5px;
 	outline:			0px;
 }
-.ui-accordion-content, .accordion h3.trig {
+.accordion h3.trig {
 	-webkit-box-shadow: 3px 3px 3px #999;
-	-moz-box-shadow: 	3px 3px 3px #999;	
+	-moz-box-shadow: 	3px 3px 3px #999;
+}
+.accordion .ui-corner-top, .accordion .ui-corner-all {
+	-webkit-border-radius: 0;	
 }
 
 .ui-accordion-content {
@@ -880,12 +883,18 @@ div.listItem img.list_image {
 .ui-tabs-nav {
 	border-left: 0 !important;
 	border-top: 0 !important;
-	margin: -2px -1px 0 -1px !important;
+	margin: -2px -1px 0 0 !important;
 }
-li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content {
-	background-color: #ccc !important;
+li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
+	background-color: #ccc !important;	
 }
-
+.ui-tabs-panel.ui-widget-content {
+	-webkit-box-shadow: 3px 3px 3px #999;
+	-moz-box-shadow: 	3px 3px 3px #999;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
 .tab {
 	margin-top: 5px;
 	margin-bottom: 10px;

@@ -260,11 +260,21 @@ div.box.flash_notice { background-color: #bbffbb; }
   background-color: inherit !important;
   border: 0 !important;
 }
-.ui-tabs-nav, .ui-tabs-panel { background-color: #323232 !important; }
+li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel {
+  background-color: #323232 !important;
+  border-color: #464646 !important;
+}
+.tab .ui-widget-content {
+  background-color: #323232 !important;
+  border-color: #464646 !important;
+}
+.ui-tabs-nav {
+  background-color: black;
+  border-color: #464646 !important;
+}
 .ui-tabs-selected a span { color: #ff8c25 !important; }
-li.ui-tabs-selected, li.ui-state-default { background-color: #323232 !important; }
-.ui-tabs.ui-widget-content {
-  border: 1px solid #464646;
-  background: none !important;
+.ui-tabs-panel.ui-widget-content {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 label { color: white; }

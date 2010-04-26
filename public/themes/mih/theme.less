@@ -15,7 +15,8 @@
 
 // Forms
 @fieldset_background:	rgb(50,50,50);
-@fieldset_border:		1px solid rgb(70,70,70);
+@fieldset_border:		1px solid @fieldset_border_color;
+@fieldset_border_color:	rgb(70,70,70);
 @fieldset_colour:		#ccc;
 @legend_background:		rgba(255, 140, 37, .9);	
 @submit_button:			rgb(110,110,110);
@@ -374,28 +375,30 @@ div.box.flash_notice {
 .login_options a {
 	color: @light_text;
 }
-
+/* Accordion */
 .ui-accordion-content, .accordion h3.trig {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: 	none !important;
 	background-color:   inherit !important;
 	border:				0 !important;
 }
-
-.ui-tabs-nav, .ui-tabs-panel {
+/* Tabs */
+li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel, .tab .ui-widget-content {
 	background-color: @fieldset_background !important;
+	border-color: @fieldset_border_color !important;
+}
+.ui-tabs-nav {
+	background-color: @container_background;
+	border-color: @fieldset_border_color !important;
 }
 .ui-tabs-selected a span {
 	color: @brand_text !important;
 }
-li.ui-tabs-selected, li.ui-state-default  {
-	background-color: @fieldset_background !important;
+.ui-tabs-panel.ui-widget-content {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: 	none;
 }
-.ui-tabs.ui-widget-content {
-	border: @fieldset_border;
-	background: none !important;
-}
-
+/* Forms */
 label {
 	color: @light_text;
 }
