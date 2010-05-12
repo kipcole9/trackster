@@ -1,6 +1,6 @@
-panel t('panels.campaign_navigation'), :class => 'accordion'  do
+panel t('panels.campaign_navigation') do
   block do
-    accordion do
+    accordion :id => 'campaign_navigation' do
       accordion_item "Campaign" do
         nav link_to("Overview")
         nav link_to("Impressions")

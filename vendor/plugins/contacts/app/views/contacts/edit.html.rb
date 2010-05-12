@@ -6,7 +6,7 @@ panel t('panels.edit_contact', :name => @contact.full_name), :display_errors => 
       content_for :jstemplates, associated_template_for_new(contact, :websites)
       content_for :jstemplates, associated_template_for_new(contact, :phones)
       content_for :jstemplates, associated_template_for_new(contact, :addresses)
-  
+      
       fieldset contact.object.class.human_name, :id => :contact, :optional => :hide do
         render_form contact, (contact.object.is_a?(Person) ? 'person' : 'organization')
       end

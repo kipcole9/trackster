@@ -880,14 +880,17 @@ div.listItem img.list_image {
 	padding: 0.2em 0 0 0 !important;
 	border-top: 0 !important;
 }
+/* The tab selection bar itself */
 .ui-tabs-nav {
 	border-left: 0 !important;
 	border-top: 0 !important;
 	margin: -2px -1px 0 0 !important;
 }
+/* Set the tabs background color (including the selected tab) */
 li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 	background-color: #ccc !important;	
 }
+/* The main content of a tab */
 .ui-tabs-panel.ui-widget-content {
 	-webkit-box-shadow: 3px 3px 3px #999;
 	-moz-box-shadow: 	3px 3px 3px #999;
@@ -895,7 +898,10 @@ li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 	border-right: 1px solid #999;
 	border-bottom: 1px solid #999;
 }
+/* Tab container */
 .tab {
 	margin-top: 5px;
 	margin-bottom: 10px;
+	padding-right: 20px;
 }
+
