@@ -139,7 +139,7 @@ module Charting
       result_array = []
       data_source.each do |item|
         next if (item[column].blank? || item[column].to_i == 0)
-        pie_label = item[label].blank? ? I18n.t('not_set') : item[label]
+        pie_label = item[label].blank? ? I18n.t('charts.not_set') : item[label]
         result_array << PieValue.new(item[column].to_i, pie_label, :label_colour => options[:x_label_colour]) 
       end
       result_array

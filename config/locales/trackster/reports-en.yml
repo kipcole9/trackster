@@ -1,4 +1,4 @@
-en:
+en:   
     reports:
         no_visits_recorded:         No visits currently recorded.
         today:                      Today
@@ -20,6 +20,7 @@ en:
         day_of_month:               Day of Month
         other_device:               Other Devices
         other_os_name:              Other OS
+        other_email_client:         Other Clients
         other_os_version:           Other Versions
         period:
             time_period:                "from {{from}} to {{to}}"
