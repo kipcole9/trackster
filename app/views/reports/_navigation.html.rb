@@ -1,4 +1,4 @@
-cache "reports/navigation/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}-#{params[:period] || 'p'}-#{params[:time_group] || 't'}" do
+cache report_cache_key("reports/navigation/main") do
   panel t('navigation.reports')  do
     block do
       accordion :id => 'report_navigation' do

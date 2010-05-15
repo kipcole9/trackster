@@ -88,5 +88,9 @@ module ReportsHelper
     new_track[label_column] = I18n.t("reports.other_#{label_column.to_s}", :default => "Other")
     new_track[value_column] = other
     new_data << new_track
-  end  
+  end 
+  
+  def report_cache_key(prefix)
+    "#{prefix}/#{current_account['id']}/#{current_user['id']}/#{current_theme}-#{I18n.locale}-#{params[:period] || 'p'}-#{params[:time_group] || 't'}"
+  end 
 end
