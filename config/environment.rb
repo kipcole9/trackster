@@ -36,7 +36,7 @@ Rails::Initializer.run do |config|
   config.gem 'fastercsv'
   config.gem 'delayed_job'
   config.gem 'lockfile'
-  config.gem 'i18n'
+  config.gem 'i18n', :version => "0.3.6"
   config.gem 'ruby-cldr', :lib => 'cldr'
 
 

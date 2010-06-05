@@ -18,6 +18,7 @@ require 'capistrano/ext/multistage'
 # Use Git source control
 set :scm, :git
 set :repository, "git@github.com:kipcole9/trackster.git"
+default_environment["PATH"] = "/opt/ruby-enterprise/bin:$PATH"
 
 # Deploy from master branch by default
 set :branch, "master"
