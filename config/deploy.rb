@@ -28,9 +28,9 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
-role :app, "traphos.com"
-role :web, "traphos.com"
-role :db,  "traphos.com"
+role :app, "boxster.traphos.com"
+role :web, "boxster.traphos.com"
+role :db,  "boxster.traphos.com"
 
 after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'
