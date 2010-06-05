@@ -142,12 +142,12 @@ private
     campaign_parameters + "&utcat=email&utact=open"
   end
   
-  MAGIC_ENTITY = 'ZZZZZ'
+  MAGIC_ENTITY = '!!ZXZX!!'
   def fix_entities(text)
-    text.gsub('&#',MAGIC_ENTITY)
+    text.gsub('&',MAGIC_ENTITY)
   end
   
   def unfix_entities(text)
-    text.gsub(MAGIC_ENTITY,'&#')
+    text.gsub(MAGIC_ENTITY,'&')
   end
 end
