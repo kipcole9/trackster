@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env /opt/ruby-enterprise/bin/ruby
 require 'rubygems'
 require "daemons"
 require 'yaml'
