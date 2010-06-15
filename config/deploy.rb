@@ -29,8 +29,8 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
-role :app, ["boxster.traphos.com", "917rsr.traphos.com"]
-role :web, ["boxster.traphos.com", "917rsr.traphos.com"]
+role :app, "boxster.traphos.com", "917rsr.traphos.com"
+role :web, "boxster.traphos.com", "917rsr.traphos.com"
 role :db,  "boxster.traphos.com"
 
 after 'deploy:update_code', 'update_config'
@@ -75,7 +75,7 @@ task :update_config, :roles => :app do
   run "ln -s #{site_keys} #{release_path}/config/initializers/site_keys.rb"
   run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
   run "ln -s #{crossdomain} #{release_path}/public/crossdomain.xml"
-  run "ln -s #{device_atlas} #{release_path}/lib/analytics/device_atlas.json"
+  run "ln -s #{device_atlas} #{release_path}/vendor/plugins/analytics/lib/analytics/device_atlas.json"
   run "ln -s #{newrelic} #{release_path}/config/newrelic.yml"
 end
 
