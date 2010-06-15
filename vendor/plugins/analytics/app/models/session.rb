@@ -16,9 +16,7 @@ class Session < ActiveRecord::Base
   
   def self.find_or_create_from_track(row)
     @logger ||= row[:logger] || Rails.logger
-    if row[:visitor] && row[:visit] && row[:session]
-      session = find_by_visitor_and_visit_and_session(row[:visitor], row[:visit], row[:session])
-    end
+    session = find_by_visitor_and_visit_and_session(row[:visitor], row[:visit], row[:session]) if have_visitor?(row)
     session = self.new_from_row(row) unless session
     session
   end
@@ -29,15 +27,15 @@ class Session < ActiveRecord::Base
   end
   
   def referrer=(r)
-    super unless r.blank? || r == '-'
+    super unless is_empty?(r) 
   end
   
   def flash_version=(r)
-    super unless r.blank? || r == '-'
+    super unless is_empty?(r)
   end
 
   def forwared_for=(r)
-    super unless r.blank? || r == '-'
+    super unless is_empty?(r)
   end
   
   def country=(c)
@@ -48,7 +46,7 @@ class Session < ActiveRecord::Base
   # ie. from en-US the language is 'en'.
   def language=(l)
     return if l.blank?
-    language_parts = l.split('-')
+    language_parts = l.gsub('_','-').split('-')
     super(language_parts.first.downcase)
   end
   
@@ -151,5 +149,13 @@ private
     if self.referrer_host && self.account && source = TrafficSource.find_from_referrer(self.referrer_host, self.account)
       self.referrer_category = source.source_type
     end
+  end
+  
+  def is_empty?(s)
+    s.blank? || s == '-'
+  end
+  
+  def self.have_visitor?(row)
+    row[:visitor] && row[:visit] && row[:session]
   end
 end

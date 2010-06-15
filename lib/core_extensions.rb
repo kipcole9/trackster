@@ -98,6 +98,7 @@ class Array
       dup.map_with_index!(&block)
   end
   
+  # Like compact but also removes blank entries not just nil
   def compress
     self.dup.reject {|x| x.blank? }
   end

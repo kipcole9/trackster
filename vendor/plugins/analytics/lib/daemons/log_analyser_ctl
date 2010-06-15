@@ -1,0 +1,30 @@
+#!/usr/bin/env -i "PATH=/opt/ruby-enterprise/bin:$PATH" ruby
+rails_root = "#{File.dirname(__FILE__)}/../../../../.."
+
+require 'rubygems'
+require "daemons"
+require 'yaml'
+require 'erb'
+
+# Load a vendorised active_support or the right rails version
+vendored_active_support = "#{rails_root}/vendor/rails/activesupport/lib/active_support.rb"
+if(File.exists?(vendored_active_support))
+  require vendored_active_support
+else
+  rails_version = File.new("#{rails_root}/config/environment.rb").read.scan(/^ *RAILS_GEM_VERSION.*=.*['|"](.*)['|"]/)[0].to_s
+  gem 'activesupport', rails_version
+  require 'active_support'
+end
+
+options = YAML.load(
+  ERB.new(
+  IO.read(
+  File.dirname(__FILE__) + "/log_analyser_daemon.yml"
+  )).result).with_indifferent_access
+options[:dir_mode] = options[:dir_mode].to_sym
+
+puts "Dir: " + File.expand_path(options[:dir])
+puts "Run: " + "#{File.expand_path(File.dirname(__FILE__))}/log_analyser.rb"
+
+Daemons.run "#{File.dirname(__FILE__)}/log_analyser.rb", options
+

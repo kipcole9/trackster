@@ -29,8 +29,8 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
-role :app, "boxster.traphos.com"
-role :web, "boxster.traphos.com"
+role :app, ["boxster.traphos.com", "917rsr.traphos.com"]
+role :web, ["boxster.traphos.com", "917rsr.traphos.com"]
 role :db,  "boxster.traphos.com"
 
 after 'deploy:update_code', 'update_config'

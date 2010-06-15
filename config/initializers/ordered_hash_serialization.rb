@@ -1,4 +1,5 @@
 # OrderedHash is namespaced to prevent conflicts with other implementations
+# This is probably not required for Rails 3.
 module ActiveSupport
   # Hash is ordered in Ruby 1.9!
   if RUBY_VERSION >= '1.9'

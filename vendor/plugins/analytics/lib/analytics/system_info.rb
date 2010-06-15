@@ -3,7 +3,7 @@ module Analytics
     attr_accessor :browscap, :device
   
     class MobileDevice
-      def initialize(file = "#{Rails.root}/lib/analytics/device_atlas.json")
+      def initialize(file = "#{File.dirname(__FILE__)}/device_atlas.json")
         require 'json'
         @device_atlas = DeviceAtlas.new
         @tree = @device_atlas.getTreeFromFile(file)

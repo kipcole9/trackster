@@ -1,7 +1,4 @@
 require 'flex_stuff'
-require 'analytics/log_parser'
-require 'analytics/web_analytics'
-require 'analytics/system_info'
 require 'with_scope'
 require 'core_extensions'
 

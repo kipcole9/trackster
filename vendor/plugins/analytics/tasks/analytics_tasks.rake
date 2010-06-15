@@ -2,19 +2,17 @@
 # The LogAnalyserDaemon object handles this in staging
 # or production.
 namespace :trackster do
-  desc "Import log for web analytics"
-  task(:analyse_log => :environment) do
-    require 'analytics/log_analyser_daemon'
-    Rails.logger.info "[Trackster] Starting import of tracking log."    
-    if Rails.env == "development"
-      Session.delete_all
-      Event.delete_all
-      $RUNNING = true
-      log_tailer = LogAnalyserDaemon.new
-      log_tailer.log_analyser_loop :return_if_eof => true
-    else
-      log_tailer = LogAnalyserDaemon.new      
-      log_tailer.log_analyser_loop
+  namespace :log_analyser do
+    desc "Start analyser daemon"
+    task(:start => :environment) do
+      path = "/opt/ruby-enterprise/bin/ruby:#{ENV['PATH']}"
+      system "PATH=#{path} #{File.dirname(__FILE__)}/../daemons/log_analyser_ctl start"
+    end
+    
+    desc "Start analyser daemon"
+    task(:stop => :environment) do
+      path = "/opt/ruby-enterprise/bin/ruby:#{ENV['PATH']}"
+      system "PATH=#{path} #{File.dirname(__FILE__)}/../daemons/log_analyser_ctl stop"
     end
   end
   
