@@ -5,8 +5,8 @@ namespace :trackster do
   namespace :log_analyser do
     desc "Start analyser daemon"
     task(:start => :environment) do
-      path = "/opt/ruby-enterprise/bin/ruby:#{ENV['PATH']}"
-      system "RAILS_ENV=#{Rails.env} PATH=#{path} #{File.dirname(__FILE__)}/../daemons/log_analyser.rb"
+      path = "/opt/ruby-enterprise/bin:#{ENV['PATH']}"
+      `RAILS_ENV=#{Rails.env} PATH=#{path} #{File.dirname(__FILE__)}/../daemons/log_analyser.rb`
     end
   end
   
