@@ -1,4 +1,4 @@
-#!/usr/bin/env "PATH=/opt/ruby-enterprise/bin:$PATH" ruby
+#!/usr/bin/env ruby
 puts "STARTING UP LOG ANALYSER"
 # Start rails environment; need to find environment.rb
 rails_root = "#{File.dirname(__FILE__)}/../../../../.."
