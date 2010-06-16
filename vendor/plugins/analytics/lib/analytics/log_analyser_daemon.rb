@@ -13,13 +13,15 @@ class LogAnalyserDaemon
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
 
+  # Keep log.max_interval below 7 seconds since thats the timeout on an runit/sv
+  # command.  Don't change from 5 unless you're really confident.
   def log_analyser_loop(options = {})
     default_options = {:forward => 0}
     options     = @options.merge(default_options).merge(options) 
     @log        = File::Tail::Logfile.open(log_file, options)
     @log_inode  = File.stat(log_file).ino
     log.interval            = 1     # Initial sleep interval when no data
-    log.max_interval        = 5     # Maximum sleep interval when no data
+    log.max_interval        = 5     # Maximum sleep interval when no data.
     log.reopen_deleted      = true  # is default
     log.reopen_suspicious   = true  # is default
     log.suspicious_interval = 20    # When several loops of no data - like when logs rotated
