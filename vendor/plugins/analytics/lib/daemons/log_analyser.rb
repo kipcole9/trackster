@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
-puts "STARTING UP LOG ANALYSER"
+puts "Collector service is starting at #{Time.now}"
+#
+# This is the entry point for processing nginx log files
+# as part of the Traphos analytics system. This should be 
+# installed as a system service (which it is in our Chef 
+# recipes)
+#
 # Start rails environment; need to find environment.rb
 rails_root = "#{File.dirname(__FILE__)}/../../../../.."
 require "#{rails_root}/config/environment"
@@ -25,6 +31,10 @@ $RUNNING = true
 Signal.trap("TERM") do
   logger.info "[Log analyser daemon] #{env_cap}: termination requested at #{Time.now}."  
   $RUNNING = false
+end
+
+Signal.trap("HUP") do
+  logger.info "[Log analyser daemon] #{env_cap}: reconfigure requested (HUP signal) but that's not yet available."  
 end
 
 plugin_lib = "#{File.dirname(__FILE__)}/../"

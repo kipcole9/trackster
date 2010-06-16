@@ -1,6 +1,0 @@
-dir_mode: script
-dir: <%= rails_root %>/log
-multiple: false
-backtrace: true
-monitor: false
-log_output: true
