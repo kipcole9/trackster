@@ -29,12 +29,12 @@ end
 
 $RUNNING = true  
 Signal.trap("TERM") do
-  logger.info "[Log analyser daemon] #{env_cap}: termination requested (TERM signal received); terminating"  
+  logger.info "[Log analyser daemon] #{env_cap}: termination requested (TERM signal received); terminating."  
   $RUNNING = false
 end
 
 Signal.trap("CONT") do
-  logger.info "[Log analyser daemon] #{env_cap}: restart requested (CONT signal received); will terminate on receipt of TERM signal."  
+  logger.info "[Log analyser daemon] #{env_cap}: restart requested (CONT signal received)."  
 end
 
 Signal.trap("HUP") do
