@@ -13,8 +13,6 @@ class LogAnalyserDaemon
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
 
-  # Keep log.max_interval below 7 seconds since thats the timeout on an runit/sv
-  # command.  Don't change from 5 unless you're really confident.
   def log_analyser_loop(options = {})
     default_options = {:forward => 0}
     options     = @options.merge(default_options).merge(options) 
@@ -43,22 +41,14 @@ class LogAnalyserDaemon
     
     # Main log loop
     log.tail do |line|
-      begin
-        entry = log_parser.parse_entry(line)
-        if entry[:datetime]
-          if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
-            log_parser.save_web_analytics!(web_analyser, entry)
-          end
-        else
-          logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
+      entry = log_parser.parse_entry(line)
+      if entry[:datetime]
+        if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
+          ActiveRecord::Base.verify_active_connections!
+          log_parser.save_web_analytics!(web_analyser, entry)
         end
-      rescue ActiveRecord::StatementInvalid => e
-        if e.to_s =~ /away/
-          logger.info "[Log analyser daemon] Recovering from MySql 'gone away' timeout."
-          ActiveRecord::Base.connection.reconnect! && retry
-        else
-          raise e
-        end
+      else
+        logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
       end
     end
     
