@@ -33,6 +33,10 @@ Signal.trap("TERM") do
   $RUNNING = false
 end
 
+Signal.trap("CONT") do
+  logger.info "[Log analyser daemon] #{env_cap}: received a CONT signal."  
+end
+
 Signal.trap("HUP") do
   logger.info "[Log analyser daemon] #{env_cap}: reconfigure requested (HUP signal) but that's not yet available."  
 end
