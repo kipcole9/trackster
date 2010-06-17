@@ -14,31 +14,21 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  # Specify gems that this application depends on and have them installed with rake gems:install
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "file-tail", :lib => 'file/tail' 
-  config.gem "inifile"
-  config.gem "graticule"
   config.gem 'will_paginate'
-  config.gem 'daemons'
   config.gem 'nokogiri'
   config.gem 'RedCloth'
-  config.gem "vpim"
   config.gem "authlogic"
   config.gem "cancan", :version => "1.1.1"
   config.gem "inherited_resources", :version => "1.0.3"
   config.gem "has_scope"
-  config.gem "newrelic_rpm"
   config.gem "acts-as-taggable-on"
   config.gem 'fastercsv'
-  config.gem 'delayed_job'
-  config.gem 'lockfile'
   config.gem 'i18n', :version => "0.3.6"
   config.gem 'ruby-cldr', :lib => 'cldr'
+  config.gem 'delayed_job'
 
+  # Performance monitoring
+  config.gem "newrelic_rpm"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -62,7 +52,13 @@ Rails::Initializer.run do |config|
 
   config.after_initialize do
     Synthesis::AssetPackage.merge_environments = ["staging", "production"]
-    ActionView::Base.default_form_builder = Caerus::FormBuilder
+    ActionView::Base.default_form_builder = Caerus::FormBuilder  
+  end
+  
+  config.to_prepare do
+    Account.send :include, Analytics::Model::Reports
+    Property.send :include, Analytics::Model::Reports
+    Campaign.send :include, Analytics::Model::Reports
   end
 
   config.action_mailer.delivery_method = :smtp

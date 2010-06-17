@@ -1,6 +1,4 @@
-class Campaign < ActiveRecord::Base
-  include       Analytics::Model
-  
+class Campaign < ActiveRecord::Base  
   MAGIC_MARKER  = "ZZXZXXZZXZYYXZQQQQ"
   REDIRECT_SCHEMES = %w(http https ftp)
   belongs_to    :account

@@ -1,7 +1,5 @@
 class Account < ActiveRecord::Base
   unloadable if Rails.env == 'development'
-  include         Analytics::Model
-
   ADMIN_USER      = 'admin'
   
   authenticates_many  :user_sessions

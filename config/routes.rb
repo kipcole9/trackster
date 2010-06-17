@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  # Redirection tracking - at the top for maximum performance
-  map.redirector      '/r/:redirect', :controller => 'redirects', :action => 'redirect'
-  
   map.resources :relates
   map.resources :campaigns, :member => {:preview => :get}
   map.resources :contents

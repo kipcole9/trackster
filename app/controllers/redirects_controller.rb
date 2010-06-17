@@ -12,24 +12,6 @@ class RedirectsController < TracksterResources
       success.html {redirect_back_or_default}
     end
   end
-  
-  # This is the redirector.  It does as little as possible to ensure
-  # speedy response.  Note that the web server will have a log record
-  # for this interaction which the log parsing task will pick up and 
-  # resolve for us.
-  def redirect
-    if !params[:redirect].blank? && redirection = Redirect.find_by_redirect_url(params[:redirect])
-      query_string = URI.parse(request.url).query rescue nil
-      redirect = query_string.blank? ? redirection.url : "#{redirection.url}?#{query_string}"
-      redirect_to redirect
-    elsif params[:redirect].blank?
-      Rails.logger.warn "[Redirect] Redirect with no parameter requested."
-      head :status => 404
-    else
-      Rails.logger.warn "[Redirect] Unknown redirection requested: #{params[:redirect]}"
-      head :status => 404
-    end
-  end
 
 private
   def collection

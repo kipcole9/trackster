@@ -1,3 +1,5 @@
+require 'lockfile'
+require 'vpim'
 require 'contacts/import'
 require 'contacts/vcard_importer'
 require 'contacts/vcard/import'

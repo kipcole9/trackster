@@ -11,6 +11,11 @@ rails_root = "#{File.dirname(__FILE__)}/../../../../.."
 require "#{rails_root}/config/environment"
 env_cap = Rails.env.capitalize
 
+# Our gems
+require "file/tail"
+require "inifile"
+require "graticule"
+
 # Flag for File::Tail library
 # $DEBUG = true
 

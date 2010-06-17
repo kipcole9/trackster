@@ -9,9 +9,9 @@ class Track < ActiveRecord::Base
   # Dimensions here will automatically have IS NOT NULL appended to their conditions
   NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name, :local_hour, :url]
     
-  include Analytics::Metrics
-  include Analytics::Dimensions
-  include Analytics::ColumnFormats
+  include Analytics::Model::Metrics
+  include Analytics::Model::Dimensions
+  include Analytics::Model::ColumnFormats
 
   named_scope :having, lambda {|having| {:having => having} }
   named_scope :limit, lambda {|limit| {:limit => limit} }
