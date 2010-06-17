@@ -34,7 +34,9 @@ Signal.trap("TERM") do
 end
 
 Signal.trap("CONT") do
-  logger.info "[Log analyser daemon] #{env_cap}: restart requested (CONT signal received)."  
+  # The runit environment sends CONT signals as part of the restart and termination
+  # process but apart from trapping it here it has no value to us.
+  # logger.info "[Log analyser daemon] #{env_cap}: restart requested (CONT signal received)."  
 end
 
 Signal.trap("HUP") do
