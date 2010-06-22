@@ -4,13 +4,13 @@
 # This means that the processing can be generalised and only a few methods need 
 # to be defined where they deviate from the 'standard' metrics for reporting.
 #
-# Analytics:Model for the main methods used for information retrieval
-# Analytics:ColumnFormats define the output format for a table
-# Analytics:Metrics for the metrics that can be retrieved
-# Analytics:Dimensions for the dimenstions around which we can pivot
+# Analytics::Model::Reports for the main methods used for information retrieval
+# Analytics::Model::ColumnFormats define the output format for a table
+# Analytics::Model::Metrics for the metrics that can be retrieved
+# Analytics::Model::Dimensions for the dimenstions around which we can pivot
 #
 # Reports can be scoped by:
-# => The account
+# => An Account
 # => A Web Property
 # => A Campaign
 # => A Contact
@@ -18,7 +18,10 @@
 class ReportsController < ApplicationController
   helper_method :resource
   before_filter :check_time_period
+  after_filter  :store_location
   
+  # Reports that have their own view template
+  # Most reports are managed by method_missing below
   def new_v_returning;    end
   def entry_page;         end
   def exit_page;          end

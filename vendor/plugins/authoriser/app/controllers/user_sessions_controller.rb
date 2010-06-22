@@ -1,6 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class UserSessionsController < ApplicationController
-  #unloadable
+  unloadable
   layout 'login'
   
   def new
@@ -17,7 +17,7 @@ class UserSessionsController < ApplicationController
       flash[:notice] = I18n.t('authorizer.logged_in_as', :name => u && u.name)
       redirect_to root_path
     else
-      flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => u && u.name)
+      flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => u && u.email)
       render :action => :new
     end
   end
@@ -27,6 +27,7 @@ class UserSessionsController < ApplicationController
     redirect_to login_path
   end
 
+protected  
   def _page_title
     ''
   end

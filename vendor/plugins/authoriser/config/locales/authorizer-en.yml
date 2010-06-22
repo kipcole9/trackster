@@ -15,8 +15,10 @@ en:
         logged_in_as:           "Logged in as {{name}}"
         could_not_login_as:     "Couldn't login as {{name}}"
         unknown_activation_code: The activation code you provided is not known.
-        password_changed:       Your password has been changed.
-        forgotten_password:     Forgotten your email address or password?
+        password_updated:       Your password has been changed.
+        forgotten_password:     Forgotten your password?
+        password_reset_intructions_mailed: Password reset instructions have been emailed to you.
+        no_user_on_account:     Couldn't find that email address on this account.'
     
     column_descriptions:
         account:
@@ -31,6 +33,9 @@ en:
             locale:             "Your preferred language, which can be changed at any time."
             timezone:           "The time zone in which you mostly work. You can change it at any time. When set to blank your browser's timezone will be used."    
 
+    panels:
+        reset_password:         Reset Password
+    
     users:
         edit_profile:           Edit your profile
         user_updated:           "User profile for '{{name}}' updated."
@@ -39,7 +44,12 @@ en:
         user_state:             User status
         new_user:               "New user's details"
         edit_user:              Profile details
-        change_password:        Change your password        
+        change_password:        Change your password
+        reset_email:            Login to reset
+        password_reset:         Enter your new password twice
+        reset_instructions:     Enter the email address you use to login to this site. Reset intructions will be emailed to this address 
+        reset_button:           Reset password 
+        update_password_and_login: "Update my password and log me in"     
         user_search:            Find a user
         states:
             active:             Active

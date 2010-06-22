@@ -6,7 +6,7 @@ module LoggedExceptionsHelper
   def pagination_remote_links(collection)
 		ret = ''
 		if $PAGINATION_TYPE == 'will_paginate'
-			pagination = will_paginate (collection, 
+			pagination = will_paginate(collection, 
 				:renderer   => 'LoggedExceptionsHelper::PaginationRenderer',
 				:prev_label => '',
 				:next_label => '',

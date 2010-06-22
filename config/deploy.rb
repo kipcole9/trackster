@@ -3,17 +3,13 @@ set :default_stage, "staging"
 set :app_dir,       "/u/apps"
 set :config_dir,    "#{app_dir}/#{application}/config"
 set :db_config,     "#{config_dir}/database.yml"
-set :god_config,    "#{config_dir}/trackster.god"
 set :site_keys,     "#{config_dir}/site_keys.rb"
-set :mailer_config, "#{config_dir}/mailer.yml"
 set :browscap,      "#{config_dir}/browscap.ini"
-set :crossdomain,   "#{config_dir}/crossdomain.xml"
 set :device_atlas,  "#{config_dir}/device_atlas.json"
 set :app_conf,      "#{config_dir}/trackster_config.yml"
 set :newrelic,      "#{config_dir}/newrelic.yml"
 
 require 'capistrano/ext/multistage'
-
 
 # Use Git source control
 set :scm, :git
@@ -68,13 +64,10 @@ end
 # Secure config files
 desc "Link production configuration files"
 task :update_config, :roles => :app do
-  run "ln -s #{mailer_config} #{release_path}/config/mailer.yml"
   run "ln -s #{app_conf}  #{release_path}/config/trackster_config.yml"  
-  run "ln -s #{db_config} #{release_path}/config/database.yml"
-  run "ln -s #{god_config} #{release_path}/config/trackster.god"    
+  run "ln -s #{db_config} #{release_path}/config/database.yml"  
   run "ln -s #{site_keys} #{release_path}/config/initializers/site_keys.rb"
   run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
-  run "ln -s #{crossdomain} #{release_path}/public/crossdomain.xml"
   run "ln -s #{device_atlas} #{release_path}/vendor/plugins/analytics/lib/analytics/device_atlas.json"
   run "ln -s #{newrelic} #{release_path}/config/newrelic.yml"
 end
@@ -89,52 +82,4 @@ end
 desc "Run database migrations"
 task :migrate_database, :roles => :db do
   run "cd #{release_path} && rake RAILS_ENV=#{rails_env} db:migrate"
-end
-
-desc "Update search engines"
-task :update_search_engines, :roles => :app do
-  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_search_engine_list"
-end
-
-desc "Add browscap additions"
-task :update_browscap, :roles => :app do
-  src_file = File.join(File.dirname(__FILE__), 'browscap', 'browscap_additions.ini')
-  `scp -P 9876 #{src_file} kip@traphos.com:/u/apps/trackster/config`
-  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} trackster:import_browscap"
-end
-
-namespace :log_analyser do
-  desc "Start log analyser"
-  task :start, :roles => :app do
-    run <<-EOF
-      export RAILS_ENV=#{rails_env} &&
-      cd #{current_path} && lib/daemons/log_analyser_ctl start
-    EOF
-  end
-
-  desc "Stop log analyser"
-  task :stop, :roles => :app do
-    run <<-EOF
-      export RAILS_ENV=#{rails_env} &&
-      cd #{current_path} && lib/daemons/log_analyser_ctl stop
-    EOF
-  end
-end
-
-namespace :delayed_job do
-  desc "Start delayed job"
-  task :start, :roles => :app do
-    run <<-EOF
-      export RAILS_ENV=#{rails_env} &&
-      cd #{current_path} && lib/daemons/delayed_job_ctl start
-    EOF
-  end
-
-  desc "Stop delayed job"
-  task :stop, :roles => :app do
-    run <<-EOF
-      export RAILS_ENV=#{rails_env} &&
-      cd #{current_path} && lib/daemons/delayed_job_ctl stop
-    EOF
-  end
 end

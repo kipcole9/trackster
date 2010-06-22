@@ -12,4 +12,4 @@ panel t('panels.contact_actions', :name => @contact.full_name) do
       end
     end
   end
-end
+end if can? :update, Contact

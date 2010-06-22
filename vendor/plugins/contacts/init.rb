@@ -1,5 +1,5 @@
-require 'lockfile'
-require 'vpim'
+config.gem 'lockfile'
+config.gem 'vpim'
 require 'contacts/import'
 require 'contacts/vcard_importer'
 require 'contacts/vcard/import'

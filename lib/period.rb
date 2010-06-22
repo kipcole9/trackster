@@ -171,6 +171,8 @@ class Period
     Thread.current[:period] = nil
   end
   
+  # Called when we're configured as a before_filter which we need to
+  # ensure our thread data is ours and no left over from somebody else
   def self.filter(controller)
     clear
   end

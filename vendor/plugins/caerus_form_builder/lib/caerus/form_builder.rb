@@ -111,7 +111,7 @@ module Caerus
     def with_field(method, args = {}, &block)
       default_options = {:before => '', :after => '', :autocomplete => false, 
                          :label_class => :field_label, :optional => false,
-                         :field_class => :field, :wrap_in_div => false, :prompt => true  }
+                         :field_class => :field, :wrap_in_div => false, :options => true }
       options = default_options.merge(args)
       field_definition = @template.capture(&block)
       field_definition = @template.content_tag(:div, field_definition) if options.delete(:wrap_in_div)
@@ -165,14 +165,19 @@ module Caerus
       label = object.class.human_attribute_name(label.to_s) + (options[:suffix] || DEFAULT_SUFFIX)
     end
   
+    # Prompt can be:
+    # => true: look it up via i18n
+    # => false: no prompt
+    # => a string: use that as the prompt
     def get_prompt(table, column, options)
-      if options.delete(:prompt) == false
-        ''
-      else
+      prompt = options.delete(:prompt)
+      return '' if prompt == false
+      if prompt == true || prompt.nil?
         prompt = I18n.translate("column_descriptions.#{object_name}.#{column}", :default => "__none")
         prompt = I18n.translate("column_descriptions.#{column}", :default => '') if prompt == "__none"
-        prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
+        prompt = prompt.blank? ? '' : @template.content_tag(:p, prompt, :class => "prompt")
       end
+      prompt
     end
   
     def add_autocompleter(method, field_id, options)

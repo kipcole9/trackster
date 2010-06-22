@@ -3,4 +3,8 @@
 #
 # The log_analyser itself runs separately an should not
 # be loaded by rails
+config.gem "file-tail", :lib => false
+config.gem "inifile",   :lib => false
+config.gem "graticule", :lib => false
+config.gem "json",      :lib => false
 

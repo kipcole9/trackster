@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
-  # unloadable
+  #unloadable
   acts_as_authentic
-  disable_perishable_token_maintenance true
-
-  before_validation_on_create :reset_perishable_token
   after_save                  :update_account_user
   
+  # disable_perishable_token_maintenance true
+  # before_validation_on_create :reset_perishable_token
+
   LOGIN_REGEX               = /\A\w[\w\.\-_@]+\z/                     # ASCII, strict
   # self.login_regex        = /\A[[:alnum:]][[:alnum:]\.\-_@]+\z/     # Unicode, strict
   # self.login_regex        = /\A[^[:cntrl:]\\<>\/&]*\z/              # Unicode, permissive

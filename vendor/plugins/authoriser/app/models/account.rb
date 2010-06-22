@@ -1,6 +1,5 @@
 class Account < ActiveRecord::Base
-  unloadable if Rails.env == 'development'
-  ADMIN_USER      = 'admin'
+  unloadable
   
   authenticates_many  :user_sessions
   has_many        :account_users
@@ -56,6 +55,7 @@ class Account < ActiveRecord::Base
     @agency_account ||= self.clients.count > 0
   end
   
+  ADMIN_USER  = 'admin'
   def self.admin
     find_by_name(ADMIN_USER)
   end

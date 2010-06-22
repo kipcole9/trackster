@@ -13,25 +13,32 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  before_filter     :account_exists?,         :except => :redirect
-  after_filter      :store_location,          :except => [:new, :create, :update, :destroy, :edit, :validations, :preview,
-                                                :unique, :activate, :change_password, :update_password]
+  before_filter     :account_exists?
   before_filter     :force_login_if_required
   before_filter     :set_locale
   before_filter     :set_timezone
   before_filter     :set_chart_theme
   before_filter     Period
   
+  after_filter      :store_location, :only => [:show, :index]
   layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
 
-
 protected
+  rescue_from CanCan::AccessDenied do |exception|
+    access_denied
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    flash[:error] = I18n.t('not_found')
+    redirect_back_or_default
+  end
+  
   def force_login_if_required
     access_denied unless login_status_ok?
   end
   
   def login_status_ok?
-    (logged_in? && current_account) || logging_in? || activation? || redirecting? || validating?
+    (logged_in? && current_account) || resetting_password? || logging_in? || activation? || redirecting? || validating?
   end
 
   # Prededence:
@@ -95,6 +102,10 @@ protected
   
   def validating?
     params[:controller] == 'validations'
+  end
+  
+  def resetting_password?
+    params[:controller] == 'password_resets'
   end
 
   def access_denied

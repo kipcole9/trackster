@@ -55,12 +55,14 @@ Rails::Initializer.run do |config|
     ActionView::Base.default_form_builder = Caerus::FormBuilder  
   end
   
+  # These are the models we add reporting capability to
+  # TODO we also need to factor out configuring the various
+  # has_many relationships - class_eval?
   config.to_prepare do
     Account.send :include, Analytics::Model::Reports
     Property.send :include, Analytics::Model::Reports
     Campaign.send :include, Analytics::Model::Reports
   end
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = YAML.load(File.read("#{Rails.root}/config/mailer.yml"))['mailer']
+  config.action_mailer.delivery_method = :sendmail
 end
