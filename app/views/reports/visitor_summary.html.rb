@@ -1,3 +1,3 @@
-include "visits_graph"
-include "visits_summary"
+include "reports/graphs/visits_graph"
+include "reports/widgets/visits_summary"
 

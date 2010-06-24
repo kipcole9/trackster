@@ -1,4 +1,4 @@
-include "video_graph"
-include "video_summary"
+include "reports/graphs/video_graph"
+include "reports/widget/svideo_summary"
 
 

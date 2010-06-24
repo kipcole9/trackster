@@ -1,3 +1,3 @@
-include "events_summary"
+include "reports/widgets/events_summary"
 
 

@@ -48,12 +48,7 @@ module Caerus
     # Render the flash
     def display_flash
       flash.each do |key, message|
-        with_tag(:div, :class => "flash_#{key}") do
-          with_tag(:p) do
-            store image_tag("/images/icons/flash_#{key}.png")
-            store message
-          end
-        end
+        store render(:partial => "widgets/flash", :locals => {:key => key, :message => message})
       end
     end
   

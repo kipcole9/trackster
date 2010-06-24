@@ -1,8 +1,5 @@
-clear do
-  include "pageview_graph"
-end
-clear do
-  include "content_summary"
-end
+include "reports/graphs/pageview_graph"
+include "reports/widgets/content_summary"
+
 
 

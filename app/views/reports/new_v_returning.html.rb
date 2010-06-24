@@ -1,2 +1,2 @@
-include 'pageview_graph'
-include 'new_v_returning'
+include 'graphs/pageview_graph'
+include 'widgets/new_v_returning'

@@ -18,14 +18,11 @@ html do
     cache "main-menu/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}" do
       include "widgets/main_menu"
     end
-    with_tag (:div, :class => "grid_12") { display_flash } if flash.any?
-    store (yield(:page) || yield)
-   
-    clear do
-      column :width => 12, :id => 'site_info' do
-        include 'widgets/footer'
-      end
-    end
+    
+    column(:width => 12) { display_flash } if flash.any?
+    store(yield(:page) || yield)
+    column(:width => 12, :id => 'site_info') { include 'widgets/footer' }
+    
     case Rails.env 
       when "development"
         # store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"

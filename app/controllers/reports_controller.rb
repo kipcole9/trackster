@@ -23,10 +23,22 @@ class ReportsController < ApplicationController
   # Reports that have their own view template
   # Most reports are managed by method_missing below
   def new_v_returning;    end
-  def entry_page;         end
-  def exit_page;          end
-  def events;             end
   def video;              end
+    
+  def events
+    @report = resource.events_summary(params)
+    report :action => "events"
+  end
+  
+  def entry_page
+    @report = resource.entry_exit_summary(params)
+    report :action => "entry_page"
+  end
+  
+  def exit_page
+    @report = resource.entry_exit_summary(params)
+    report :action => "exit_page"
+  end
 
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can
@@ -34,35 +46,53 @@ class ReportsController < ApplicationController
   def method_missing(method, *args)
     
     # Platform/device metrics and main visitor metrics (country,language, new/returning)
-    if Track.session_dimensions.include?(params[:action])
-      if params[:action] == 'locality'
-        params[:action] = ['locality','region','country']
-        params[:original_action] = 'locality'
-      end
-      render :action => 'visitor_summary'
+    visit_summary if Track.session_dimensions.include?(params[:action])
       
     # Campaign Reporting  
-    elsif Track.campaign_dimensions.include?(params[:action])
-      @campaign_summary = resource.campaign_summary(params).all
-      render 'campaigns/campaign_summary'
+    campaign_summary if Track.campaign_dimensions.include?(params[:action])
       
     # Loyalty Reporting such as length of visit, pages per visit
-    # We sort these in place since the column data is derived and
-    # not 'numeric' enough for MySQL to sort properly
-    elsif Track.loyalty_dimensions.include?(params[:action])
-      @result = resource.visits_summary(params)
-      @visits_summary = @result.sort {|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
-      render :action => 'visit_summary'
+    loyalty_summary if Track.loyalty_dimensions.include?(params[:action])
       
     # Content info such as URL, page title, entry/exit/bounce pages        
-    elsif Track.event_dimensions.include?(params[:action])
-      render :action => 'content_summary'
-    else
-      render :action => params[:action]
-    end
+    content_summary if Track.event_dimensions.include?(params[:action])
+
   end
   
 private
+  def visit_summary
+    @report = resource.visits_summary(params)
+    if params[:action] == 'locality'
+      params[:action] = ['locality','region','country']
+      params[:original_action] = 'locality'
+    end
+    report :action => 'visitor_summary'
+  end
+
+  def loyalty_summary
+    @report = resource.visits_summary(params).sort {|a,b| a[params[:action]].to_i <=> b[params[:action]].to_i }
+    report :action => 'visit_summary'
+  end
+
+  def campaign_summary
+    @report = resource.campaign_summary(params)
+    report 'campaigns/campaign_summary'
+  end
+
+  def content_summary
+    @report = resource.content_summary(params)
+    report :action => 'content_summary'
+  end
+  
+  def report(*render_args)
+    respond_to do |format|
+      format.html     { render *render_args }
+      format.xml      { render :xml => @report }
+      format.json     { render :json => @report }
+      format.xcelsius { render :action => 'report' }
+    end
+  end
+  
   def resource
     @resource ||= if params[:property_id]
       current_account.properties.find(params[:property_id])

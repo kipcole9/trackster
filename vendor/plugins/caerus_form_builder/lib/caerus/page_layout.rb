@@ -91,12 +91,10 @@ module Caerus
   
     def clear(options = {})
       default_options = {:class => "clearfix"}
-      with_tag(:div, default_options.merge(options)) do
-        if block_given?
-          yield
-        else
-          store "&nbsp;"
-        end
+      if block_given?
+        with_tag(:div, default_options.merge(options)) { yield }
+      else
+        with_tag(:div, :style => "clear:both")
       end
     end
 

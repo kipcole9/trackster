@@ -40,13 +40,13 @@ stylesheets:
     - nested_grids
     - layout
     - nav
-    - ie_fixes
     - forms
     - jquery-autocomplete
     - jquery-ui
     - textboxlist
     - application
-    - contacts    
+    - contacts
+    - ie_fixes
 
 
     

@@ -36,3 +36,5 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
     end if logged_in?
   end
 end
+clear
+

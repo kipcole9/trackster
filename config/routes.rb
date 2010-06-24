@@ -10,9 +10,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :dashboard     # Home paged for logged_in users
   
   # Reporting for analytics
-  map.property_report '/properties/:property_id/reports/:action', :controller => 'reports'
-  map.campaign_report '/campaigns/:campaign_id/reports/:action',  :controller => 'reports'
-  map.account_report  '/reports/:action', :controller => 'reports'
+  map.property_report '/properties/:property_id/reports/:action.:format', :controller => 'reports'
+  map.campaign_report '/campaigns/:campaign_id/reports/:action.:format',  :controller => 'reports'
+  map.account_report  '/reports/:action.:format', :controller => 'reports'
     
   # Application exception reporting
   map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"

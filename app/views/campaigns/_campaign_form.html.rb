@@ -18,6 +18,9 @@ form_for campaign, :html => {:multipart => true} do |campaign|
       campaign.text_field     :medium, :disabled => true
       campaign.text_field     :contact_code
     end
+    tab_item t('.list') do
+      p "This is where we'll select the list to send the campaign to"
+    end
     tab_item t('.html') do
       campaign.select         :email, current_account.contents.all.map{|c| [c.name, c.id]}
       campaign.text_field     :image_directory
