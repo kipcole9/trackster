@@ -18,9 +18,10 @@ default_environment["PATH"] = "/opt/ruby-enterprise/bin:$PATH"
 
 # Deploy from master branch by default
 set :branch, "master"
+set :deploy_via, :remote_cache
 #set :scm_verbose, true
 
-set :user, 'kip'
+set :user, 'www-data'
 ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
@@ -34,6 +35,7 @@ after 'deploy:update_code', 'create_production_tracker'
 after 'deploy:update_code', 'create_asset_packages'
 after 'deploy:update_code', 'symlink_tracker_code'
 after 'deploy:update_code', 'migrate_database'
+after 'deploy:update_code', 'fix_ownership'
 
 namespace :deploy do
   desc "Restarting passenger with restart.txt"
@@ -82,4 +84,9 @@ end
 desc "Run database migrations"
 task :migrate_database, :roles => :db do
   run "cd #{release_path} && rake RAILS_ENV=#{rails_env} db:migrate"
+end
+
+desc "Fix ownership"
+task :fix_ownership, :roles => :app do
+  run "sudo chown -R www-data:admin #{app_dir}/#{application}"
 end

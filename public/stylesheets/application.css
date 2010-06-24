@@ -761,11 +761,12 @@ div.block table * td {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
+	vertical-align: top;
 }
 
 div.block table tfoot th {
-	padding: 0.2em 1.0em 0 1.0em;
-	vertical-align: middle;
+	padding: 0.2em 1.0em 0.2em 1.0em;
+	vertical-align: top;
 }
 
 div.block table thead th {
@@ -774,10 +775,16 @@ div.block table thead th {
 col.page_views, col.event_count {
 	width: 5em; /* 10%; */
 }
-col.country, col.language, col.depth_of_visit, col.length_of_visit,
+col.depth_of_visit, col.length_of_visit,
 col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
 col.flash_version, col.url, col.page_title {
 	width: 15em;
+}
+col.country {
+	width: 19%;
+}
+col.language {
+	width: 13%;
 }
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
@@ -786,7 +793,7 @@ col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.catego
 col.events {
 	width: 6em; /* 13%; */
 }
-col.bounce_rate, col.value, col.traffic_source  {
+col.bounce_rate, col.value, col.traffic_source {
 	width: 7.5em;
 }
 col.page_views_per_visit {
@@ -796,7 +803,7 @@ col.entry_rate{
 	width: 6.5em;
 }
 col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{
-	width: 40%;
+	width: 35%;
 }
 div.sixcol col.percent_of_impressions {
 	width: 50%;
