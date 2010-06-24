@@ -21,7 +21,7 @@ set :branch, "master"
 set :deploy_via, :remote_cache
 #set :scm_verbose, true
 
-set :user, 'www-data'
+set :user, 'kip'
 ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
@@ -88,5 +88,6 @@ end
 
 desc "Fix ownership"
 task :fix_ownership, :roles => :app do
-  run "sudo chown -R www-data:admin #{app_dir}/#{application}"
+  run "sudo chown -R www-data:admin #{release_path}"
+  run "sudo chmod 775 #{release_path}/tmp"
 end

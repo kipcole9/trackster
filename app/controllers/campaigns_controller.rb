@@ -30,6 +30,10 @@ private
   def collection
     @campaigns ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
   end
+  
+  def redirector_url(redirect)
+    "#{request.host}/r/#{redirect}"
+  end
 
   def choose_layout
     case params[:action]

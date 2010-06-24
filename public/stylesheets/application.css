@@ -25,7 +25,7 @@ input[type="text"] {
 }
 
 input[type="submit"] {
-	font-size: 120%;
+	font-size: 110%;
 }
 
 /* Primarily because we put code inside pre */
@@ -57,9 +57,9 @@ h4 {
 	/* Webkit */
 	outline: auto 5px -webkit-focus-ring-color; 
 	outline-offset: -2px;
-	/* Gecko 
+	/* Gecko */
 	-moz-outline: -moz-mac-focusring solid 2px; 
-	-moz-outline-offset: 0; */
+	-moz-outline-offset: 0; 
 }
 
 /* Specific css for things out of the normal template flow */
@@ -784,7 +784,7 @@ col.country {
 	width: 19%;
 }
 col.language {
-	width: 13%;
+	width: 15%;
 }
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
@@ -918,3 +918,10 @@ li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 	padding-right: 20px;
 }
 
+/* Media stuff */
+@media screen and (max-width: 950px) {
+	.hbar, .flag { 
+		display: none
+	};
+	
+}
