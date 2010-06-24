@@ -40,11 +40,12 @@ en:
         edit_profile:           Edit your profile
         user_updated:           "User profile for '{{name}}' updated."
         user_not_updated:       "User profile for '{{name}}' was not updated."  
-        user_roles:             "What capabilities does this user have on account '{{account_name}}'?"
-        user_state:             User status
+        user_roles:             Roles
+        user_state:             Status
         new_user:               "New user's details"
-        edit_user:              Profile details
-        change_password:        Change your password
+        edit_user:              Profile
+        api_key:                API Key
+        change_password:        Change password
         reset_email:            Login to reset
         password_reset:         Enter your new password twice
         reset_instructions:     Enter the email address you use to login to this site. Reset intructions will be emailed to this address 
