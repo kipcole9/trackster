@@ -769,7 +769,7 @@ div.block table * td {
 }
 
 div.block table thead th {
-	padding-top: 0.2em;
+	padding: 0.4em 0.4em 0.2em;
 }
 col.page_views, col.event_count {
 	width: 5em; /* 10%; */

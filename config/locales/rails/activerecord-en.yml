@@ -9,7 +9,7 @@ en:
                 percent_of_visits:      % Visits
                 percent_of_impressions: % Impressions
                 new_visit_rate:         % New 
-                page_views_per_visit:   Pages/Visit
+                page_views_per_visit:   Pages
                 new_v_returning:        New vs. Returning
                 referrer_host:          Referrer
                 traffic_source:         Source
