@@ -61,15 +61,15 @@ en:
         show_preview:       Show preview of email
         translink_errors:   There were errors translinking the html
         campaign_form:
-            distribution:   Distribution
+            distribution:   Measures
             coding:         Link tagging
             edit_campaign:  Basic campaign information
             html:           HTML
             new_campaign:   Profile
             source:         Source
             content:        Content
-            parameters:     Parameters
-            list:           List
+            parameters:     Segmentation
+            list:           Lists
         impressions_by_browser:              Impressions by email client
         impressions_graph_by_browser:        Impressions by email client
         campaign_impressions_graph:
