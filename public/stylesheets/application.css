@@ -768,11 +768,6 @@ div.block table * td {
 	vertical-align: top;
 }
 
-div.block table tfoot th {
-	padding: 0.2em 1.0em 0.2em 1.0em;
-	vertical-align: top;
-}
-
 div.block table thead th {
 	padding-top: 0.2em;
 }
