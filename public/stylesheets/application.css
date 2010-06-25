@@ -18,6 +18,10 @@ body {
 	font-size: 13px;
 }
 
+th, td {
+	padding: 0.2em 0.5em;
+}
+
 input[type="text"] {
 	line-height: 1em;
 	padding-top: 3px;
@@ -64,7 +68,7 @@ h4 {
 
 /* Specific css for things out of the normal template flow */
 .container_12 {
-	min-width: 860px;
+	min-width: 320px;
 }
 
 /* New account setup, selecting a sitename */
@@ -777,15 +781,11 @@ col.page_views, col.event_count {
 }
 col.depth_of_visit, col.length_of_visit,
 col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
-col.flash_version, col.url, col.page_title {
-	width: 15em;
+col.flash_version, col.url, col.page_title,
+col.country, col.language {
+	width: 8em;
 }
-col.country {
-	width: 19%;
-}
-col.language {
-	width: 15%;
-}
+
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.impressions, col.distribution, col.clicks_through, col.unsubscribes,
@@ -918,10 +918,4 @@ li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 	padding-right: 20px;
 }
 
-/* Media stuff */
-@media screen and (max-width: 950px) {
-	.hbar, .flag { 
-		display: none
-	};
-	
-}
+

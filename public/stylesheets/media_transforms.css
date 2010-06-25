@@ -1,0 +1,32 @@
+/* General layout */
+@media screen and (max-width: 900px) {
+	#wrapper {
+		margin: 0;
+		width: 100%;
+	}
+}
+
+/* iPad size */
+@media screen and (max-width: 768px) {
+	body {
+		font-size: 75%;
+	}
+}
+
+/* iPhone/iPod and similar */
+@media screen and (max-width: 500px) {
+	body {
+		font-size: 75%;
+	}
+
+	#navigation {
+		position: relative;
+		display: block;
+		float: right;
+		z-index: 1000;
+	}
+	
+	#main {
+		width: 98%;
+	}
+}

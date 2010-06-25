@@ -32,6 +32,7 @@ stylesheets:
     - textboxlist
     - application
     - contacts
+    - media_transforms
 - ie: 
     - reset 
     - text
@@ -46,6 +47,7 @@ stylesheets:
     - textboxlist
     - application
     - contacts
+    - media_transforms
     - ie_fixes
 
 
