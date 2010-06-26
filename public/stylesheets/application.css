@@ -559,7 +559,7 @@ div.address + div.address, div.address._new {
 form.search  {
 	/* margin-top: -8px; */
 	margin-bottom: 6px;
-	margin-top: 6px;
+	margin-top: 3px;
 	padding: 6px 8px;
 	background-color: #ccc;
 	-webkit-border-radius: 	 5px;  
