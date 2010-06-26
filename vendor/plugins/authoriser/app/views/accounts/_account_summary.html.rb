@@ -1,6 +1,6 @@
 clear do 
   float :left do
-    img '/images/list_icons/invoice.png', :class => :list_image
+    img '/images/list_icons/account.png', :class => :list_image
   end
   float :left do
     h4 link_to("#{account.name}", account_url(account.id))
