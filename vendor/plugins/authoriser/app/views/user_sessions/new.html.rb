@@ -1,4 +1,4 @@
-column :width => 6 do
+column :width => 6, :before => 3, :after => 3 do
   panel t('authorizer.login_panel'), :class => :login, :flash => true  do
     block do
       form_for @user_session do |user|

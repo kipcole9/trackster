@@ -26,6 +26,7 @@ Rails::Initializer.run do |config|
   config.gem 'i18n', :version => "0.3.6"
   config.gem 'ruby-cldr', :lib => 'cldr'
   config.gem 'delayed_job'
+  # config.gem "pdfkit"
 
   # Performance monitoring
   config.gem "newrelic_rpm"
@@ -64,5 +65,6 @@ Rails::Initializer.run do |config|
     Campaign.send :include, Analytics::Model::Reports
   end
 
+  # config.middleware.use "PDFKit::Middleware", :print_media_type => true
   config.action_mailer.delivery_method = :sendmail
 end

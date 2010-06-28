@@ -19,7 +19,7 @@ class History < ActiveRecord::Base
     @history = History.new(:historical => record, :created_by => User.current_user, 
                            :transaction => transaction.to_s, :actionable => refers_to(record))
     @history.updates = (transaction == :delete) ? record.attributes : record.changes
-    @history.account = @history.actionable.try(:account)
+    @history.account = Account.current_account # @history.actionable.try(:account)
     @history.created_at = Time.zone.now  # in case ActiveRecord::Base.record_timestamps is turned off
     @history.save!
   end

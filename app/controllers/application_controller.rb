@@ -29,7 +29,12 @@ protected
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    flash[:error] = I18n.t('not_found')
+    flash[:alert] = I18n.t('not_found')
+    redirect_back_or_default
+  end
+  
+  rescue_from ActionView::MissingTemplate do |exception|
+    flash[:alert] = I18n.t('format_not_found', :format => params[:format] || "html")
     redirect_back_or_default
   end
   

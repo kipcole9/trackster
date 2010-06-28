@@ -21,6 +21,8 @@ en:
     no_events_yet:          No events currently recorded.
     bits:                   bits
     current_timezone:       "Operating in {{timezone}} timezone."
+    not_found:              "The page you requested was not found."
+    format_not_found:       "The page you requested cannot be provided in '{{format}}' format."
 
     videos:
         video:                  "Video: {{name}}"

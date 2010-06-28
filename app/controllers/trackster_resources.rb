@@ -14,6 +14,7 @@ end
 class TracksterResources < InheritedResources::Base
   unloadable
   authorize_resource
+  respond_to          :html, :xml, :json
   
   class Trackster::Responder < ActionController::Responder
     include Responders::FlashResponder

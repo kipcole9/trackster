@@ -7,6 +7,9 @@ class Content < ActiveRecord::Base
   validates_uniqueness_of   :name,            :scope => :account_id
   validates_length_of       :name,            :within => 3..50
   
+  validates_presence_of     :url
+  validates_length_of       :url,             :within => 5..255
+    
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
     {:conditions => ['name like ? or description like ?', search, search ]}
@@ -17,12 +20,15 @@ class Content < ActiveRecord::Base
   end
   
   def url=(address)
-    @url = address
+    return if address.blank?
+    @url = address.match(/^http:\/\//) ? address : "http://#{address}"
     @file = open(address) do |f|
       @content_type   = f.content_type
       @language       = f.instance_variable_get('@meta')['content-language']
       @file_contents  = f.read
     end 
+  rescue Errno::ENOENT => e
+    errors.add(:url, e)
   rescue URI::InvalidURIError => e
     errors.add(:url, e)
   rescue SocketError => e

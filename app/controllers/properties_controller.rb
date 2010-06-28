@@ -1,6 +1,5 @@
 class PropertiesController < TracksterResources
   layout              :select_template
-  respond_to          :html, :xml, :json
   has_scope           :search
   
   def destroy

@@ -1,5 +1,6 @@
 class HistoryObserver < ActiveRecord::Observer
-  observe :contact, :person, :organization, :website, :phone, :address, :email, :note, :campaign, :property, :account, :background
+  observe :contact, :person, :organization, :website, :phone, :address, :email, 
+          :note, :campaign, :property, :account, :background
 
   def before_update(record)
     History.record(record, :update) unless rolling_back?

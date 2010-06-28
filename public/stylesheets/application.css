@@ -165,7 +165,7 @@ p {
 /* Flash */
 div.flash_notice, div.flash_error, div.flash_alert {
 	padding: 5px;
-	margin: 5px 0 5px 0;
+	margin: 0 0 5px 0;
 	background-color: #bfb;
 	border: 1px solid #999;
 }
@@ -183,6 +183,10 @@ div.flash_notice p, div.flash_error p, div.flash_alert p {
 
 div.flash_error, div.flash_alert {
 	background-color: #fbb;
+}
+
+h2.heading + .flash_alert {
+	margin-top: 5px;
 }
 
 /* Error list */
