@@ -4,8 +4,6 @@ page do
       store yield
     end
   
-    column :width => 4 do
-      
-  	end
+    store yield :sidebar
   end
 end

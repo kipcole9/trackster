@@ -1,0 +1,19 @@
+h4. New Content 
+
+Enter the name that will uniquely identify this content.  For example "March Newsletter".  You can provide a more detailed description as well
+
+h4. Source Tab: URL or File Upload
+
+Your content can be uploaded from another web site or from a local file on your computer.  You should only select web site OR local file - not both.
+
+h6. URL
+
+Enter the URL where your content can be found.  The content should be in HTML format.
+
+h6. File
+
+Enter the path to the file on your local computer.
+
+h4. Base URL
+
+Some content contains relative URLs such as '/images/banner.jpg' which do not specify the host where the image is stored.  You can specify a base URL here that will be prepended to all relative URLs to ensure maximum content fidelity in your emails.  Your content can also specify a &lt;base&gt; tag in the header section of your document.  Any URL you enter here will override a &lt;base&gt; tag in your document.

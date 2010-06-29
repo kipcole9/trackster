@@ -7,8 +7,8 @@ class Content < ActiveRecord::Base
   validates_uniqueness_of   :name,            :scope => :account_id
   validates_length_of       :name,            :within => 3..50
   
-  validates_presence_of     :url
-  validates_length_of       :url,             :within => 5..255
+  # validates_presence_of     :url
+  # validates_length_of       :url,             :within => 5..255
     
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
@@ -79,6 +79,7 @@ private
     (html/"base").each do |link|
       return link['href'] if link['href']
     end
+    ""
   end
 
 end

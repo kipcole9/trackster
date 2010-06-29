@@ -17,3 +17,8 @@ en:
             edit_content:   Update Content
             source:         Content Source
             purpose:        [["Email", 'email'], ["Landing Page", "landing_page"]]
+            
+    column_descriptions:            
+        content:
+            base_url:       This URL will be pre-pended to any relative URLs in the content. It may also be provided by a &lt;base&gt; tag in the content.
+            
