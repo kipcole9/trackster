@@ -72,6 +72,7 @@ task :update_config, :roles => :app do
   run "ln -s #{browscap} #{release_path}/vendor/plugins/browscap/lib/browscap.ini"
   run "ln -s #{device_atlas} #{release_path}/vendor/plugins/analytics/lib/analytics/device_atlas.json"
   run "ln -s #{newrelic} #{release_path}/config/newrelic.yml"
+  run "ln -s #{config_dir}/crossdomain.xml #{release_path}/public/crossdomain.xml"
 end
 
 desc "Create asset packages for production" 
