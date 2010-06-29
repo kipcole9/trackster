@@ -783,10 +783,12 @@ col.page_views, col.event_count, col.page_views_per_visit {
 col.depth_of_visit, col.length_of_visit,
 col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
 col.flash_version, col.page_title,
-col.country, col.language {
+col.language {
 	width: 8em;
 }
-
+col.country {
+	width: 9em;
+}
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.distribution, col.clicks_through, col.unsubscribes,
@@ -798,7 +800,7 @@ col.bounce_rate, col.value, col.traffic_source {
 	width: 7.5em;
 }
 col.url {
-	width: 50%;
+	width: 25%;
 }
 col.entry_rate {
 	width: 6.5em;

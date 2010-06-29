@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   before_filter     Period
   
   after_filter      :store_location, :only => [:show, :index]
-  layout            'application', :except => [:rss, :xml, :json, :atom, :vcf, :xls, :csv, :pdf, :js]
+  layout            'application'
 
 protected
   rescue_from CanCan::AccessDenied do |exception|
@@ -43,7 +43,7 @@ protected
   end
   
   def login_status_ok?
-    (logged_in? && current_account) || resetting_password? || logging_in? || activation? || redirecting? || validating?
+    (logged_in? && current_account) || resetting_password? || logging_in? || activation? || validating?
   end
 
   # Prededence:
@@ -100,11 +100,7 @@ protected
   def activation?
     params[:controller] == 'users' && params[:action] == 'activate'
   end
-  
-  def redirecting?
-    params[:controller] == 'redirects' && params[:action] == 'redirect'
-  end
-  
+
   def validating?
     params[:controller] == 'validations'
   end
