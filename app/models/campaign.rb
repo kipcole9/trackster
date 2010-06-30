@@ -88,7 +88,7 @@ class Campaign < ActiveRecord::Base
       begin
         uri = URI.parse(url)
         next if uri.scheme
-        new_url = [email_content.base_url || email_content.url, url].compress.join('/')
+        new_url = [email_content.base_url, url].compress.join('/')
         link.set_attribute 'src', new_url
       rescue URI::InvalidURIError => e
         Rails.logger.error "[Campaign] Translink Fix Images: Invalid URL: '#{link}'"
