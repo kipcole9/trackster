@@ -32,7 +32,7 @@ private
   end
   
   def redirector_url(redirect)
-    "#{request.host}/r/#{redirect}"
+    "http://#{request.host}/r/#{redirect}"
   end
 
   def choose_layout

@@ -57,7 +57,7 @@ class Redirect < ActiveRecord::Base
     if URI.parse(url).scheme
       url
     else
-      [email_content.base_url, url].join('')
+      [email_content.base_url || email_content.url, url].compact.join('').gsub('//','/')
     end
   end
   
