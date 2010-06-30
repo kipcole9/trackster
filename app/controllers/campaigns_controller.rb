@@ -32,7 +32,7 @@ private
   end
   
   def redirector_url(redirect)
-    "http://#{request.host}/r/#{redirect}"
+    "http://traphos.com/r/#{redirect}"
   end
 
   def choose_layout
