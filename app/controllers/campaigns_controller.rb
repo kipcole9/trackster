@@ -32,7 +32,7 @@ private
   end
   
   def redirector_url(redirect)
-    "http://traphos.com/r/#{redirect}"
+    "#{Trackster::Config.tracker_url}/r/#{redirect}"
   end
 
   def choose_layout
