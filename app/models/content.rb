@@ -22,6 +22,7 @@ class Content < ActiveRecord::Base
   def url=(address)
     return if address.blank?
     @url = address.match(/^http:\/\//) ? address : "http://#{address}"
+    @url = @url.without_slash
     @file = open(address) do |f|
       @content_type   = f.content_type
       @language       = f.instance_variable_get('@meta')['content-language']
@@ -38,7 +39,7 @@ class Content < ActiveRecord::Base
   end
   
   def base_url=(base)
-    @base_url = base unless base.blank?
+    @base_url = base.without_slash unless base.blank?
   end
   
   def base_url
@@ -70,7 +71,7 @@ private
     version.mime_type           = 'text/plain'   if version.mime_type.blank?
     version.language            = @language      if @language
     version.base_url            = @base_url      if @base_url
-    version.base_url            = base_url_from_content(version.content) if base_url.blank?
+    version.base_url            = base_url_from_content(version.content) if @base_url.blank?
     version.save
   end
   
@@ -79,7 +80,7 @@ private
     (html/"base").each do |link|
       return link['href'] if link['href']
     end
-    ""
+    nil
   end
 
 end

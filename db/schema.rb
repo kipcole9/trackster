@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100424020238) do
+ActiveRecord::Schema.define(:version => 20100630052109) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(:version => 20100424020238) do
     t.datetime "effective_at"
     t.text     "email_production_html"
     t.boolean  "preview_available"
-    t.string   "image_directory"
     t.string   "source"
     t.string   "content"
     t.string   "contact_code"

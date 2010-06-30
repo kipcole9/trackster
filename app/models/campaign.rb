@@ -41,11 +41,6 @@ class Campaign < ActiveRecord::Base
     self.email_content.id rescue nil
   end
 
-  # Remove leading and trailing '/'
-  def image_directory=(directory)
-    super(directory.sub(/\A\//,'').sub(/\/\Z/,'')) unless directory.blank?
-  end
-
   def relink_email_html!(&block)
     return nil if (email_content = self.email_content.content).blank?
     html = ::Nokogiri::HTML(fix_entities(email_content))
@@ -93,7 +88,7 @@ class Campaign < ActiveRecord::Base
       begin
         uri = URI.parse(url)
         next if uri.scheme
-        new_url = [email_content.base_url, image_directory, url].compact.join('/')
+        new_url = [email_content.base_url || email_content.url, url].compress.join('/')
         link.set_attribute 'src', new_url
       rescue URI::InvalidURIError => e
         Rails.logger.error "[Campaign] Translink Fix Images: Invalid URL: '#{link}'"
