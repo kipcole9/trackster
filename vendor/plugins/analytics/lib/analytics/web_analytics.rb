@@ -250,6 +250,8 @@ module Analytics
       original_browser = row[:browser]
       if row[:user_agent] =~ /MSOffice 12/i
         row[:email_client] = "Outlook 2007"
+      elsif row[:user_agent] =~ /Microsoft Office\/14.0/
+        row[:email_client] = "Outlook 2010"
       elsif row[:referrer] =~ /mail\.google.*\/mail/
         row[:email_client] = "GMail"
       elsif row[:referrer] =~ /\.hotmail\./
