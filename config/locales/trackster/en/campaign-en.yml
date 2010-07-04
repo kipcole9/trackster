@@ -35,19 +35,22 @@ en:
           content:        Content
           parameters:     Segmentation
           list:           Lists
-      impressions_by_browser:              Impressions by email client
-      impressions_graph_by_browser:        Impressions by email client
-      campaign_impressions_graph:
-          impressions_graph_by_local_hour: Impressions by hour of viewing
-      campaign_impressions_graph_by_day:            
-          impressions_graph_by_day:        Impressions by day
-      campaign_overview:
-          campaign_overview:      Campaign Summary
-          show:                   Campaign summary
-      campaign_impressions:
-          campaign_impressions:   Campaign impressions
-      campaign_clicks:
-          campaign_clicks:        Campaign clicks
+      reports:
+          email_client_overview:
+              impressions_by_browser:              Impressions by email client
+          email_client_graph:
+              impressions_graph_by_browser:        Impressions by email client
+          campaign_impressions_graph:
+              impressions_graph_by_local_hour: Impressions by hour of viewing
+          campaign_impressions_graph_by_day:            
+              impressions_graph_by_day:        Impressions by day
+          campaign_overview:
+              campaign_overview:      Campaign Summary
+              show:                   Campaign summary
+          campaign_impressions:
+              campaign_impressions:   Campaign impressions
+          campaign_clicks:
+              campaign_clicks:        Campaign clicks
       
   panels:
       campaign_navigation:        Actions

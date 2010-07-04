@@ -1,6 +1,6 @@
-panel t('campaigns.impressions_graph_by_browser')  do
+panel t('.impressions_graph_by_browser')  do
   block do
-    impressions = (@account || @campaign || @property).tracks.impressions.by(:email_client).between(Period.from_params(params)).all
+    impressions = resource.tracks.impressions.by(:email_client).between(Period.from_params(params)).all
     if impressions.empty?
       h3 t('no_impressions_yet')
     else

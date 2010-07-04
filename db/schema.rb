@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100630052109) do
+ActiveRecord::Schema.define(:version => 20100704060831) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -86,22 +86,20 @@ ActiveRecord::Schema.define(:version => 20100630052109) do
     t.integer  "distribution"
     t.integer  "bounces"
     t.integer  "unsubscribes"
-    t.string   "code",                  :limit => 10
+    t.string   "code",                :limit => 10
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "effective_at"
-    t.text     "email_production_html"
-    t.boolean  "preview_available"
     t.string   "source"
     t.string   "content"
     t.string   "contact_code"
     t.string   "medium"
-    t.string   "email_from",            :limit => 50
-    t.string   "email_from_name",       :limit => 50
-    t.string   "email_reply_to",        :limit => 50
-    t.string   "email_reply_to_name",   :limit => 50
+    t.string   "email_from",          :limit => 50
+    t.string   "email_from_name",     :limit => 50
+    t.string   "email_reply_to",      :limit => 50
+    t.string   "email_reply_to_name", :limit => 50
     t.string   "unsubscribe_url"
     t.integer  "content_id"
   end
