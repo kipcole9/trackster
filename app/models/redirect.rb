@@ -21,16 +21,12 @@ class Redirect < ActiveRecord::Base
     {:conditions => ['name like ? or url like ?', search, search ]}
   }
 
-  def self.find_or_create_from_link(email_content, url, link_content)
+  def self.find_or_create_from_link(base_url, url, link_content)
     return nil if url.blank?
-    absolute_url = get_absolute_url(email_content, url) 
+    absolute_url = get_absolute_url(base_url, url) 
     account = Account.current_account
-    redirect = account.redirects.find_by_url(absolute_url.with_slash) ||
-               account.redirects.find_by_url(absolute_url.without_slash) ||  
-               account.redirects.create!(
-                  :url => absolute_url, 
-                  :name => redirect_name_from(link_content, absolute_url.with_slash)
-               )
+    redirect = account.redirects.find_by_url(absolute_url) ||
+               account.redirects.create!(:url => absolute_url, :name => redirect_name_from(link_content, absolute_url))
     redirect
   end
   
@@ -53,11 +49,11 @@ class Redirect < ActiveRecord::Base
     path = URI.parse(url).path
   end
   
-  def self.get_absolute_url(email_content, url)
+  def self.get_absolute_url(base_url, url)
     if URI.parse(url).scheme
       url
     else
-      [email_content.base_url, url].compact.join('/').gsub('//','/')
+      [base_url, url.without_slash].compact.join('/').gsub('//','/')
     end
   end
   

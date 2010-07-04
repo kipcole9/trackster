@@ -1,5 +1,5 @@
 # Parse parameters (usually from a request via ActionController) into
-# chain of named scoped
+# chain of named scopes
 #
 # Format of query parameters:
 # => by=dim1,dim2,dim3    dimensions
@@ -31,8 +31,7 @@ class Period
   end
 
   def dimensions_from_params(params)
-    param = params[:by]
-    return [] unless param
+    return [] unless param = params[:by]
     param.split(',').map(&:strip).map(&:to_sym)
   end
 

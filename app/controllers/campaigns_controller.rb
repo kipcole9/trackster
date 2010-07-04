@@ -9,10 +9,12 @@ class CampaignsController < TracksterResources
       flash[:notice] = t('.no_preview_available')
     elsif @campaign.email_content.content.blank? 
       flash[:notice] = t('.no_email_html')
-    elsif !(@campaign = @campaign.relink_email_html! {|redirect| redirector_url(redirect) })
+    elsif (@production_html = @campaign.relink_email_html).is_a?(Array)
       flash[:alert] = t('.translink_errors')
     end
     redirect_back_or_default unless flash.empty?
+    @campaign.email_production_html = @production_html
+    @campaign.save!
   end
   
   def destroy
@@ -29,10 +31,6 @@ private
 
   def collection
     @campaigns ||= end_of_association_chain.paginate(:page => params[:page], :per_page => params[:per_page])
-  end
-  
-  def redirector_url(redirect)
-    "#{Trackster::Config.tracker_url}/r/#{redirect}"
   end
 
   def choose_layout

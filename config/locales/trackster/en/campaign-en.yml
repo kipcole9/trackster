@@ -1,0 +1,56 @@
+en:   
+  column_descriptions:            
+      campaign:
+          cost:           "Total campaign cost, used to measure campaign performance"
+          distribution:   "What is the size of the distribution list for the campaign?"
+          source:         "What is the name of the marketing program (can be used to link multiple campaigns)"
+          content:        "Any text to further segment campaign data"
+          contact_code:   "Define the merge field that your mailer uses for inserting a contact identifer"
+          bounces:        "How many emails were undeliverable?"
+          medium:         "Means by which the campaign is delivered. Currently fixed to 'email'"
+          image_directory: "The (optional) hosting server subdirectory name where the email's images are located"
+          unsubscribes:   "How many people unsubscribed?"
+          code:           "This is your campaign code.  It's used to tag links so that campaign tracking data is correctly assigned. This code is automatically generated and cannot be changed."
+          email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  
+          landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
+
+  campaigns:
+      hash_link_problem:  "Link {{url}} should point to a landing page."
+      bad_uri:            "Link {{url}} appears invalid."
+      no_email_html:      "There is no email html to preview"
+      campaign_for_property: "Campaign '{{campaign}}' for '{{property}}'"
+      campaign_deleted:   Campaign deleted
+      campaign_updated:   Campaign updated
+      campaign_created:   Campaign defined
+      edit_navigation:    Campaign actions
+      show_preview:       Show preview of email
+      translink_errors:   There were errors translinking the html
+      campaign_form:
+          distribution:   Measures
+          coding:         Link tagging
+          edit_campaign:  Profile
+          html:           HTML
+          new_campaign:   Profile
+          source:         Source
+          content:        Content
+          parameters:     Segmentation
+          list:           Lists
+      impressions_by_browser:              Impressions by email client
+      impressions_graph_by_browser:        Impressions by email client
+      campaign_impressions_graph:
+          impressions_graph_by_local_hour: Impressions by hour of viewing
+      campaign_impressions_graph_by_day:            
+          impressions_graph_by_day:        Impressions by day
+      campaign_overview:
+          campaign_overview:      Campaign Summary
+          show:                   Campaign summary
+      campaign_impressions:
+          campaign_impressions:   Campaign impressions
+      campaign_clicks:
+          campaign_clicks:        Campaign clicks
+      
+  panels:
+      campaign_navigation:        Actions
+      campaign_index:             Campaigns
+      campaign:                   Campaign
+        
