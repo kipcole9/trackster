@@ -98,9 +98,11 @@ private
     logfile ? TracksterLogger.new(logfile, log_level) : Rails.logger
   end
   
+  # Event.tracked_at is not converted to a timezone on store. Since the system timezone it UTC and so
+  # is the log file timezone we can directly compare them.
   def last_log_entry
     return @last_log_entry if defined?(@last_log_entry)
-    @last_log_entry = Event.last.created_at
+    @last_log_entry = Event.last.tracked_at
     logger.info "[Log analyser daemon] Last event saved before restart was at #{last_log_entry}."
     @last_log_entry
   end
