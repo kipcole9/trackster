@@ -10,6 +10,10 @@ class CampaignsController < TracksterResources
     end
   end
   
+  def preview
+    render :text => resource.relink_email_html
+  end
+  
 private
   def begin_of_association_chain
     current_account
