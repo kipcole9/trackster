@@ -79,18 +79,6 @@ module Trackster
   module Translinker
     class Email < Trackster::Translinker::Base
 
-      # Nokogiri is very strict on entities and parses them.  We actually
-      # don't want them transformed so we edit them and then put them back
-      MAGIC_ENTITY = '!!ZXZX!!'
-
-      # And because of this entity issue we do a similar thing for the contact merge
-      # field.
-      CONTACT_MARKER = '!!XZXZ!!'
-
-      # These are the only schemes we care about when transforming links
-      # into redirects.  Ignore all others.
-      REDIRECT_SCHEMES = %w(http https)
-
       def translink_parsed_document(html)
         make_anchors_into_redirects(html)
         copy_images? ? copy_images_to_cloud(html) : make_image_links_absolute(html)
@@ -227,7 +215,7 @@ module Trackster
 
       def unfix_entities(text)
         unfixed = text.gsub(MAGIC_ENTITY,'&')
-        unfixed.gsub(CONTACT_MARKER, campaign.contact_code) if campaign
+        unfixed = unfixed.gsub(CONTACT_MARKER, campaign.contact_code) if campaign
         unfixed
       end
     end

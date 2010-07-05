@@ -20,6 +20,19 @@ module Trackster
                                                 # #code, #medium, #content, #source, #contact_code
         :base_url               => nil          # Prepended to any relative image and anchors links to make them absolute 
       }
+      
+      
+      # Nokogiri is very strict on entities and parses them.  We actually
+      # don't want them transformed so we edit them and then put them back
+      MAGIC_ENTITY = '!!ZXZX!!'
+
+      # And because of this entity issue we do a similar thing for the contact merge
+      # field.
+      CONTACT_MARKER = '!!XZXZ!!'
+
+      # These are the only schemes we care about when transforming links
+      # into redirects.  Ignore all others.
+      REDIRECT_SCHEMES = %w(http https)
   
       attr_accessor :errors, :output
       attr_reader   :base_url, :campaign, :options, :records
@@ -45,6 +58,7 @@ module Trackster
         @options  = DEFAULT_OPTIONS.merge(options)
         @records  = options[:merge]
         @records  = [@records].compact unless @records.respond_to?(:each)
+        @campaign = options.delete(:campaign)
         @base_url = options.delete(:base_url) || ''     
       end
   
