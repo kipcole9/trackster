@@ -120,20 +120,20 @@ module Trackster
       # Campaign parameters are generic.  But note if not an email you
       # should adjust in your derived class
       def view_parameters
-        campaign_parameters + "&utcat=page&utact=view"
+        [campaign_parameters, "utcat=page", "utact=view"].compress.join('&')
       end
 
       def open_parameters
-        campaign_parameters + "&utcat=email&utact=open"
+        [campaign_parameters, "utcat=email", "utact=open"].compress.join('&')
       end
 
       def campaign_parameters
         params = ''
         if campaign
           params += "utac=#{Account.current_account.tracker}&utm_campaign=#{campaign.code}&utm_medium=#{campaign.medium}"
-          params += "&utm_content=#{campaign.content}" unless campaign.content.blank?
-          params += "&utm_source=#{campaign.source}" unless campaign.source.blank?
-          params += "&utid=#{CONTACT_MARKER}" unless campaign.contact_code.blank?
+          params += "&utm_content=#{campaign.content}"  unless campaign.content.blank?
+          params += "&utm_source=#{campaign.source}"    unless campaign.source.blank?
+          params += "&utid=#{CONTACT_MARKER}"           unless campaign.contact_code.blank?
         end
         params
       end
