@@ -60,7 +60,7 @@ module Analytics
         row[:os_name] = "Windows"
         row[:os_version] = $1
         row[:device] = "Windows PC"       
-      elsif row[:os_name] =~ /MacOSX/
+      elsif row[:os_name] =~ /MacOSX/ || (row[:os_name] == 'unknown' && row[:user_agent] =~ /Mac OS X/)
         row[:os_name] = "Mac OS X"
         row[:os_version] = row[:user_agent].match(/Mac OS X ([0-9_\.]+);/).try(:[], 1)
         row[:device] = "Macintosh"
@@ -75,11 +75,16 @@ module Analytics
         row[:os_version] = row[:user_agent].match(/SymbianOS\/([0-9\.]+) /).try(:[], 1)
       elsif row[:browser] =~ /Chrome 4/
         row[:browser] = "Chrome"
+      elsif row[:browser] == "BlackBerry"
+        row[:os_name] = "BlackBerry OS"
       elsif row[:os_name] =~ /Android/
         row[:os_version] = row[:user_agent].match(/Android ([0-9\.]+)/).try(:[], 1)
       elsif row[:os_name] =~ /Wii/
         row[:device] = "Wii"
         row[:device_vendor] = "Nintendo"
+      elsif row[:browser] == "Windows Media Player"
+        row[:os_name] = "Windows"
+        row[:device] = "Windows PC"
       elsif row[:os_name] == "iPad"
         row[:os_name] = "iPhone OS"
         row[:device_vendor] = "Apple"
