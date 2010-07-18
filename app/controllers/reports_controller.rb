@@ -36,7 +36,9 @@ class ReportsController < ApplicationController
   end
   
   def exit_page
-    @report = resource.entry_exit_summary(params)
+    @report = resource.entry_exit_summary(params).each do |r|
+      r['campaign_name'] = r.campaign.name if r.campaign
+    end
     report :action => "exit_page"
   end
   
