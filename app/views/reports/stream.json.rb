@@ -1,0 +1,1 @@
+store @report.to_json(:except => @dont_export)

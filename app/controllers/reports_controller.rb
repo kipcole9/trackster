@@ -19,7 +19,7 @@ class ReportsController < ApplicationController
   helper_method :resource
   before_filter :check_time_period
   after_filter  :store_location
-  
+    
   # Reports that have their own view template
   # Most reports are managed by method_missing below
   def new_v_returning;    end
@@ -38,6 +38,12 @@ class ReportsController < ApplicationController
   def exit_page
     @report = resource.entry_exit_summary(params)
     report :action => "exit_page"
+  end
+  
+  def stream
+    @dont_export = [:id, :referrer, :user_agent, :account_id, :redirect_id, :campaign_id, 
+      :count, :sequence, :property_id, :session_id, :created_at, :updated_at]
+    @report = resource.event_stream(params)
   end
 
   # Here's where we implement most of the reporting.  Since reporting
