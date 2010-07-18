@@ -83,6 +83,7 @@ end
 tailer.tail do |log_line|
   parser.parse(log_line) do |log_attributes|
     next if log_attributes[:datetime] < @last_logged_entry
+    ActiveRecord::Base.verify_active_connections! 
     Analytics::TrackEvent.analyse(log_attributes) do |track|
       begin
         Session.transaction do
