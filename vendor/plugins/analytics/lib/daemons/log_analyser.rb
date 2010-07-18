@@ -79,8 +79,10 @@ end
 # This is where the real work begins. Tail the log, parse each entry into
 # a hash and pass the hash to the analyser.  The analyser builds an object
 # that can then be further processed.
+@last_logged_entry = Event.last.tracked_at
 tailer.tail do |log_line|
   parser.parse(log_line) do |log_attributes|
+    next if log_attributes[:datetime] < @last_logged_entry
     Analytics::TrackEvent.analyse(log_attributes) do |track|
       begin
         Session.transaction do
