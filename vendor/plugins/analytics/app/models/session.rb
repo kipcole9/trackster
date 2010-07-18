@@ -10,13 +10,11 @@ class Session < ActiveRecord::Base
   before_save   :update_session_time
   before_save   :update_event_count
   
-  attr_accessor  :logger
-  
-  # EMAIL_CLICK   = 'email'
+  attr_reader   :logger
 
   def self.find_or_create_from_track(track)
     @logger = Rails.logger
-    raise ArgumentError, "tracked_at is nil" unless track.tracked_at
+    raise ArgumentError, "Tracked_at is nil" unless track.tracked_at
     session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)
     session = self.new_from_track(track) unless session
     session
@@ -35,7 +33,7 @@ class Session < ActiveRecord::Base
     super unless is_empty?(r)
   end
 
-  def forwared_for=(r)
+  def forwarded_for=(r)
     super unless is_empty?(r)
   end
   
@@ -91,24 +89,13 @@ class Session < ActiveRecord::Base
       logger.error "[Session] Host '#{track.host}' is not associated with account '#{self.account.name}'."
     end
   end
-  
-  def reverse_geocode
-    return if ip_address.blank?
-    geodata = IpAddress.reverse_geocode(self.ip_address)
-    self.country      = geodata[:country]
-    self.region       = geodata[:region]
-    self.locality     = geodata[:locality]
-    self.latitude     = geodata[:latitude]
-    self.longitude    = geodata[:longitude]
-    self.geocoded_at  = geodata[:geocoded_at]
-  end
 
 private
   def self.new_from_track(track)
     session = new
     logger = Rails.logger
     
-    # Copy the common attributes from the tracker row
+    # Copy the common attributes from the tracker
     session.attributes.each do |k, v|
       session.send("#{k}=",  track[k.to_sym]) if Analytics::TrackEvent.has_attribute?(k)
     end
@@ -116,7 +103,9 @@ private
     session.started_at  = track.tracked_at
     session.ended_at    = session.started_at
     
-    # See if there was a previous session
+    # See if there was a previous session. By keeping track of a previous visit we can
+    # quickly detect if this is a new visitor or not, and we can also detect if this
+    # is a repeat visitor for a give date range
     if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
       session.previous_visit_at = previous_visit.started_at
     end
@@ -137,9 +126,9 @@ private
   end
 
   def update_event_count
-    self.event_count = self.events.count
-    self.page_views = self.events.count(:conditions => Event::PAGE_VIEW)
-    self.impressions = self.events.count(:conditions => Event::IMPRESSIONS)
+    self.event_count  = self.events.count
+    self.page_views   = self.events.count(:conditions => Event::PAGE_VIEW)
+    self.impressions  = self.events.count(:conditions => Event::IMPRESSIONS)
   end
 
   def update_session_time

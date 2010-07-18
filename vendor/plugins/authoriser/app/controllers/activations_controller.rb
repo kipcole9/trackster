@@ -8,7 +8,6 @@ class ActivationsController < ApplicationController
 
   def create
     @user = User.find_using_perishable_token(params[:id], 1.week) || (raise Exception)
-
     raise Exception if @user.active?
 
     @user.reset_perishable_token!

@@ -56,7 +56,7 @@ module Analytics
       :utid         =>  :contact_code
     }
     
-    attr_accessor   :log, :tracks, :logger, :_system, :_referrer, :_email_client, :_url, :_visitor, :_session, :_location
+    attr_accessor :log, :tracks, :logger, :_system, :_referrer, :_email_client, :_url, :_visitor, :_session, :_location
 
     def self.analyse(log_record, &block)
       if trackable?(log_record)
@@ -109,36 +109,36 @@ module Analytics
     end
     
     def country
-      _location.try(:country) || @referrer.try(:country)
+      _location.country || _referrer.country
     end
     alias :country_code :country
     
     def region
-      _location.try(:region)
+      _location.region
     end
     
     def locality
-      _location.try(:locality)
+      _location.locality
     end
     
     def latitude
-      _location.try(:latitude)
+      _location.latitude
     end
     
     def longitude
-      _location.try(:longitude)
+      _location.longitude
     end
     
     def geocoded_at
-      _location.try(:geocoded_at)
+      _location.geocoded_at
     end
 
     def category
-      tracks[:category] || 'page'
+      tracks[:category] || Event::PAGE_CATEGORY
     end
     
     def action
-      tracks[:action] || 'view'
+      tracks[:action] || Event::VIEW_ACTION
     end
 
     def timezone
@@ -166,39 +166,39 @@ module Analytics
     end
  
     def email_client
-      _email_client.try(:name)
+      _email_client.name
     end
     
     def traffic_source
-      email? ? 'email' : self.traffic_source
+      email? ? Event::EMAIL_CATEGORY : self.traffic_source
     end
     
     def device
-      _system.try(:device)
+      _system.device
     end
     
     def device_vendor
-      _system.try(:device_vendor)
+      _system.device_vendor
     end
     
     def os_name
-      _system.try(:os_name)
+      _system.os_name
     end
     
     def os_version
-      _system.try(:os_version)
+      _system.os_version
     end
     
     def mobile_device
-      _system.try(:mobile_device?)
+      _system.mobile_device?
     end
     
     def browser
-      _system.try(:browser)
+      _system.browser
     end
     
     def browser_version
-      _system.try(:browser_version)
+      _system.browser_version
     end
     
     def user_agent
@@ -206,11 +206,11 @@ module Analytics
     end
     
     def traffic_source
-      _referrer.try(:traffic_source)
+      _referrer.traffic_source
     end
     
     def search_terms
-      _referrer.try(:search_terms)
+      _referrer.search_terms
     end
     
     def forwarded_for
@@ -218,11 +218,11 @@ module Analytics
     end
     
     def referrer_category
-      email? ? 'email' : _referrer.try(:category)
+      email? ? Event::EMAIL_CATEGORY : _referrer.category
     end
     
     def referrer_host
-      _referrer.try(:host)
+      _referrer.host
     end
     
     def timezone
@@ -231,7 +231,7 @@ module Analytics
     
     def lon_local_time
       return false if tracks[:timezone]
-      return true if _location.try(:timezone)
+      return true if _location.timezone
       nil
     end
     
