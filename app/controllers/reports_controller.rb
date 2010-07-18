@@ -95,8 +95,9 @@ private
   def report(*render_args)
     respond_to do |format|
       format.html     { render *render_args }
-      format.xml      { render :xml => @report }
+      format.xml      { render :xml =>  @report }
       format.json     { render :json => @report }
+      format.csv      { render :text => @report.to_csv}
       format.xcelsius { render :action => 'report' }
     end
   end
