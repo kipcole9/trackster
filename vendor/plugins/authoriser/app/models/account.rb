@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
   
   validates_presence_of     :name
   validates_uniqueness_of   :name  
-  validates_length_of       :name,            :within => 3..40
+  validates_length_of       :name,            :within => 3..20
   validates_format_of       :name,            :with => /\A[a-zA-Z0-9-]+\Z/
   validates_exclusion_of    :name,            :in => %w( support blog www billing help api video map )
 

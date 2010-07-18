@@ -1,21 +1,21 @@
-class LogAnalyserDaemon
-  # Check that a log entry matches a logging record
-  # First kind is a regular .gif request.
-  # The second is a redirect record
-  attr_accessor :web_analyser, :log_parser, :log_inode, :last_log_entry, :logger, :log
+# Tail the end of a log file and pass the record to the provided block.
+# Takes care of log rotation, end of file waiting and so on
+require 'file/tail'
+
+class LogTailer
+  attr_accessor :log_parser, :log_inode, :logger, :log
 
   def initialize(options = {})
     # Configuration options
     @logger          = log_from_options(options)
     @options         = options
-    @log_parser      = Analytics::LogParser.new(:format => :nginx, :logger => @logger)
-    @web_analyser    = Analytics::WebAnalytics.new(:logger => @logger)
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
 
-  def log_analyser_loop(options = {})
+  def tail(options = {}, &block)
+    raise ArgumentError, "LogTailer.tail requires a block" unless block_given?
     default_options = {:forward => 0}
-    options     = @options.merge(default_options).merge(options) 
+    options     = default_options.merge(@options).merge(options) 
     @log        = File::Tail::Logfile.open(log_file, options)
     @log_inode  = File.stat(log_file).ino
     log.interval            = 1     # Initial sleep interval when no data
@@ -24,7 +24,7 @@ class LogAnalyserDaemon
     log.reopen_suspicious   = true  # is default
     log.suspicious_interval = 20    # When several loops of no data - like when logs rotated
     
-    logger.info "[Log analyser daemon] Log analyser loop is beginning."
+    logger.info "[Log Tailer] Log tail loop is beginning."
     
     # Is called by log tailer when the log file is reopened (which happens after a series
     # of EOF detections)
@@ -33,7 +33,7 @@ class LogAnalyserDaemon
         # logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
-        logger.info "[Log analyser daemon] Log analyser is terminating as requested (detected after log reopen)"
+        logger.info "[Log Tailer] Log tailer is terminating as requested (detected after log reopen)"
         log.close
         return
       end
@@ -41,19 +41,11 @@ class LogAnalyserDaemon
     
     # Main log loop
     log.tail do |line|
-      entry = log_parser.parse_entry(line)
-      if entry[:datetime]
-        if entry[:datetime] > last_log_entry && web_analyser.is_tracker?(entry[:url]) && !web_analyser.is_crawler?(entry[:user_agent])
-          ActiveRecord::Base.verify_active_connections!
-          log_parser.save_web_analytics!(web_analyser, entry)
-        end
-      else
-        logger.info "[Log analyser daemon] Skipping badly formatted log entry: #{line}"
-      end
+      yield line
     end
     
     unless running?
-      logger.info "[Log analyser daemon] Log analyser is terminating as requested (there may be unprocessed log entries)"
+      logger.info "[Log Tailer] Log tailer is terminating as requested (there may be unprocessed log entries)"
       log.close
       return
     end    
@@ -83,7 +75,7 @@ private
   
   def check_if_log_was_rotated  
     if new_file_inode = log_was_rotated?
-      logger.info "[Log analyser daemon] Log analyser has detected a probable log rotation and moved to new logfile."
+      logger.info "[Log Tailer] Log tailer has detected a probable log rotation and moved to new logfile."
       log.forward
       @log_inode = new_file_inode
     end
@@ -95,7 +87,7 @@ private
     return options[:logger] if options[:logger]
     logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory
     log_level = log_modes[options[:log_level] || Trackster::Config.log_level || :info]
-    logfile ? TracksterLogger.new(logfile, log_level) : Rails.logger
+    logfile ? TracksterLogger.new(logfile, log_level) : Rails.logger rescue Rails.logger
   end
   
   # Event.tracked_at is not converted to a timezone on store. Since the system timezone it UTC and so
@@ -103,7 +95,7 @@ private
   def last_log_entry
     return @last_log_entry if defined?(@last_log_entry)
     @last_log_entry = Event.last.tracked_at
-    logger.info "[Log analyser daemon] Last event saved before restart was at #{last_log_entry}."
+    logger.info "[Log Tailer] Last event saved before restart was at #{last_log_entry}."
     @last_log_entry
   end
 end

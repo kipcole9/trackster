@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
     t.text     "handler"
-    t.string   "last_error"
+    t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
@@ -295,10 +295,6 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
   end
 
   create_table "imports", :force => true do |t|
-    t.integer  "account_id"
-    t.string   "description"
-    t.integer  "created_by"
-    t.string   "original_file"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "messages"
@@ -307,6 +303,10 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
     t.integer  "records"
     t.integer  "created"
     t.integer  "updated"
+    t.string   "description"
+    t.integer  "created_by"
+    t.string   "original_file"
+    t.integer  "account_id"
   end
 
   create_table "instant_messengers", :force => true do |t|
@@ -402,6 +402,15 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
   add_index "properties", ["account_id", "name"], :name => "index_properties_on_account_id_and_name", :unique => true
   add_index "properties", ["account_id"], :name => "index_properties_on_account_id"
   add_index "properties", ["host"], :name => "index_properties_on_host"
+
+  create_table "recipients", :force => true do |t|
+    t.string   "salutation"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "redirects", :force => true do |t|
     t.integer  "account_id"
@@ -544,6 +553,60 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tracks", :force => true do |t|
+    t.integer  "property_id"
+    t.integer  "campaign_id"
+    t.string   "visitor",               :limit => 20
+    t.integer  "visit",                                :default => 0
+    t.string   "session",               :limit => 20
+    t.integer  "event_count"
+    t.string   "browser",               :limit => 20
+    t.string   "browser_version",       :limit => 10
+    t.string   "language",              :limit => 10
+    t.string   "screen_size",           :limit => 10
+    t.integer  "color_depth",           :limit => 2
+    t.string   "charset",               :limit => 10
+    t.string   "os_name",               :limit => 20
+    t.string   "os_version",            :limit => 10
+    t.string   "flash_version",         :limit => 10
+    t.string   "campaign_name",         :limit => 50
+    t.string   "campaign_source"
+    t.string   "campaign_medium"
+    t.string   "campaign_content"
+    t.string   "ip_address",            :limit => 20
+    t.string   "locality"
+    t.string   "region"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "duration",                             :default => 0
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "geocoded_at"
+    t.integer  "page_views"
+    t.datetime "previous_visit_at"
+    t.integer  "count"
+    t.integer  "account_id"
+    t.boolean  "mobile_device"
+    t.string   "referrer"
+    t.string   "referrer_host",         :limit => 100
+    t.string   "search_terms"
+    t.string   "traffic_source",        :limit => 50
+    t.integer  "session_id"
+    t.integer  "sequence"
+    t.string   "url"
+    t.string   "page_title"
+    t.datetime "tracked_at"
+    t.boolean  "entry_page",                           :default => true
+    t.boolean  "exit_page",                            :default => true
+    t.string   "category"
+    t.string   "action"
+    t.string   "label"
+    t.float    "value"
+    t.string   "internal_search_terms"
+    t.integer  "redirect_id"
   end
 
   create_table "traffic_sources", :force => true do |t|

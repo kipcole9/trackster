@@ -33,11 +33,11 @@ class Event < ActiveRecord::Base
   PAGE_VIEW       = "category = '#{PAGE_CATEGORY}' AND action = '#{VIEW_ACTION}' AND url IS NOT NULL"
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
-  def self.create_from_row(session, row)
-    @logger ||= row[:logger] || Rails.logger
-    return nil if !session?(session) || unknown_event?(row) || duplicate_event?(session, row)
+  def self.create_from_track(session, track)
+    @logger = Rails.logger
+    return nil if !session?(session) || unknown_event?(track) || duplicate_event?(session, track)
     
-    event = new_from_row(session, row)
+    event = new_from_track(session, track)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       previous_event.exit_page = false
       previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
       event.entry_page = true
     end
     event.exit_page = true
-    session.ended_at = event.tracked_at
+    session.ended_at = track.tracked_at
     event
   end
  
@@ -72,8 +72,8 @@ class Event < ActiveRecord::Base
     self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
   end
   
-  def self.email_opening?(row)
-    row[:category] == EMAIL_CATEGORY && row[:action] == OPEN_ACTION
+  def self.email_opening?(track)
+    track.category == EMAIL_CATEGORY && track.action == OPEN_ACTION
   end
 
   def email_opening?
@@ -81,21 +81,23 @@ class Event < ActiveRecord::Base
   end
     
 private
-  def self.duplicate_event?(session, row)
+  def self.duplicate_event?(session, track)
     # If no view then it's an open email or a redirect, which is OK
-    return false if !row[:view]
-    if session.events.find_by_sequence(row[:view])
-      logger.error "[Event] Duplicate event found for sequence #{row[:view]}"
-      logger.error row.inspect
+    return false if !track.view
+    if session.events.find_by_sequence(track.view)
+      logger.error "[Event] Duplicate event found for session #{track.session} and sequence #{track.view}"
+      logger.debug track.inspect
       true
     else
       false
     end
   end
       
-  def self.unknown_event?(row)
-    if unknown = row[:view].blank? && !email_opening?(row) && !redirect?(row)
+  def self.unknown_event?(track)
+    if unknown = track.view.blank? && !email_opening?(track) && !redirect?(track)
       logger.error "[Event] Unknown event detected (no view sequence number; not an email open event; not a redirect)"
+      logger.error "[Event] Tracking data:"
+      logger.error track.inspect
     end
     unknown
   end
@@ -105,17 +107,17 @@ private
     session
   end    
     
-  def self.redirect?(row)
-    row[:redirect]
+  def self.redirect?(track)
+    track.redirect?
   end
 
-  def self.new_from_row(session, attrs)
+  def self.new_from_track(session, track)
     event = new
     event.session = session
     event.attributes.each do |k, v|
-      event.send("#{k.to_s}=",  attrs[k.to_sym])
+      event.send("#{k}=", track[k.to_sym]) if Analytics::TrackEvent.has_attribute?(k)
     end
-    event.sequence = attrs[:view]
+    event.sequence = track.view
     
     # All actions, include page views, are events
     # If no event data is provided then it's a pageview

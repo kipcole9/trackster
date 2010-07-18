@@ -1,12 +1,12 @@
 module Analytics
   class SystemInfo
-    attr_accessor :browscap, :device
+    attr_accessor :browscap, :device, :user_agent
   
     class MobileDevice
+      require 'json'
       def initialize(file = "#{File.dirname(__FILE__)}/device_atlas.json")
-        require 'json'
-        @device_atlas = DeviceAtlas.new
-        @tree = @device_atlas.getTreeFromFile(file)
+        @@device_atlas = DeviceAtlas.new unless defined?(@@device_atlas)
+        @@tree = @device_atlas.getTreeFromFile(file) unless defined?(@@tree)
         @cached_entries = {}
       end
     
@@ -21,19 +21,16 @@ module Analytics
       end
     end
   
-    def initialize
+    def initialize(user_agent)
+      @user_agent = user_agent
       @browscap = Browscap.new
+      @browscap = @browscap.
       @device = MobileDevice.new
     end
-  
-    def info!(row)
-      platform_info!(row)
-      device_info!(row)
-      transform_platform_info!(row)
-    end
-  
-  protected
-  
+
+    def browser
+      
+
     def platform_info!(row)
       if agent = browscap.query(row[:user_agent])
         row[:browser]         = agent.browser

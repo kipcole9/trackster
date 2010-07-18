@@ -28,9 +28,9 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 
 # Testing gems
-config.gem "rspec", :lib => false, :version => ">=1.2.2"
-config.gem "rspec-rails", :lib => false, :version => ">=1.2.2"
-config.gem "webrat", :lib => false, :version => ">=0.4.3"
-config.gem "cucumber", :lib => false, :version => ">=0.2.2"
-config.gem "database_cleaner", :lib => false, :version => ">= 0.5.0"
+#config.gem "rspec", :lib => false, :version => ">=1.2.2"
+#config.gem "rspec-rails", :lib => false, :version => ">=1.2.2"
+#config.gem "webrat", :lib => false, :version => ">=0.4.3"
+#config.gem "cucumber", :lib => false, :version => ">=0.2.2"
+#config.gem "database_cleaner", :lib => false, :version => ">= 0.5.0"
 

@@ -15,7 +15,7 @@ config/mailer.yml
 public/javascripts/tracker_debug_packaged.js
 public/javascript/tracker_packaged.js
 vendor/plugins/browscap/lib/browscap.ini
-vendor/plugins/analytics/lib/analytics/device_atlas.json
+vendor/plugins/analytics/data/device_atlas.json
 public/email_client_test.html
 lib/analytics/wurfl.xml
 vendor/cldr/**/*

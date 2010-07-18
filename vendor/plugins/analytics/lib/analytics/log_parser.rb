@@ -1,6 +1,6 @@
 module Analytics
   class LogParser
-    ATTRIBS = {
+    LOG_ATTRIBUTES = {
       :ip_address     => "(\\S*)",
       :remote         => "(\\S*)",
       :user           => "(\\S*)",
@@ -13,99 +13,72 @@ module Analytics
       :forwarded_for  => "\"(.+?)\""
     }
   
-    COMMON_LOG = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
-    DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
-    attr_accessor   :format, :regexp, :column, :logger
+    COMMON_LOG_FORMAT = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
+    LOG_DATE_FORMAT = '%d/%b/%Y:%H:%M:%S %z'
+    
+    attr_accessor :log_format_regexp, :log_format_string, :log_entry_attributes, :logger
   
     def initialize(options = {})
-      if options.empty? || options[:format] == :nginx || options[:format] == :common
-        @args = COMMON_LOG
-      else
-        @args = options[:format]
-      end
-    
-      validate_args!(@args)
+      @log_entry_attributes = (options.empty? || options[:format] == :common) ? COMMON_LOG_FORMAT : options[:format]
+      validate_args!(@log_entry_attributes)   
       @logger = options[:logger] || Rails.logger
-      @formats = []
-      @args.each {|arg| @formats << ATTRIBS[arg]}
-      @format = "\\A" + @formats.join(' ') + "\\Z"
-      @regexp = Regexp.new(@format)
-    end
-  
-    # Parses the incoming log record and breaks it up into the 
-    # the relevant attributes in @columns
-    def parse_entry(log_entry)
-      @column = {}; i = 1;
-      if attributes = log_entry.match(regexp)
-        @args.each {|f| @column[f] = attributes[i]; i += 1}
-        parse_datetime! if @column[:time]
-        parse_request! if @column[:request]
-      end
-      @column
+      @log_format_regexp = log_format_from(@log_entry_attributes)
+      
+      @logger.debug "[Log Parser] Log attributes are: #{@log_entry_attributes.join(', ')}"
+      @logger.debug "[Log Parser] Log regexp is: #{@log_format_string}"
     end
 
-    # Main method for decoding a log file entry for its analytics content.
-    # This method will create the Track, Session and Event objects and serialise
-    # them to the database.  Feed a parsed row from a log file to this
-    # method to save analytics data to the database. See log_tailer.rb for
-    # the most relevant usage example or the method #parse_log above.
-    # option[:geocode] if true will geocode the data.  You most likely want this to
-    # be true since we are now resolving this data from the hostip.info database
-    # locally (no net latency).
-    def save_web_analytics!(web_analyser, entry, options = {})
-      unless row = web_analyser.create(entry)
-        logger.error "[log_parser] Row could not be created from log data:"
-        logger.error entry.inspect
-        return nil
-      end
+    def parse(log_entry, &block)
+      parsed_entry = parse_entry(log_entry)
+      block_given? ? yield(parsed_entry) : parsed_entry
+    end
     
-      Session.transaction do
-        if session = Session.find_or_create_from_track(row)
-          session.save! if session.new_record?
-          extract_internal_search_terms!(row, session, web_analyser)
-          if event = Event.create_from_row(session, row)
-            event.save! 
-            session.update_viewcount!
-          else
-            logger.error "[log_parser] Event could not be created. URL: #{row[:url]}"
-          end
-        else
-          logger.error "[log_parser] Sesssion was not found or created. Unknown web property? URL: #{row[:url]}"
-        end
-      end
-    rescue Mysql::Error => e
-      logger.warn "[log_parser] Database could not save this data: #{e.message}"
-      logger.warn row.inspect
-    rescue ActiveRecord::RecordInvalid => e
-      logger.error "[log_parser] Invalid record detected: #{e.message}"
-      logger.error row.inspect
-    end    
-
   private
-    def validate_args!(args)
-      args.each {|arg| raise(ArgumentError, "[log_parser] Unknown log attribute ':#{arg}'.") unless ATTRIBS[arg]}
+    # Parses the incoming log record and breaks it up into 
+    # attribute hash
+    def parse_entry(log_entry)
+      attributes = log_entry_matches(log_entry).inject_with_index(Hash.new) do |attribs, match_item, index|
+        attribs[log_entry_attributes[index]] = match_item
+        attribs
+      end
+      attributes[:datetime] = log_datetime_from(attributes[:time])
+      attributes[:method], 
+      attributes[:request_uri], 
+      attributes[:protocol] = attributes[:request].split(' ')
+      attributes
+    rescue NoMethodError => e
+      logger.info "[Log Parser] Log record did not match the expected format (probably):"
+      logger.info "[Log Parser] #{e}"
+      logger.info "[Log Parser] #{log_entry}"
+      nil
     end
-  
-    def parse_datetime!
-      @column[:datetime] = DateTime.strptime(@column[:time], DATE_FORMAT)
-    end
-  
-    def parse_request!
-      parts = @column[:request].split(' ')
-      @column[:method] = parts[0]
-      @column[:url] = parts[1]
-      @column[:protocol] = parts[2]
-    end
-  
-    def extract_internal_search_terms!(row, session, web_analyser)
-      return unless session.property && (search_param = session.property.search_parameter)
-      internal_search = internal_search_terms(search_param, row[:url], web_analyser)
-      row[:internal_search_terms] = internal_search if internal_search
-    end
-  
-    def internal_search_terms(search_param, url, web_analyser)
-      web_analyser.parse_url_parameters(url)[search_param]
+    
+    def validate_args!(log_format)
+      raise ArgumentError, "[Log Parser] Log format should be an array. eg: :format => [:ip_addresss, :user, ....]" unless log_format.respond_to?(:each)
+      log_format.each do |format| 
+        raise ArgumentError, "[Log Parser] Unknown log attribute ':#{format}'." unless LOG_ATTRIBUTES[format]
+      end
     end
 
+    # Match data converted to an array.  Skip the first entry which is
+    # the matched string
+    def log_entry_matches(log_entry)
+      log_entry.match(log_format_regexp).to_a[1..-1]
+    end
+    
+    # Convert the log :time format into a real :datetime
+    def log_datetime_from(log_time)
+      DateTime.strptime(log_time, LOG_DATE_FORMAT) rescue nil
+    end
+    
+    # Translate the defined log attributes into string representations of the 
+    # appropriate regexp matcher.  Combine them and return as a regexp.
+    def log_format_from(log_entry_attributes)
+      attribute_formats = log_entry_attributes.inject([]) do |format, attribute|
+        format << LOG_ATTRIBUTES[attribute]
+      end
+      log_format_string = "\\A" + attribute_formats.join(' ') + "\\Z"
+      Regexp.new(log_format_string)
+    end
   end
 end

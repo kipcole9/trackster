@@ -7,4 +7,6 @@ config.gem "file-tail", :lib => false
 config.gem "inifile",   :lib => false
 config.gem "graticule", :lib => false
 config.gem "json",      :lib => false
+config.gem 'htmlentities', :lib => false
+
 

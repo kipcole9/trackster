@@ -1,6 +1,6 @@
 class SearchEngine < ActiveRecord::Base
   ENGINE = /\ApageTracker._addOrganic\(\"(.+?)\",\"(.+?)\"\);\Z/
-  GENERIC_TLDS = ['com', 'net', 'org', 'museum', 'biz', 'info', 'mil', 'edu']
+  GENERIC_TLDS = ['com', 'net', 'org', 'museum', 'biz', 'info', 'mil', 'edu', 'asia']
   
   # Search engine list courtesy of
   # http://www.antezeta.com/blog/google-analytics-search-engines
@@ -23,6 +23,7 @@ class SearchEngine < ActiveRecord::Base
   end
   
   def self.find_from_host(host)
+    return nil if host.blank?
     search_host = host.sub(/\Awww\./,'').sub(/\Amaps\.google\./,'google.')
     find_by_host(search_host)
   end

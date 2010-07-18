@@ -28,8 +28,7 @@ end
 def logger
   return @logger if defined?(@logger)
   logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory  
-  puts "Log Analyser logging to #{logfile}"
-  @logger ||= logfile ? TracksterLogger.new(logfile, 1) : Rails.logger
+  @logger ||= Rails.logger # => maybe do this later. logfile ? TracksterLogger.new(logfile, 1) : Rails.logger
 end
 
 $RUNNING = true  
@@ -49,12 +48,64 @@ Signal.trap("HUP") do
 end
 
 plugin_lib = "#{File.dirname(__FILE__)}/../"
-require "#{plugin_lib}/analytics/log_analyser_daemon"
+require "#{plugin_lib}/log_tailer"
+require "#{plugin_lib}/analytics/track_event"
 require "#{plugin_lib}/analytics/log_parser"
-require "#{plugin_lib}/analytics/web_analytics"
-require "#{plugin_lib}/analytics/system_info"
+require "#{plugin_lib}/analytics/referrer"
+require "#{plugin_lib}/analytics/system"
+require "#{plugin_lib}/analytics/url"
+require "#{plugin_lib}/analytics/params"
+require "#{plugin_lib}/analytics/visitor"
+require "#{plugin_lib}/analytics/session"
+require "#{plugin_lib}/analytics/location"
+require "#{plugin_lib}/analytics/email_client"
+
+tailer = LogTailer.new
+parser = Analytics::LogParser.new
 
 logger.info "[Log analyser daemon] #{env_cap}: starting at #{Time.now}."
-log_analyser = LogAnalyserDaemon.new(:logger => logger)
-log_analyser.log_analyser_loop
+
+# TODO - get these out of here - and finish implementation properly
+def extract_internal_search_terms!(row, session, web_analyser)
+  return unless session.property && (search_param = session.property.search_parameter)
+  internal_search = internal_search_terms(search_param, row[:url], web_analyser)
+  row[:internal_search_terms] = internal_search if internal_search
+end
+
+def internal_search_terms(search_param, url, web_analyser)
+  web_analyser.parse_url_parameters(url)[search_param]
+end
+
+# This is where the real work begins. Tail the log, parse each entry into
+# a hash and pass the hash to the analyser.  The analyser builds an object
+# that can then be further processed.
+tailer.tail do |log_line|
+  parser.parse(log_line) do |log_attributes|
+    Analytics::TrackEvent.analyse(log_attributes) do |track|
+      begin
+        Session.transaction do
+          if session = Session.find_or_create_from_track(track)
+            session.save! if session.new_record?
+            # extract_internal_search_terms!(track, session, web_analyser)
+            if event = Event.create_from_track(session, track)
+              event.save! 
+              session.update_viewcount!
+            else
+              logger.error "[Log Analyser] Event could not be created. URL: #{track.url}"
+            end
+          else
+            logger.error "[Log Analyser] Sesssion was not found or created. Unknown web property? URL: #{track.url}"
+          end
+        end
+      rescue Mysql::Error => e
+        logger.warn "[Log Analyser] Database could not save this data: #{e.message}"
+        logger.warn track.inspect
+      rescue ActiveRecord::RecordInvalid => e
+        logger.error "[Log Analyser] Invalid record detected: #{e.message}"
+        logger.error track.inspect
+      end
+    end
+  end
+end
+
 logger.info "[Log analyser daemon] #{env_cap}: ending at #{Time.now}."

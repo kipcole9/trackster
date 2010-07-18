@@ -1,5 +1,5 @@
 function _tks(account)  {
-	this.version		= "1.1";
+	this.version		= "1.2";
 	var self = this;
 	this.account 		= "undefined";
 	this.trackerHost	= "{{SITE}}";
@@ -24,14 +24,14 @@ function _tks(account)  {
 	// Any session tags
 	this.tag = '';
 	
+	// Language - defaults to the browser language but can be overriden
+	this.language = '';
+	
 	// The tracking cookie values
 	this.tdsv = null;
 	this.tdsb = null;
 	this.tdsc = null;
 	
-	// This is the method that actually sends the tracking
-	// request.  It can have an optional value (used for anything,
-	// including page rank, value, score, satisfaction, ...)
 	this.trackPageview = function(pageUrl, label, value) {
 		var params = {};
 		params.url = pageUrl;
@@ -39,6 +39,10 @@ function _tks(account)  {
 		if (label) {params.utlab = label;}
 		this._track(params);
 	};
+	
+	// This is the method that actually sends the tracking
+	// request.  It can have an optional value (used for anything,
+	// including page rank, value, score, satisfaction, ...)
 	this._track = function(options) {
 		this.url = options.url || '';
 		console.log('Track has been requested for ' + self.getUrl());
@@ -82,8 +86,11 @@ function _tks(account)  {
 	this.getColorDepth = function() {
 		return screen.colorDepth + '';
 	};
+	this.setLanguage = function (lang) {
+		self.language = lang;
+	};
 	this.getLanguage = function() {
-		return navigator.language || navigator.userLanguage; 
+		return (self.language.length > 0) ? encodeURIComponent(self.language) : (navigator.language || navigator.userLanguage); 
 	};
 	this.getCharset = function() {
 		function getMetaHttpEquiv(){

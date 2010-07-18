@@ -1,3 +1,4 @@
+require 'inifile'
 class Browscap
   def initialize(filename = File.join(File.dirname(__FILE__), 'browscap.ini'))
     @@user_agent_properties ||= {}

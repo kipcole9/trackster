@@ -12,12 +12,13 @@ class Session < ActiveRecord::Base
   
   attr_accessor  :logger
   
-  EMAIL_CLICK   = 'email'
-  
-  def self.find_or_create_from_track(row)
-    @logger ||= row[:logger] || Rails.logger
-    session = find_by_visitor_and_visit_and_session(row[:visitor], row[:visit], row[:session]) if have_visitor?(row)
-    session = self.new_from_row(row) unless session
+  # EMAIL_CLICK   = 'email'
+
+  def self.find_or_create_from_track(track)
+    @logger = Rails.logger
+    raise ArgumentError, "tracked_at is nil" unless track.tracked_at
+    session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)
+    session = self.new_from_track(track) unless session
     session
   end
   
@@ -60,7 +61,7 @@ class Session < ActiveRecord::Base
     (b && b == 'IE') ? super('Internet Explorer') : super
   end
   
-  def save_time_metrics(row)
+  def save_time_metrics(track)
     self.date            = self.started_at.to_date
     self.day_of_week     = self.started_at.wday
     self.hour            = self.started_at.hour
@@ -68,26 +69,26 @@ class Session < ActiveRecord::Base
     self.day_of_month    = self.started_at.day
     self.month           = self.started_at.month
     self.year            = self.started_at.year
-    self.timezone        = row[:timezone] if row[:timezone]
+    self.timezone = track.timezone if track.timezone
   end
 
-  def create_campaign_association(row)
-    return unless row[:campaign_name]
-    @logger ||= row[:logger] || Rails.logger
+  def create_campaign_association(track)
+    return unless track.campaign_name
+    @logger = Rails.logger
         
-    if self.campaign = self.account.campaigns.find_by_code(row[:campaign_name])
+    if self.campaign = self.account.campaigns.find_by_code(track.campaign_name)
       self.campaign_name = self.campaign.name
     else
-      logger.error "[Session] No campaign '#{row[:campaign_name]}' exists.  Campaign will not be associated."
+      logger.error "[Session] No campaign '#{track.campaign_name}' exists.  Campaign will not be associated."
     end
   end
   
-  def create_property_association(row)
-    return if row[:host].blank?
-    @logger ||= row[:logger] || Rails.logger
+  def create_property_association(track)
+    return if track.host.blank?
+    @logger = Rails.logger
     
-    unless self.property = self.account.properties.find_by_host(row[:host])
-      logger.error "[Session] Host '#{row[:host]}' is not associated with account '#{self.account.name}'."
+    unless self.property = self.account.properties.find_by_host(track.host)
+      logger.error "[Session] Host '#{track.host}' is not associated with account '#{self.account.name}'."
     end
   end
   
@@ -103,16 +104,16 @@ class Session < ActiveRecord::Base
   end
 
 private
-  def self.new_from_row(row)
+  def self.new_from_track(track)
     session = new
-    logger = row[:logger] || Rails.logger
+    logger = Rails.logger
     
     # Copy the common attributes from the tracker row
     session.attributes.each do |k, v|
-      session.send("#{k.to_s}=",  row[k.to_sym])
+      session.send("#{k}=",  track[k.to_sym]) if Analytics::TrackEvent.has_attribute?(k)
     end
-    session.tag_list    = row[:tags] if row[:tags]
-    session.started_at  = row[:tracked_at]
+    session.tag_list    = track.tags if track.tags
+    session.started_at  = track.tracked_at
     session.ended_at    = session.started_at
     
     # See if there was a previous session
@@ -123,15 +124,15 @@ private
     # Note session relevant data.  Session must be
     # tied to an account else it's a bogus session
     # If a host is defined it must be hooked to that too or its bogus.
-    if session.account = Account.find_by_tracker(row[:account_code])
-      session.save_time_metrics(row)
-      session.create_campaign_association(row)
-      session.create_property_association(row)
+    if session.account = Account.find_by_tracker(track.account_code)
+      session.save_time_metrics(track)
+      session.create_campaign_association(track)
+      session.create_property_association(track)
     else
-      logger.error "[Session] Account '#{row[:account_code]}' is not known. Session will not be created."
+      logger.error "[Session] Account '#{track.account_code}' is not known. Session will not be created."
     end
     return nil unless session.account
-    return nil if     row[:host] && !session.property
+    return nil if     track.host && !session.property
     return session
   end
 
@@ -155,7 +156,7 @@ private
     s.blank? || s == '-'
   end
   
-  def self.have_visitor?(row)
-    row[:visitor] && row[:visit] && row[:session]
+  def self.have_visitor?(track)
+    track.visitor && track.visit && track.session
   end
 end
