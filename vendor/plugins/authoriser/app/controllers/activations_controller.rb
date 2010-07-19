@@ -2,13 +2,13 @@ class ActivationsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
 
   def new
-    @user = User.find_using_perishable_token(params[:activation_code], 1.week) || (raise Exception)
-    raise Exception if @user.active?
+    @user = User.find_using_perishable_token(params[:activation_code], 1.week) || (raise Activation::CodeNotFound)
+    raise Activation::UserAlreadyActive if @user.active?
   end
 
   def create
-    @user = User.find_using_perishable_token(params[:id], 1.week) || (raise Exception)
-    raise Exception if @user.active?
+    @user = User.find_using_perishable_token(params[:id], 1.week) || (raise Activation::CodeNotFound)
+    raise Activation::UserAlreadyActive if @user.active?
 
     @user.reset_perishable_token!
     if @user.activate!(params)
