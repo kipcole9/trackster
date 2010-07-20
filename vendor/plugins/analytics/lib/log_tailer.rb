@@ -7,7 +7,7 @@ class LogTailer
 
   def initialize(options = {})
     # Configuration options
-    @logger          = log_from_options(options)
+    @logger          = Trackster::Logger
     @options         = options
     @nginx_log_dir   = Trackster::Config.nginx_logfile_directory
   end
@@ -83,15 +83,6 @@ private
       log.forward
       @log_inode = new_file_inode
     end
-  end
-  
-  def log_from_options(options)
-    log_modes = {:debug	=> 0, :info	=> 1, :warn	=> 2, :error	=> 3, :fatal	=> 4}
-    
-    return options[:logger] if options[:logger]
-    logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory
-    log_level = log_modes[options[:log_level] || Trackster::Config.log_level || :info]
-    logfile ? TracksterLogger.new(logfile, log_level) : Rails.logger rescue Rails.logger
   end
   
 end
