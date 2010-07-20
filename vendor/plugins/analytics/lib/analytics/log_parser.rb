@@ -21,7 +21,7 @@ module Analytics
     def initialize(options = {})
       @log_entry_attributes = (options.empty? || options[:format] == :common) ? COMMON_LOG_FORMAT : options[:format]
       validate_args!(@log_entry_attributes)   
-      @logger = options[:logger] || Rails.logger
+      @logger = Trackster::Logger
       @log_format_regexp = log_format_from(@log_entry_attributes)
       
       @logger.debug "[Log Parser] Log attributes are: #{@log_entry_attributes.join(', ')}"
@@ -77,8 +77,8 @@ module Analytics
       attribute_formats = log_entry_attributes.inject([]) do |format, attribute|
         format << LOG_ATTRIBUTES[attribute]
       end
-      log_format_string = "\\A" + attribute_formats.join(' ') + "\\Z"
-      Regexp.new(log_format_string)
+      @log_format_string = "\\A" + attribute_formats.join(' ') + "\\Z"
+      Regexp.new(@log_format_string)
     end
   end
 end

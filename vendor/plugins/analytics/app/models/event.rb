@@ -34,7 +34,6 @@ class Event < ActiveRecord::Base
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
   def self.create_from_track(session, track)
-    @logger = Rails.logger
     return nil if !session?(session) || unknown_event?(track) || duplicate_event?(session, track)
     
     event = new_from_track(session, track)
@@ -113,6 +112,7 @@ private
 
   def self.new_from_track(session, track)
     event = new
+    event.logger = Trackster::Logger
     event.session = session
     event.attributes.each do |k, v|
       event.send("#{k}=", track[k.to_sym]) if Analytics::TrackEvent.has_attribute?(k)
@@ -169,5 +169,9 @@ private
     if self.category == PAGE_CATEGORY && self.action == VIEW_ACTION
       self.page_view = true
     end
+  end
+  
+  def self.logger
+    Trackster::Logger
   end
 end

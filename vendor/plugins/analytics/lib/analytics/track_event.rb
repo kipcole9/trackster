@@ -75,7 +75,7 @@ module Analytics
     
     def initialize(log_record)
       @log          = log_record
-      @logger       = Rails.logger
+      @logger       = Trackster::Logger
       @tracks       = tracker_url_parameters(@log[:request_uri])
       @tracks.merge!(redirect_parameters(@log[:request_uri])) if event_is_redirect?(@log[:request_uri])
 
@@ -254,7 +254,7 @@ module Analytics
     def crawler_agent?
       _system.crawler?
     end
-    
+
     def method_missing(method, *args)
       if VALID_PARAMS.has_value?(method)
         tracks[method]

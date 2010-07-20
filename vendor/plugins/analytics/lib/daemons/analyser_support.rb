@@ -15,16 +15,8 @@ module Daemons
       logger.info "[Log analyser daemon] Reconfigure requested (HUP signal) but that's not yet available."  
     end
 
-    class TracksterLogger < Logger
-      def format_message(severity, timestamp, progname, msg)
-        "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n" 
-      end 
-    end
-
     def logger
-      return @logger if defined?(@logger)
-      logfile = "#{Trackster::Config.analytics_logfile_directory}/log_analyser.log" if Trackster::Config.analytics_logfile_directory  
-      @logger ||= Rails.logger # => maybe do this later. logfile ? TracksterLogger.new(logfile, 1) : Rails.logger
+      Trackster::Logger
     end
 
     # TODO - get these out of here - and finish implementation properly

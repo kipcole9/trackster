@@ -10,10 +10,9 @@ class Session < ActiveRecord::Base
   before_save   :update_session_time
   before_save   :update_event_count
   
-  attr_reader   :logger
+  attr_accessor   :logger
 
   def self.find_or_create_from_track(track)
-    @logger = Rails.logger
     raise ArgumentError, "Tracked_at is nil" unless track.tracked_at
     session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)
     session = self.new_from_track(track) unless session
@@ -72,8 +71,7 @@ class Session < ActiveRecord::Base
 
   def create_campaign_association(track)
     return unless track.campaign_name
-    @logger = Rails.logger
-        
+
     if self.campaign = self.account.campaigns.find_by_code(track.campaign_name)
       self.campaign_name = self.campaign.name
     else
@@ -83,8 +81,7 @@ class Session < ActiveRecord::Base
   
   def create_property_association(track)
     return if track.host.blank?
-    @logger = Rails.logger
-    
+
     unless self.property = self.account.properties.find_by_host(track.host)
       logger.error "[Session] Host '#{track.host}' is not associated with account '#{self.account.name}'."
     end
@@ -93,8 +90,8 @@ class Session < ActiveRecord::Base
 private
   def self.new_from_track(track)
     session = new
-    logger = Rails.logger
-    
+    session.logger = Trackster::Logger
+
     # Copy the common attributes from the tracker
     session.attributes.each do |k, v|
       session.send("#{k}=",  track[k.to_sym]) if Analytics::TrackEvent.has_attribute?(k)
