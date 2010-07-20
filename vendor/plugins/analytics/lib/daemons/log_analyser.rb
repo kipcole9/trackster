@@ -17,7 +17,7 @@ require "#{rails_root}/config/environment"
 # Include support methods for the analyser
 include Daemons::AnalyserSupport
 
-logger.info "[Log analyser] Starting at #{Time.now}."
+logger.info "[Log Analyser] Starting at #{Time.now}."
 tailer = LogTailer.new
 parser = Analytics::LogParser.new
 
@@ -29,9 +29,25 @@ tailer.tail do |log_line|
     next if log_attributes[:datetime] < last_logged_entry
     ActiveRecord::Base.verify_active_connections! 
     Analytics::TrackEvent.analyse(log_attributes) do |track|
-      serialize_event(track)
+      begin
+        Session.transaction do
+          raise Trackster::InvalidSession unless session = Session.find_or_create_from(track)
+          # extract_internal_search_terms!(track, session, web_analyser)
+          raise Trackster::InvalidEvent unless event = session.events.create_from(track)
+        end
+      rescue Trackster::InvalidEvent
+        logger.error "[Log Analyser] Event could not be created. URL: #{track.url}"
+      rescue Trackster::InvalidSession
+        logger.error "[Log Analyser] Sesssion was not found or created. Unknown web property? URL: '#{track.url}'"        
+      rescue Mysql::Error => e
+        logger.warn "[Log Analyser] Database could not save this data: #{e.message}"
+        logger.warn track.inspect
+      rescue ActiveRecord::RecordInvalid => e
+        logger.error "[Log Analyser] Invalid record detected: #{e.message}"
+        logger.error track.inspect
+      end
     end
   end
 end
 
-logger.info "[Log analyser] Ending at #{Time.now}."
+logger.info "[Log Analyser] Ending at #{Time.now}."

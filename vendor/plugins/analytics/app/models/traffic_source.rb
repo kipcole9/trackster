@@ -23,6 +23,7 @@ class TrafficSource < ActiveRecord::Base
   end
   
   def self.find_from_referrer(referrer_host, account)
+    return nil unless referrer_host && account
     host = referrer_host.sub(/\Awww\./,'')
     account.traffic_sources.find_by_host(host) # || Account.admin.traffic_sources.find_by_host(host)
   end

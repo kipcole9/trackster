@@ -1,5 +1,8 @@
 module Daemons
   module AnalyserSupport
+    class Trackster::InvalidSession < Exception; end
+    class Trackster::InvalidEvent < Exception; end
+    
     Signal.trap("TERM") do
       logger.info "[Log analyser daemon] Termination requested (TERM signal received); terminating."  
       $RUNNING = false
@@ -37,31 +40,6 @@ module Daemons
       return @last_logged_entry if defined?(@last_logged_entry)
       @last_logged_entry = (last_event = Event.last) ? last_event.tracked_at : (Time.now - 10.years)
     end
-    
-    # Store the event data in the database
-    def serialize_event(track)
-      begin
-        Session.transaction do
-          if session = Session.find_or_create_from_track(track)
-            session.save! if session.new_record?
-            # extract_internal_search_terms!(track, session, web_analyser)
-            if event = Event.create_from_track(session, track)
-              event.save! 
-              session.update_viewcount!
-            else
-              logger.error "[Log Analyser] Event could not be created. URL: #{track.url}"
-            end
-          else
-            logger.error "[Log Analyser] Sesssion was not found or created. Unknown web property? URL: #{track.url}"
-          end
-        end
-      rescue Mysql::Error => e
-        logger.warn "[Log Analyser] Database could not save this data: #{e.message}"
-        logger.warn track.inspect
-      rescue ActiveRecord::RecordInvalid => e
-        logger.error "[Log Analyser] Invalid record detected: #{e.message}"
-        logger.error track.inspect
-      end
-    end
+
   end
 end

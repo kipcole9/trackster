@@ -30,7 +30,6 @@ class LogTailer
     # of EOF detections)
     log.after_reopen do
       if running?
-        # logger.debug "[Log analyser daemon] Log analyser has reopened #{log_file}"
         check_if_log_was_rotated
       else
         logger.info "[Log Tailer] Log tailer is terminating as requested (detected after log reopen)"

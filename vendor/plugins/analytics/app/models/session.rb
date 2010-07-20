@@ -1,22 +1,33 @@
 class Session < ActiveRecord::Base
   skip_time_zone_conversion_for_attributes = :started_at, :ended_at
   acts_as_taggable_on :tags
-  has_many      :events, :dependent => :destroy
   belongs_to    :property
   belongs_to    :account
   belongs_to    :campaign
+  has_many      :events, :dependent => :destroy do
+    def create_from(track)
+      event = Event.create_from(proxy_owner, track)
+      proxy_owner.update_viewcount!
+      event
+    end
+  end
   
+  before_create :save_time_metrics
   before_create :update_traffic_source
   before_save   :update_session_time
   before_save   :update_event_count
   
   attr_accessor   :logger
 
-  def self.find_or_create_from_track(track)
+  def self.find_or_create_from(track)
     raise ArgumentError, "Tracked_at is nil" unless track.tracked_at
-    session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)
-    session = self.new_from_track(track) unless session
-    session
+    unless have_visitor?(track)
+      logger.error "[Session] Cannot create Session. No valid visitor information."
+      logger.error "[Session] #{track.inspect}"
+      nil
+    else
+      session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) || new_from_track(track)
+    end
   end
   
   # To trigger before_save viewcount updating
@@ -57,34 +68,23 @@ class Session < ActiveRecord::Base
   def browser=(b)
     (b && b == 'IE') ? super('Internet Explorer') : super
   end
-  
-  def save_time_metrics(track)
-    self.date            = self.started_at.to_date
-    self.day_of_week     = self.started_at.wday
-    self.hour            = self.started_at.hour
-    self.week            = self.date.cweek
-    self.day_of_month    = self.started_at.day
-    self.month           = self.started_at.month
-    self.year            = self.started_at.year
-    self.timezone = track.timezone if track.timezone
-  end
 
   def create_campaign_association(track)
-    return unless track.campaign_name
-
+    return nil if track.campaign_name.blank?
     if self.campaign = self.account.campaigns.find_by_code(track.campaign_name)
       self.campaign_name = self.campaign.name
     else
       logger.error "[Session] No campaign '#{track.campaign_name}' exists.  Campaign will not be associated."
     end
+    self.campaign
   end
-  
-  def create_property_association(track)
-    return if track.host.blank?
 
+  def create_property_association(track)
+    return nil if track.host.blank?
     unless self.property = self.account.properties.find_by_host(track.host)
       logger.error "[Session] Host '#{track.host}' is not associated with account '#{self.account.name}'."
     end
+    self.property
   end
 
 private
@@ -103,7 +103,7 @@ private
     # See if there was a previous session. By keeping track of a previous visit we can
     # quickly detect if this is a new visitor or not, and we can also detect if this
     # is a repeat visitor for a give date range
-    if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
+    if session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
       session.previous_visit_at = previous_visit.started_at
     end
     
@@ -111,15 +111,25 @@ private
     # tied to an account else it's a bogus session
     # If a host is defined it must be hooked to that too or its bogus.
     if session.account = Account.find_by_tracker(track.account_code)
-      session.save_time_metrics(track)
       session.create_campaign_association(track)
       session.create_property_association(track)
     else
       logger.error "[Session] Account '#{track.account_code}' is not known. Session will not be created."
+      return nil
     end
-    return nil unless session.account
-    return nil if     track.host && !session.property
-    return session
+    return nil if track.host && !session.property
+    session.save!
+    session
+  end
+  
+  def save_time_metrics
+    self.date            = self.started_at.to_date
+    self.day_of_week     = self.started_at.wday
+    self.hour            = self.started_at.hour
+    self.week            = self.date.cweek
+    self.day_of_month    = self.started_at.day
+    self.month           = self.started_at.month
+    self.year            = self.started_at.year
   end
 
   def update_event_count
@@ -133,7 +143,7 @@ private
   end
 
   def update_traffic_source
-    if self.referrer_host && self.account && source = TrafficSource.find_from_referrer(self.referrer_host, self.account)
+    if source = TrafficSource.find_from_referrer(self.referrer_host, self.account)
       self.referrer_category = source.source_type
     end
   end
@@ -144,5 +154,9 @@ private
   
   def self.have_visitor?(track)
     track.visitor && track.visit && track.session
+  end
+  
+  def logger
+    Trackster::Logger
   end
 end

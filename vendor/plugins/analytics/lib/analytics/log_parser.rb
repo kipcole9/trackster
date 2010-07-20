@@ -20,10 +20,9 @@ module Analytics
   
     def initialize(options = {})
       @log_entry_attributes = (options.empty? || options[:format] == :common) ? COMMON_LOG_FORMAT : options[:format]
-      validate_args!(@log_entry_attributes)   
-      @logger = Trackster::Logger
+      validate_args!(@log_entry_attributes)
       @log_format_regexp = log_format_from(@log_entry_attributes)
-      
+      @logger = Trackster::Logger
       @logger.debug "[Log Parser] Log attributes are: #{@log_entry_attributes.join(', ')}"
       @logger.debug "[Log Parser] Log regexp is: #{@log_format_string}"
     end

@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
   PAGE_VIEW       = "category = '#{PAGE_CATEGORY}' AND action = '#{VIEW_ACTION}' AND url IS NOT NULL"
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
-  def self.create_from_track(session, track)
+  def self.create_from(session, track)
     return nil if !session?(session) || unknown_event?(track) || duplicate_event?(session, track)
     
     event = new_from_track(session, track)
@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
     end
     event.exit_page = true
     session.ended_at = track.tracked_at
-    event
+    event.save!
   end
  
   def url=(uri)
