@@ -34,9 +34,12 @@ module Daemons
       row[:internal_search_terms] = internal_search if internal_search
     end
 
-    def internal_search_terms(search_param, url, web_analyser)
-      web_analyser.parse_url_parameters(url)[search_param]
+    def internal_search_terms
+      return nil   # Until we get this fixed
     end
+    #def internal_search_terms(search_param, url, web_analyser)
+    #  web_analyser.parse_url_parameters(url)[search_param]
+    #end
 
     def last_logged_entry
       return @last_logged_entry if defined?(@last_logged_entry)
