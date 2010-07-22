@@ -174,7 +174,7 @@ module Analytics
 
           # How long between the event and it turning up in the log
           named_scope :latency, 
-            :select => "CAST(AVG(abs(timestampdiff(second, events.created_at, tracked_at) - (timezone * 60))) AS signed) AS latency",
+            :select => "CAST(AVG(abs(timestampdiff(second, events.created_at, tracked_at))) AS signed) AS latency",
             :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',
             :joins => :events
                    
