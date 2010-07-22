@@ -4,6 +4,7 @@ module Trackster
       def self.included(base)
         base.class_eval <<-EOF
           rescue_from Exception do |exception|
+            notify_hoptoad(exception)
             handle_exception exception, :message => I18n.t('sorry'), :status => 500
           end
        
@@ -16,6 +17,7 @@ module Trackster
           end
   
           rescue_from ActionView::MissingTemplate do |exception|
+            notify_hoptoad(exception)
             format_not_found
           end
   

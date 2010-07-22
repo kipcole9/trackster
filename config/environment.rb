@@ -38,6 +38,7 @@ Rails::Initializer.run do |config|
   config.gem 'i18n', :version => "0.3.6"
   config.gem 'ruby-cldr', :lib => 'cldr'
   config.gem 'delayed_job'
+  config.gem 'hoptoad_notifier'
   # config.gem 'twitter_oauth'
   # config.gem "pdfkit"
 

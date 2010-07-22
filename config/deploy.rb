@@ -92,3 +92,9 @@ task :fix_ownership, :roles => :app do
   run "sudo chown -R www-data:admin #{release_path}"
   run "sudo chmod 775 #{release_path}/tmp"
 end
+
+Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
+  $: << File.join(vendored_notifier, 'lib')
+end
+
+require 'hoptoad_notifier/capistrano'
