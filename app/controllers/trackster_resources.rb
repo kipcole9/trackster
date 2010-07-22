@@ -15,6 +15,9 @@ class TracksterResources < InheritedResources::Base
   authorize_resource
   respond_to          :html, :xml, :json
   respond_to          :csv, :only => :index
+  respond_to          :all do
+    format_not_found
+  end
   
   class Trackster::Responder < ActionController::Responder
     include Responders::FlashResponder
