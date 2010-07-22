@@ -43,11 +43,7 @@ class TracksterResources < InheritedResources::Base
   def responder
     Trackster::Responder
   end
-  
-  def to_csv
-    raise "CSV"
-  end
-  
+
 private
   def begin_of_association_chain
     current_account

@@ -1,15 +1,13 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 # Add a line to test
-
 class ApplicationController < ActionController::Base
-  include ExceptionLoggable
   include Trackster::PageTitle
-  include Trackster::Application::Exceptions
   include Trackster::Application::UserSettings
   include Trackster::Application::Session
   include Trackster::Application::Authorisation
-
+  include Trackster::Application::Exceptions
+  
   helper            :all # include all helpers, all the time
 
   # Scrub sensitive parameters from your log
@@ -23,7 +21,7 @@ class ApplicationController < ActionController::Base
   before_filter     Period
   
   after_filter      :store_location, :only => [:show, :index]
-
+  
   def page_not_found
     respond_to do |format|
       format.html do
@@ -35,6 +33,7 @@ class ApplicationController < ActionController::Base
   end
   
 private
+
   def login_status_ok?
     (logged_in? && current_account) || resetting_password? || logging_in? || activating? || validating?
   end
