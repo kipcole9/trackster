@@ -102,6 +102,7 @@ private
       format.json     { render :json => @report }
       format.csv      { render :text => @report.to_csv}
       format.xcelsius { render :action => 'report' }
+      format.all      { format_not_found }
     end
   end
   

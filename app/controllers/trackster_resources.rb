@@ -10,18 +10,24 @@ module Responders
   end
 end
 
-
 class TracksterResources < InheritedResources::Base
   unloadable
   authorize_resource
   respond_to          :html, :xml, :json
+  respond_to          :csv, :only => :index
   
   class Trackster::Responder < ActionController::Responder
     include Responders::FlashResponder
     include Responders::HttpCacheResponder
-    include Responders::XhrResponder    
+    include Responders::XhrResponder   
   end
-
+  
+  def index
+    index! do |success|
+      success.csv { render :text => collection.to_csv }
+    end
+  end
+  
   def update
     update! do |success, failure|
       success.html { redirect_back_or_default }
@@ -38,9 +44,13 @@ class TracksterResources < InheritedResources::Base
     Trackster::Responder
   end
   
+  def to_csv
+    raise "CSV"
+  end
+  
 private
   def begin_of_association_chain
     current_account
-  end  
+  end
   
 end

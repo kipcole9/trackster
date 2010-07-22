@@ -23,6 +23,8 @@ en:
     current_timezone:       "Operating in {{timezone}} timezone."
     not_found:              "The page you requested was not found."
     format_not_found:       "The page you requested cannot be provided in '{{format}}' format."
+    missing_template:       "The page (template) you requested was not found."
+    sorry:                  "Woops.  Something went horribly wrong - and it's not your fault.  We've been notified and will sort it out soon."
 
     videos:
         video:                  "Video: {{name}}"

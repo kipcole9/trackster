@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
   include Trackster::Application::Authorisation
 
   helper            :all # include all helpers, all the time
-  helper_method     :current_user_agent, :permitted_to?
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
@@ -26,15 +25,14 @@ class ApplicationController < ActionController::Base
   after_filter      :store_location, :only => [:show, :index]
 
   def page_not_found
-    flash[:alert] = I18n.t('not_found')
-    redirect_back_or_default
+    respond_to do |format|
+      format.html do
+        flash[:alert] = I18n.t('not_found')
+        redirect_back_or_default
+      end
+      format.all { head :not_found }
+    end
   end
-
-protected
-  #def render_optional_error_file(status)
-  #  flash[:alert] = I18n.t("runtime_error_#{status}")
-  #  redirect_back_or_default
-  #end
   
 private
   def login_status_ok?
@@ -44,6 +42,10 @@ private
   def protect_against_forgery?
     request.xhr? ? false : super
   end
+  
+  def controller
+    self
+  end
 
   # Scope to controller for translation keys
   # that start with a '.'
@@ -52,9 +54,6 @@ private
   #  super key, options
   #end  
 
-  #def controller
-  #  self
-  #end
   
   # Scope any finder with the appropriate constraints
   # based upon user's role

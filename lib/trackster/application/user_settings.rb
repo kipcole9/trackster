@@ -28,25 +28,6 @@ module Trackster
       def set_chart_theme
         Charting::FlashChart.config = theme_chart_config
       end
-    
-      # The browsers give the # of minutes that a local time needs to add to
-      # make it UTC, while TimeZone expects offsets in seconds to add to 
-      # a UTC to make it local.
-      def browser_timezone
-        return nil if cookies[:tzoffset].blank?
-        @browser_timezone = begin
-          cookies[:tzoffset].to_i.hours
-        end
-        @browser_timezone
-      end
-
-      def users_ip_address
-        request.env["HTTP_X_REAL_IP"] || request.remote_addr || request.remote_ip
-      end
-    
-      def current_user_agent
-        request.env["HTTP_USER_AGENT"]
-      end
 
     end
   end
