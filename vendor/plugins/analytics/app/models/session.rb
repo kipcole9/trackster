@@ -21,13 +21,8 @@ class Session < ActiveRecord::Base
 
   def self.find_or_create_from(track)
     raise ArgumentError, "Tracked_at is nil" unless track.tracked_at
-    unless have_visitor?(track)
-      logger.error "[Session] Cannot create Session. No valid visitor information."
-      logger.error "[Session] #{track.inspect}"
-      nil
-    else
-      session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) || new_from_track(track)
-    end
+    session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)
+    session ||= new_from_track(track)
   end
   
   # To trigger before_save viewcount updating
@@ -103,7 +98,7 @@ private
     # See if there was a previous session. By keeping track of a previous visit we can
     # quickly detect if this is a new visitor or not, and we can also detect if this
     # is a repeat visitor for a give date range
-    if session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
+    if session.visit && session.visit > 1 && previous_visit = find_by_visitor_and_visit(session.visitor, session.visit - 1)
       session.previous_visit_at = previous_visit.started_at
     end
     

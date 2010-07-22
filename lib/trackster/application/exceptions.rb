@@ -3,6 +3,11 @@ module Trackster
     module Exceptions
       def included(base)
         class_eval <<-EOF
+          rescue_from ActionController::NameError do |exception|
+            flash[:alert] = I18n.t('not_found')
+            redirect_back_or_default
+          end
+                    
           rescue_from CanCan::AccessDenied do |exception|
             access_denied
           end

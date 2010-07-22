@@ -60,5 +60,5 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.connect ':controller/:action/:id'
   #map.connect ':controller/:action/:id.:format'
-
+  map.connect '*url', :controller => "application", :action => 'page_not_found'
 end

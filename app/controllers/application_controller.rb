@@ -25,7 +25,18 @@ class ApplicationController < ActionController::Base
   
   after_filter      :store_location, :only => [:show, :index]
 
+  def page_not_found
+    flash[:alert] = I18n.t('not_found')
+    redirect_back_or_default
+  end
+
 protected
+  #def render_optional_error_file(status)
+  #  flash[:alert] = I18n.t("runtime_error_#{status}")
+  #  redirect_back_or_default
+  #end
+  
+private
   def login_status_ok?
     (logged_in? && current_account) || resetting_password? || logging_in? || activating? || validating?
   end
