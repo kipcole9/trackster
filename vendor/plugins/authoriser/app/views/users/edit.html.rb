@@ -12,11 +12,11 @@ panel t('panels.user'), :display_errors => 'user'  do
         end
         tab_item t('users.user_state') do
           user.select           :state, user_states, :default => I18n.t('users.states.passive')
-        end if can? :create, User
+        end if can?(:create, User) && !current_user.is_administrator?
         tab_item t('users.user_roles', :account_name => current_account.name) do
           user.text_field       :tags, :class => 'tags'
           user_roles_check_boxes(@user)
-        end if can? :create, User
+        end if can?(:create, User)  && !current_user.is_administrator?
         tab_item t('users.change_password') do
           user.password_field   :password
           user.password_field   :new_password
