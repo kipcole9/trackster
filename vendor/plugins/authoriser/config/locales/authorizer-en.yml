@@ -15,6 +15,8 @@ en:
         unknown_activation_code: The activation code you provided is not known.
         user_already_active:    User is already active.
         password_updated:       Your password has been changed.
+        could_not_change_password: Could not change your password.
+        current_password_empty: was not provided.
         forgotten_password:     Forgotten your password?
         password_reset_intructions_mailed: Password reset instructions have been emailed to you.
         no_user_on_account:     Couldn't find that email address on this account.

@@ -186,6 +186,7 @@ private
         errors.add(:password, I18n.t('authorizer.current_password_empty'))
       end
     end
+    self.errors.empty?
   end
   
 end
