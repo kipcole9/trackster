@@ -16,12 +16,18 @@ class UserMailer < ActionMailer::Base
     @subject       += "Password Reset Instructions"  
     @body[:url]    = edit_password_reset_url(user.perishable_token)  
   end
+  
+  def added_to_account_notification(account, user)
+    setup_email(user)
+    @subject       += "Added to account '#{account.name}'"
+    @body[:url]    = account_path(account)
+  end
     
 protected
   def setup_email(user)
     @recipients  = "#{user.email}"
     @from        = Trackster::Config.activation_email
-    @subject     = Trackster::Config.activation_subject
+    @subject     = Account.current_account.name
     @sent_on     = Time.now
     @body[:user] = user
   end

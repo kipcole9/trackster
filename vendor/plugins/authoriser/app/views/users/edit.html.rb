@@ -3,11 +3,11 @@ panel t('panels.user'), :display_errors => 'user'  do
     form_for @user, :html => { :multipart => true } do |user|
       tab "user" do
         tab_item t('users.edit_user', :name => @user.name) do
-          user.text_field       :email
+          user.text_field       :email, :disabled => 'disabled'
           user.text_field       :given_name
           user.text_field       :family_name        
           user.select           :locale, locales, :default => I18n.locale
-          user.time_zone_select :timezone, time_zones_like(Time.zone), :default => Time.zone.name, :include_blank => true       
+          user.time_zone_select :timezone, time_zones_like(Time.zone), :include_blank => true       
           user.file_field       :photo
         end
         tab_item t('users.user_state') do

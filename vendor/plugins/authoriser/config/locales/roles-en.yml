@@ -5,5 +5,6 @@ en:
         campaign_manager:   Campaign Manager
         designer:           Designer
         webmaster:          Webmaster
-        user:               User
+        user:               Analytics User
         crm_manager:        CRM Manager
+        api_access:         May access via API 

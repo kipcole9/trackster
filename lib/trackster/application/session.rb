@@ -7,9 +7,22 @@ module Trackster
         end
       end
     
-    protected
-      def logged_in?
-        current_user
+    protected 
+      def store_location
+        session[:return_to] = request.request_uri if html_format? && !request.xhr? 
+      end
+
+      def redirect_back_or_default(default = root_path)
+        redirect_to(session[:return_to] || default)
+        session[:return_to] = nil
+      end
+      
+      def set_mailer_url_defaults
+        ActionMailer::Base.default_url_options[:host] = request.host_with_port
+      end
+
+      def html_format?
+        params[:format].nil? || params[:format] == 'html'
       end
 
       def current_user_session

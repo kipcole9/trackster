@@ -6,7 +6,7 @@ module Trackster
           rescue_from Exception do |exception|
             notify_hoptoad(exception)
             handle_exception exception, :message => I18n.t('sorry'), :status => 500
-          end
+          end if Rails.env == "production"
        
           rescue_from CanCan::AccessDenied do |exception|
             access_denied
@@ -18,26 +18,29 @@ module Trackster
   
           rescue_from ActionView::MissingTemplate do |exception|
             notify_hoptoad(exception)
-            format_not_found
+            page_or_format_not_found(exception)
           end
   
           rescue_from Activation::CodeNotFound do |exception|
-            handle_exception exception, :message => I18n.t('activation.activation_code_not_found'), :status => 422
+            flash[:alert] = I18n.t('authorizer.unknown_activation_code')
+            redirect_to login_url
           end
 
           rescue_from Activation::UserAlreadyActive do |exception|
-            handle_exception exception, :message => I18n.t('activation.user_already_activated'), :status => 422
+            flash[:alert] = I18n.t('authorizer.user_already_active')
+            redirect_back_or_default
           end
         EOF
       end
     
     private
   
-      def format_not_found
-        handle_exception nil, :message => I18n.t('format_not_found', :format => params[:format] || "html"), :status => 404
+      def page_or_format_not_found(exception = nil)
+        message = html_format? ? I18n.t('not_found') : I18n.t('format_not_found', :format => params[:format])
+        handle_exception exception, :message => message, :status => 404
       end
   
-      def handle_exception(e, options)
+      def handle_exception(exception, options)
         request.format = :html unless params[:api_key]
         respond_to do |format|
           format.html do

@@ -8,17 +8,12 @@ module Trackster
       end
       
     protected
+      def logged_in?
+        current_user
+      end
+    
       def force_login_if_required
         access_denied unless login_status_ok?
-      end
-
-      def store_location
-        session[:return_to] = request.request_uri unless request.xhr?
-      end
-
-      def redirect_back_or_default(default = '/')
-        redirect_to(session[:return_to] || default)
-        session[:return_to] = nil
       end
 
       def logging_in?

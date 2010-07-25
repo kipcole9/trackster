@@ -47,6 +47,14 @@ class Account < ActiveRecord::Base
     {:conditions => ['name like ? or description like ?', search, search ]}
   }
 
+  def add_user(user, roles)
+    self.account_users.create(:user => user, :roles => roles)
+  end
+  
+  def user_exists?(email)
+    self.users.find_by_email(email)
+  end
+  
   def client_account?
     @client_account ||= self.agent
   end
@@ -68,10 +76,6 @@ class Account < ActiveRecord::Base
     return attributes['theme'] unless attributes['theme'].blank?
     return agent.theme if client_account?
     nil
-  end
-  
-  def add_user(user, roles)
-    self.account_users.create(:user => user, :roles => roles)
   end
   
   def self.current_account=(account)

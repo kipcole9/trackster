@@ -23,27 +23,21 @@ class ApplicationController < ActionController::Base
   after_filter      :store_location, :only => [:show, :index]
   
   def page_not_found
-    respond_to do |format|
-      format.html do
-        flash[:alert] = I18n.t('not_found')
-        redirect_back_or_default
-      end
-      format.all { head :not_found }
-    end
+    raise ActiveRecord::RecordNotFound
   end
   
-private
+protected
+  def controller
+    self
+  end
 
+private
   def login_status_ok?
     (logged_in? && current_account) || resetting_password? || logging_in? || activating? || validating?
   end
 
   def protect_against_forgery?
     request.xhr? ? false : super
-  end
-  
-  def controller
-    self
   end
 
   # Scope to controller for translation keys

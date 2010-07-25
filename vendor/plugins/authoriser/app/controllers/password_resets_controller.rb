@@ -34,8 +34,5 @@ private
       redirect_to login_path
     end  
   end  
-  
-  def set_mailer_url_defaults
-    ActionMailer::Base.default_url_options[:host] = request.host_with_port
-  end
+
 end

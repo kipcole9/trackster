@@ -1,36 +1,29 @@
 class UsersController < TracksterResources
   unloadable
-  respond_to          :html, :xml, :json
+  respond_to          :html
   before_filter       :set_mailer_url_defaults, :only => [:create, :activate]
   has_scope           :search
 
   def create
-    @user = User.new(params[:user])
-    @user.reset_password if @user.password.blank?
-    create! do |success, failure|
-      success.html { redirect_back_or_default }
-    end
-  end
-
-  def change_password
-    @user = current_user
-  end
-
-  def update_password
-    if current_user.valid_password?(params[:user][:password])
-      current_user.password = params[:user][:new_password]
-      current_user.password_confirmation = params[:user][:new_password_confirmation]  
-      if current_user.save
-        flash[:notice] = t('authorizer.password_changed')
-        redirect_back_or_default
-      else
-        flash[:alert] = t('authorizer.password_could_not_be_changed')
-        render :action => :change_password
-      end
-    else 
-      flash[:alert]  = t('authorizer.unknown_user_or_password')
+    if current_account.user_exists?(params[:user][:email])
+      flash[:alert] = I18n.t('authorizer.user_already_on_account')
       redirect_back_or_default
-    end    
+      return
+    elsif @user = User.exists?(params[:user][:email])
+      current_account.add_user(@user, params[:user][:roles])
+      UserMailer.deliver_added_to_account_notification(current_account, @user) if @user.errors.empty?
+    else
+      @user = User.add_new(params[:user])
+      UserMailer.deliver_signup_notification(@user) if @user.errors.empty?
+    end
+
+    unless @user.errors.empty?
+      flash.now[:alert] = I18n.t('authorizer.cant_create_new_user')
+      render :action => :new
+    else
+      flash[:notice] = I18n.t('authorizer.new_user_created')
+      redirect_back_or_default
+    end
   end
 
 protected

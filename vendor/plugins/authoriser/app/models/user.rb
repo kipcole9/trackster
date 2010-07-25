@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   #unloadable
   acts_as_authentic
   after_save                  :update_account_user
+  before_validation           :update_password_if_required
   
   # disable_perishable_token_maintenance true
   # before_validation_on_create :reset_perishable_token
@@ -19,12 +20,6 @@ class User < ActiveRecord::Base
   
   has_many                  :account_users, :autosave => true
   has_many                  :accounts, :through => :account_users
-  
-  # Using email address as the login key now.  Leave this here is case we revert
-  #validates_presence_of     :login
-  #validates_length_of       :login,           :within => 3..40
-  #validates_uniqueness_of   :login
-  #validates_format_of       :login,           :with => LOGIN_REGEX
 
   validates_format_of       :given_name,      :with => NAME_REGEX, :allow_nil => true
   validates_length_of       :given_name,      :maximum => 100
@@ -33,20 +28,48 @@ class User < ActiveRecord::Base
 
   validates_presence_of     :email
   validates_length_of       :email,           :within => 6..100 #r@a.wk
-  validates_uniqueness_of   :email
   validates_format_of       :email,           :with => EMAIL_REGEX
+  
+  # validates_uniqueness_of   :email => For some reason fails even when not true.
+  # hand-craft instead.
+  validate do |user|
+    if User.first(:conditions => ["email = ? and id <> ?", user.email, user['id']])
+      errors.add(:email, :taken)
+    end
+  end
 
   attr_accessible :email, :given_name, :family_name, :password, :password_confirmation,
-                  :accounts, :remember_me?, :locale, :timezone, :roles, :photo, :state, :tags
-  attr_accessor   :new_password, :new_password_confirmation
+                  :accounts, :remember_me?, :locale, :timezone, :roles, :photo, :state, :tags,
+                  :new_password, :new_password_confirmation
                   
+  attr_accessor   :new_password, :new_password_confirmation
+  
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
     {:conditions => ['given_name like ? or family_name like ?', search, search ]}
   }
   
+  def self.exists?(email)
+    find_by_email(email)
+  end
+  
+  def self.add_new(params)
+    @user = User.new(params)
+    @user.reset_password if @user.password.blank?
+    @user.save_without_session_maintenance
+    @user
+  end
+  
   def timezone=(zone)
     zone.blank? ? super(nil) : super
+  end
+  
+  def new_password=(password)
+    @new_password = password
+  end
+  
+  def new_password_confirmation=(password)
+    @new_password_confirmation = password
   end
   
   def active?
@@ -102,7 +125,7 @@ class User < ActiveRecord::Base
   # Defines the tags that scope permitted access to
   # Sessions
   def tags=(tag_list)
-    account_user.tags = tag_list
+    account_user.tags = tag_list unless tag_list.blank?
   end
   
   def tags
@@ -148,6 +171,13 @@ protected
 private
   def update_account_user
     account_user.save if account_user
+  end
+  
+  def update_password_if_required
+    if self.new_password
+      self.password = self.new_password
+      self.password_confirmation = self.new_password_confirmation
+    end
   end
   
 end

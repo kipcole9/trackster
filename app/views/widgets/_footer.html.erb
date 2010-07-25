@@ -1,4 +1,4 @@
 <div class="box clearfix">
-  <p style="float:left"><%= t('current_timezone', :timezone => Time.zone.to_s) %></p>
+  <p style="float:left"><%= t('current_user_and_timezone', :user => current_user.name, :timezone => Time.zone.to_s) %></p>
   <p style="float:right"> <a href='#'>Terms of Service</a> | <a href='#'>Privacy</a> | <a href='#'>Contact</a></p>
 </div>

@@ -20,7 +20,7 @@ en:
     no_impressions_yet:     No impressions currently recorded.
     no_events_yet:          No events currently recorded.
     bits:                   bits
-    current_timezone:       "Operating in {{timezone}} timezone."
+    current_user_and_timezone:       "Logged in as {{user}} in {{timezone}} timezone."
     not_found:              "The page you requested was not found."
     format_not_found:       "The page you requested cannot be provided in '{{format}}' format."
     missing_template:       "The page (template) you requested was not found."
