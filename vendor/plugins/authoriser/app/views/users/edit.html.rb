@@ -18,7 +18,7 @@ panel t('panels.user'), :display_errors => 'user'  do
           user_roles_check_boxes(@user)
         end if can?(:create, User)  && !current_user.is_administrator?
         tab_item t('users.change_password') do
-          user.password_field   :password
+          user.password_field   :current_password
           user.password_field   :new_password
           user.password_field   :new_password_confirmation
         end

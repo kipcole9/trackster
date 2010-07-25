@@ -5,8 +5,6 @@ en:
         login_panel:            Login to access your account
         must_login:             You must login to access that page.
         not_authorized:         You are not authorized to access that page.
-        user_created_pending_activation: User has been created and is now pending activation.
-        please_activate:        Please activate your new account
         please_log_in:          Please enter your credentials
         login:                  Login
         logout:                 Logout
@@ -21,6 +19,11 @@ en:
         password_reset_intructions_mailed: Password reset instructions have been emailed to you.
         no_user_on_account:     Couldn't find that email address on this account.
         cant_create_new_user:   Couldn't create the requested user profile.
+        password_reset_instructions: Password Reset Instructions.
+        please_activate:        Please activate your new account.
+        user_created_pending_activation: User has been created and is now pending activation.
+        account_activated:      "Your account for {{login}} has been activated."  
+        added_to_account:       "You have been added to account '{{name}}'."   
         new_user_created:       The new user has been created and has been notified.
         user_already_on_account: That user is already authorized on this account.
         user_activated:         Your account has now been activated. Please update your profile.

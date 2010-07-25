@@ -40,9 +40,9 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :given_name, :family_name, :password, :password_confirmation,
                   :accounts, :remember_me?, :locale, :timezone, :roles, :photo, :state, :tags,
-                  :new_password, :new_password_confirmation
+                  :current_password, :new_password, :new_password_confirmation
                   
-  attr_accessor   :new_password, :new_password_confirmation
+  attr_accessor   :current_password, :new_password, :new_password_confirmation
   
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
@@ -174,9 +174,17 @@ private
   end
   
   def update_password_if_required
-    if self.new_password
-      self.password = self.new_password
-      self.password_confirmation = self.new_password_confirmation
+    if !self.new_password.blank?
+      if !self.current_password.blank?
+        if self.valid_password?(self.current_password)
+          self.password = self.new_password
+          self.password_confirmation = self.new_password_confirmation
+        else
+          errors.add(:password, I18n.t('authorizer.could_not_change_password'))
+        end
+      else
+        errors.add(:password, I18n.t('authorizer.current_password_empty'))
+      end
     end
   end
   

@@ -1,5 +1,6 @@
 class ActivationsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
+  before_filter :set_mailer_url_defaults, :only => :create
 
   def new
     @user = User.find_using_perishable_token(params[:activation_code], 1.week) || (raise Activation::CodeNotFound)
@@ -29,4 +30,7 @@ protected
     current_user_session.destroy if current_user
   end
 
+  def set_mailer_url_defaults
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
 end
