@@ -173,7 +173,7 @@ protected
   
   def user_on_agent_account(account)
     return nil unless agent = account.agent
-    agent.account_users.find_by_user_id(User.current_user['id'])
+    agent.account_users.find_by_user_id(self['id'])
   end
   
   def create_empty_account_user
