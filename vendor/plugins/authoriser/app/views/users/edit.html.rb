@@ -30,3 +30,7 @@ panel t('panels.user'), :display_errors => 'user'  do
     end
   end
 end
+
+keep :sidebar do
+  include 'users/sidebars/edit_user_help'
+end

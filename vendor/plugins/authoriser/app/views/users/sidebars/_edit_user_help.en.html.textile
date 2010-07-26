@@ -1,0 +1,17 @@
+h4. Update Profile
+
+Update your personal information including your password.
+
+h6. Profile Tab
+
+Your email address can't be changed since it is also your login ID.  Update your given name and family name to anything you want (both are optional).
+
+Select your preferred language and timezone.  If you leave this blank the system will attempt to detect your preferred language and current timezone.  You can upload a JPEG image that represents you to others on this site. The uploaded image will be resized automatically.
+
+h6. Change Password Tab
+
+Enter your current password (to validate you are authorised to change the password) and your new password twice.  Your password will be updated when you click "Save your changes"
+
+h6. API Key
+
+All API requests must include your API Key.  This code is specific to you, you should treat it as you would your password.  You can regenerate an new API Key at any time.  Note however that the existing API Key will become invalid immediately in this case.
