@@ -1,0 +1,20 @@
+h4. Web Properties (Sites)
+
+In order to track user interaction with a web site two actions must be taken.
+
+* Register the web property on this page.  This ensures that tracking only occurs for sites that you authorize.
+* Tracking code must be installed on all pages in the site that you want to track.  You can find out more about installing the tracking code *here*.
+
+h6. Details Tab
+
+This is where basic site information is defined such as the site name and description.  These fields are used to indentify the site within this system.  
+
+Specify the hostname of the host so it can be identified and authorized for tracking. An example might be *www.mywidgets.com*.  Omit any URL scheme such as *http://* before the hostname.
+
+h6. Advanced Properties
+
+*Search Parameter* allows the system to identify site searches (searches within your site).  If your site implements site searching then specify the URL parameter that represents the search in this field.
+
+*Index Page* defines the name of the default index pages on your site.  Most web servers will deliver the same content for http://www.widgets.com and http://www.widgets.com/index.html.  However for analytics purposes we want to show that these are the same page.  Specifying the name (or a regular expression) that identifies index pages helps the system remove this ambiguity.  The default is usually appropriate for most sites.
+
+*Page Title Prefix* identifies any common text used in the page titles of your site.  These are helpful for SEO and for user readability in the browser.  But it just clutters up the analytics reporting.  You can specify text or a regular expression here - a successful prefix match will be removed from all page titles in all reporting.

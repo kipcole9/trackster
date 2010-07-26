@@ -4,8 +4,13 @@ form_for campaign, :html => {:multipart => true} do |campaign|
       campaign.text_field     :name
       campaign.datetime_select  :effective_at
       campaign.text_area      :description
-      campaign.select         :email, current_account.contents.all.map{|c| [c.name, c.id]}
-      campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?
+      if current_account.contents.empty?
+        flash.now[:alert] = t('.no_content_defined', :link => new_content_path)
+        nil
+      else
+        campaign.select       :email, current_account.contents.selection
+      end
+      # campaign.text_field     :code, :disabled => 'disabled' unless campaign.object.new_record?
     end
     tab_item t('.distribution') do
       campaign.text_field     :cost,          :validate => :validations

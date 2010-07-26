@@ -4,8 +4,8 @@ page do
       store yield
     end
   
-    column :width => 4 do
-      include 'edit_navigation'
+    column :width => 4, :class => "sidebar help" do
+      include 'property_help'
   	end
   end
 end

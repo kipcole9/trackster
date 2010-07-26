@@ -15,8 +15,12 @@ class Account < ActiveRecord::Base
   has_many        :organizations
   has_many        :teams
   has_many        :imports
-  has_many        :contents
   has_many        :history, :class_name => "History"
+  has_many        :contents do
+    def selection
+      all.map{|c| [c.name, c.id]}
+    end
+  end  
   
   # Client/agent relationships.  An account can have many clients.  A client can have only 
   # one agent.  A client account cannot, itself, have client accounts.

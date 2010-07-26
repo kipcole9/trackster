@@ -1,5 +1,10 @@
-en:   
-  column_descriptions:            
+en:
+    activerecord:
+        attributes:
+            campaign:
+                email:            Campaign Content
+                    
+    column_descriptions:            
       campaign:
           cost:           "Total campaign cost, used to measure campaign performance"
           distribution:   "What is the size of the distribution list for the campaign?"
@@ -14,7 +19,7 @@ en:
           email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  
           landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
 
-  campaigns:
+    campaigns:
       hash_link_problem:  "Link {{url}} should point to a landing page."
       bad_uri:            "Link {{url}} appears invalid."
       no_email_html:      "There is no email html to preview"
@@ -35,6 +40,8 @@ en:
           content:        Content
           parameters:     Segmentation
           list:           Lists
+          no_content_defined: No content defined.  Campaign cannot be delivered until you <a href={{link}}>define content</a> and add it to the campaign.
+          
       reports:
           email_client_overview:
               impressions_by_browser:              Impressions by email client
@@ -51,8 +58,8 @@ en:
               campaign_impressions:   Campaign impressions
           campaign_clicks:
               campaign_clicks:        Campaign clicks
-      
-  panels:
+  
+    panels:
       campaign_navigation:        Actions
       campaign_index:             Campaigns
       campaign:                   Campaign
