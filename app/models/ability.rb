@@ -9,9 +9,9 @@ class Ability
     else
       can :read, [Property, Campaign, Content, Contact, Person, Organization]
       can :update, User, :id => user.id
-      can :update, Campaign if user.has_role?(:campaign_manager)
-      can :update, [Contact, Person, Organization]  if user.has_role?(:crm_manager)
-      can :update, Content  if user.has_role?(:designer)
+      can :manage, Campaign if user.has_role?(:campaign_manager)
+      can :manage, [Contact, Person, Organization]  if user.has_role?(:crm_manager)
+      can :manage, Content  if user.has_role?(:designer)
     end
   end
   
