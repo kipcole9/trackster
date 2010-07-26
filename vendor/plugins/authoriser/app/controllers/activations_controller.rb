@@ -16,6 +16,7 @@ class ActivationsController < ApplicationController
       flash[:notice] = I18n.t('authorizer.user_activated')
       UserMailer.deliver_activation(@user)
       UserSession.create(@user)
+      clear_return_location
       redirect_to edit_user_path(@user)
     else
       flash[:alert] = I18n.t('authorizer.couldnt_activate')
