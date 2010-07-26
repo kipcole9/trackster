@@ -159,10 +159,26 @@ protected
     account_user.role_mask
   end
 
+  # Our policy here is that a user on an Agency account passes down roles
+  # to a Client account.  So if no role on the current account then check
+  # on an Agency account if one.
   def account_user
-    @account_user ||= (account_users.find_by_account_id(Account.current_account) || 
-                      account_users.build(:account => Account.current_account, :role_mask => 0))
-  end    
+    @account_user ||= user_on_account(Account.current_account) || user_on_agent_account(Account.current_account) ||
+                      create_empty_account_user
+  end  
+  
+  def user_on_account(account)
+    account_users.find_by_account_id(account['id'])
+  end
+  
+  def user_on_agent_account(account)
+    return nil unless agent = account.agent
+    agent.account_users.find_by_user_id(current_user['id'])
+  end
+  
+  def create_empty_account_user
+    account_users.build(:account => Account.current_account, :role_mask => 0)
+  end
 
   def role_symbols
     roles.map(&:to_sym)

@@ -23,7 +23,7 @@ form_for @account, :html => { :multipart => true } do |account|
     end
     tab_item t('accounts.advanced_options') do
       account.text_field    :salutation
-      account.time_zone_select :timezone, time_zones_like(Time.zone), :default => Time.zone.name, :include_blank => true       
+      account.time_zone_select :timezone, time_zones_like(Time.zone), :include_blank => true       
       account.text_field    :currency_code
       account.text_field    :custom_domain, :validate => :validations
     end

@@ -11,7 +11,7 @@ private
   end
   
   def resource
-    @account ||= get_my_account? ? get_my_account : super    
+    @account ||= get_my_account? ? my_account : super    
   end
 
   def collection
@@ -22,7 +22,7 @@ private
     current_account.id == params[:id].to_i
   end
   
-  def get_my_account
+  def my_account
     @account = current_account.reload
   end
 

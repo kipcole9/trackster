@@ -1,0 +1,25 @@
+h4. Account Profile
+
+An account consolidates web properties, content, campaigns, contacts and analytics.
+
+h6. Details Tab
+
+Enter an account name and description. These are used to identify this account.
+
+h6. Email Configuration Tab
+
+The fields define how emails are identified when campaigns are sent for this account.  Additionally you can provide a custom *Unsubscribe URL* that will be used instead of the system default inside your email campaigns.
+
+h6. Site Presentation Tab
+
+An account can be configured with a theme so visually match an organizations branding or to provide a particular design aesthetic.
+
+h6. Advanced Options Tab
+
+*Default Salutation* will be used for the <salutation> tag in an email campaign if none is otherwise specified. 
+
+*Default Timezone* will be used for all users on this account who do not configure their own timezone and where the browser timezone cannot be determined.  
+
+*Default Currency Code* is used for Campaign Reports as a way to interpret the cost values.
+
+*Custom Domain* allows access to the account via this name.  A network administrator will need to ensure that a DNS entry is created for the hostname and ensure that it points to *traphos.com*.

@@ -24,7 +24,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
       menu_item t('menu.account.users'),            :href => users_path         if can? :read,   User 
       menu_item t('menu.account.user.define'),      :href => new_user_path      if can? :create, User
       menu_item t('menu.account.index'),            :href => accounts_path      if can? :read,   Account
-      menu_item t('menu.account.define'),           :href => new_account_path   if can? :create, Account
+      menu_item t('menu.account.define'),           :href => new_account_path   if can?(:create, Account) && !current_account.client_account?
     end if can?(:read, User) || can?(:read, Account)
     menu_item t('menu.sites') do
       menu_item t('menu.site.performance'),         :href => site_path
