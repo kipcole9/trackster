@@ -1,5 +1,5 @@
 /* For iPad */
-@media screen and (max-width: 768px) {
+@media screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
 	body {
 		font-size: 75%;
 	}
