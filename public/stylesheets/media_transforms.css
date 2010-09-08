@@ -1,4 +1,5 @@
-@media screen and (max-width: 950px) {
+/* For iPad */
+@media screen and (max-width: 768px) {
 	body {
 		font-size: 75%;
 	}
@@ -9,3 +10,14 @@
 	}
 }
 
+/* and also for smaller browser windows */
+@media screen and (max-width: 950px) {
+	body {
+		font-size: 75%;
+	}
+	
+	#wrapper {
+		margin: 0;
+		width: 100%;
+	}
+}
