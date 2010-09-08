@@ -66,7 +66,7 @@ module Analytics
     end
     
     def self.trackable?(log_record)
-      log_record[:request_uri] =~ TRACKER_URL || log_record[:request_uri] =~ REDIRECT_URL
+      log_record && (log_record[:request_uri] =~ TRACKER_URL || log_record[:request_uri] =~ REDIRECT_URL)
     end
     
     def self.has_attribute?(attrib)
