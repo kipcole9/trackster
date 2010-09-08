@@ -29,7 +29,11 @@ module Analytics
 
     def parse(log_entry, &block)
       parsed_entry = parse_entry(log_entry)
-      block_given? ? yield(parsed_entry) : parsed_entry
+      if block_given?
+        yield(parsed_entry) if parsed_entry 
+      else
+        parsed_entry
+      end
     end
     
   private

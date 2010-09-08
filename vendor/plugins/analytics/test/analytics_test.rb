@@ -41,8 +41,8 @@ class AnalyticsTest < Test::Unit::TestCase
   def test_referrer
     Analytics::LogParser.new.parse(LOG_RECORD) do |record|
       Analytics::TrackEvent.analyse(record) do |track|
-        assert track.page_title       == "No Expectations Image - Cloud Trees, Sapa, Vietnam"
-        assert track.traffic_source   == 'search'
+        assert_equal track.page_title, "No Expectations Image - Cloud Trees, Sapa, Vietnam"
+        assert_equal track.traffic_source,  'search'
       end
     end
   end
@@ -50,7 +50,7 @@ class AnalyticsTest < Test::Unit::TestCase
   def test_location
     Analytics::LogParser.new.parse(LOG_RECORD) do |record|
       Analytics::TrackEvent.analyse(record) do |track|
-        assert track.country == 'US'
+        assert_equal track.country, 'US'
         assert_nil track.region
         assert_nil track.locality
       end
@@ -63,8 +63,8 @@ EOL
   def test_check_locality
     Analytics::LogParser.new.parse(LOG_RECORD2) do |record|
       Analytics::TrackEvent.analyse(record) do |track|
-        assert track.ip_address == '61.8.124.86'
-        assert track.country    == 'AU'
+        assert_equal track.ip_address, '61.8.124.86'
+        assert_equal track.country,    'AU'
       end
     end
   end
@@ -137,6 +137,41 @@ EOL
       end
     end    
   end
-end
+
+LOG_TEST_5 = <<-EOL
+165.228.184.148 - - [06/Sep/2010:01:17:41 +0000] "GET /_tks.gif?utac=7e4b5d&utses=1283699861.1&utvis=Lqc7XDOpp3yxcHU.1.1283699861&utmdt=make%20it%20happen%20-%20Marketing%20Agency%2C%20Sydney%20-%20Channel%2C%20Lead%20Generation%20%26%20Creative%20Services&utmsr=1024x768&utmsc=32&utmul=en-au&utmcs=utf-8&utmfl=10.1&utmn=4705789480&utref=http%3A%2F%2Fwww.yellowpages.com.au%2Fsearch%2Flistings%3Fclue%3Dmarketing%2Bservices%2B%2526%2Bconsultants%26locationClue%3Dnsw%26x%3D35%26y%3D23&uttz=600&utmp=http%3A%2F%2Fwww.mih.com.au&uver=1.2 HTTP/1.1" 200 43 "" "Mozilla/4.0 (compatible; MSIE 999.1; Unknown)" "-"
+EOL
+  def test_broken_record_1
+    Analytics::LogParser.new.parse(LOG_TEST_5) do |record|
+      Analytics::TrackEvent.analyse(record) do |track|
+        assert_nil track
+      end
+    end    
+  end
   
+LOG_TEST_6 = <<-EOL
+165.228.184.148 - - [06/Sep/2010:03:11:48 +0000] "GET /_tks.gif?utac=7e4b5d&utses=1283706709.1&utvis=BJINakvZZOXvYJl.1.1283706709&utmdt=make%20it%20happen%20-%20Marketing%20Agency%2C%20Sydney%20-%20Channel%2C%20Lead%20Generation%20%26%20Creative%20Services&utmsr=1280x1024&utmsc=32&utmul=en-au&utmcs=utf-8&utmfl=10.1&utmn=8664513776&uttz=600&utmp=http%3A%2F%2Fwww.mih.com.au&uver=1.2 HTTP/1.1" 200 43 "" "Mozilla/4.0 (compatible; MSIE 999.1; Unknown)" "-"
+EOL
+  def test_broken_record_2
+    Analytics::LogParser.new.parse(LOG_TEST_6) do |record|
+      Analytics::TrackEvent.analyse(record) do |track|
+        assert_nil track
+      end
+    end
+  end
+
+LOG_TEST_7 = <<-EOL
+165.228.184.148 - - [06/Sep/2010:03:12:32 +0000] "GET /_tks.gif?utac=7e4b5d&utses=1283706709.2&utvis=BJINakvZZOXvYJl.1.1283706709&utmdt=make%20it%20happen%20-%20about%20us%20-%20our%20people&utmsr=1280x1024&utmsc=32&utmul=en-au&utmcs=utf-8&utmfl=10.1&utmn=4999899522&utref=http%3A%2F%2Fwww.mih.com.au%2F&uttz=600&utmp=http%3A%2F%2Fwww.mih.com.au%2Four_people.html&uver=1.2 HTTP/1.1" 200 43 "" "Mozilla/4.0 (compatible; MSIE 999.1; Unknown)" "-"
+EOL
+  def test_broken_record_3
+    Analytics::LogParser.new.parse(LOG_TEST_7) do |record|
+      Analytics::TrackEvent.analyse(record) do |track|
+        assert_nil track
+      end
+    end
+  end
+end
+
+
+ 
 
