@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100704060831) do
+ActiveRecord::Schema.define(:version => 20100912082543) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -267,6 +267,15 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
     t.datetime "updated_at"
   end
 
+  create_table "fips_regions", :force => true do |t|
+    t.string "country_code", :limit => 2,  :null => false
+    t.string "code",         :limit => 2,  :null => false
+    t.string "name",         :limit => 64, :null => false
+    t.text   "timezone",                   :null => false
+  end
+
+  add_index "fips_regions", ["country_code", "code"], :name => "code2country"
+
   create_table "group_members", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
@@ -330,6 +339,26 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
   add_index "ip4", ["cron"], :name => "kcron"
   add_index "ip4", ["ip"], :name => "kIP"
 
+  create_table "ip_group_city", :primary_key => "ip_start", :force => true do |t|
+    t.integer "location", :null => false
+  end
+
+  add_index "ip_group_city", ["ip_start"], :name => "ip_start", :unique => true
+
+  create_table "ip_group_country", :primary_key => "ip_start", :force => true do |t|
+    t.string "ip_cidr",      :limit => 20, :null => false
+    t.string "country_code", :limit => 2,  :null => false
+  end
+
+  add_index "ip_group_country", ["country_code"], :name => "country"
+  add_index "ip_group_country", ["ip_start"], :name => "ip_start", :unique => true
+
+  create_table "iso3166_countries", :primary_key => "code", :force => true do |t|
+    t.string "name", :limit => 64, :null => false
+  end
+
+  add_index "iso3166_countries", ["code"], :name => "code", :unique => true
+
   create_table "language_versions", :force => true do |t|
     t.integer  "content_variant_id"
     t.string   "language",           :limit => 50
@@ -348,6 +377,16 @@ ActiveRecord::Schema.define(:version => 20100704060831) do
   create_table "lists", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "locations", :force => true do |t|
+    t.string "country_code", :limit => 2,  :null => false
+    t.string "region_code",  :limit => 2,  :null => false
+    t.string "city",         :limit => 64, :null => false
+    t.string "zipcode",      :limit => 8,  :null => false
+    t.float  "latitude",                   :null => false
+    t.float  "longitude",                  :null => false
+    t.string "metrocode",    :limit => 3,  :null => false
   end
 
   create_table "logged_exceptions", :force => true do |t|
