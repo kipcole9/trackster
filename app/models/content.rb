@@ -5,10 +5,12 @@ class Content < ActiveRecord::Base
   
   validates_presence_of     :name
   validates_uniqueness_of   :name,            :scope => :account_id
-  validates_length_of       :name,            :within => 3..50
+  validates_length_of       :name,            :within => 3..100
   
   # validates_presence_of     :url
   # validates_length_of       :url,             :within => 5..255
+  
+  CONTENT_SCHEMES           = /\A(http|https|ftp|ftps):\/\//
     
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
@@ -21,7 +23,7 @@ class Content < ActiveRecord::Base
   
   def url=(address)
     return if address.blank?
-    @url = address.match(/^http:\/\//) ? address : "http://#{address}"
+    @url = address.match(CONTENT_SCHEMES) ? address : "http://#{address}"
     @url = @url.without_slash
     @file = open(address) do |f|
       @content_type   = f.content_type
