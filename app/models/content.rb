@@ -9,6 +9,8 @@ class Content < ActiveRecord::Base
   
   # validates_presence_of     :url
   # validates_length_of       :url,             :within => 5..255
+  
+  URL_REGEXP                = /(^((http|https):\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]*)+.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
     
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"

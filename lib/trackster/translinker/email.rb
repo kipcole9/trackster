@@ -107,6 +107,7 @@ module Trackster
       def make_anchors_into_redirects(html)  
         (html/"a").each do |link|
           next unless url = link['href']
+          next if url =~ MAILTO_URL
           link_text = link.content
           begin
             parsed_url = URI.parse(url)

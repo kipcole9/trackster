@@ -33,6 +33,10 @@ module Trackster
       # These are the only schemes we care about when transforming links
       # into redirects.  Ignore all others.
       REDIRECT_SCHEMES = %w(http https)
+      
+      # How to detect MAILTO URL's which are a special form the Ruby standard
+      # URI.parse() doesn't like
+      MAILTO_URL      = /\Amailto:/i
   
       attr_accessor :errors, :output
       attr_reader   :base_url, :campaign, :options, :records
