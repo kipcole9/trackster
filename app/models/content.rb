@@ -5,13 +5,9 @@ class Content < ActiveRecord::Base
   
   validates_presence_of     :name
   validates_uniqueness_of   :name,            :scope => :account_id
-  validates_length_of       :name,            :within => 3..100
-  
-  # validates_presence_of     :url
-  # validates_length_of       :url,             :within => 5..255
-  
-  URL_REGEXP                = /(^((http|https):\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]*)+.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
-    
+  validates_length_of       :name,            :within => 3..100  
+  validates_url_format_of   :url,             :allow_nil => true
+
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
     {:conditions => ['name like ? or description like ?', search, search ]}
