@@ -71,7 +71,7 @@ module Trackster
           errors << I18n.t('translink.no_source_document')
         else
           parsed_document = parse_document(document)
-          @output = translink_parsed_document(parsed_document) unless errors?
+          output = translink_parsed_document(parsed_document) unless errors?
         end
         return errors? ? errors : output
       end

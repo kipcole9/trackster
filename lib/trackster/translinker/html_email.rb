@@ -77,7 +77,7 @@
 # end
 module Trackster
   module Translinker
-    class Email < Trackster::Translinker::Base
+    class HtmlEmail < Trackster::Translinker::Base
 
       def translink_parsed_document(html)
         make_anchors_into_redirects(html)

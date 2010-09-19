@@ -1,6 +1,7 @@
 class Content < ActiveRecord::Base
   belongs_to        :account
   has_many          :variants, :class_name => 'ContentVariant', :autosave => true, :dependent => :destroy
+  before_validation :add_http_scheme_to_url_if_none
   after_save        :update_version
   
   validates_presence_of     :name
@@ -21,7 +22,7 @@ class Content < ActiveRecord::Base
     return if address.blank?
     @url = URI.split(address)[0] ? address : "http://#{address}"
     @url = @url.without_slash
-    @file = open(address) do |f|
+    @file = open(@url) do |f|
       @content_type   = f.content_type
       @language       = f.instance_variable_get('@meta')['content-language']
       @file_contents  = f.read
@@ -79,6 +80,10 @@ private
       return link['href'] if link['href']
     end
     nil
+  end
+  
+  def add_http_scheme_to_url_if_none
+    
   end
 
 end
