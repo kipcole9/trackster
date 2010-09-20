@@ -106,8 +106,9 @@ module Trackster
     protected    
       def make_anchors_into_redirects(html)  
         (html/"a").each do |link|
-          next unless link['href'] = url = link['href'].try(:strip)
+          next unless url = link['href'].try(:strip)
           next if url =~ MAILTO_URL
+          link['href'] = url            # Update the document with the stripped URL; helps when outputting html again
           link_text = link.content
           begin
             parsed_url = URI.parse(url)
@@ -122,7 +123,7 @@ module Trackster
             link['href'] = new_href if new_href
           rescue URI::InvalidURIError => e
             Rails.logger.error "[Translinker] Make Anchors Into Redirects: Invalid URL error detected: '#{link}'"
-            errors << I18n.t('campaigns.bad_uri', :url => link)
+            errors << I18n.t('translinker.bad_uri', :url => link)
           rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error "[Translinker] Make Anchors Into Redirects: Active record error: #{e.message}"
             Rails.logger.error "[Translinker] URL was '#{url}'"

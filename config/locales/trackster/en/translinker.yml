@@ -1,0 +1,3 @@
+en:
+    translinker:
+        bad_uri:            "Link '{{url}}' appears to be invalid."
