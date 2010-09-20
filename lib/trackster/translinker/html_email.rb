@@ -106,7 +106,7 @@ module Trackster
     protected    
       def make_anchors_into_redirects(html)  
         (html/"a").each do |link|
-          next unless url = link['href']
+          next unless url = link['href'].try(:strip)
           next if url =~ MAILTO_URL
           link_text = link.content
           begin
@@ -133,7 +133,7 @@ module Trackster
 
       def make_image_links_absolute(html)  
         (html/"img").each do |link|
-          url = link['src']
+          url = link['src'].try(:strip)
           next if url == '#'
           begin
             next if URI.parse(url).scheme
