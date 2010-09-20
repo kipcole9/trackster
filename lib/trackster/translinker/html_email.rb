@@ -133,7 +133,7 @@ module Trackster
 
       def make_image_links_absolute(html)  
         (html/"img").each do |link|
-          url = link['src'].try(:strip)
+          link['src'] = url = link['src'].try(:strip)
           next if url == '#'
           begin
             next if URI.parse(url).scheme
