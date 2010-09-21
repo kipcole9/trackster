@@ -36,7 +36,11 @@ module Trackster
       
       # How to detect MAILTO URL's which are a special form the Ruby standard
       # URI.parse() doesn't like
-      MAILTO_URL      = /\Amailto:/i
+      MAILTO_SCHEME    = /mailto/i
+      
+      # Unsafe characters in an URL that need to be encoded
+      # Used because URI.parse is quite strict.
+      UNSAFE_CHARS     = ' '
   
       attr_accessor :errors, :output
       attr_reader   :base_url, :campaign, :options, :records

@@ -78,9 +78,11 @@
 module Trackster
   module Translinker
     class HtmlEmail < Trackster::Translinker::Base
-
+      include Trackster::Translinker::HtmlTagsWithUrls
+      
       def translink_parsed_document(html)
         make_anchors_into_redirects(html)
+        make_all_links_absolute(html)
         copy_images? ? copy_images_to_cloud(html) : make_image_links_absolute(html)
         move_css_files_inline(html) if move_css_files_inline?
         add_tracker_link(html)      if add_tracker?
@@ -106,17 +108,15 @@ module Trackster
     protected    
       def make_anchors_into_redirects(html)  
         (html/"a").each do |link|
-          next unless url = link['href'].try(:strip)
-          next if url =~ MAILTO_URL
-          link['href'] = url            # Update the document with the stripped URL; helps when outputting html again
-          link_text = link.content
+          next unless url = link_attribute?(link, 'href')
           begin
             parsed_url = URI.parse(url)
+            next if unhosted_url?(parsed_url)
             next unless REDIRECT_SCHEMES.include?(parsed_url.scheme)
             query_string = parsed_url.query
             url = url.sub("?#{query_string}", '') unless query_string.blank?
 
-            redirect = Redirect.find_or_create_from_link(base_url, url, link_text)
+            redirect = Redirect.find_or_create_from_link(base_url, url, link.content)
             new_href = redirector_url(redirect.redirect_url)
             parameters = [query_string, view_parameters].compact.join('&')
             new_href += "?#{parameters}" unless parameters.blank?
@@ -131,19 +131,19 @@ module Trackster
           end
         end
       end
+      
+      def make_image_links_absolute(html)
+        html.search("img").each do |link|
+          make_link_absolute(link)
+        end
+      end
 
-      def make_image_links_absolute(html)  
-        (html/"img").each do |link|
-          link['src'] = url = link['src'].try(:strip)
-          next if url == '#'
-          begin
-            next if URI.parse(url).scheme
-            new_url = [base_url, url].compress.join('/')
-            link['src'] = new_url
-          rescue URI::InvalidURIError => e
-            Rails.logger.error "[Translinker] Make Image Link Absolute: Invalid URL: '#{link}'"
-            errors << I18n.t('translinker.bad_uri', :url => link)
-          end
+      def make_all_links_absolute(html)
+        # don't do <a> because they are changed to redirects
+        # and <img> might be copied to a CDN
+        tags_with_urls = TAGS_WITH_URLS - ['a', 'img']
+        html.search(*tags_with_urls).each do |link|
+          make_link_absolute(link)
         end
       end
 
@@ -208,9 +208,14 @@ module Trackster
       #end
 
       def parse_document(source)
-        ::Nokogiri::HTML(fix_entities(source))
+        ::Nokogiri::HTML(fix_entities(source)) do |config|
+          # config.noent
+        end
       end
   
+      # Nokogiri is very strict (or maybe libxml is) in handling html entities
+      # We don't want entities to be touched even if they aren't valid.  So
+      # we fiddle them here and put back after document processing.
       def fix_entities(text)
         text.gsub('&',MAGIC_ENTITY)
       end
@@ -220,6 +225,42 @@ module Trackster
         unfixed = unfixed.gsub(CONTACT_MARKER, campaign.contact_code) if campaign
         unfixed
       end
+
+      def make_link_absolute(link)
+        attributes_from(link.name).each do |attribute|
+          next unless url = link_attribute?(link, attribute)
+          begin
+            parsed_url = URI.parse(url)
+            next if absolute_url?(parsed_url) || unhosted_url?(parsed_url)
+            link[attribute] = [base_url, url].compress.join('/')
+          rescue URI::InvalidURIError => e
+            Rails.logger.error "[Translinker] Make Link Absolute: Invalid URL: '#{url}'"
+            errors << I18n.t('translinker.bad_uri', :url => url)
+          end
+        end
+      end 
+      
+      def attributes_from(name)
+        attributes = TAG_URL_ATTRIBUTES[name]
+        attributes = [attributes] unless attributes.is_a?(Array)
+        attributes
+      end
+      
+      def link_attribute?(link, attribute)
+        if url = link[attribute].try(:strip)
+          url = URI.encode(url, UNSAFE_CHARS)
+          link[attribute] = url if url != link[attribute]
+        end
+        url.blank? ? nil : url
+      end
+      
+      def absolute_url?(url)
+        url.scheme
+      end
+      
+      def unhosted_url?(url)
+        url.scheme =~ MAILTO_SCHEME || !url.scheme
+      end     
     end
   end
 end

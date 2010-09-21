@@ -14,6 +14,7 @@ public/system/**/*
 config/mailer.yml
 public/javascripts/tracker_debug_packaged.js
 public/javascript/tracker_packaged.js
+public/_tks.gif
 vendor/plugins/browscap/lib/browscap.ini
 vendor/plugins/analytics/data/device_atlas.json
 public/email_client_test.html
