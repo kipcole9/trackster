@@ -82,7 +82,7 @@ module Trackster
       
       def translink_parsed_document(html)
         make_anchors_into_redirects(html)
-        make_all_links_absolute(html)
+        make_links_absolute(html, TAGS_WITH_URLS - ['a', 'img'])
         copy_images? ? copy_images_to_cloud(html) : make_image_links_absolute(html)
         move_css_files_inline(html) if move_css_files_inline?
         add_tracker_link(html)      if add_tracker?
@@ -113,17 +113,10 @@ module Trackster
             parsed_url = URI.parse(url)
             next if unhosted_url?(parsed_url)
             next unless REDIRECT_SCHEMES.include?(parsed_url.scheme)
-            query_string = parsed_url.query
-            url = url.sub("?#{query_string}", '') unless query_string.blank?
-
-            redirect = Redirect.find_or_create_from_link(base_url, url, link.content)
-            new_href = redirector_url(redirect.redirect_url)
-            parameters = [query_string, view_parameters].compact.join('&')
-            new_href += "?#{parameters}" unless parameters.blank?
-            link['href'] = new_href if new_href
+            make_anchor_into_redirect(link, url, parsed_url)
           rescue URI::InvalidURIError => e
-            Rails.logger.error "[Translinker] Make Anchors Into Redirects: Invalid URL error detected: '#{link}'"
-            errors << I18n.t('translinker.bad_uri', :url => link)
+            Rails.logger.error "[Translinker] Make Anchors Into Redirects: Invalid URL error detected: '#{url}'"
+            errors << I18n.t('translinker.bad_uri', :url => url)
           rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error "[Translinker] Make Anchors Into Redirects: Active record error: #{e.message}"
             Rails.logger.error "[Translinker] URL was '#{url}'"
@@ -132,16 +125,17 @@ module Trackster
         end
       end
       
+      def make_all_links_absolute(html)
+        make_links_absolute(html, TAGS_WITH_URLS)
+      end
+      
       def make_image_links_absolute(html)
         html.search("img").each do |link|
           make_link_absolute(link)
         end
       end
 
-      def make_all_links_absolute(html)
-        # don't do <a> because they are changed to redirects
-        # and <img> might be copied to a CDN
-        tags_with_urls = TAGS_WITH_URLS - ['a', 'img']
+      def make_links_absolute(html, tags_with_urls)
         html.search(*tags_with_urls).each do |link|
           make_link_absolute(link)
         end
@@ -213,6 +207,7 @@ module Trackster
         end
       end
   
+    private
       # Nokogiri is very strict (or maybe libxml is) in handling html entities
       # We don't want entities to be touched even if they aren't valid.  So
       # we fiddle them here and put back after document processing.
@@ -226,6 +221,23 @@ module Trackster
         unfixed
       end
 
+      # Convert an anchor to a redirect (so we can track it).  Create
+      # a redirect in the database if not already existing.  Copy any
+      # URL parameters across (they're not stored as part of the redirect)
+      def make_anchor_into_redirect(link, url, parsed_url)          
+        query_string = parsed_url.query
+        url = url.sub("?#{query_string}", '') unless query_string.blank?
+
+        redirect = Redirect.find_or_create_from_link(base_url, url, link.content)
+        new_href = redirector_url(redirect.redirect_url)
+        parameters = [query_string, view_parameters].compact.join('&')
+        new_href += "?#{parameters}" unless parameters.blank?
+        link['href'] = new_href if new_href
+      end
+      
+      # Add base_url to a relative url, ignoring
+      # links that are already absolute (have a scheme and host)
+      # and links that aren't relevant (like mailto:)
       def make_link_absolute(link)
         attributes_from(link.name).each do |attribute|
           next unless url = link_attribute?(link, attribute)

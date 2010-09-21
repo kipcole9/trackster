@@ -11,7 +11,13 @@ class CampaignsController < TracksterResources
   end
   
   def preview
-    render :text => resource.relink_email_html
+    preview = resource.relink_email_html
+    if preview.is_a?(Array)
+      flash[:alert] = preview.join('<br>')
+      redirect_back_or_default
+    else
+      render :text => preview
+    end
   end
   
 private
