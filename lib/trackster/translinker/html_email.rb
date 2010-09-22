@@ -243,7 +243,7 @@ module Trackster
           next unless url = link_attribute?(link, attribute)
           begin
             parsed_url = URI.parse(url)
-            next if absolute_url?(parsed_url) || unhosted_url?(parsed_url)
+            next if url.absolute? || unhosted_url?(parsed_url)
             link[attribute] = [base_url, url].compress.join('/')
           rescue URI::InvalidURIError => e
             Rails.logger.error "[Translinker] Make Link Absolute: Invalid URL: '#{url}'"
@@ -258,6 +258,10 @@ module Trackster
         attributes
       end
       
+      # Return the requested attribute of a URL if it exists
+      # We encode the URL so that the URI.parse doesn't barf on
+      # characters that are technically invalid but are commonly
+      # accepted by browsers.
       def link_attribute?(link, attribute)
         if url = link[attribute].try(:strip)
           url = URI.encode(url, UNSAFE_CHARS)
@@ -266,12 +270,11 @@ module Trackster
         url.blank? ? nil : url
       end
       
-      def absolute_url?(url)
-        url.scheme
-      end
-      
+      # URL's that should not be made absolute because they 
+      # can't be (like mailto:), or because they are document
+      # relative (start with #)
       def unhosted_url?(url)
-        url.scheme =~ MAILTO_SCHEME || !url.scheme
+        url.scheme =~ MAILTO_SCHEME || url.to_s =~ DOCUMENT_PATH
       end     
     end
   end

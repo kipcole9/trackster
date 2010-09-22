@@ -38,6 +38,9 @@ module Trackster
       # URI.parse() doesn't like
       MAILTO_SCHEME    = /mailto/i
       
+      # URLs that are document relative
+      DOCUMENT_PATH    = /\A#.*/i
+      
       # Unsafe characters in an URL that need to be encoded
       # Used because URI.parse is quite strict.
       UNSAFE_CHARS     = ' '
