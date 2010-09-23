@@ -9,7 +9,7 @@ module Trackster
       # Some options are email specific but kept to standardise the interface
       DEFAULT_OPTIONS = {
         :add_tracker            => true,        # Adds the tracking image at the end of the body
-        :inline_css_files       => false,       # Moves CSS files into the document
+        :inline_css_files       => true,        # Moves CSS files into the document
         :image_location         => :remote,     # If :cloud, copies the images to the cloud and references them there
         :add_link               => [:webview],  # :webview => A link that says "Click here if you can't read this"
                                                 # :unsubscribe => A link to an unsubscribe function
@@ -154,7 +154,7 @@ module Trackster
       end
   
       def copy_images?
-        options[:image_location] == :cloud
+        options[:image_location] && options[:image_location].to_sym == :cloud
       end
 
       def move_css_files_inline?

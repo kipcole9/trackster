@@ -4,7 +4,7 @@ clear do
   end
   float :left do
     h4 link_to("#{content.name}", content_path(content))
-    p content.description, :style => (content.description.blank? ? "display:none" : "")
+    p content.description
   end
 end
 

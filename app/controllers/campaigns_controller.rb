@@ -11,8 +11,9 @@ class CampaignsController < TracksterResources
   end
   
   def preview
-    preview = resource.relink_email_html
+    preview = resource.relink_email_html(params)
     if preview.is_a?(Array)
+      # Then we should really render a proper error page
       flash[:alert] = preview.join('<br>')
       redirect_back_or_default
     else

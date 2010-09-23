@@ -141,20 +141,72 @@ module Trackster
         end
       end
 
-      # Move CSS files that are references into the <head> of the document
-      # Create <head> if it doesn't exist
+      # Move CSS files into the document. Most email readers don't support
+      # external CSS files.
       def move_css_files_inline(html)
-  
+        css_file_links(html).each do |css_link|
+          begin
+            move_css_file_inline(html, css_link)
+            remove_css_file_link(css_link)
+          rescue URI::InvalidURIError => e
+            errors << e
+          rescue SocketError => e
+            errors << e
+          rescue OpenURI::HTTPError => e
+            errors << e
+          end
+        end
       end
 
       # Move the image files to cloud storage
       # and adjust the image references to suit.
       # Mutually exclusive of #make_image_links_absolute
-      def copy_images_to_cloud(html)
-  
+      # We put the images in a container called #{account_name}
+      def copy_images_to_cloud(html) 
+        cf = CloudFiles::Connection.new(:username => Trackster::Config.cloudfiles_user, :api_key => Trackster::Config.cloudfiles_api, :snet => (Rails.env == 'production'))
+        container = get_or_create_container(cf, Account.current_account, :make_public => true)
+        html.search('img').each do |image|
+          begin
+            image_source = image['src'].strip
+            cloud_image_url = copy_image_to_container(container, image_source)
+            image['src'] = cloud_image_url
+          rescue URI::InvalidURIError => e
+            errors << e
+          rescue SocketError => e
+            errors << e
+          rescue OpenURI::HTTPError => e
+            errors << e
+          end
+        end
+      end
+      
+      # Return the container if it exists, otherwise create it
+      def get_or_create_container(cf, account, options = {})
+        container_name = account.name.gsub(' ','_')
+        if cf.container_exists?(container_name) 
+          container = cf.container(container_name)
+        else
+          container = cf.create_container(container_name)
+          container.make_public if options[:make_public]
+        end
+        container
       end
 
-      #
+      def copy_image_to_container(container, image_source)
+        cloud_object = container.create_object(cloud_object_name_from(image_source))
+        cloud_object.load_from_filename(image_source)
+        cloud_object.public_url
+      end
+
+      # Create and object name from a URI.  We're storing all images for an
+      # account in one container so we want to:
+      # 1.  Not have name clashes on images that might be same name on different paths
+      # 2.  Have names be indempotent so an updated image updates the same object
+      def cloud_object_name_from(image_source)
+        uri = URI.parse(image_source)
+        "#{uri.host}#{uri.path.gsub('/','_')}"
+      end
+      
       # Adds an image link at the end of the body of the document whose
       # purpose is to create a tracking entry in the log that we use to
       # detect an email being opened.
@@ -165,6 +217,7 @@ module Trackster
         body = html.css("body").first
         body.add_child(tracking_node)
       end
+      
 
       # Links to a web page for people who can't otherwise view the message
       #
@@ -243,7 +296,7 @@ module Trackster
           next unless url = link_attribute?(link, attribute)
           begin
             parsed_url = URI.parse(url)
-            next if url.absolute? || unhosted_url?(parsed_url)
+            next if parsed_url.absolute? || unhosted_url?(parsed_url)
             link[attribute] = [base_url, url].compress.join('/')
           rescue URI::InvalidURIError => e
             Rails.logger.error "[Translinker] Make Link Absolute: Invalid URL: '#{url}'"
@@ -275,7 +328,37 @@ module Trackster
       # relative (start with #)
       def unhosted_url?(url)
         url.scheme =~ MAILTO_SCHEME || url.to_s =~ DOCUMENT_PATH
-      end     
+      end
+      
+      # Return all the CSS links in the document
+      def css_file_links(html)
+        html.search("link[rel=stylesheet]")
+      end 
+      
+      # Move one CSS file inline
+      def move_css_file_inline(html, link)
+        css = open(link['href']) {|f| f.read }
+        style_tag = Nokogiri::XML::Node.new('style', html)
+        style_tag.content = css
+        find_or_create_head(html).add_child(style_tag)
+      end
+      
+      # Delete a CSS file link after we've moved the contents
+      # inline
+      def remove_css_file_link(link) 
+        link.remove
+      end
+      
+      def find_or_create_head(html)
+        if (head = html.css("head")).empty?
+          head_tag = Nokogiri::XML::Node.new('head', html)
+          html_doc = css("html").first
+          return html_doc.children.empty? ? html_doc.add_child(head_tag) : 
+                                            html_doc.children.first.add_previous_sibling(head_tag)
+        else
+          return head.first
+        end
+      end
     end
   end
 end

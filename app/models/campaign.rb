@@ -43,9 +43,13 @@ class Campaign < ActiveRecord::Base
     self
   end
   
-  def relink_email_html
+  def relink_email_html(params = {})
     return nil if (email_content = self.email_content.content).blank?
-    Trackster::Translinker::HtmlEmail.translink(email_content, :campaign => self, :base_url => self.email_content.base_url)
+    Trackster::Translinker::HtmlEmail.translink(email_content, 
+      :campaign       => self, 
+      :base_url       => self.email_content.base_url,
+      :image_location => params[:image_location]
+    )
   end
   
 private

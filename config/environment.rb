@@ -39,6 +39,7 @@ Rails::Initializer.run do |config|
   config.gem 'ruby-cldr', :lib => 'cldr'
   config.gem 'delayed_job'
   config.gem 'hoptoad_notifier'
+  config.gem 'cloudfiles'
   # config.gem 'twitter_oauth'
   # config.gem "pdfkit"
 
