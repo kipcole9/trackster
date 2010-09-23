@@ -180,33 +180,6 @@ module Trackster
         end
       end
       
-      # Return the container if it exists, otherwise create it
-      def get_or_create_container(cf, account, options = {})
-        container_name = account.name.gsub(' ','_')
-        if cf.container_exists?(container_name) 
-          container = cf.container(container_name)
-        else
-          container = cf.create_container(container_name)
-          container.make_public if options[:make_public]
-        end
-        container
-      end
-
-      def copy_image_to_container(container, image_source)
-        cloud_object = container.create_object(cloud_object_name_from(image_source))
-        cloud_object.load_from_filename(image_source)
-        cloud_object.public_url
-      end
-
-      # Create and object name from a URI.  We're storing all images for an
-      # account in one container so we want to:
-      # 1.  Not have name clashes on images that might be same name on different paths
-      # 2.  Have names be indempotent so an updated image updates the same object
-      def cloud_object_name_from(image_source)
-        uri = URI.parse(image_source)
-        "#{uri.host}#{uri.path.gsub('/','_')}"
-      end
-      
       # Adds an image link at the end of the body of the document whose
       # purpose is to create a tracking entry in the log that we use to
       # detect an email being opened.
@@ -359,6 +332,35 @@ module Trackster
           return head.first
         end
       end
+
+      # Return the container if it exists, otherwise create it
+      def get_or_create_container(cf, account, options = {})
+        container_name = account.name.gsub(' ','_')
+        if cf.container_exists?(container_name) 
+          container = cf.container(container_name)
+        else
+          container = cf.create_container(container_name)
+          container.make_public if options[:make_public]
+        end
+        container
+      end
+
+      # Copy one image to the container and return its
+      # public URL
+      def copy_image_to_container(container, image_source)
+        cloud_object = container.create_object(cloud_object_name_from(image_source))
+        cloud_object.load_from_filename(image_source)
+        cloud_object.public_url
+      end
+
+      # Create and object name from a URI.  We're storing all images for an
+      # account in one container so we want to:
+      # 1.  Not have name clashes on images that might be same name on different paths
+      # 2.  Have names be indempotent so an updated image updates the same object
+      def cloud_object_name_from(image_source)
+        uri = URI.parse(image_source)
+        "#{uri.host}#{uri.path.gsub('/','_')}"
+      end      
     end
   end
 end
