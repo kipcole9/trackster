@@ -5,6 +5,7 @@ log/*.pid
 tmp/**/*
 tmp/*
 system/*.lock
+system/*.lck
 config/database.yml
 config/trackster_config.yml
 config/newrelic.yml
