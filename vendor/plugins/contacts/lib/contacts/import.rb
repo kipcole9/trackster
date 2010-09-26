@@ -8,7 +8,6 @@ module Contacts
       attr_accessor     :records, :created, :updated
     end
     
-    LOCKDIR   = "#{Rails.root}/public/system"
     IMPORTERS = {".csv" => Contacts::Csv::Import, ".vcf" => Contacts::Vcard::Import}
     
     def initialize(account, user = nil)
@@ -38,7 +37,7 @@ module Contacts
     # activity not that this will 'undo' all updates whether through UI,
     # API or import
     def rollback(time = nil)
-      lockfile.new account_lockfile do
+      Lockfile.new account_lockfile do
         ActiveRecord::Base.record_timestamps = false
         account.history.for_contacts.back_to(time).each {|history| rollback_one_row(history) }
       end
@@ -214,7 +213,7 @@ module Contacts
     end 
     
     def account_lockfile
-      "#{LOCKDIR}/#{account.name}_contacts.lock"
+      "#{Trackster::Config.lockfile_dir}/#{account.name}_contacts.lock"
     end 
     
     def parent_record?(history)
