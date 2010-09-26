@@ -4,6 +4,7 @@ log/*.output
 log/*.pid
 tmp/**/*
 tmp/*
+system/*.lock
 config/database.yml
 config/trackster_config.yml
 config/newrelic.yml
