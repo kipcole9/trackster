@@ -1,5 +1,5 @@
 set :application,   "trackster"
-set :default_stage, "staging"
+set :default_stage, "production"
 set :app_dir,       "/u/apps"
 set :config_dir,    "#{app_dir}/#{application}/config"
 set :db_config,     "#{config_dir}/database.yml"
@@ -26,36 +26,49 @@ ssh_options[:forward_agent] = true
 ssh_options[:port] = 9876
 default_run_options[:pty] = true
 
-role :app, "boxster.traphos.com", "917rsr.traphos.com", "928gts.traphos.com"
-role :web, "boxster.traphos.com", "917rsr.traphos.com", "928gts.traphos.com"
-role :db,  "boxster.traphos.com"
+role :app,          "boxster.traphos.com",  :passenger    => true
+role :app,          "917rsr.traphos.com",   :collector    => true
+role :app,          "928gts.traphos.com",   :delayed_job  => true
+role :web,          "boxster.traphos.com"
+role :db,           "boxster.traphos.com",  :primary      => true
 
 after 'deploy:update_code', 'update_config'
 after 'deploy:update_code', 'create_production_tracker'
 after 'deploy:update_code', 'create_asset_packages'
 after 'deploy:update_code', 'symlink_tracker_code'
-after 'deploy:update_code', 'migrate_database'
 after 'deploy:update_code', 'fix_ownership'
 
 namespace :deploy do
-  desc "Restarting passenger with restart.txt"
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{current_path}/tmp/restart.txt"
+  task :restart do 
+    restart_passenger 
+    restart_collector
+    restart_delayed_job
+  end 
+  
+  task :restart_passenger, :only => { :passenger => true } do 
+    run "touch #{current_path}/tmp/restart.txt" 
+  end 
+  
+  task :restart_collector, :only => { :collector => true } do 
+    sudo "service collector restart"
   end
 
+  task :restart_delayed_job, :only => { :delayed_job => true } do 
+    sudo "service delayed_job restart"
+  end
+  
   [:start, :stop].each do |t|
     desc "#{t} task is a no-op with passenger"
-    task t, :roles => :app do ; end
+    task t, :roles => :web do ; end
   end
 end
 
 # Take the debug tracker code, comment out the console.log
 # statements.  Do this before asset_packager kicks in.
-task :create_production_tracker, :roles => :web do
+task :create_production_tracker, :roles => :app do
   run <<-EOF
-    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker --trace
+    cd #{release_path} && rake RAILS_ENV=#{rails_env} trackster:build_tracker
   EOF
-
 end
 
 desc "Symlink tracker production javscript"
@@ -76,15 +89,10 @@ task :update_config, :roles => :app do
 end
 
 desc "Create asset packages for production" 
-task :create_asset_packages, :roles => :web do
+task :create_asset_packages, :roles => :app do
   run <<-EOF
     cd #{release_path} && rake RAILS_ENV=#{rails_env} asset:packager:build_all
   EOF
-end
-
-desc "Run database migrations"
-task :migrate_database, :roles => :db do
-  run "cd #{release_path} && rake RAILS_ENV=#{rails_env} db:migrate"
 end
 
 desc "Fix ownership"
