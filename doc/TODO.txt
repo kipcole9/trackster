@@ -1,17 +1,15 @@
-1.  Scope Contacts database access to account
-2.	Implement inherited controllers for Contacts
-3.  Use CanCan build rules
-4.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts
+Building a new server.
 
+1.  Update chef gem
+2.  Building the hosts file fails the first time.  Fix that.
+3.  Building nginx from source starts the nginx service.  We don't always want that - fix it.
 
+Shared stuff
 
+1. Do 'exportfs -a' after updating exports
+2. Template /etc/init.d/nfs-kernel-server since its not right (fails startup test)
+3. Use this directory for tmp uploaded files so they can be shared.  Store in an account-based directory
 
-1. Refactor search engine lookup stuff
-2. Mobile device detection: DeviceAtlas licencing?  What is the data format?  Still json information?
-3. Device vs. browser vs platform
-	Device:  Windows PC; Apple Mac; "Some other device" (mobile or not mobile)
-	Browser:  The user agent
-	os_name: The operating environment (windows, osx, symbian, etc)
-	os_version
-	device
-	device_vendor
+App stuff
+
+1.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts

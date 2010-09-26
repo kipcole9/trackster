@@ -17,13 +17,14 @@ class ImportsController < TracksterResources
 
 
 private
+
   def file_from_params(params)
     options = {}
     file                    = params[:source_file]
     size                    = file.size
     options[:description]   = params[:description]
     options[:original_file] = File.basename(file.original_filename)
-    path                    = "/tmp/#{options[:original_file]}"    
+    path                    = "#{Trackster::Config.shared_directory}/#{options[:original_file]}"    
     File.open(path, "wb") { |f| f.write(file.read) }
     return path, size, options
   end    
