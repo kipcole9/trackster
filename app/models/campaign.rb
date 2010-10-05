@@ -39,6 +39,10 @@ class Campaign < ActiveRecord::Base
     self.email_content.id rescue nil
   end
   
+  def content_code
+    self.content.blank? ? self.email : self.content
+  end
+  
   def refers_to
     self
   end

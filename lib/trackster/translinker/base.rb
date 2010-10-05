@@ -142,9 +142,9 @@ module Trackster
         params = ''
         if campaign
           params += "utac=#{Account.current_account.tracker}&utm_campaign=#{campaign.code}&utm_medium=#{campaign.medium}"
-          params += "&utm_content=#{campaign.content}"  unless campaign.content.blank?
-          params += "&utm_source=#{campaign.source}"    unless campaign.source.blank?
-          params += "&utid=#{CONTACT_MARKER}"           unless campaign.contact_code.blank?
+          params += "&utm_content=#{campaign.content_code}" unless campaign.content_code.blank?
+          params += "&utm_source=#{campaign.source}"        unless campaign.source.blank?
+          params += "&utid=#{CONTACT_MARKER}"               unless campaign.contact_code.blank?
         end
         params
       end

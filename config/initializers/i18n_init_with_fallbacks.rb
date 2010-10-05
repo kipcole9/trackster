@@ -1,6 +1,5 @@
 # Include all the available goodies for I18n speedup.
 # Note these probably are quite different for Rails 3
-I18n::Backend::Simple.send :include, I18n::Backend::Fast
 I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 I18n::Backend::Simple.send(:include, I18n::Backend::Cldr)
