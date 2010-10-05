@@ -52,11 +52,14 @@ en:
       ie: Interlingue
       ik: Inupiak
       id: Indonesian
+      in: Indonesian    # Old code
       is: Icelandic
       it: Italian
-      iw: Hebrew
+      iw: Hebrew        # Old code
+      he: Hebrew
       ja: Japanese
-      ji: Yiddish
+      ji: Yiddish       # Old code
+      yi: Yiddish
       jw: Javanese
       ka: Georgian
       kk: Kazakh
