@@ -50,7 +50,7 @@ namespace :deploy do
   end 
   
   task :restart_collector, :only => { :collector => true } do 
-    sudo "service collector restart"
+    sudo "/etc/init.d/collector -w 30 restart"
   end
 
   task :restart_delayed_job, :only => { :delayed_job => true } do 
