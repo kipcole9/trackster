@@ -63,7 +63,7 @@ module Analytics
                             return val if options[:cell_type] == :th
                             return I18n.t('tables.not_set') if val.blank?
                             # TODO Country should have a lookup because they do change
-                            val = 'rs' if val == 'YU'
+                            val = 'RS' if val == 'YU'
                             flag = "<img src=/images/flags/#{val.downcase}.png class='flag' >"
                             country = I18n.t("countries.#{val}", :default => val)
                             return "#{flag} #{country}" 
