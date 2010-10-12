@@ -12,6 +12,7 @@
 // Tables
 @odd_row:				black;
 @even_row:				rgb(0,84,116);
+@even_row:				rgba(0,84,116,0.7);
 
 // Forms
 @fieldset_background:	rgb(50,50,50);
@@ -19,6 +20,7 @@
 @fieldset_border_color:	rgb(70,70,70);
 @fieldset_colour:		#ccc;
 @legend_background:		rgb(255, 140, 37);	
+@legend_background:		rgba(255, 140, 37, .9);	
 @submit_button:			rgb(110,110,110);
 @prompt:				#aaa;
 
@@ -40,8 +42,8 @@
 @contact_border:		#777;
 .contact_border {
 	border: 			1px solid #777;
-	-webkit-box-shadow: 3px 3px 3px rgb(255, 140, 37);
-	-moz-box-shadow: 	3px 3px 3px rgb(255, 140, 37);
+	-webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, .5);
+	-moz-box-shadow: 	3px 3px 3px rgba(255, 140, 37, .5);
 }
 
 // Contact form
@@ -55,6 +57,10 @@
 
 // General Styling
 .box_shadow (@shadow_colour: rgb(43, 34, 27)) {
+	-webkit-box-shadow: 4px 4px 6px @shadow_colour; 
+	-moz-box-shadow: 4px 4px 6px @shadow_colour;
+}
+.box_shadow (@shadow_colour: rgba(43, 34, 27, 0.4)) {
 	-webkit-box-shadow: 4px 4px 6px @shadow_colour; 
 	-moz-box-shadow: 4px 4px 6px @shadow_colour;
 }
