@@ -4,8 +4,8 @@
 }
 .contact_border {
   border: 1px solid #777777;
-  -webkit-box-shadow: 3px 3px 3px #ff8c25;
-  -moz-box-shadow: 3px 3px 3px #ff8c25;
+  -webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
+  -moz-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
 }
 body, .container_12 {
   background: #767676;
@@ -180,8 +180,8 @@ div.contactCard {
   background: #222222;
   color: #cccccc;
   border: 1px solid #777777;
-  -webkit-box-shadow: 3px 3px 3px #ff8c25;
-  -moz-box-shadow: 3px 3px 3px #ff8c25;
+  -webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
+  -moz-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
 }
 div.contactCard:hover { cursor: inherit; }
 div.contactCard a { color: white; }
