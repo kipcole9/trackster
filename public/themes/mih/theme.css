@@ -4,8 +4,8 @@
 }
 .contact_border {
   border: 1px solid #777777;
-  -webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
-  -moz-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
+  -webkit-box-shadow: 3px 3px 3px #ff8c25;
+  -moz-box-shadow: 3px 3px 3px #ff8c25;
 }
 body, .container_12 {
   background: #767676;
@@ -67,8 +67,8 @@ tbody td {
 }
 tbody tr.odd th { background: black; }
 tbody tr.odd td { background: black; }
-tbody tr.even th { background: rgba(0, 84, 116, 0.7); }
-tbody tr.even td { background: rgba(0, 84, 116, 0.7); }
+tbody tr.even th { background: #005474; }
+tbody tr.even td { background: #005474; }
 ul.nav.main {
   background: url(/themes/mih/menu_grad.jpg) repeat;
   background: -webkit-gradient(linear, 0% 41%, 0% 86%, from(#ec8851), to(#b74e00));
@@ -101,12 +101,12 @@ div.box, legend {
   -moz-border-radius: 5px;
 }
 div.box {
-  -webkit-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
-  -moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+  -webkit-box-shadow: 4px 4px 6px #2b221b;
+  -moz-box-shadow: 4px 4px 6px #2b221b;
 }
 div.listItem:hover {
-  -webkit-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
-  -moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+  -webkit-box-shadow: 4px 4px 6px #2b221b;
+  -moz-box-shadow: 4px 4px 6px #2b221b;
 }
 div.box h2 {
   padding-top: 10px;
@@ -155,7 +155,7 @@ form.search {
 }
 form.search label { font-weight: normal; }
 legend {
-  background-color: rgba(255, 140, 37, 0.9);
+  background-color: #ff8c25;
   color: white;
 }
 div.hbar { background-color: #ff8c25; }
@@ -180,8 +180,8 @@ div.contactCard {
   background: #222222;
   color: #cccccc;
   border: 1px solid #777777;
-  -webkit-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
-  -moz-box-shadow: 3px 3px 3px rgba(255, 140, 37, 0.5);
+  -webkit-box-shadow: 3px 3px 3px #ff8c25;
+  -moz-box-shadow: 3px 3px 3px #ff8c25;
 }
 div.contactCard:hover { cursor: inherit; }
 div.contactCard a { color: white; }
@@ -240,8 +240,8 @@ div.autocomplete ul { background: #333333; }
 div.flash_notice, div.flash_error, div.flash_alert {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  -webkit-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
-  -moz-box-shadow: 4px 4px 6px rgba(43, 34, 27, 0.4);
+  -webkit-box-shadow: 4px 4px 6px #2b221b;
+  -moz-box-shadow: 4px 4px 6px #2b221b;
 }
 div.box.flash_alert { background-color: #ffbbbb; }
 div.box.flash_notice { background-color: #bbffbb; }

@@ -3,6 +3,7 @@ class Session < ActiveRecord::Base
   acts_as_taggable_on :tags
   belongs_to    :property
   belongs_to    :account
+  belongs_to    :contact
   belongs_to    :campaign
   has_many      :events, :dependent => :destroy do
     def create_from(track)
