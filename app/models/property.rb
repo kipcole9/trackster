@@ -11,6 +11,8 @@ class Property < ActiveRecord::Base
 
   has_attached_file :thumb, :styles => { :thumb => "100x100" }
   
+  normalize_attributes    :name, :description
+  
   named_scope :user, lambda {|user|
     {:conditions => {:id => user.properties.map(&:id)} }
   }

@@ -1,7 +1,7 @@
 class Account < ActiveRecord::Base
   unloadable
-  
-  authenticates_many  :user_sessions
+  normalize_attributes    :name, :custom_domain
+  authenticates_many      :user_sessions
   has_many        :account_users
   has_many        :users, :through => :account_users
   has_many        :properties
@@ -70,10 +70,6 @@ class Account < ActiveRecord::Base
   ADMIN_USER  = 'admin'
   def self.admin
     find_by_name(ADMIN_USER)
-  end
-  
-  def custom_domain=(domain)
-    domain.blank? ? return : super
   end
   
   def theme

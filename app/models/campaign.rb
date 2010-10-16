@@ -18,6 +18,8 @@ class Campaign < ActiveRecord::Base
   validates_numericality_of :unsubscribes,  :allow_nil => true
   validates_numericality_of :distribution,  :allow_nil => true
   
+  normalize_attributes      :name, :description
+  
   default_scope :order => 'created_at DESC'
   
   # Supports user_scope method

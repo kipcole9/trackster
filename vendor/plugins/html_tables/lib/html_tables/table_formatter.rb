@@ -19,16 +19,19 @@ module HtmlTables
     CALCULATED_COLUMNS      = /(percent|percentage|difference|diff)_of_(.*)/
     
     def initialize(results, options)
-      raise ArgumentError, "First argument must be an array of ActiveRecord rows" \
-          unless  results.try(:first).try(:class).try(:descends_from_active_record?) ||
-                  results.is_a?(ActiveRecord::NamedScope::Scope)
-      @klass  = results.first.class
-      @rows   = results
+      raise ArgumentError, "[to_table] First argument must be an array of ActiveRecord rows" \
+        unless  results.try(:first).try(:class).try(:descends_from_active_record?) ||
+                results.is_a?(ActiveRecord::NamedScope::Scope)
+      raise ArgumentError, "[to_table] Sort option must be a Proc" \
+        if options[:sort] && !options[:sort].is_a?(Proc)
+          
+      @klass          = results.first.class
+      @rows           = results
       @column_order   = 0
       @merged_options = DEFAULT_OPTIONS.merge(options)
       @table_columns  = initialise_columns(rows, klass, merged_options)
       @totals         = initialise_totalling(rows, table_columns)
-      results.sort(options[:sort]) if options[:sort] && options[:sort].is_a?(Proc)
+      results.sort(options[:sort]) if options[:sort]
       @merged_options[:rows] = results
       @html = Builder::XmlMarkup.new(:indent => 2)
       @column_cache   = {}
@@ -39,7 +42,7 @@ module HtmlTables
       options = merged_options
       table_options = {}
       html.table table_options do
-        html.caption options[:caption] if options[:caption]
+        html.caption(options[:caption]) if options[:caption]
         output_table_headings(options)
         output_table_footers(options)
         html.tbody do
@@ -114,7 +117,7 @@ module HtmlTables
         result = column_cache[column_name][value]
       else
         result = column[:formatter].call(value, options.reverse_merge({:cell_type => cell_type, :column => column}))
-        result = result.nil? ? '' : result
+        result ||= ''
         column_cache[column_name][value] = result
       end
       html.__send__(cell_type, (column[:class] ? {:class => column[:class]} : {})) do
@@ -146,8 +149,9 @@ module HtmlTables
       options[:exclude] = options[:exclude].map(&:to_s) if options[:exclude]
       add_calculated_columns_to_rows(rows, options)
       requested_columns = columns_from_row(rows.first)
-      columns = requested_columns.inject([]) do |columns, column|
-        columns << column_definition(column) if include_column?(column, options)
+      columns = requested_columns.inject([]) do |definitions, column|
+        definitions << column_definition(column) if include_column?(column, options)
+        definitions
       end
       columns.sort{|a, b| a[:order] <=> b[:order] }
     end

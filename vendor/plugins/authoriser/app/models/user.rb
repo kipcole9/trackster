@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   #unloadable
   acts_as_authentic
+  normalize_attributes        :give_name, :familty_name, :timezone 
   after_save                  :update_account_user
   before_validation           :update_password_if_required
   
@@ -58,10 +59,6 @@ class User < ActiveRecord::Base
     @user.reset_password if @user.password.blank?
     @user.save_without_session_maintenance
     @user
-  end
-  
-  def timezone=(zone)
-    zone.blank? ? super(nil) : super
   end
   
   def new_password=(password)
