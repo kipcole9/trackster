@@ -1,7 +1,0 @@
-en-US:
-    tables:
-        total_many:     "Total ({{count}} rows)"
-        total_one:      "Total (one row)"
-        not_set:        (Not Set)
-        unknown:        (Unknown)
-                
