@@ -1,10 +1,10 @@
 panel t('.campaign_clicks'), :class => 'table'  do
   block do
-    impressions_summary = resource.campaign_clicks(resource, params)
-    if impressions_summary.empty?
+    campaign_clicks = resource.campaign_clicks(resource, params)
+    if campaign_clicks.empty?
       h3 t('no_impressions_yet')
     else
-      store impressions_summary.to_table
+      store campaign_clicks.to_table
     end
   end
 end
