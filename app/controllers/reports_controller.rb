@@ -48,7 +48,7 @@ class ReportsController < ApplicationController
       :count, :sequence, :property_id, :session_id, :created_at, :updated_at, 
       :page_views, :event_count,:duration
     ]
-    @report = resource.event_stream(params)
+    @report = resource.event_stream(resource, params))
   end
 
   # Here's where we implement most of the reporting.  Since reporting

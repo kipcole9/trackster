@@ -64,9 +64,8 @@ module Analytics
           tracks.event_count(:with_events).value.by(:label, :category, :action).between(Period.from_params(params))
         end
         
-        def event_stream(params = {})
-          # tracks.find(:all, :select => "sessions.*, events.*", :joins => :events).between(Period.from_params(params)) 
-          tracks.stream.between(Period.from_params(params))            
+        def event_stream(resource, params = {})
+          tracks.stream.active(resource).between(Period.from_params(params))            
         end
       
         def one_event_summary(params = {})
