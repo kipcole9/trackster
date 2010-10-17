@@ -13,7 +13,7 @@ module Analytics
       # Each named scoped is a metric that builds up a column of a report. (see Analytics::Metrics)
       # #by method build the dimension we're reporting (see Analytics::Dimensions)
       module InstanceMethods
-        def campaign_summary(campaign, params = {})
+        def campaign_overview(campaign, params = {})
           tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name)\
             .active(campaign).between(Period.from_params(params))
         end
@@ -26,6 +26,10 @@ module Analytics
         def campaign_clicks(campaign, params = {})
           tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name)\
             .active(campaign).between(Period.from_params(params))
+        end
+        
+        def email_client_overview(campaign, params = {})
+          tracks.impressions.by(:email_client).order('impressions DESC').between(Period.from_params(params)).active(campaign)
         end
 
         #def visit_summary(params = {})
