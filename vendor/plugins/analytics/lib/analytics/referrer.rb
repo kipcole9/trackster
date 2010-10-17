@@ -23,7 +23,7 @@ module Analytics
       @url.host
     end
     
-    # SHould categorise as 'map', 'image', 'blog' and so on
+    # Should categorise as 'map', 'image', 'blog' and so on
     def category
       nil
     end

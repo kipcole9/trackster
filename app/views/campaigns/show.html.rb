@@ -1,5 +1,3 @@
-@campaign_summary ||= @campaign.campaign_summary(params).all
-
 column :width => 9, :class => 'main' do
   include "campaigns/reports/campaign_impressions_graph_by_day"
   include "campaigns/reports/campaign_overview"

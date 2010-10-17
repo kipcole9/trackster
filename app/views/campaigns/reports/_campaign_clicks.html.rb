@@ -1,7 +1,6 @@
 panel t('.campaign_clicks'), :class => 'table'  do
   block do
-    impressions_summary = (@account || @campaign ||
-        @property).tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).all
+    impressions_summary = resource.campaign_clicks(resource, params)
     if impressions_summary.empty?
       h3 t('no_impressions_yet')
     else

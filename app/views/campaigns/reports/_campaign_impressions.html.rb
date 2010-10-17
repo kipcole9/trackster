@@ -1,6 +1,6 @@
 panel t('.campaign_impressions'), :class => 'table'  do
   block do
-    impressions_summary = resource.tracks.impressions.open_rate.deliveries.cost.cost_per_impression.by(:campaign_name).all
+    impressions_summary = resource.campaign_impressions(resource, params)
     if impressions_summary.empty?
       h3 t('no_impressions_yet')
     else

@@ -2,7 +2,6 @@ class CampaignsController < TracksterResources
   layout              :choose_layout
   respond_to          :html, :xml, :json
   has_scope           :search
-  before_filter       :resource, :only => :preview
 
   def destroy
     destroy! do |success, failure|
