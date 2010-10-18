@@ -68,6 +68,17 @@ module Analytics
               {:conditions => Account.current_account.ip_filter_sql}
             end
           }
+          
+          # Composing three filters; a buit ugly but helps DRY a lot.
+          # Assumes these names_scopes only apply conditions
+          # See also http://stackoverflow.com/questions/1482940/combine-two-named-scopes-with-or-instead-of-and
+          named_scope :filters, lambda {|params|
+            conditions = []
+            conditions << self.active(self).proxy_options[:conditions]
+            conditions << self.ip_filter.proxy_options[:conditions]
+            conditions << self.between(Period.from_params(params)).proxy_options[:conditions]
+            {:conditions => self.merge_conditions(*conditions)}
+          }
         end
       end
     end
