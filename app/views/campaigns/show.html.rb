@@ -1,4 +1,4 @@
-column :width => 9, :class => 'main' do
+column :width => 9, :id => 'main' do
   include "campaigns/reports/campaign_impressions_graph_by_day"
   include "campaigns/reports/campaign_overview"
   include "campaigns/reports/campaign_impressions"
@@ -14,7 +14,7 @@ column :width => 9, :class => 'main' do
 end
   
 keep :sidebar do
-  column  :width => 3, :id => 'nav_block' do
+  column  :width => 3, :id => 'navigation' do
     include 'navigation'
   end
 end
