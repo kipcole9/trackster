@@ -5,7 +5,7 @@ class Property < ActiveRecord::Base
   
   has_many    :campaigns
   has_many    :sessions
-  has_many    :tracks
+  has_many    :tracks, :extend => Analytics::Model::Stream
   has_many    :redirects
   belongs_to  :account
 

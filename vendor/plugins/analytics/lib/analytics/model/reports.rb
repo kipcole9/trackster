@@ -64,8 +64,8 @@ module Analytics
           tracks.event_count(:with_events).value.by(:label, :category, :action).ip_filter.between(Period.from_params(params))
         end
         
-        def event_stream(resource, params = {})
-          tracks.stream.active(resource).ip_filter.between(Period.from_params(params))            
+        def event_stream(params = {})
+          tracks.stream(params)         
         end
       
         def one_event_summary(params = {})

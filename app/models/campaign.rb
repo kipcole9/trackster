@@ -1,7 +1,7 @@
 class Campaign < ActiveRecord::Base  
   belongs_to    :account
   has_many      :sessions
-  has_many      :tracks
+  has_many      :tracks, :extend => Analytics::Model::Stream
   belongs_to    :email_content, :class_name => 'Content', :foreign_key => :content_id
   
   before_create  :create_campaign_code

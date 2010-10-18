@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
   has_many        :account_users
   has_many        :users, :through => :account_users
   has_many        :properties
-  has_many        :tracks
+  has_many        :tracks, :extend => Analytics::Model::Stream
   has_many        :traffic_sources
   has_many        :sessions
   has_many        :campaigns

@@ -43,12 +43,7 @@ class ReportsController < ApplicationController
   end
   
   def stream
-    @dont_export = [
-      :id, :referrer, :user_agent, :account_id, :redirect_id, :campaign_id, 
-      :count, :sequence, :property_id, :session_id, :created_at, :updated_at, 
-      :page_views, :event_count,:duration
-    ]
-    @report = resource.event_stream(resource, params)
+    @report = resource.event_stream(params)
   end
 
   # Here's where we implement most of the reporting.  Since reporting
