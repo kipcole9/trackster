@@ -26,7 +26,7 @@ module Trackster
       end
 
       def set_chart_theme
-        Charting::FlashChart.config = theme_chart_config
+        Charting::FlashChart.config = Trackster::Theme.chart_config
       end
 
     end

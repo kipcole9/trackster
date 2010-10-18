@@ -21,7 +21,7 @@ module Caerus
 
     # Items in an accordion - add a bullet if the theme defines one
     def nav(text)
-      theme_menu_bullet? ? p("#{image_tag theme_menu_bullet_path} #{text}") : p(text)
+      Trackster::Theme.menu_bullet? ? p("#{image_tag Trackster::Theme.menu_bullet_path} #{text}") : p(text)
     end
   
     # From a text string do
@@ -29,7 +29,7 @@ module Caerus
     # => Localize the text
     def formatted_accordion_item(heading)
       icon_file = "#{heading.downcase.gsub(' ','_')}.png"
-      icon_path = "#{Trackster::Config.theme_dir.without_slash}/#{current_theme}/icons/#{icon_file}"
+      icon_path = "#{Trackster::Theme.current_theme}/icons/#{icon_file}"
       heading_text = I18n.t(heading, :default => heading)
       if File.exist?("#{Rails.root}/public#{icon_path}")
         "#{image_tag icon_path, :class => 'accordion_item_image'} #{heading_text}"

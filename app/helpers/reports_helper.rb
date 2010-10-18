@@ -91,6 +91,6 @@ module ReportsHelper
   end 
   
   def report_cache_key(prefix)
-    "#{prefix}/#{current_account['id']}/#{current_user['id']}/#{current_theme}-#{I18n.locale}-#{params[:period] || 'p'}-#{params[:time_group] || 't'}"
+    "#{prefix}/#{current_account['id']}/#{current_user['id']}/#{Trackster::Theme.current_theme}-#{I18n.locale}-#{params[:period] || 'p'}-#{params[:time_group] || 't'}"
   end 
 end
