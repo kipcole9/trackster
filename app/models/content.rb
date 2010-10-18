@@ -3,6 +3,7 @@ class Content < ActiveRecord::Base
   has_many          :variants, :class_name => 'ContentVariant', :autosave => true, :dependent => :destroy
   before_validation :add_http_scheme_to_url_if_none
   after_save        :update_version
+  before_create     :create_content_code
   
   validates_presence_of     :name
   validates_uniqueness_of   :name,            :scope => :account_id
@@ -84,6 +85,14 @@ private
   
   def add_http_scheme_to_url_if_none
     
+  end
+  
+  def create_content_code
+    token = nil
+    until token && !self.class.find_by_code(token)
+      token = ActiveSupport::SecureRandom.hex(3)
+    end
+    self.code = token
   end
 
 end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912082543) do
+ActiveRecord::Schema.define(:version => 20101018003050) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -201,9 +201,11 @@ ActiveRecord::Schema.define(:version => 20100912082543) do
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "code",        :limit => 10
   end
 
   add_index "contents", ["account_id"], :name => "index_contents_on_account_id"
+  add_index "contents", ["code"], :name => "index_contents_on_code", :unique => true
 
   create_table "countries", :force => true do |t|
     t.string "name", :limit => 48, :default => "", :null => false

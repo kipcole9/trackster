@@ -26,7 +26,7 @@ class Campaign < ActiveRecord::Base
   named_scope :user, lambda {|user|
     {:conditions => {:property_id => user.properties.map(&:id)} }
   }
-  
+
   named_scope :search, lambda {|criteria|
     search = "%#{criteria}%"
     {:conditions => ['name like ? or description like ?', search, search ]}
@@ -42,7 +42,7 @@ class Campaign < ActiveRecord::Base
   end
   
   def content_code
-    self.content.blank? ? self.email : self.content
+    self.email_content && self.email_content.code
   end
   
   def refers_to
