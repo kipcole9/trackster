@@ -177,10 +177,6 @@ module Analytics
             :select => "CAST(AVG(abs(timestampdiff(second, events.created_at, tracked_at))) AS signed) AS latency",
             :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',
             :joins => :events
-                   
-          named_scope :stream,
-            :select => "sessions.*, events.*",
-            :joins => :events
         end
       end
     end

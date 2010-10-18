@@ -122,7 +122,7 @@ private
         host_address = IP::Address::Util.string_to_ip(Resolv.getaddress(ip_address).to_s).pack
         clauses << "ip_integer <> #{host_address}"
       else
-        raise ArgumentError
+        errors.add(:ip_filter, I18n.t('account.invalid_ip_address', :address => ip_address))
       end
       clauses
     end.join(' AND ')

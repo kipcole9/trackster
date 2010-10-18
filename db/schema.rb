@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101018024638) do
+ActiveRecord::Schema.define(:version => 20101018071213) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -541,6 +541,7 @@ ActiveRecord::Schema.define(:version => 20101018024638) do
     t.string   "dialect",           :limit => 5
     t.string   "forwarded_for",     :limit => 100
     t.integer  "ip_integer"
+    t.integer  "content_id"
   end
 
   add_index "sessions", ["account_id"], :name => "index_sessions_on_account_id"

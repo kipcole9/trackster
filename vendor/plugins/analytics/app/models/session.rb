@@ -1,10 +1,15 @@
 class Session < ActiveRecord::Base
   skip_time_zone_conversion_for_attributes = :started_at, :ended_at
+  normalize_attributes  :campaign_medium, :campaign_content, :campaign_source, :campaign_name
+  normalize_attributes  :referrer, :flash_version, :forwarded_for, :with => :log_entry
+  normalize_attribute   :country, :with => :upcase
+  
   acts_as_taggable_on :tags
   belongs_to    :property
   belongs_to    :account
   belongs_to    :contact
   belongs_to    :campaign
+  belongs_to    :content
   has_many      :events, :dependent => :destroy do
     def create_from(track)
       event = Event.create_from(proxy_owner, track)
@@ -30,22 +35,6 @@ class Session < ActiveRecord::Base
   # To trigger before_save viewcount updating
   def update_viewcount!
     self.save!
-  end
-  
-  def referrer=(r)
-    super unless is_empty?(r) 
-  end
-  
-  def flash_version=(r)
-    super unless is_empty?(r)
-  end
-
-  def forwarded_for=(r)
-    super unless is_empty?(r)
-  end
-  
-  def country=(c)
-    super(c.upcase) unless c.blank?
   end
 
   # Language is the first part of the locale.  
@@ -84,6 +73,14 @@ class Session < ActiveRecord::Base
     self.property
   end
 
+  def create_content_association(track)
+    return nil if track.campaign_content.blank?
+    unless self.content = self.account.contents.find_by_code(track.campaign_content)
+      logger.error "[Session] Content '#{track.host}' is not associated with account '#{self.account.name}'."
+    end
+    self.content
+  end
+  
 private
   def self.new_from_track(track)
     session = new
@@ -110,6 +107,7 @@ private
     if session.account = Account.find_by_tracker(track.account_code)
       session.create_campaign_association(track)
       session.create_property_association(track)
+      session.create_content_association(track)
     else
       logger.error "[Session] Account '#{track.account_code}' is not known. Session will not be created."
       return nil
@@ -153,11 +151,7 @@ private
       logger.warn "[Session] Invalid IP Address detected: '#{self.ip_address}'"
     end
   end
-  
-  def is_empty?(s)
-    s.blank? || s == '-'
-  end
-  
+
   def self.have_visitor?(track)
     track.visitor && track.visit && track.session
   end

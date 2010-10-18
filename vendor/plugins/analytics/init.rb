@@ -3,6 +3,20 @@ config.gem "inifile",       :lib => false
 config.gem "graticule",     :lib => false
 config.gem "json",          :lib => false
 config.gem 'htmlentities',  :lib => false
+config.gem 'attribute_normalizer'
+
+AttributeNormalizer.configure do |config|
+  config.normalizers[:log_entry] = lambda do |value, options|
+    return nil unless value
+    stripped_value = value.strip
+    return nil if stripped_value == '-' || stripped_value.blank?
+    stripped_value
+  end
+  
+  config.normalizers[:upcase] = lambda do |value, options|
+    value.strip.upcase
+  end
+end
 
 # daemons/log_analyser.rb is the entry point for the
 # log analyser.  It will set $LOG_ANALYSER when it starts
