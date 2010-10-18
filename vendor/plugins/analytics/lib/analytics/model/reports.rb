@@ -53,8 +53,7 @@ module Analytics
         end
       
         def entry_exit_summary(params = {})
-          tracks.page_views(:with_events).page_duration.by(params[:action])\
-            .order('page_views DESC').filters(params)
+          tracks.page_views(:with_events).page_duration.by(params[:action]).order('page_views DESC').filters(params)
         end
 
         def events_summary(params = {})
@@ -165,6 +164,7 @@ module Analytics
           tracks.visits.filters(params).first.visits
         end
       
+        # TODO: This needs to apply ip_filter and effective_at filters
         def loyalty(params = {})
           period = Period.from_params(params)
           resource_scope = "#{self.class.name.downcase}_id = #{self['id']}"

@@ -91,6 +91,7 @@ private
   end
   
   def report(*render_args)
+    set_disposition_header
     respond_to do |format|
       format.html     { render *render_args }
       format.xml      { render :xml =>  @report }
@@ -115,6 +116,18 @@ private
   
   def check_time_period
     params[:period] = :last_30_days unless params[:period] || (params[:from] && params[:to])
+  end
+  
+  def set_disposition_header
+    filename = case params['format']
+      when 'xml'
+        "#{Account.current_account.name}_#{params[:action]}.xml"
+      when 'csv'
+        "#{Account.current_account.name}_#{params[:action]}.csv"
+      when 'xcelsius'
+        "#{Account.current_account.name}_#{params[:action]}.xcelcius.xml"
+      end
+    headers['Content-disposition'] = "attachment; filename=#{filename}" unless filename.blank?
   end
 
 end
