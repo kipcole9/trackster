@@ -17,6 +17,7 @@ class Session < ActiveRecord::Base
   before_create :update_traffic_source
   before_save   :update_session_time
   before_save   :update_event_count
+  before_save   :update_ip_integer
   
   attr_accessor   :logger
 
@@ -141,6 +142,15 @@ private
   def update_traffic_source
     if source = TrafficSource.find_from_referrer(self.referrer_host, self.account)
       self.referrer_category = source.source_type
+    end
+  end
+  
+  def update_ip_integer
+    return if self.ip_address.blank?
+    begin
+      self.ip_integer = IP::Address::Util.string_to_ip(self.ip_address).pack 
+    rescue
+      logger.warn "[Session] Invalid IP Address detected: '#{self.ip_address}'"
     end
   end
   

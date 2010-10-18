@@ -26,6 +26,7 @@ form_for @account, :html => { :multipart => true } do |account|
       account.time_zone_select :timezone, time_zones_like(Time.zone), :include_blank => true       
       account.text_field    :currency_code
       account.text_field    :custom_domain, :validate => :validations
+      account.text_field    :ip_filter
     end
   end
   submit_combo

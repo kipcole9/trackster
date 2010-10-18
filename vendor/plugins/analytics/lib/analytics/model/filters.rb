@@ -52,12 +52,20 @@ module Analytics
             {:select => select.join(', '), :conditions => conditions.uniq.join(' AND '), :group => group.uniq.join(', '), :joins => joins.uniq}
           }
           
-          # Only when the campaign is active (ie. after effective date)
-          named_scope :active, lambda {|campaign|
-            if campaign and campaign.respond_to?(:effective_at)
-              {:conditions => ["started_at >= ?", campaign.effective_at]}
+          # Only when the campaign (or other resource) is active (ie. after effective date)
+          named_scope :active, lambda {|resource|
+            if resource && resource.respond_to?(:effective_at) && resource.effective_at
+              {:conditions => ["started_at >= ?", resource.effective_at]}
             else
               {}
+            end
+          }
+          
+          named_scope :ip_filter, lambda {
+            if Account.current_account.ip_filter_sql.blank?
+              {}
+            else
+              {:conditions => Account.current_account.ip_filter_sql}
             end
           }
         end

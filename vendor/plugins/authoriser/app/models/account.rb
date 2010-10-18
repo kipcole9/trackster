@@ -1,7 +1,9 @@
 class Account < ActiveRecord::Base
   unloadable
-  normalize_attributes    :name, :custom_domain
+  before_save             :create_ip_filter
+  normalize_attributes    :name, :custom_domain, :ip_filter, :ip_filter_sql
   authenticates_many      :user_sessions
+  
   has_many        :account_users
   has_many        :users, :through => :account_users
   has_many        :properties
@@ -94,6 +96,42 @@ private
       token = ActiveSupport::SecureRandom.hex(3)
     end
     self.tracker = token
+  end
+  
+  IP_V4       = "(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})"
+  SINGLE_IPv4 = /\A#{IP_V4}\Z/
+  IPv4_RANGE  = /\A#{IP_V4}-#{IP_V4}\Z/
+  CIDR        = /\A(#{IP_V4}\/\d{1,2})\Z/
+  
+  def create_ip_filter
+    if self.ip_filter.blank?
+      self.ip_filter_sql = nil
+      return
+    end
+    ip_address = nil
+    sql_filter = ip_filter.split(',').inject([]) do |clauses, ip|
+      ip_address = ip.strip
+      if ip_address =~ SINGLE_IPv4
+        # IPv4 address
+        clauses << "ip_integer <> #{IP::Address::Util.string_to_ip($1).pack}"
+      elsif ip_address =~ IPv4_RANGE
+        clauses << "ip_integer < #{IP::Address::Util.string_to_ip($1).pack} AND ip_integer > #{IP::Address::Util.string_to_ip($2).pack}"
+      elsif ip_address =~ CIDR
+        # CIDR format
+        cidr_address = IP::CIDR.new($1)
+        clauses << "ip_integer < #{cidr_address.first_ip.pack} AND ip_integer > #{cidr_address.last_ip.pack}"
+      elsif ip_address =~ Property::DOMAIN_REGEX
+        # Its a hostname?
+        host_address = IP::Address::Util.string_to_ip(Resolv.getaddress(ip_address).to_s).pack
+        clauses << "ip_integer <> #{host_address}"
+      else
+        raise ArgumentError
+      end
+      clauses
+    end
+    self.ip_filter_sql = sql_filter.join(' AND ')
+  rescue
+    errors.add(:ip_filter, I18n.t('account.invalid_ip_address', :address => ip_address))
   end
 
 end

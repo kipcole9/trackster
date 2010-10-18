@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101018003050) do
+ActiveRecord::Schema.define(:version => 20101018024638) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(:version => 20101018003050) do
     t.string   "salutation",          :limit => 100
     t.string   "currency_code",       :limit => 3
     t.string   "default_locale",      :limit => 10
+    t.string   "ip_filter"
+    t.string   "ip_filter_sql"
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
@@ -538,6 +540,7 @@ ActiveRecord::Schema.define(:version => 20101018003050) do
     t.string   "email_client",      :limit => 20
     t.string   "dialect",           :limit => 5
     t.string   "forwarded_for",     :limit => 100
+    t.integer  "ip_integer"
   end
 
   add_index "sessions", ["account_id"], :name => "index_sessions_on_account_id"
@@ -549,6 +552,7 @@ ActiveRecord::Schema.define(:version => 20101018003050) do
   add_index "sessions", ["day_of_week"], :name => "index_sessions_on_day_of_week"
   add_index "sessions", ["device"], :name => "index_sessions_on_device"
   add_index "sessions", ["hour"], :name => "index_sessions_on_hour"
+  add_index "sessions", ["ip_integer"], :name => "index_sessions_on_ip_integer"
   add_index "sessions", ["language"], :name => "index_sessions_on_language"
   add_index "sessions", ["month"], :name => "index_sessions_on_month"
   add_index "sessions", ["os_name"], :name => "index_sessions_on_os_name"

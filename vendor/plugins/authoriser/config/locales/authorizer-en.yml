@@ -35,6 +35,7 @@ en:
             currency_code:      "The default currency which is used to interpret organization revenue when no specific currency is provided."
             timezone:           "The default timezone for the account.  Used if no timezone is provided for your contacts."
             salutation:         "The default salutation template used if your contacts do not have a specific salutation specified.  You might, for example, put 'Dear [[informal_name]]' here."
+            ip_filter:          "IP Addresses that will be filtered out of all reporting. A comma-separated list of addresses specificed as a single IP address; a range of IP Addresses like 192.168.1.1-192.168.1.255; a CIDR range like 192.168.1.0/24 or a domain name."
         user:
             tags:               "If tags are specified then only events that are also tagged will be visible to this user"
             photo:              "Can you upload an image as part of your profile.  It will be visible to other people on your account."
@@ -66,6 +67,9 @@ en:
             active:             Active
             passive:            Inactive
                     
+    account:
+        invalid_ip_address:     "'{{address}}' you entered is invalid."
+        
     activerecord:
         attributes:
             user_session:
@@ -76,6 +80,7 @@ en:
                 name:           Account name
                 company_name:   Company name
                 timezone:       Default Time zone
+                ip_filter:      IP Address Filter
             user:
                 login:          User name
                 password_confirmation:  Password again

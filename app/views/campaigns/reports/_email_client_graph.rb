@@ -1,6 +1,6 @@
 panel t('.impressions_graph_by_browser')  do
   block do
-    @email_client_overview ||= resource.email_client_overview(resource, params).all
+    @email_client_overview ||= resource.email_client_overview(params).all
     if  @email_client_overview.empty?
       h3 t('no_impressions_yet')
     else
