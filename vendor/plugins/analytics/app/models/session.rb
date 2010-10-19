@@ -20,9 +20,9 @@ class Session < ActiveRecord::Base
   
   before_create :save_time_metrics
   before_create :update_traffic_source
+  before_create :update_ip_integer
   before_save   :update_session_time
   before_save   :update_event_count
-  before_save   :update_ip_integer
   
   attr_accessor   :logger
 
@@ -118,13 +118,15 @@ private
   end
   
   def save_time_metrics
-    self.date            = self.started_at.to_date
-    self.day_of_week     = self.started_at.wday
-    self.hour            = self.started_at.hour
-    self.week            = self.date.cweek
-    self.day_of_month    = self.started_at.day
-    self.month           = self.started_at.month
-    self.year            = self.started_at.year
+    return unless self.timezone
+    local_time = self.started_at + self.timezone.minutes
+    self.date            = local_time.to_date
+    self.day_of_week     = local_time.wday
+    self.hour            = local_time.hour
+    self.week            = local_time.to_date.cweek
+    self.day_of_month    = local_time.day
+    self.month           = local_time.month
+    self.year            = local_time.year
   end
 
   def update_event_count

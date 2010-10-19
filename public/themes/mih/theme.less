@@ -1,10 +1,13 @@
+// Base colours
 @brand_colour:			rgb(118,118,118);
 @brand_text:			rgb(255,140,37);
 @container_background:	black;
 @site_info:				rgb(39,39,39);
 @light_text:			white;
 @dark_text:				black;
+@base_border_color:		#777
 
+// Menu bar
 @menu_hover_colour:		rgb(33,33,33);
 @submenu_hover_colour:	rgb(52,52,52);
 @menu_background:		rgb(33,33,33);
@@ -14,10 +17,18 @@
 @even_row:				rgb(0,84,116);
 @even_row:				rgba(0,84,116,0.7);
 
+// Tabs
+@tab_border_color: 		@base_border_color;
+@tab_border:			1px solid @tab_border_color;
+
+// Contacts
+@contact_border_color: 	@base_border_color;
+@contact_border 		1px solid @contact_border_color;
+
 // Forms
 @fieldset_background:	rgb(50,50,50);
 @fieldset_border:		1px solid @fieldset_border_color;
-@fieldset_border_color:	rgb(70,70,70);
+@fieldset_border_color:	@base_border_color;
 @fieldset_colour:		#ccc;
 @legend_background:		rgb(255, 140, 37);	
 @legend_background:		rgba(255, 140, 37, .9);	
@@ -199,7 +210,7 @@ ul.nav.main li ul li a:hover {
 	background: 		@submenu_hover_colour;
 }
 
-/* Corners and shadows */
+// Basic Boxes
 div.box, legend {
 	.box_borders;
 }
@@ -233,7 +244,7 @@ div.box.table {
 	padding-bottom:		2px;
 }
 
-/* Concertina */
+// Accordions
 .accordion .targ p a, .accordion .targ p a:visited {
 	color: 				@light_text;
 	font-weight:		normal;
@@ -248,7 +259,14 @@ div.box.table {
 	-moz-box-shadow:	none;
 }
 
-/* Lists */
+.ui-accordion-content, .accordion h3.trig {
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: 	none !important;
+	background-color:   inherit !important;
+	border:				0 !important;
+}
+
+// Lists
 div.listItem, fieldset {
 	background: 		@fieldset_background;
 	border: 			@fieldset_border;
@@ -259,6 +277,7 @@ div.listItem a {
 	color: 				@search_colour;
 }
 
+// Search bar and forms in a block
 form.search {
 	margin-top:			3px;
 	background: 		@search_background;
@@ -286,21 +305,39 @@ p.prompt {
 	color: 				@prompt;
 }
 
+// Tabs
 .tabricator .trig {
 	background-color: 	@dark_text;
-	border-top: 		1px solid #666;
-	border-left: 		1px solid #666;
-	border-right: 		1px solid #666;
+	border-top: 		@tab_border;
+	border-left: 		@tab_border;
+	border-right: 		@tab_border;
 }
 
 .tabricator .targ {
-	border-top: 		1px solid #666;
+	border-top: 		@tab_border;
 }
 .tabricator .tabItem:hover, .tabricator .open {
 	color: 				@light_text;
 	background: 		@dark_text;
 }
 
+li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel, .tab .ui-widget-content {
+	background-color: @fieldset_background !important;
+	border-color: @fieldset_border_color !important;
+}
+.ui-tabs-nav {
+	background-color: @container_background;
+	border-color: @fieldset_border_color !important;
+}
+.ui-tabs-selected a span {
+	color: @brand_text !important;
+}
+.ui-tabs-panel.ui-widget-content {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: 	none;
+}
+
+// Contacts
 div.contactCard {
 	background: 		@contact_background;
 	color: 				@contact_colour;
@@ -341,6 +378,7 @@ div.address + div.address {
 	border-top: @address_separator;
 }
 
+// Pagination
 .pagination a, .pagination span.prev_page, .pagination span.next_page {
 	color: @pagination_colour;
 	border-color: @pagination_border;
@@ -351,6 +389,7 @@ div.address + div.address {
 	.pagination_hover;
 }
 
+// Autocomplete
 div.autocomplete {
 	opacity: 1;
 }
@@ -358,6 +397,8 @@ div.autocomplete ul {
 	background: @pagination_border;
 }
 
+
+// Flash
 div.flash_notice, div.flash_error, div.flash_alert {
 	.box_borders;
 	.box_shadow;
@@ -375,35 +416,14 @@ div.box.flash_notice {
 	color: @light_text;
 }
 
+// Login Form
 .login_options {
 	color: @brand_text;
 }
 .login_options a {
 	color: @light_text;
 }
-/* Accordion */
-.ui-accordion-content, .accordion h3.trig {
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: 	none !important;
-	background-color:   inherit !important;
-	border:				0 !important;
-}
-/* Tabs */
-li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel, .tab .ui-widget-content {
-	background-color: @fieldset_background !important;
-	border-color: @fieldset_border_color !important;
-}
-.ui-tabs-nav {
-	background-color: @container_background;
-	border-color: @fieldset_border_color !important;
-}
-.ui-tabs-selected a span {
-	color: @brand_text !important;
-}
-.ui-tabs-panel.ui-widget-content {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: 	none;
-}
+
 /* Forms */
 label {
 	color: @light_text;

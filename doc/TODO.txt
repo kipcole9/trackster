@@ -13,3 +13,20 @@ Shared stuff
 App stuff
 
 1.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts
+2.	After login (forced) should redirect back to the page they requested
+
+Graphing
+
+1.  Highcharts 2.1 beta implementation - use css_rule to drive colours
+
+Rules
+====
+var sheet= document.styleSheets[0];
+alert(sheet.cssRules[0].cssText);
+//var rules= 'cssRules' in sheet ? sheet.cssRules : sheet.rules;
+//for (var i= 0; i<rules.length; i++) {
+//    var rule= rules[i];
+//   var text= 'cssText' in rule? rule.cssText : rule.selectorText+' //{'+rule.style.cssText+'}';
+//    alert(text);
+//}
+
