@@ -19,6 +19,10 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
+#wrapper {
+	width: 98%;
+}
+
 th, td {
 	padding: 0.2em 0.5em;
 }
