@@ -103,7 +103,16 @@ en:
             returning:              Returning
         categories:
             page:                   Page
+            email:                  Email
+            video:                  Video
         actions:
-            view:                   View       
+            view:                   View
+            open:                   Open
+            play:                   Play
+            end:                    End
+            pause:                  Pause
+            resume:                 Resume
+            max_play:               Max. Play
+                 
 
         

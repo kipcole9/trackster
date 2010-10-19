@@ -87,6 +87,7 @@ module Analytics
                                      
           column_format :category,
                        :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
+          
           column_format :action,
                        :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.actions.#{val}", :default => val) }
         
