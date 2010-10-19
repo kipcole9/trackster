@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="content-type" />
+    <meta name="csrf-token" content="61CBkLLq+45UJlWZmSFPSuyPKeH2UhM2UD1RbQfStqM=" />
+    <meta name="csrf-param" content="authenticity_token" />
+    <link type="image/vnd.microsoft.icon" rel="icon" href="/themes/trackster/favicon.ico" />
+    <title>
+      Trackster Development: Visit Overview Report
+    </title>
+    <link href="/stylesheets/reset.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/text.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/960.css?1266997904" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/960_shim.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/nested_grids.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/layout.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/nav.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/forms.css?1268387173" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/jquery-autocomplete.css?1266179187" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/jquery-ui.css?1272290272" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/textboxlist.css?1240253822" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/application.css?1277514683" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/contacts.css?1270467520" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/media_transforms.css?1277471887" media="screen, print" rel="stylesheet" type="text/css" />
+<link href="/themes/trackster/theme.css?1266179187" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/print.css?1268109280" media="print" rel="stylesheet" type="text/css" />
+<link href="/themes/trackster/print.css?1269756842" media="print" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/cookie.js?1260029879" type="text/javascript"></script>
+<script src="/javascripts/jquery-1.4.1.min.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/browser_timezone.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-kwicks-1.5.1.pack.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-ui-1.8rc1.custom.min.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-namespace.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/rails.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-tablesorter.min.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-searchbox.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/jquery-autocomplete.min.js?1266179187" type="text/javascript"></script>
+<script src="/javascripts/textboxlist.js?1258047373" type="text/javascript"></script>
+<script src="/javascripts/application.js?1272204929" type="text/javascript"></script>
+<script src="/javascripts/highcharts.src.js" type="text/javascript" ></script>
+  </head>
+  <body>
+    <div class="container_12 clearfix" id="wrapper">
+            <div class="grid_12">
+        <div id="branding">
+          <h1>
+            <a href="/">Trackster Development</a>
+          </h1>
+        </div>
+      </div>
+
+            <div class="grid_12" id="menu">
+        <ul class="nav main">
+          <li>
+            <a href="/dashboard">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a>
+              Web Properties
+            </a>
+            <ul>
+              <li>
+                <a href="/properties/new">
+                  Define a Web Property
+                </a>
+              </li>
+              <li>
+                <a href="/properties">
+                  Web Property Index
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Campaigns
+            </a>
+            <ul>
+              <li>
+                <a href="/campaigns/new">
+                  Define a Campaign
+                </a>
+              </li>
+              <li>
+                <a href="/campaigns">
+                  Campaign Index
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Content
+            </a>
+            <ul>
+              <li>
+                <a href="/contents/new">
+                  Define Content
+                </a>
+              </li>
+              <li>
+                <a href="/contents">
+                  Content Index
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Contacts
+            </a>
+            <ul>
+              <li>
+                <a href="/people/new">
+                  Define a Contact
+                </a>
+              </li>
+              <li>
+                <a href="/people">
+                  People Index
+                </a>
+              </li>
+              <li>
+                <a href="/organizations">
+                  Organization Index
+                </a>
+              </li>
+              <li>
+                <a href="/contacts">
+                  All Contacts
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Account
+            </a>
+            <ul>
+              <li>
+                <a href="/accounts/4/edit">
+                  Edit your account
+                </a>
+              </li>
+              <li>
+                <a href="/users">
+                  Account Users Index
+                </a>
+              </li>
+              <li>
+                <a href="/users/new">
+                  Define a new user
+                </a>
+              </li>
+              <li>
+                <a href="/accounts">
+                  Account Index
+                </a>
+              </li>
+              <li>
+                <a href="/accounts/new">
+                  Define a New Account
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>
+              Site
+            </a>
+            <ul>
+              <li>
+                <a href="/site">
+                  Site Update Latency
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="secondary">
+            <a href="/logout">
+              Logout
+            </a>
+          </li>
+          <li class="secondary">
+            <a href="/users/1/edit">
+              Profile
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div style="clear:both">
+      </div>
+
+      <div class="clearfix">
+  <div class="grid_9" id="main">
+    <div class="box ">
+  <h2 class="heading">
+    <a href="" class="panel-heading">Page views by Date for this year</a>
+  </h2>
+  <div class="block">
+    <div id ="test" style="width:100%">
+	</div>
+  </div>
+</div>
+
+<div class="box table">
+  <h2 class="heading">
+    <a href="" class="panel-heading">New & Returning Visitors for this year</a>
+  </h2>
+  <div class="block">
+    <div>
+      <table>
+  <colgroup>
+    <col class="visit_type"/>
+    <col class="visits"/>
+    <col class="percent_of_visits"/>
+    <col class="duration"/>
+    <col class="page_views_per_visit"/>
+    <col class="bounce_rate"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Visit type</th>
+      <th class="right">Visits</th>
+      <th>% Visits</th>
+      <th class="right">Duration</th>
+      <th class="right">Pages</th>
+      <th class="right">% Bounce</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+Total (2 rows)      </th>
+      <th class="right">
+1,474      </th>
+      <th>
+100.0%      </th>
+      <th class="right">
+00:00:57      </th>
+      <th class="right">
+1.8      </th>
+      <th class="right">
+75.3%      </th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr class="even">
+      <td>
+New      </td>
+      <td class="right">
+1,376      </td>
+      <td>
+<div class="hbar" style="width:56.010854816825%">&nbsp;</div><div>93.4%</div>      </td>
+      <td class="right">
+00:00:42      </td>
+      <td class="right">
+1.7      </td>
+      <td class="right">
+76.1%      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+Returning      </td>
+      <td class="right">
+98      </td>
+      <td>
+<div class="hbar" style="width:5.31886024423338%">&nbsp;</div><div>6.6%</div>      </td>
+      <td class="right">
+00:01:12      </td>
+      <td class="right">
+2.0      </td>
+      <td class="right">
+74.5%      </td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+  </div>
+</div>
+
+<div class="box table">
+  <h2 class="heading">
+    <a href="" class="panel-heading">Top 10 Pages Viewed for this year</a>
+  </h2>
+  <div class="block">
+    <div>
+      <table>
+  <colgroup>
+    <col class="url"/>
+    <col class="page_views"/>
+    <col class="percent_of_page_views"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th class="right">Views</th>
+      <th class="page_views">% Views</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+Total (10 rows)      </th>
+      <th class="right">
+1,260      </th>
+      <th class="page_views">
+49.6%      </th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr class="even">
+      <td>
+/images      </td>
+      <td class="right">
+300      </td>
+      <td class="page_views">
+<div class="hbar" style="width:9.4525403702245%">&nbsp;</div><div>11.8%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+/articles      </td>
+      <td class="right">
+273      </td>
+      <td class="page_views">
+<div class="hbar" style="width:8.60181173690429%">&nbsp;</div><div>10.8%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+/articles/a-walk-around-saigon-district-1      </td>
+      <td class="right">
+199      </td>
+      <td class="page_views">
+<div class="hbar" style="width:6.27018511224892%">&nbsp;</div><div>7.8%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+/      </td>
+      <td class="right">
+138      </td>
+      <td class="page_views">
+<div class="hbar" style="width:4.34816857030327%">&nbsp;</div><div>5.4%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+/articles/day-trip-from-hong-kong-to-macau      </td>
+      <td class="right">
+85      </td>
+      <td class="page_views">
+<div class="hbar" style="width:2.67821977156361%">&nbsp;</div><div>3.3%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+/articles/walking-across-the-sydney-harbour-bridge-to-lunch      </td>
+      <td class="right">
+64      </td>
+      <td class="page_views">
+<div class="hbar" style="width:2.01654194564789%">&nbsp;</div><div>2.5%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+/galleries/sapa-vietnam-may-2006      </td>
+      <td class="right">
+60      </td>
+      <td class="page_views">
+<div class="hbar" style="width:1.8905080740449%">&nbsp;</div><div>2.4%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+/galleries/varanasi-india-october-2005      </td>
+      <td class="right">
+53      </td>
+      <td class="page_views">
+<div class="hbar" style="width:1.66994879873966%">&nbsp;</div><div>2.1%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+/galleries      </td>
+      <td class="right">
+48      </td>
+      <td class="page_views">
+<div>1.9%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+/galleries/bridge-to-bridge-boat-race-may-2008      </td>
+      <td class="right">
+40      </td>
+      <td class="page_views">
+<div>1.6%</div>      </td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+  </div>
+</div>
+
+<div class="grid_6">
+    <div class="box table">
+    <h2 class="heading">
+      <a href="" class="panel-heading">Top 10 Referrers for this year</a>
+    </h2>
+    <div class="block">
+      <div>
+        <table>
+  <colgroup>
+    <col class="referrer_host"/>
+    <col class="visits"/>
+    <col class="percent_of_visits"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Referrer</th>
+      <th class="right">Visits</th>
+      <th>% Visits</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+Total (10 rows)      </th>
+      <th class="right">
+742      </th>
+      <th>
+69.2%      </th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr class="even">
+      <td>
+images.google.com      </td>
+      <td class="right">
+247      </td>
+      <td>
+<div class="hbar" style="width:18.4328358208955%">&nbsp;</div><div>23.0%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+www.google.com.au      </td>
+      <td class="right">
+123      </td>
+      <td>
+<div class="hbar" style="width:9.17910447761194%">&nbsp;</div><div>11.5%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+www.tripadvisor.com      </td>
+      <td class="right">
+105      </td>
+      <td>
+<div class="hbar" style="width:7.83582089552239%">&nbsp;</div><div>9.8%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+images.google.com.au      </td>
+      <td class="right">
+72      </td>
+      <td>
+<div class="hbar" style="width:5.37313432835821%">&nbsp;</div><div>6.7%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+www.google.com      </td>
+      <td class="right">
+59      </td>
+      <td>
+<div class="hbar" style="width:4.40298507462687%">&nbsp;</div><div>5.5%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+images.google.co.uk      </td>
+      <td class="right">
+39      </td>
+      <td>
+<div class="hbar" style="width:2.91044776119403%">&nbsp;</div><div>3.6%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+images.google.ca      </td>
+      <td class="right">
+33      </td>
+      <td>
+<div class="hbar" style="width:2.46268656716418%">&nbsp;</div><div>3.1%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+www.noexpectations.com.au      </td>
+      <td class="right">
+27      </td>
+      <td>
+<div class="hbar" style="width:2.01492537313433%">&nbsp;</div><div>2.5%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+www.google.co.uk      </td>
+      <td class="right">
+19      </td>
+      <td>
+<div>1.8%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+images.google.co.in      </td>
+      <td class="right">
+18      </td>
+      <td>
+<div>1.7%</div>      </td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="grid_6">
+    <div class="box table">
+    <h2 class="heading">
+      <a href="" class="panel-heading">Top 10 Search Terms for this year</a>
+    </h2>
+    <div class="block">
+      <div>
+        <table>
+  <colgroup>
+    <col class="search_terms"/>
+    <col class="visits"/>
+    <col class="percent_of_visits"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Search terms</th>
+      <th class="right">Visits</th>
+      <th>% Visits</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+Total (10 rows)      </th>
+      <th class="right">
+102      </th>
+      <th>
+6.9%      </th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr class="even">
+      <td>
+flower photography      </td>
+      <td class="right">
+18      </td>
+      <td>
+<div>1.2%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+balmoral beach      </td>
+      <td class="right">
+17      </td>
+      <td>
+<div>1.2%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+saigon      </td>
+      <td class="right">
+13      </td>
+      <td>
+<div>0.9%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+sydney harbour bridge      </td>
+      <td class="right">
+11      </td>
+      <td>
+<div>0.7%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+THAIPUSAM      </td>
+      <td class="right">
+9      </td>
+      <td>
+<div>0.6%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+kirribilli      </td>
+      <td class="right">
+9      </td>
+      <td>
+<div>0.6%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+sydney harbour      </td>
+      <td class="right">
+8      </td>
+      <td>
+<div>0.5%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+macau      </td>
+      <td class="right">
+7      </td>
+      <td>
+<div>0.5%</div>      </td>
+    </tr>
+    <tr class="even">
+      <td>
+clapping      </td>
+      <td class="right">
+5      </td>
+      <td>
+<div>0.3%</div>      </td>
+    </tr>
+    <tr class="odd">
+      <td>
+hawkesbury river post boat      </td>
+      <td class="right">
+5      </td>
+      <td>
+<div>0.3%</div>      </td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+  <div class="grid_3" id="navigation">
+        <div class="box ">
+      <h2 class="heading">
+        <a href="" class="panel-heading">Metrics</a>
+      </h2>
+      <div class="block">
+        <div>
+<div class="accordion" id="report_navigation"><h3 class="trig"><img alt="Visitors" class="accordion_item_image" src="/themes/trackster/icons/visitors.png?1260029879" /> Visitors</h3><div class="targ">          <p>
+            <a href="/reports/visit_overview?period=this_year">Visit Overview</a>
+          </p>
+          <p>
+            <a href="/reports/country?period=this_year">Countries</a>
+          </p>
+          <p>
+            <a href="/reports/locality?period=this_year">Localities</a>
+          </p>
+          <p>
+            <a href="/reports/new_v_returning?period=this_year">New & Returning Visitors</a>
+          </p>
+          <p>
+            <a href="/reports/language?period=this_year">Languages</a>
+          </p>
+</div><h3 class="trig"><img alt="Loyalty" class="accordion_item_image" src="/themes/trackster/icons/loyalty.png?1260029879" /> Loyalty</h3><div class="targ">          <p>
+            <a href="/reports/loyalty_overview?period=this_year">Loyalty Overview</a>
+          </p>
+          <p>
+            <a href="/reports/loyalty?period=this_year">Loyalty</a>
+          </p>
+          <p>
+            <a href="/reports/recency?period=this_year">Recency</a>
+          </p>
+          <p>
+            <a href="/reports/length_of_visit?period=this_year">Length of Visit</a>
+          </p>
+          <p>
+            <a href="/reports/depth_of_visit?period=this_year">Depth of Visit</a>
+          </p>
+</div><h3 class="trig"><img alt="Traffic_sources" class="accordion_item_image" src="/themes/trackster/icons/traffic_sources.png?1260029879" /> Traffic Sources</h3><div class="targ">          <p>
+            <a href="/reports/traffic_source_overview?period=this_year">Traffic Source Overview</a>
+          </p>
+          <p>
+            <a href="/reports/traffic_source?period=this_year">Traffic Sources</a>
+          </p>
+          <p>
+            <a href="/reports/referrer_category?period=this_year">Traffic Source Categories</a>
+          </p>
+          <p>
+            <a href="/reports/search_engines?period=this_year">Search Engines</a>
+          </p>
+          <p>
+            <a href="/reports/keywords?period=this_year">Keywords</a>
+          </p>
+</div><h3 class="trig"><img alt="Campaigns" class="accordion_item_image" src="/themes/trackster/icons/campaigns.png?1260029879" /> Campaigns</h3><div class="targ">          <p>
+            <a href="/reports/campaign_overview?period=this_year">Campaign Overview</a>
+          </p>
+          <p>
+            <a href="/reports/impressions?period=this_year">Impressions</a>
+          </p>
+          <p>
+            <a href="/reports/clicks_through?period=this_year">Clicks Through</a>
+          </p>
+          <p>
+            <a href="/reports/link_destinations?period=this_year">Link Destinations</a>
+          </p>
+</div><h3 class="trig"><img alt="Content" class="accordion_item_image" src="/themes/trackster/icons/content.png?1260029879" /> Content</h3><div class="targ">          <p>
+            <a href="/reports/content_overview?period=this_year">Content Overview</a>
+          </p>
+          <p>
+            <a href="/reports/url?period=this_year">URL (web page address)</a>
+          </p>
+          <p>
+            <a href="/reports/page_title?period=this_year">Page Title</a>
+          </p>
+          <p>
+            <a href="/reports/entry_page?period=this_year">Entry pages</a>
+          </p>
+          <p>
+            <a href="/reports/exit_page?period=this_year">Exit pages</a>
+          </p>
+          <p>
+            <a href="/reports/bounce_page?period=this_year">Bounce pages</a>
+          </p>
+</div><h3 class="trig"><img alt="Events" class="accordion_item_image" src="/themes/trackster/icons/events.png?1260029879" /> Events</h3><div class="targ">          <p>
+            <a href="/reports/events?period=this_year">Events</a>
+          </p>
+          <p>
+            <a href="/reports/video?period=this_year">Video</a>
+          </p>
+</div><h3 class="trig"><img alt="Internal_search" class="accordion_item_image" src="/themes/trackster/icons/internal_search.png?1260029879" /> Internal Search</h3><div class="targ">          <p>
+            <a href="/reports/internal_search_overview?period=this_year">Internal Search Overview</a>
+          </p>
+</div><h3 class="trig"><img alt="Devices" class="accordion_item_image" src="/themes/trackster/icons/devices.png?1260029879" /> Devices</h3><div class="targ">          <p>
+            <a href="/reports/device_overview?period=this_year">Device Overview</a>
+          </p>
+          <p>
+            <a href="/reports/device?period=this_year">Device Types</a>
+          </p>
+          <p>
+            <a href="/reports/browser?period=this_year">Browsers</a>
+          </p>
+          <p>
+            <a href="/reports/os_name?period=this_year">Operating Systems</a>
+          </p>
+          <p>
+            <a href="/reports/color_depth?period=this_year">Color Depth</a>
+          </p>
+          <p>
+            <a href="/reports/screen_size?period=this_year">Screen Sizes</a>
+          </p>
+          <p>
+            <a href="/reports/flash_version?period=this_year">Flash Version</a>
+          </p>
+</div></div>        </div>
+      </div>
+    </div>
+
+        <div class="box ">
+      <h2 class="heading">
+        <a href="" class="panel-heading">Time dimension</a>
+      </h2>
+      <div class="block">
+        <div>
+<div class="accordion"><h3 class="trig"><img alt="Time_period" class="accordion_item_image" src="/themes/trackster/icons/time_period.png?1260029879" /> Time Period</h3><div class="targ">          <p>
+            <a href="/reports/visit_overview?period=today">Today</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=yesterday">Yesterday</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_week">This Week</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_month">This Month</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year">This Year</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=last_week">Last Week</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=last_month">Last Month</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=last_year">Last Year</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=last_30_days">Last 30 Days</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=last_12_months">Last 12 Months</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=lifetime">Lifetime</a>
+          </p>
+</div><h3 class="trig"><img alt="Time_summarised_by" class="accordion_item_image" src="/themes/trackster/icons/time_summarised_by.png?1260029879" /> Time summarised by</h3><div class="targ">          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=date">Date</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=day_of_week">Day of Week</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=hour">Hour of Day</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=day_of_month">Day of Month</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=month">Month</a>
+          </p>
+          <p>
+            <a href="/reports/visit_overview?period=this_year&amp;time_group=year">Year</a>
+          </p>
+</div></div>        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+      <div class="grid_12" id="site_info">
+        <div class="box clearfix">
+  <p style="float:left">Operating in (GMT+08:00) Beijing timezone.</p>
+  <p style="float:right"> <a href='#'>Terms of Service</a> | <a href='#'>Privacy</a> | <a href='#'>Contact</a></p>
+</div>
+      </div>
+</div>
+
+<script type="text/javascript">
+function tracksterChart() {
+   // Set up the various colours we want to use here
+   var self = this;
+
+   // Add some hidden structure that we can then use to get color and style information from
+   var template = "<div style='display:none;width=1em'><p id=highcharts>&nbsp</p>" + 
+				  "<p id=highcharts-text>&npsb</p><p id=highcharts-area>&npsb</p>" +
+				  "<p id=highcharts-line>&npsb</p></div>";
+   $('body').append(template);
+
+   // Derive the colors and formatting from the hidden structure
+   this.colors = {
+		background: $('#highcharts').css('background-color'), 
+	  	areaFill:   $('#highcharts-area').css('color'),
+		areaOpacity: $('#highcharts-area').css('opacity')
+   };
+
+   this.area = function(container, categories, series_data, options) {
+		return chart = new Highcharts.Chart({
+	      chart: {
+	         renderTo: container, 
+	         defaultSeriesType: 'area',
+			 backgroundColor: self.colors.background
+	      },
+	      title: {
+	         text: options.title || ''
+	      },
+	      subtitle: {
+	         text: options.subtitle
+	      },
+	      xAxis: {
+			 categories: categories,
+			 title: {
+				text: options.x_axis || ''
+			 },
+	         labels: {
+	            formatter: function() {
+	               return this.value;
+	            }
+	         }                     
+	      },
+	      yAxis: {
+	         title: {
+	            text: options.y_axis || ''
+	         },
+	         labels: {
+	            formatter: function() {
+	               return this.value;
+	            }
+	         }
+	      },
+	      tooltip: {
+	         formatter: function() {
+	            return this.series.name +' produced <b>'+
+	               Highcharts.numberFormat(this.y, 0) +'</b><br/>warheads in '+ this.x;
+	         }
+	      },
+		  legend: {
+			enabled: (series_data.size > 1)
+		  },
+	      plotOptions: {
+	        area: {
+	           fillOpacity: self.colors.areaOpacity,
+			   fillColor: self.colors.areaFill
+	        }
+	      },
+	      series: series_data
+	   });
+	};
+};
+
+$(document).ready(function() {
+	charter = new tracksterChart
+	charter.area(
+		'test', 											// Container
+		['a', 'b', 'c', 'd', 'e', 'f', 'g'], 				// Categories
+		[{name: 'stuff', data: [1,2,3,4,5,6,7]}], 			// Series Data
+		{x_axis: null, y_axis: null } 	// Options
+	);
+});
+</script>
+</body>
+</html>
+

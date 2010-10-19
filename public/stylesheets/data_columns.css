@@ -1,0 +1,42 @@
+/*
+ * These are columns reported in tables.  Adjusting these widths adjusts
+ * the column widths in all tables.
+ *
+*/
+col.page_views, col.event_count, col.page_views_per_visit {
+	width: 5em; 
+}
+col.depth_of_visit, col.length_of_visit,
+col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
+col.flash_version, col.page_title,
+col.language {
+	width: 8em;
+}
+col.country {
+	width: 11em;
+}
+col.count, col.visits, col.exit_rate,
+col.new_visit_rate, col.duration, col.deliveries, col.impressions,
+col.distribution, col.clicks_through, col.unsubscribes,
+col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
+col.events {
+	width: 6em; /* 13%; */
+}
+col.bounce_rate, col.value, col.traffic_source {
+	width: 7.5em;
+}
+col.url {
+	width: 25%;
+}
+.pageview_top_10 col.url {
+	width: 50%;
+}
+col.entry_rate {
+	width: 6.5em;
+}
+col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{
+	width: 35%;
+}
+div.sixcol col.percent_of_impressions {
+	width: 50%;
+}

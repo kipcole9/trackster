@@ -1,8 +1,8 @@
-:fill_colour:     "#006583"
-:y_axis_colour: "#008989"
+:fill_colour:        "#006583"
+:y_axis_colour:      "#008989"
 :background_colour:  "#000000"
-:text_colour:   "#cccccc"
-:colour: "#ff8c25"
-:fill_alpha:    0.6
-:x_label_colour:    "#cccccc"
-:y_label_colour:    "#cccccc"
+:text_colour:        "#cccccc"
+:colour:             "#ff8c25"
+:fill_alpha:         0.6
+:x_label_colour:     "#cccccc"
+:y_label_colour:     "#cccccc"
