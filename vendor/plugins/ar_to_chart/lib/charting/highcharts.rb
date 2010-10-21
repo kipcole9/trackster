@@ -30,7 +30,7 @@ module Charting
         <script type="text/javascript">
           $(document).ready(function() {
             chart = new tracksterChart;
-            #{chart.to_js};
+            #{chart.to_js}
           });
         </script>      
       EOF

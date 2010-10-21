@@ -126,7 +126,7 @@ function tracksterChart() {
 		            dataLabels: {
 		               enabled: true,
 		               formatter: function() {
-		                  if (this.y > 5) return this.point.name;
+		                  if (this.y > 0) return this.point.name + ": " + Highcharts.numberFormat(this.percentage, 1) +'%';
 		               },
 		               color: self.font.color,
 		            }
