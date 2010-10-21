@@ -15,7 +15,11 @@ module Analytics
           column_format :page_views,     :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
           column_format :duration,       :total => :avg, :order => 98, :class => 'right', :formatter => :seconds_to_time
           column_format :hour,           :total => :avg, :order => 90, :class => 'right', :formatter => :hours_to_time
-
+          column_format :day_of_month,   :order => 90, :class => 'right', :formatter => :ordinalize
+          column_format :date,           :formatter => :short_date
+          column_format :month,          :formatter => :long_month_name
+          column_format :day_of_week,    :formatter => :long_day_name
+          
           column_format :campaign_name,  :order => -1
           column_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
           column_format :impressions,    :total => :sum, :order => 20, :class => 'right', :formatter => :integer_with_delimiter 

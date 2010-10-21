@@ -908,17 +908,36 @@ li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 }
 
 /* 
-	for Highcharts
+For Highcharts
 These are sort of proxy classes.  They are here just so we can access the
 attributes in JS and apply them to charts.  
 */
+
+/* Chart background */
 #highcharts				{ background-color: #ddd; }
-#highharts-text 		{ color: #333; }
-#highcharts-area { 
-	color: rgb(207,236,236); 
-	opacity: 0.5;
-	color: rgba(207,236,236, 0.5);
+
+/* Used for axis text */
+#highcharts-text { 
+	color: 			black;
+	font-size: 		90%;
+	font-weight: 	normal;
 }
-#highcharts-line 		{ color: #ddd; }
+
+/* Area graph color for the area */
+#highcharts-area { 
+	color: 		rgb(25,135,213); 
+	opacity: 	0.3;
+	filter:		alpha(opacity=50);
+	color: 		rgba(25,135,213, 0.3);
+}
+
+/* Chart line color */
+#highcharts-line 		{ color: rgb(25,135,213); }
+
+/* Gridlines color */
+#highcharts-gridlines	{ color: white;}
+
+/* Axis line color */
+#highcharts-axis		{ color: #777; }
 
 

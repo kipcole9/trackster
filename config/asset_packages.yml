@@ -12,7 +12,9 @@ javascripts:
     - jquery-searchbox
     - jquery-autocomplete.min
     - textboxlist
-    - application 
+    - application
+    - highcharts.src
+    - trackster_charts    
 - tracker_debug:
     - tracker_debug
 - tracker:

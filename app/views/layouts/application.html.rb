@@ -10,7 +10,6 @@ html do
     stylesheet_merged :print, :media => 'print'
     stylesheet_merged Trackster::Theme.print_css, :media => 'print'    
     javascript_merged :base
-    javascripts 'swfobject.js'
     javascript yield(:jstemplates) if yield(:jstemplates)
   end
   body do
