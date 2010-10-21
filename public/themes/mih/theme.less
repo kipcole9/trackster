@@ -1,11 +1,12 @@
 // Base colours
 @brand_colour:			rgb(118,118,118);
 @brand_text:			rgb(255,140,37);
+
 @container_background:	black;
 @site_info:				rgb(39,39,39);
 @light_text:			white;
 @dark_text:				black;
-@base_border_color:		#777
+@base_border_color:		#777;
 
 // Menu bar
 @menu_hover_colour:		rgb(33,33,33);
@@ -23,7 +24,7 @@
 
 // Contacts
 @contact_border_color: 	@base_border_color;
-@contact_border 		1px solid @contact_border_color;
+@contact_border: 		1px solid @contact_border_color;
 
 // Forms
 @fieldset_background:	rgb(50,50,50);
@@ -38,6 +39,11 @@
 // Search
 @search_background:		#EC8851;
 @search_colour:			#eee;
+
+// Charts
+@chart_area:			rgb(0,101,131);
+@chart_area_alpha:		rgba(0,101,131, 0.7);
+@gridlines:				#777;
 
 // Pagination
 @pagination_colour: 	#ccc;
@@ -428,3 +434,40 @@ div.box.flash_notice {
 label {
 	color: @light_text;
 }
+
+/* 
+For Highcharts
+These are sort of proxy classes.  They are here just so we can access the
+attributes in JS and apply them to charts.  
+*/
+
+/* Chart background */
+#highcharts				{ background-color: @container_background; }
+
+/* Used for axis text */
+#highcharts-text { 
+	color: 			@light_text;
+	font-size: 		90%;
+	font-weight: 	normal;
+}
+
+/* Area graph color for the area */
+#highcharts-area { 
+	color: 		@chart_area;
+	color:		@chart_area_alpha; 
+	opacity: 	0.6;
+	filter:		alpha(opacity=50);
+}
+
+/* Chart line color */
+#highcharts-line  { 
+	color: @chart_area; 
+}
+
+/* Gridlines color */
+#highcharts-gridlines	{ color: @gridlines;}
+
+/* Axis line color */
+#highcharts-axis		{ color: @base_border_color; }
+
+

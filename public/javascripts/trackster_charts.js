@@ -109,6 +109,7 @@ function tracksterChart() {
 	        	area: {
 			    	fillColor: self.colors.areaFill,
 			    	color: 	   self.colors.lineColor,
+					lineWidth: 3,
 					marker: {
 	               		enabled: false,
 	               		symbol: 'circle',

@@ -22,17 +22,18 @@ div#custom-branding {
   width: 98%;
 }
 #mih-branding {
-  height: 3em;
+  height: 5em;
   background-color: #767676;
   float: left;
   position: relative;
+  left: -8px;
 }
 #logo {
   float: right;
-  height: 3em;
+  height: 5em;
   padding-top: 5px;
   position: relative;
-  right: -5px;
+  right: -10px;
 }
 div#site_info div.box { background: #272727; }
 div#site_info div.box p { color: white; }
@@ -141,9 +142,21 @@ div.box.table { padding-bottom: 2px; }
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
 }
+.ui-accordion-content {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  background-color: inherit !important;
+  border: 0 !important;
+}
+.accordion h3.trig {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  background-color: inherit !important;
+  border: 0 !important;
+}
 div.listItem, fieldset {
   background: #323232;
-  border: 1px solid #464646;
+  border: 1px solid #777777;
   color: #cccccc;
 }
 div.listItem a { color: #eeeeee; }
@@ -162,11 +175,11 @@ div.hbar { background-color: #ff8c25; }
 p.prompt { color: #aaaaaa; }
 .tabricator .trig {
   background-color: black;
-  border-top: 1px solid #666666;
-  border-left: 1px solid #666666;
-  border-right: 1px solid #666666;
+  border-top: 1px solid #777777;
+  border-left: 1px solid #777777;
+  border-right: 1px solid #777777;
 }
-.tabricator .targ { border-top: 1px solid #666666; }
+.tabricator .targ { border-top: 1px solid #777777; }
 .tabricator .tabItem:hover {
   color: white;
   background: black;
@@ -174,6 +187,23 @@ p.prompt { color: #aaaaaa; }
 .tabricator .open {
   color: white;
   background: black;
+}
+li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel {
+  background-color: #323232 !important;
+  border-color: #777777 !important;
+}
+.tab .ui-widget-content {
+  background-color: #323232 !important;
+  border-color: #777777 !important;
+}
+.ui-tabs-nav {
+  background-color: black;
+  border-color: #777777 !important;
+}
+.ui-tabs-selected a span { color: #ff8c25 !important; }
+.ui-tabs-panel.ui-widget-content {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 div.contactCard {
   background: #222222;
@@ -247,33 +277,18 @@ div.box.flash_notice { background-color: #bbffbb; }
 .history p { color: white; }
 .login_options { color: #ff8c25; }
 .login_options a { color: white; }
-.ui-accordion-content {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  background-color: inherit !important;
-  border: 0 !important;
-}
-.accordion h3.trig {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  background-color: inherit !important;
-  border: 0 !important;
-}
-li.ui-tabs-selected, li.ui-state-default, .ui-tabs-panel {
-  background-color: #323232 !important;
-  border-color: #464646 !important;
-}
-.tab .ui-widget-content {
-  background-color: #323232 !important;
-  border-color: #464646 !important;
-}
-.ui-tabs-nav {
-  background-color: black;
-  border-color: #464646 !important;
-}
-.ui-tabs-selected a span { color: #ff8c25 !important; }
-.ui-tabs-panel.ui-widget-content {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-}
 label { color: white; }
+#highcharts { background-color: black; }
+#highcharts-text {
+  color: white;
+  font-size: 90%;
+  font-weight: normal;
+}
+#highcharts-area {
+  color: #006583;
+  color: rgba(0, 101, 131, 0.7);
+  opacity: 0.6;
+  filter: alpha(opacity=50);
+}
+#highcharts-line { color: #006583; }
+#highcharts-gridlines, #highcharts-axis { color: #777777; }
