@@ -52,5 +52,9 @@ module ApplicationHelper
   def select_media
     params[:print] ? 'screen, print' : 'print'
   end
+  
+  def print_button
+    "<img src=/images/icons/printer.png id=print alt=\"#{I18n.t('printer_friendly')}\" title=\"#{I18n.t('printer_friendly')}\">"
+  end
 end
 
