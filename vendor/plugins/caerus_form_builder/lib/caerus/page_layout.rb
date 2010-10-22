@@ -161,6 +161,11 @@ module Caerus
       content
     end
     alias :s :store
+    
+    def store_chart(chart)
+      store chart.first
+      content_for :javascript, chart.last
+    end
   
     def include(*args)
       store render(*args)

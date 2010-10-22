@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   before_filter     :force_login_if_required
   before_filter     :set_locale
   before_filter     :set_timezone
-  before_filter     :set_chart_theme
   before_filter     Period
   
   after_filter      :store_location, :only => [:show, :index]

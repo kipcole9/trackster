@@ -1,67 +1,72 @@
 module Charting
-  class Highcharts
-    DEFAULT_OPTIONS = {
-      :container_height      => '200px'
-    }
+  module Highcharts
+    class Renderer
+      DEFAULT_OPTIONS = {
+        :container_height      => '200px',
+        :type                  => :area
+      }
     
-    attr_accessor :categories, :series, :options, :chart
-    
-    # Generate Highchart based charts.  CSS is used
-    # for the colouring.
-    #
-    # ====Parameters
-    #
-    #   data_source: the active record result set
-    #   columns: one column name or an array of column names to be charted or a hash
-    #            with pairs of :column_names => :series_type
-    #
-    # ====Options
-    #
-    def initialize(data_source, category_column, data_columns, options = {})
-      @options = DEFAULT_OPTIONS.merge(options)
-      @options[:container] = "chart_" + ActiveSupport::SecureRandom.hex(5)
-      @data_columns = data_columns.respond_to?(:each) ? data_columns : [data_columns]
-      @chart = chart_class.new(data_source, category_column, @data_columns, @options)
-    end
-    
-    def to_html
-      <<-EOF
-        <div id='#{container}' style="height:#{options[:container_height]}"></div>
-        <script type="text/javascript">
+      attr_accessor :categories, :series, :options, :chart
+      
+      # Generate Highchart based charts.  CSS is used
+      # for the colouring.
+      #
+      # ====Parameters
+      #
+      #   data_source:      The active record result set
+      #   category_column:  The column used for the x-axis
+      #   data_columns:     one column name or an array of column names to be charted or a hash
+      #                     with pairs of :column_names => :series_type
+      #   options:          options hash 
+      #
+      # ====Options
+      #
+      #   :container_height   Requested height of the container.  Defaults to 200px
+      #
+      def initialize(data_source, category_column, data_columns, options = {})
+        @options = DEFAULT_OPTIONS.merge(options)
+        @options[:container] = @options[:container] || generate_container_name
+        @data_columns = data_columns.respond_to?(:each) ? data_columns : [data_columns]
+        @chart = chart_class.new(data_source, category_column, @data_columns, @options)
+      end
+      
+      def container
+        <<-EOF
+          <div id='#{container_id}' style="height:#{options[:container_height]}"></div>
+        EOF
+      end
+      
+      def script
+        <<-EOF
           $(document).ready(function() {
             chart = new tracksterChart;
             #{chart.to_js}
-          });
-        </script>      
-      EOF
-    end
+          });     
+        EOF
+      end
+      
+      def to_html
+        <<-EOF
+          #{container}
+          <script type="text/javascript">
+            #{script}
+          </script>
+        EOF
+      end
     
-    def chart_class
-      @chart_class ||= "Charting::Highcharts::#{(options[:type] || :area).to_s.titleize}".constantize
-    end
+      def chart_class
+        @chart_class ||= "Charting::Highcharts::#{options[:type].to_s.titleize}".constantize
+      end
 
-    def container
-      options[:container]
+      def container_id
+        @container_id ||= options[:container]
+      end
+      
+    private
+      def generate_container_name
+        "chart_" + ActiveSupport::SecureRandom.hex(3)
+      end
+      
     end
   end
 end
-
-
-
-
-
-
-
-# How Highcharts maps for localization - we should update this for each chart.
-# Found as chart.options.lang
-#
-# lang: {
-#   loading: 'Loading...',
-#   months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
-#       'August', 'September', 'October', 'November', 'December'],
-#   weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-#   decimalPoint: '.',
-#   resetZoom: 'Reset zoom',
-#   resetZoomTitle: 'Reset zoom level 1:1',
-#   thousandsSep: ','
-# },

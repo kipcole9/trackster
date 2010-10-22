@@ -24,11 +24,7 @@ module Trackster
       def set_timezone
         Time.zone = current_user.try(:timezone) || browser_timezone
       end
-
-      def set_chart_theme
-        Charting::FlashChart.config = Trackster::Theme.chart_config
-      end
-
+      
     end
   end
 end
