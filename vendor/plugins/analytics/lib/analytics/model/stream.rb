@@ -6,7 +6,7 @@ module Analytics
         'ended_at as visit_ended_at',
         'sessions.timezone as timezone',
         'sessions.duration as visit_duration',
-        'a.name as account',
+        'a.name as account_name',
         'pr.name as property',
         'campaign_name',
         'co.name as campaign_content',
@@ -38,7 +38,18 @@ module Analytics
         'longitude',
         'search_terms',
         'traffic_source',
-        'referrer_category'
+        'referrer_category',
+        'sequence',
+        'url',
+        'page_title',
+        'entry_page',
+        'exit_page',
+        'category',
+        'action',
+        'label',
+        'value',
+        'internal_search_terms',
+        'events.duration as event_duration'
       ].join(', ')
       
       def stream(params = {})
@@ -54,6 +65,7 @@ module Analytics
           FROM sessions 
             inner join #{table} on sessions.#{foreign_key}_id = #{table}.id
             inner join accounts a         on sessions.account_id  = a.id
+            inner join events             on events.session_id = sessions.id
             left outer join campaigns cm  on sessions.campaign_id = cm.id
             left outer join contents co   on sessions.content_id  = co.id
             left outer join properties pr on sessions.property_id = pr.id
