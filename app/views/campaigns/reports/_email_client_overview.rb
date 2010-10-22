@@ -1,4 +1,4 @@
-panel t('.impressions_by_browser'), :class => 'table sixcol'  do
+panel t('.impressions_by_browser', :time_group => time_group_t, :time_period => time_period_t_for_graph), :class => 'table sixcol'  do
   block do
     @email_client_overview ||= resource.email_client_overview(params).all
     email_client_overview = @email_client_overview.reject{|item| item[:impressions] == 0 }

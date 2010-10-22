@@ -40,34 +40,6 @@ module ReportsHelper
     end
   end
 
-  def time_group
-    params[:time_group] || 'date'
-  end
-  
-  def time_period
-    Period.from_params(params)
-  end
-  
-  def time_group_t
-    t "reports.time_group.#{time_group}", :default => time_group.humanize
-  end
-  
-  def time_period_t_for_graph
-    time_group == 'year' ? '' : time_period_t
-  end
-  
-  def time_period_t
-    Period.in_text_from_params(params)
-  end
-
-  def current_action
-    params['action']
-  end
-  
-  def dimension_label(options)
-    t("reports.#{options.first[1]}")
-  end
-  
   # Summarise an AR collection by collapsing all records that are
   # less than a given percentage of the total down to an "other"
   # row that is added to the collection

@@ -1,4 +1,4 @@
-panel t('.impressions_graph_by_local_hour')  do
+panel t('.impressions_graph_by_local_hour', :time_group => time_group_t, :time_period => time_period_t_for_graph)  do
   block do
     impressions = resource.tracks.impressions.by(:hour).ip_filter.between(Track.period_from_params(params)).active(resource).all
     if impressions.empty?

@@ -4,20 +4,19 @@ module Charting
   module ActiveRecord
     def self.included(base)
       base.class_eval do
-        # extend ClassMethods
+        extend ClassMethods
         include InstanceMethods
       end
     end
   
     module InstanceMethods
       def to_chart(columns, label_column, options = {})
-        @chart = chart_object(columns, label_column, options)
-        @chart.to_html
+        chart_object(columns, label_column, options).to_html
       end
       
       def to_container_and_script(columns, label_column, options = {})
-        @chart = chart_object(columns, label_column, options)
-        return @chart.container, @chart.script
+        chart = chart_object(columns, label_column, options)
+        return chart.container, chart.script
       end
       
     private

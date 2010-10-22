@@ -67,7 +67,7 @@ Rails::Initializer.run do |config|
 
   config.after_initialize do
     Synthesis::AssetPackage.merge_environments = ["staging", "production"]
-    ActionView::Base.default_form_builder = Caerus::FormBuilder  
+    ActionView::Base.default_form_builder = Caerus::FormBuilder
   end
   
   # These are the models we add reporting capability to

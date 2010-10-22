@@ -43,20 +43,20 @@ en:
           
       reports:
           email_client_overview:
-              impressions_by_browser:              Impressions by email client
+              impressions_by_browser:              Eemail client {{time_period}}
           email_client_graph:
-              impressions_graph_by_browser:        Impressions by email client
+              impressions_graph_by_browser:        Email client {{time_period}}
           campaign_impressions_graph:
-              impressions_graph_by_local_hour: Impressions by hour of viewing
+              impressions_graph_by_local_hour: Impressions by hour of viewing {{time_period}}
           campaign_impressions_graph_by_day:            
-              impressions_graph_by_day:        Impressions by day
-          campaign_overview:
-              campaign_overview:      Campaign Summary
-              show:                   Campaign summary
+              impressions_graph_by_day:        Impressions by day {{time_period}}
+          campaign_overview: 
+              campaign_overview:      Campaign Summary {{time_period}}
+              show:                   Campaign summary {{time_period}}
           campaign_impressions:
-              campaign_impressions:   Campaign impressions
+              campaign_impressions:   Campaign impressions {{time_period}}
           campaign_clicks:
-              campaign_clicks:        Campaign clicks
+              campaign_clicks:        Campaign clicks {{time_period}}
   
     panels:
       campaign_navigation:        Actions
