@@ -20,6 +20,7 @@ module Analytics
           column_format :month,          :formatter => :long_month_name
           column_format :day_of_week,    :formatter => :long_day_name
           column_format :first_impression, :order => 5
+          column_format :contact_code,    :order => 1, :formatter => :unknown_on_null
           
           column_format :campaign_name,  :order => -1
           column_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
