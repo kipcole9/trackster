@@ -26,3 +26,11 @@ body {
 	display: none;
 }
 
+a { 
+	text-decoration : underline; 
+	color : #0000ff; 
+}
+
+h2.heading a {
+	text-decoration: none;
+}
