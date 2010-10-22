@@ -66,9 +66,8 @@ module Analytics
                          I18n.t("reports.visit_types.#{val}", :default => val) 
                        }
           
-          column_format :first_impression_distance, :order => 5, 
+          column_format :first_impression_distance, :order => 5, :total => :avg,
                       :formatter => lambda {|val, options|
-                         return val if options[:cell_type] == :th
                          distance_of_time_in_words(val.to_i)
                        }
         

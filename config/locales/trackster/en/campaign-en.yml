@@ -51,6 +51,7 @@ en:
             campaign_clicks_by_link_text:         Clicks by Link Text {{time_period}}
             campaign_clicks_by_email_client:      Clicks by Email Client {{time_period}}
             campaign_contacts_summary:            Contact Response Summary  {{time_period}}
+            campaign_no_response_summary:         Contact Non-response Summary {{time_period}}
 
     reports:
         name:

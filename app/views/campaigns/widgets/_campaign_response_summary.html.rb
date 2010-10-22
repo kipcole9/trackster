@@ -2,11 +2,11 @@ panel t("campaigns.reports.#{params[:action]}", :time_group => time_group_t, :ti
   block do
     # TODO This can be very expensive if lots of contacts in a campaign. However
     # it appears MySQL won't allow a condition on a derived column (at least when its got conditions?)
-    contacts_summary = resource.campaign_contacts_summary(params).all.reject{|c| c.clicks_through.to_i == 0 }
-    if contacts_summary.empty?
+    response_summary ||= resource.campaign_contacts_summary(params).all
+    if response_summary.empty?
       h3 t('no_data_yet')
     else
-      store contacts_summary.to_table
+      store response_summary.to_table
     end
   end
 end

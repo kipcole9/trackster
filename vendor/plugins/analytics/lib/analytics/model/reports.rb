@@ -73,8 +73,12 @@ module Analytics
           tracks.impressions.by(:year).filters(self, params)
         end
         
-        def campaign_contacts_summary(params ={})
-          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).filters(self, params)
+        def campaign_contacts_summary(params = {})
+          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).having('clicks_through > 0').filters(self, params)
+        end
+        
+        def campaign_no_response_summary(params = {})
+          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).having('clicks_through = 0').filters(self, params)
         end
         
         #def visit_summary(params = {})
