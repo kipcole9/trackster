@@ -78,7 +78,6 @@ module Analytics
           
           named_scope   :contact_code,
             :select => 'sessions.contact_code as contact_code',
-            :conditions => 'sessions.contact_code is not null',
             :group => 'sessions.contact_code'
             
           def self.non_null_dimensions

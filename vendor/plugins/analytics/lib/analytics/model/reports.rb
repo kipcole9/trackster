@@ -14,67 +14,67 @@ module Analytics
       # #by method build the dimension we're reporting (see Analytics::Dimensions)
       module InstanceMethods
         def campaign_summary(params = {})
-          tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(params)
+          tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(self, params)
         end
         
         def campaign_impressions(params = {})
-          tracks.impressions.open_rate.deliveries.cost.cost_per_impression.by(:campaign_name).filters(params)
+          tracks.impressions.open_rate.deliveries.cost.cost_per_impression.by(:campaign_name).filters(self, params)
         end
         
         def campaign_clicks(params = {})
-          tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).filters(params)
+          tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).filters(self, params)
         end
         
         def total_clicks_through(params = {})
-          tracks.clicks_through.filters(params).first.clicks_through
+          tracks.clicks_through.filters(self, params).first.clicks_through
         end
         
         def campaign_clicks_by_url(params = {})
-          tracks.clicks_through.by(:url).order('clicks_through DESC').filters(params)
+          tracks.clicks_through.by(:url).order('clicks_through DESC').filters(self, params)
         end
         
         def campaign_clicks_by_link_text(params = {})
-          tracks.clicks_through.by(:page_title).order('clicks_through DESC').filters(params)
+          tracks.clicks_through.by(:page_title).order('clicks_through DESC').filters(self, params)
         end
         
         def campaign_clicks_by_email_client(params = {})
-          tracks.clicks_through.by(:email_client).order('clicks_through DESC').filters(params)
+          tracks.clicks_through.by(:email_client).order('clicks_through DESC').filters(self, params)
         end
 
         def email_client_overview(params = {})
-          tracks.impressions.by(:email_client).order('impressions DESC').filters(params)
+          tracks.impressions.by(:email_client).order('impressions DESC').filters(self, params)
         end
         
         def campaign_impressions_by_day(params = {})
-          tracks.impressions.by(:day).filters(params)
+          tracks.impressions.by(:day).filters(self, params)
         end
         
         def campaign_impressions_by_date(params = {})
-          tracks.impressions.by(:date).filters(params)
+          tracks.impressions.by(:date).filters(self, params)
         end
 
         def campaign_impressions_by_hour(params = {})
-          tracks.impressions.by(:hour).filters(params)
+          tracks.impressions.by(:hour).filters(self, params)
         end
 
         def campaign_impressions_by_day_of_month(params = {})
-          tracks.impressions.by(:day_of_month).filters(params)
+          tracks.impressions.by(:day_of_month).filters(self, params)
         end
 
         def campaign_impressions_by_day_of_week(params = {})
-          tracks.impressions.by(:day_of_week).filters(params)
+          tracks.impressions.by(:day_of_week).filters(self, params)
         end
 
         def campaign_impressions_by_month(params = {})
-          tracks.impressions.by(:month).filters(params)
+          tracks.impressions.by(:month).filters(self, params)
         end
         
         def campaign_impressions_by_year(params = {})
-          tracks.impressions.by(:year).filters(params)
+          tracks.impressions.by(:year).filters(self, params)
         end
         
         def campaign_contacts_summary(params ={})
-          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).filters(params)
+          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).filters(self, params)
         end
         
         #def visit_summary(params = {})
@@ -83,7 +83,7 @@ module Analytics
 
         def content_summary(params = {})
           tracks.page_views(:with_events).page_duration.bounce_rate.exit_rate.entry_rate.by(params[:action])\
-            .order('page_views DESC').filters(params)
+            .order('page_views DESC').filters(self, params)
         end
       
         def visits_summary(params = {})
@@ -91,21 +91,21 @@ module Analytics
             loyalty(params)
           else
             tracks.visits.page_views_per_visit.duration.new_visit_rate.bounce_rate.by(params[:action])\
-              .having('visits > 0').order("visits DESC").filters(params)
+              .having('visits > 0').order("visits DESC").filters(self, params)
           end
         end
 
         def new_v_returning_summary(params = {})
           tracks.visits.page_views_per_visit.duration.bounce_rate.by(params[:action])\
-            .having('visits > 0').order('visits DESC').filters(params)
+            .having('visits > 0').order('visits DESC').filters(self, params)
         end
       
         def entry_exit_summary(params = {})
-          tracks.page_views(:with_events).page_duration.by(params[:action]).order('page_views DESC').filters(params)
+          tracks.page_views(:with_events).page_duration.by(params[:action]).order('page_views DESC').filters(self, params)
         end
 
         def events_summary(params = {})
-          tracks.event_count(:with_events).value.by(:label, :category, :action).filters(params)
+          tracks.event_count(:with_events).value.by(:label, :category, :action).filters(self, params)
         end
         
         def event_stream(params = {})
@@ -113,103 +113,103 @@ module Analytics
         end
       
         def one_event_summary(params = {})
-          tracks.event_count(:with_events).value.by(:action).filters(params)
+          tracks.event_count(:with_events).value.by(:action).filters(self, params)
         end
       
         # page_views_by_* methods
         def page_views_by_date(params = {})
-          tracks.page_views.by(:date).filters(params)
+          tracks.page_views.by(:date).filters(self, params)
         end
       
         def page_views_by_day_of_month(params = {})
-          tracks.page_views.by(:day_of_month).order('day_of_month ASC').filters(params)
+          tracks.page_views.by(:day_of_month).order('day_of_month ASC').filters(self, params)
         end
 
         def page_views_by_hour(params = {})
-          tracks.page_views.by(:hour).order('hour ASC').filters(params)
+          tracks.page_views.by(:hour).order('hour ASC').filters(self, params)
         end
 
         def page_views_by_day_of_week(params = {})
-          tracks.page_views.by(:day_of_week).order('day_of_week ASC').filters(params)
+          tracks.page_views.by(:day_of_week).order('day_of_week ASC').filters(self, params)
         end
 
         def page_views_by_month(params = {})
-          tracks.page_views.by(:year, :month).order('day_of_week ASC').filters(params)
+          tracks.page_views.by(:year, :month).order('day_of_week ASC').filters(self, params)
         end
 
         # No point in applying a date range on a summary by year
         def page_views_by_year(params = {})
-          tracks.page_views.by(:year).order('year ASC').filters(params)
+          tracks.page_views.by(:year).order('year ASC').filters(self, params)
         end
 
         def page_views_by_url(params = {})
-          tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).filters(params)
+          tracks.page_views(:with_events).by(:url).order('page_views DESC').limit(10).filters(self, params)
         end
       
         def page_views_by_visit_type(params = {})
-          tracks.page_views.by(:visit_type).order('page_views DESC').limit(10).filters(params)
+          tracks.page_views.by(:visit_type).order('page_views DESC').limit(10).filters(self, params)
         end
       
         def total_page_views(params = {})
-          tracks.page_views.filters(params).first.page_views
+          tracks.page_views.filters(self, params).first.page_views
         end  
 
         def visits_by_referrer(params = {})
-          tracks.visits.by(:referrer_host).order('visits DESC').filters(params)
+          tracks.visits.by(:referrer_host).order('visits DESC').filters(self, params)
         end
       
         def visits_by_search_terms(params = {})
-          tracks.visits.by(:search_terms).order('visits DESC').filters(params)
+          tracks.visits.by(:search_terms).order('visits DESC').filters(self, params)
         end
       
         # Temporal grouping
         def visits_by_date(params = {})
-          tracks.visits.by(:date).filters(params)
+          tracks.visits.by(:date).filters(self, params)
         end
       
         def visits_by_day_of_week(params = {})
-          tracks.average_visits.by(:day_of_week).filters(params)
+          tracks.average_visits.by(:day_of_week).filters(self, params)
         end
       
         def visits_by_hour(params = {})
-          tracks.average_visits.by(:hour).filters(params)
+          tracks.average_visits.by(:hour).filters(self, params)
         end
 
         def visits_by_day_of_month(params = {})
-          tracks.average_visits.by(:day_of_month).filters(params)
+          tracks.average_visits.by(:day_of_month).filters(self, params)
         end
       
         def visits_by_month(params = {})
-          tracks.average_visits.by(:year, :month).filters(params)
+          tracks.average_visits.by(:year, :month).filters(self, params)
         end
       
         def visits_by_year(params = {})
-          tracks.average_visits.by(:year).filters(params)
+          tracks.average_visits.by(:year).filters(self, params)
         end
             
         # Platform grouping
         def visits_by_browser(params = {})
-          tracks.visits.by(:browser).filters(params)
+          tracks.visits.by(:browser).filters(self, params)
         end
       
         def visits_by_device(params = {})
-          tracks.visits.by(:device).filters(params)
+          tracks.visits.by(:device).filters(self, params)
         end
 
         def visits_by_os(params = {})
-          tracks.visits.by(:os_name).filters(params)
+          tracks.visits.by(:os_name).filters(self, params)
         end
 
         def visits_by_windows_version(params = {})
-          tracks.visits.by(:os_version).filter("os_name = 'Windows'").filters(params)
+          tracks.visits.by(:os_version).filter("os_name = 'Windows'").filters(self, params)
         end
 
         def total_referrers(params = {})
-          tracks.visits.filter('referrer_host IS NOT NULL').filters(params).first.visits
+          tracks.visits.filter('referrer_host IS NOT NULL').filters(self, params).first.visits
         end
       
         def total_visits(params = {})
-          tracks.visits.filters(params).first.visits
+          tracks.visits.filters(self, params).first.visits
         end
       
         # TODO: This needs to apply ip_filter and effective_at filters
@@ -235,7 +235,7 @@ module Analytics
         end
       
         def video_summary(video, params = {})
-          one_event_summary(params).filter(["label = ?", video]).having('event_count > 0').filters(params)
+          one_event_summary(params).filter(["label = ?", video]).having('event_count > 0').filters(self, params)
         end
       
         def video_play_time(params = {})
