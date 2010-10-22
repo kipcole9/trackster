@@ -22,6 +22,7 @@ div#custom-branding {
   width: 98%;
 }
 #mih-branding {
+  padding-top: 3px;
   height: 3em;
   background-color: #767676;
   float: left;
