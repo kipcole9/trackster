@@ -907,6 +907,12 @@ li.ui-tabs-selected, .ui-tabs-panel.ui-widget-content  {
 	padding-right: 20px;
 }
 
+/* The print button on the main menu */
+#print {
+	position: relative;
+	top: 3px;
+}
+
 /* 
 For Highcharts
 These are sort of proxy classes.  They are here just so we can access the

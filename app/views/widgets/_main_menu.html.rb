@@ -29,6 +29,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
     menu_item t('menu.sites') do
       menu_item t('menu.site.performance'),         :href => site_path
     end if current_user.admin?
+    menu_item ("<img src=/images/icons/printer.png id=print alt=\"#{I18n.t('printer_friendly')}\">"), {}, {:class => :secondary }
     menu_item t('menu.logout'),                     {:href => logout_path}, :class => :secondary
     menu_item t('menu.profile'),                    {:href => edit_user_path(current_user)}, :class => :secondary             
     

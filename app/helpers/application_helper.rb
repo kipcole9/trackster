@@ -49,5 +49,8 @@ module ApplicationHelper
     t("reports.#{options.first[1]}")
   end
 
+  def select_media
+    params[:print] ? 'screen, print' : 'print'
+  end
 end
 

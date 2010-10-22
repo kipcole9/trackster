@@ -25,7 +25,8 @@ en:
     format_not_found:       "The page you requested cannot be provided in '{{format}}' format."
     missing_template:       "The page (template) you requested was not found."
     sorry:                  "Woops.  Something went horribly wrong - and it's not your fault.  We've been notified and will sort it out soon."
-
+    printer_friendly:       "Open a printer-friendly version of this page in another window"
+    
     videos:
         video:                  "Video: {{name}}"
         video_maxplay_graph:    "Maximum play time (in bands) for {{name}}"

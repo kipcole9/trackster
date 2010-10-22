@@ -6,9 +6,9 @@ html do
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => Trackster::Theme.favicon_path
     title page_title
     stylesheet_merged (internet_explorer? ? :ie : :base), :media => "screen, print"
-    stylesheet_merged Trackster::Theme.css
-    stylesheet_merged :print, :media => 'print'
-    stylesheet_merged Trackster::Theme.print_css, :media => 'print'    
+    stylesheet_merged Trackster::Theme.css, :media => 'screen' unless params[:print]
+    stylesheet_merged :print, :media => select_media
+    stylesheet_merged Trackster::Theme.print_css, :media => select_media
     javascript_merged :base
     javascript yield(:jstemplates) if yield(:jstemplates)
   end

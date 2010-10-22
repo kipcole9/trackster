@@ -285,3 +285,16 @@ $(document).ready(function(){
 	$('.flash_notice').delay(10000).slideUp(1000);
 
 });   
+
+// Print opens a window on the current URL with an added
+// parameter of 'print=yes'
+$(document).ready(function() {
+	$('#print').click(function(ev) {
+		printParameter = 'print=true'
+		new_location = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.port;
+		search = window.search ? (window.search + '&' + printParameter) : ('?' + printParameter);
+		window.open(new_location + search);
+		ev.preventDefault();
+		return false;
+	});
+});
