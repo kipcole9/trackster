@@ -40,26 +40,29 @@ en:
           parameters:     Segmentation
           list:           Lists
           no_content_defined: No content defined.  Campaign cannot be delivered until you <a href={{link}}>define content</a> and add it to the campaign.
-          
       reports:
-          email_client_overview:
-              impressions_by_browser:              Eemail client {{time_period}}
-          email_client_graph:
-              impressions_graph_by_browser:        Email client {{time_period}}
-          campaign_impressions_graph:
-              impressions_graph_by_local_hour: Impressions by hour of viewing {{time_period}}
-          campaign_impressions_graph_by_day:            
-              impressions_graph_by_day:        Impressions by day {{time_period}}
-          campaign_overview: 
-              campaign_overview:      Campaign Summary {{time_period}}
-              show:                   Campaign summary {{time_period}}
-          campaign_impressions:
-              campaign_impressions:   Campaign impressions {{time_period}}
-          campaign_clicks:
-              campaign_clicks:        Campaign clicks {{time_period}}
-  
+            impressions_by_browser:               Email client {{time_period}}
+            impressions_graph_by_browser:         Email client {{time_period}}        
+            impressions_graph:                    Impressions by {{time_group}} {{time_period}}
+            campaign_summary:                     Campaign Summary {{time_period}}
+            campaign_impressions:                 Campaign Impressions {{time_period}}
+            campaign_clicks:                      Campaign Clicks {{time_period}}
+            campaign_clicks_by_url:               Clicks by URL {{time_period}}
+            campaign_clicks_by_link_text:         Clicks by Link Text {{time_period}}
+            campaign_clicks_by_email_client:      Clicks by Email Client {{time_period}}
+            campaign_contacts_summary:            Contact Response Summary  {{time_period}}
+
+    reports:
+        name:
+          campaign_summary:                     Campaign Summary
+          campaign_impressions:                 Campaign Impressions
+          campaign_clicks_by_url:               Clicks by URL
+          campaign_clicks_by_link_text:         Clicks by Link Text
+          campaign_clicks_by_email_client:      Clicks by Email Client
+          campaign_contacts_summary:            Contact Response Summary
+    
     panels:
-      campaign_navigation:        Actions
+      campaign_navigation:        Metrics
       campaign_index:             Campaigns
       campaign:                   Campaign
         

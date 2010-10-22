@@ -19,6 +19,7 @@ module Analytics
           column_format :date,           :formatter => :short_date
           column_format :month,          :formatter => :long_month_name
           column_format :day_of_week,    :formatter => :long_day_name
+          column_format :first_impression, :order => 5
           
           column_format :campaign_name,  :order => -1
           column_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
@@ -28,6 +29,8 @@ module Analytics
 
           column_format :clicks_through,  :total => :sum, :order => 22, :class => 'right', :formatter => :integer_with_delimiter
           column_format :click_through_rate, :total => :avg, :order => 25, :formatter => :bar_and_percentage
+          column_format :percent_of_clicks_through,  :total => :sum, :order => 96, :class => 'clicks_through', :formatter => :bar_and_percentage 
+
           column_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
 
           column_format :label,          :order => -1,       :formatter => :not_set_on_blank 
@@ -60,6 +63,12 @@ module Analytics
                        :formatter => lambda {|val, options| 
                          return val if options[:cell_type] == :th
                          I18n.t("reports.visit_types.#{val}", :default => val) 
+                       }
+          
+          column_format :first_impression_distance, :order => 5, 
+                      :formatter => lambda {|val, options|
+                         return val if options[:cell_type] == :th
+                         distance_of_time_in_words(val.to_i)
                        }
         
           column_format :country,     :order => 0,

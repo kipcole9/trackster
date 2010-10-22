@@ -203,15 +203,6 @@ $(document).ready(function(){
 	/* Tabs */
 	$(".tab").tabs();
 
-  	/* Setup for accordions */
-  	$(".accordion").each(function(i) {
-		if ($(this).attr('id') == "report_navigation") {
-			$(this).accordion({navigation: true});
-		} else {
-			$(this).accordion();
-		}
-	});
-
 	/* And for tablesorter */
   	$.tablesorter.defaults.widgets = ['zebra'];
   	$('table').tablesorter();
@@ -285,6 +276,21 @@ $(document).ready(function(){
 	$('.flash_notice').delay(10000).slideUp(1000);
 
 });   
+
+/* Setup for accordions */
+$(document).ready(function() {
+	$(".accordion").each(function(i) {
+		if ($(this).attr('id') == "report_navigation") {
+			$(this).accordion({navigation: true});
+		} else {
+			$(this).accordion();
+		}
+	});
+	
+	$(".hidden").each(function(i){
+		$(this).toggle();
+	});
+});
 
 // Print opens a window on the current URL with an added
 // parameter of 'print=yes'

@@ -76,6 +76,11 @@ module Analytics
             :joins => :campaign,
             :group => 'campaign_name'
           
+          named_scope   :contact_code,
+            :select => 'sessions.contact_code as contact_code',
+            :conditions => 'sessions.contact_code is not null',
+            :group => 'sessions.contact_code'
+            
           def self.non_null_dimensions
             self::NON_NULL_DIMENSIONS
           end
@@ -118,7 +123,8 @@ module Analytics
         
           def self.campaign_dimensions
             unless defined?(@@campaign_dimensions)
-              @@campaign_dimensions = ['campaign_overview']     
+              @@campaign_dimensions = ['campaign_summary', 'campaign_impressions', 'campaign_clicks_by_url',
+                'campaign_clicks_by_link_text', 'campaign_clicks_by_email_client', 'campaign_contacts_summary']     
             end
             @@campaign_dimensions          
           end        

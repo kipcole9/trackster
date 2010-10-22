@@ -87,11 +87,13 @@ en:
             page_title:             Page Title
             events:                 Events
             video:                  Video
-            internal_search_overview: Internal Search Overview      
+            internal_search_overview: Internal Search Overview  
+
         traffic_sources:
             direct:                 Direct
             search:                 Search
             referral:               Referral
+            
         referrer_categories:
             organic search:         Organic Search
             image search:           Image Search
@@ -113,6 +115,19 @@ en:
             pause:                  Pause
             resume:                 Resume
             max_play:               Max. Play
+        export:
+            exports:                Export to a file
+            csv:                    To CSV
+            xml:                    To XML
+            xcelsius:               To Xcelsius
+            json:                   To JSON
+        stream:
+            streams:                Streams
+            
+    navigation:
+        exports:                Export
+            
+            
                  
 
         

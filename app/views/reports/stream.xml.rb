@@ -1,1 +1,0 @@
-store @report.to_xml

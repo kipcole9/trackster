@@ -20,6 +20,10 @@ class CampaignsController < TracksterResources
     end
   end
   
+  def show
+    redirect_to campaign_report_path(resource, 'campaign_summary', :period => 'last_30_days')
+  end
+  
 private
   def begin_of_association_chain
     current_account

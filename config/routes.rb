@@ -15,12 +15,10 @@ ActionController::Routing::Routes.draw do |map|
   map.account_report  '/reports/:action.:format', :controller => 'reports'
   
   # Redirect - but only for development mode
+  # Sinatra app does redirects in the production
   if Rails.env == 'development'
     map.redirect '/r/:id', :controller => 'redirects', :action => 'redirect'
   end
-    
-  # Application exception reporting
-  map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"
 
   # The priority is based upon order of creation: first created -> highest priority.
 

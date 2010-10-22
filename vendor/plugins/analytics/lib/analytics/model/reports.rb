@@ -13,7 +13,7 @@ module Analytics
       # Each named scoped is a metric that builds up a column of a report. (see Analytics::Metrics)
       # #by method build the dimension we're reporting (see Analytics::Dimensions)
       module InstanceMethods
-        def campaign_overview(params = {})
+        def campaign_summary(params = {})
           tracks.distribution.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(params)
         end
         
@@ -25,10 +25,58 @@ module Analytics
           tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).filters(params)
         end
         
+        def total_clicks_through(params = {})
+          tracks.clicks_through.filters(params).first.clicks_through
+        end
+        
+        def campaign_clicks_by_url(params = {})
+          tracks.clicks_through.by(:url).order('clicks_through DESC').filters(params)
+        end
+        
+        def campaign_clicks_by_link_text(params = {})
+          tracks.clicks_through.by(:page_title).order('clicks_through DESC').filters(params)
+        end
+        
+        def campaign_clicks_by_email_client(params = {})
+          tracks.clicks_through.by(:email_client).order('clicks_through DESC').filters(params)
+        end
+
         def email_client_overview(params = {})
           tracks.impressions.by(:email_client).order('impressions DESC').filters(params)
         end
+        
+        def campaign_impressions_by_day(params = {})
+          tracks.impressions.by(:day).filters(params)
+        end
+        
+        def campaign_impressions_by_date(params = {})
+          tracks.impressions.by(:date).filters(params)
+        end
 
+        def campaign_impressions_by_hour(params = {})
+          tracks.impressions.by(:hour).filters(params)
+        end
+
+        def campaign_impressions_by_day_of_month(params = {})
+          tracks.impressions.by(:day_of_month).filters(params)
+        end
+
+        def campaign_impressions_by_day_of_week(params = {})
+          tracks.impressions.by(:day_of_week).filters(params)
+        end
+
+        def campaign_impressions_by_month(params = {})
+          tracks.impressions.by(:month).filters(params)
+        end
+        
+        def campaign_impressions_by_year(params = {})
+          tracks.impressions.by(:year).filters(params)
+        end
+        
+        def campaign_contacts_summary(params ={})
+          tracks.impressions.clicks_through.first_impression_distance.by(:contact_code).filters(params)
+        end
+        
         #def visit_summary(params = {})
         #  tracks.visits.page_views.event_count.by(params[:action]).between(Period.from_params(params))
         #end

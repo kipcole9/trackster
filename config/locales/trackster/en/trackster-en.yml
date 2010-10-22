@@ -65,13 +65,13 @@ en:
         new_user:                   Define a new user
         user:                       Update your profile
         action_sidebar:             Navigation
-
         account_update:             Update Account
         account_new:                New Account
         account_index:              Index of accounts
         redirect_index:             Index of redirects
         redirect:                   Redirect profile
         dashboard:                  Dashboard
+        
     navigation:    
         time_dimension:             Time dimension
         reports:                    Metrics

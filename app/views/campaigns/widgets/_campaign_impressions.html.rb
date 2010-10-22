@@ -1,4 +1,4 @@
-panel t('.campaign_impressions', :time_group => time_group_t, :time_period => time_period_t_for_graph), :class => 'table'  do
+panel t('campaigns.reports.campaign_impressions', :time_group => time_group_t, :time_period => time_period_t_for_graph), :class => 'table'  do
   block do
     campaign_impressions = resource.campaign_impressions(params).all
     if campaign_impressions.empty?

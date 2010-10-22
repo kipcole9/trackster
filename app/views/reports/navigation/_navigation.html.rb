@@ -24,10 +24,9 @@ cache report_cache_key("reports/navigation/main") do
           nav report_link('keywords')
         end
         accordion_item "Campaigns" do
-          nav report_link('campaign_overview')
-          nav report_link("impressions")
-          nav report_link("clicks_through")
-          nav report_link("link_destinations")
+          nav report_link("campaign_summary")
+          nav report_link("campaign_impressions")
+          nav report_link("campaign_clicks")
         end if current_user.admin?
         accordion_item "Content" do 
           nav report_link("content_overview") if current_user.admin?

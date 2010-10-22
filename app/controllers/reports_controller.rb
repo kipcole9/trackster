@@ -19,6 +19,7 @@ class ReportsController < ApplicationController
   helper_method :resource
   before_filter :check_time_period
   after_filter  :store_location
+  layout        :select_layout
     
   # Reports that have their own view template
   # Most reports are managed by method_missing below
@@ -44,6 +45,7 @@ class ReportsController < ApplicationController
   
   def stream
     @report = resource.event_stream(params)
+    report :action => 'stream'
   end
 
   # Here's where we implement most of the reporting.  Since reporting
@@ -81,8 +83,8 @@ private
   end
 
   def campaign_summary
-    @report = resource.campaign_summary(params)
-    report 'campaigns/campaign_summary'
+    @report = resource.send(params[:action], params)
+    report "campaigns/reports/#{params[:action]}"
   end
 
   def content_summary
@@ -128,6 +130,16 @@ private
         "#{Account.current_account.name}_#{params[:action]}.xcelcius.xml"
       end
     headers['Content-disposition'] = "attachment; filename=#{filename}" unless filename.blank?
+  end
+  
+  def select_layout
+    if params[:campaign_id]
+      'campaign_reports'
+    elsif params[:property_id]
+      'property_reports'
+    else
+      'reports'
+    end
   end
 
 end

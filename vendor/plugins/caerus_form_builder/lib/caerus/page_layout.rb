@@ -133,6 +133,7 @@ module Caerus
     def block(args = {}, &block)
       default_options = {:class => "block"}
       options = default_options.merge(args)
+      options[:class] = "#{options[:class]} hidden" if options.delete(:hidden)
       with_tag(:div, options) do
         with_tag(:div, {}, &block)
       end
@@ -248,8 +249,7 @@ module Caerus
   
   private
     def with_tag(tag, options = {}, &block)
-      tag_start = []
-      tag_start << "<#{tag.to_s}"
+      tag_start = ["<#{tag.to_s}"]
       options.each{|k, v| tag_start << "#{k.to_s}=#{quote(v.to_s)}"}
       store tag_start.join(' ') + '>'
       increment_level

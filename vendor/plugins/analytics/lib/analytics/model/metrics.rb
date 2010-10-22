@@ -145,7 +145,19 @@ module Analytics
           
           named_scope :cost_per_click,
             :select => "(#{@@cost} / #{@@clicks_through}) as cost_per_click"
-
+            
+          @@first_impression = "min(started_at)"
+          named_scope :first_impression,
+            :select => "#{@@first_impression} as first_impression"
+            
+          named_scope :first_impression_distance,
+            :select => "(unix_timestamp(#{@@first_impression}) - unix_timestamp(campaigns.effective_at)) as first_impression_distance",
+            :joins => :campaign
+            
+          named_scope :campaign_effective_at,
+            :select => "campaigns.effective_at as campaign_effective_at",
+            :joins => :campaign
+            
           # Duration is marked in the Session table for the total of the session
           named_scope :duration,
             :select => 'avg(sessions.duration) as duration'
