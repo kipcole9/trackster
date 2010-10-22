@@ -292,7 +292,7 @@ $(document).ready(function() {
 	$('#print').click(function(ev) {
 		printParameter = 'print=true'
 		new_location = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.port;
-		search = window.search ? (window.search + '&' + printParameter) : ('?' + printParameter);
+		search = window.location.search ? (window.location.search + '&' + printParameter) : ('?' + printParameter);
 		window.open(new_location + search);
 		ev.preventDefault();
 		return false;
