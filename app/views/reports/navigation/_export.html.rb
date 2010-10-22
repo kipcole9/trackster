@@ -1,4 +1,4 @@
-cache report_cache_key("reports/navigation/export") do
+# cache report_cache_key("reports/navigation/export") do
   panel t('navigation.exports')  do
     block :hidden => true do
       accordion :id => 'export_navigation' do
@@ -17,4 +17,4 @@ cache report_cache_key("reports/navigation/export") do
       end
     end
   end
-end
+# end

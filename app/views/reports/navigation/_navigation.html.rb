@@ -1,4 +1,4 @@
-cache report_cache_key("reports/navigation/main") do
+# cache report_cache_key("reports/navigation/main") do
   panel t('navigation.reports')  do
     block do
       accordion :id => 'report_navigation' do
@@ -63,4 +63,4 @@ cache report_cache_key("reports/navigation/main") do
       end
     end
   end
-end
+# end
