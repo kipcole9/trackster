@@ -13,7 +13,7 @@ html do
     javascript yield(:jstemplates) if yield(:jstemplates)
   end
   body do
-    Trackster::Theme.has_custom_branding? ? include(Trackster::Theme.branding) : include("widgets/branding")
+    Trackster::Theme.has_custom_branding? ? include(Trackster::Theme.branding(params[:print])) : include("widgets/branding")
     cache "main-menu/#{current_account['id']}/#{current_user['id']}/#{I18n.locale}" do
       include "widgets/main_menu"
     end

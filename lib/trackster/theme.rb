@@ -8,8 +8,12 @@ module Trackster
       @theme_print_css ||= "#{current_theme_path}/print.css"
     end
 
-    def branding
-      @theme_branding ||= "#{current_theme_directory}/branding.html.rb"
+    def branding(print)
+      if print
+        @theme_branding ||= "#{current_theme_directory}/print_branding.html.rb"
+      else
+        @theme_branding ||= "#{current_theme_directory}/branding.html.rb"
+      end
     end
 
     def brand_file

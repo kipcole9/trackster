@@ -1,3 +1,19 @@
+div#custom-branding {
+  padding: 0;
+  width: 98%;
+}
 #mih-branding {
-	margin-left: 5px;
+  padding-top: 3px;
+  height: 3em;
+  background-color: #767676;
+  float: left;
+  position: relative;
+  background: transparent;
+}
+#logo {
+  float: right;
+  height: 3em;
+  position: relative;
+  right: -5px;
+  padding-top: 3px;
 }
