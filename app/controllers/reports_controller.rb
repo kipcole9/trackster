@@ -53,18 +53,22 @@ class ReportsController < ApplicationController
   # generalise the solutions
   def method_missing(method, *args)
     
-    # Platform/device metrics and main visitor metrics (country,language, new/returning)
-    visit_summary if Track.session_dimensions.include?(params[:action])
-      
-    # Campaign Reporting  
-    campaign_summary if Track.campaign_dimensions.include?(params[:action])
-      
-    # Loyalty Reporting such as length of visit, pages per visit
-    loyalty_summary if Track.loyalty_dimensions.include?(params[:action])
-      
-    # Content info such as URL, page title, entry/exit/bounce pages        
-    content_summary if Track.event_dimensions.include?(params[:action])
-
+    if Track.session_dimensions.include?(params[:action])
+      # Platform/device metrics and main visitor metrics (country,language, new/returning)
+      visit_summary 
+    elsif Track.campaign_dimensions.include?(params[:action])
+      # Campaign Reporting  
+      campaign_summary 
+    elsif Track.loyalty_dimensions.include?(params[:action])
+      # Loyalty Reporting such as length of visit, pages per visit
+      loyalty_summary 
+    elsif Track.event_dimensions.include?(params[:action])
+      # Content info such as URL, page title, entry/exit/bounce pages        
+      content_summary
+    else
+      super(method, *args)
+    end
+    
   end
   
 private
@@ -96,11 +100,18 @@ private
     set_disposition_header
     respond_to do |format|
       format.html     { render *render_args }
-      format.xml      { render :xml =>  @report }
-      format.json     { render :json => @report }
-      format.csv      { render :text => @report.to_csv}
-      format.xcelsius { render :action => 'report' }
       format.all      { format_not_found }
+      if template_exists?(*render_args)
+        format.xml      { render *render_args }
+        format.json     { render *render_args }
+        format.csv      { render *render_args}
+        format.xcelsius { render *render_args }
+      else
+        format.xml      { render :xml =>  @report }
+        format.json     { render :json => @report }
+        format.csv      { render :text => @report.to_csv}
+        format.xcelsius { render :action => 'report' }
+      end
     end
   end
   
@@ -123,20 +134,28 @@ private
   def set_disposition_header
     filename = case params['format']
       when 'xml'
-        "#{Account.current_account.name}_#{params[:action]}.xml"
+        "#{download_filename}.xml"
       when 'csv'
-        "#{Account.current_account.name}_#{params[:action]}.csv"
+        "#{download_filename}.csv"
       when 'xcelsius'
-        "#{Account.current_account.name}_#{params[:action]}.xcelcius.xml"
+        "#{download_filename}.xcelcius.xml"
       end
     headers['Content-disposition'] = "attachment; filename=#{filename}" unless filename.blank?
+  end
+  
+  def download_filename
+    @download_name = "#{Account.current_account.name}_#{params[:action]}_#{period}"
+  end
+  
+  def period
+    params[:period] || "#{params[:from]}_#{params[:to]}"
   end
   
   def select_layout
     if params[:campaign_id]
       'campaign_reports'
-    elsif params[:property_id]
-      'property_reports'
+    #elsif params[:property_id]
+    #  'property_reports'
     else
       'reports'
     end
