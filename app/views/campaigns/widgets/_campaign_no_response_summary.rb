@@ -6,7 +6,7 @@ panel t("campaigns.reports.campaign_no_response_summary", :time_group => time_gr
     if no_response_summary.empty?
       h3 t('no_data_yet')
     else
-      store no_response_summary.to_table(:exclude => 'clicks_through')
+      store no_response_summary.to_table(:exclude => 'campaign_id')
     end
   end
 end
