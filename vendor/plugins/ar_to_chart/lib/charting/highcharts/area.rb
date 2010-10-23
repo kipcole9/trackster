@@ -5,7 +5,7 @@ module Charting
       def categories
         # Generate categories
         data_source.inject([]) do |categories, row|
-          categories << row.format_column(category_column).strip_tags.strip
+          categories << row.format_column(category_column).try(:strip_tags).try(:strip)
         end
       end
     

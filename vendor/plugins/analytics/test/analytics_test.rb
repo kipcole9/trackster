@@ -170,8 +170,31 @@ EOL
       end
     end
   end
-end
 
+
+LOG_TEST_8 = <<-EOL
+71.193.150.248 - - [07/Oct/2010:06:33:47 +0000] "GET /_tks.gif?utac=tks-0befd3-1&utses=1286458427.1&utvis=A1kDbfv7F25pcND.1.1286458427&utmdt=No%20Expectations%20-%20Unrecognized%3F%20Application&utmsr=1280x800&utmsc=24&utmul=en-us&utmcs=utf-8&utmfl=10.0&utmn=6186802476&uttz=-420&utmp=http%3A%2F%2Fwww.noexpectations.com.au%2Fimages%2Fbar-rouge-shangai-from-a-different-angle-full.jpg%26imgrefurl%3Dhttp%3A%2F%2Fwww.noexpectations.com.au%2Fgalleries%2Fshanghai-shapshots-july-2009%26usg%3D__OaQ02zzhg1H6KmiLtrw_sBXOJho%3D%26h%3D578%26w%3D800%26sz%3D160%26hl%3Den%26start%3D229%26zoom%3D1%26tbnid%3DYglqOz-L_qXIHM%3A%26tbnh%3D158%26tbnw%3D252%26prev%3D%2Fimages%253Fq%253Dbar%252Brouge%252Bshanghai%2526um%253D1%2526hl%253Den%2526client%253Dsafari%2526sa%253DX%2526rls%253Den%2526biw%253D1276%2526bih%253D673%2526tbs%253Disch%3A10%252C8232%26um%3D1%26itbs%3D1%26iact%3Dhc%26vpx%3D981%26vpy%3D258%26dur%3D405%26hovh%3D182%26hovw%3D252%26tx%3D57%26ty%3D103%26ei%3DsmmtTKXFKIWXnAeKkqmjBg%26oei%3DiWmtTMbpAuOfnweTy6nNBQ%26esq%3D11%26page%3D16%26ndsp%3D16%26ved%3D1t%3A429%2Cr%3A4%2Cs%3A229%26biw%3D1276%26bih%3D673&uver=1.2 HTTP/1.1" 200 43 "http://www.noexpectations.com.au/images/bar-rouge-shangai-from-a-different-angle-full.jpg&imgrefurl=http://www.noexpectations.com.au/galleries/shanghai-shapshots-july-2009&usg=__OaQ02zzhg1H6KmiLtrw_sBXOJho=&h=578&w=800&sz=160&hl=en&start=229&zoom=1&tbnid=YglqOz-L_qXIHM:&tbnh=158&tbnw=252&prev=/images%3Fq%3Dbar%2Brouge%2Bshanghai%26um%3D1%26hl%3Den%26client%3Dsafari%26sa%3DX%26rls%3Den%26biw%3D1276%26bih%3D673%26tbs%3Disch:10%2C8232&um=1&itbs=1&iact=hc&vpx=981&vpy=258&dur=405&hovh=182&hovw=252&tx=57&ty=103&ei=smmtTKXFKIWXnAeKkqmjBg&oei=iWmtTMbpAuOfnweTy6nNBQ&esq=11&page=16&ndsp=16&ved=1t:429,r:4,s:229&biw=1276&bih=673" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-us) AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10" "-"
+EOL
+  def test_search_terms_1
+    Analytics::LogParser.new.parse(LOG_TEST_8) do |record|
+      Analytics::TrackEvent.analyse(record) do |track|
+        assert_equal track.search_terms, "test"
+      end
+    end
+  end
+  
+LOG_TEST_9 = <<-EOL
+87.78.94.181 - - [15/Aug/2010:12:41:38 +0000] "GET /_tks.gif?utac=tks-0befd3-1&utses=1281868900.1&utvis=QWG2nLLYcxsgivn.1.1281868900&utmdt=No%20Expectations%20Image%20-%20Old%20Peat%27s%20Ferry%20Road%20in%20Muogamarra%20Nature%20Reserve&utmsr=1680x1050&utmsc=24&utmul=de&utmcs=UTF-8&utmfl=10.0&utmn=7479316647&uttz=120&utmp=http%3A%2F%2Ftranslate.googleusercontent.com%2Ftranslate_c%3Fhl%3Dde%26sl%3Den%26u%3Dhttp%3A%2F%2Fwww.noexpectations.com.au%2Fimages%2Fold-peats-ferry-road-in-muogamarra-nature-reserve%26prev%3D%2Fsearch%253Fq%253Dold%252Bpeat%252Broad%2526hl%253Dde%26rurl%3Dtranslate.google.de%26usg%3DALkJrhi7EtPyGkD-_602XtObBcbpZTiYzQ&uver=1.2 HTTP/1.1" 200 43 "http://translate.googleusercontent.com/translate_c?hl=de&sl=en&u=http://www.noexpectations.com.au/images/old-peats-ferry-road-in-muogamarra-nature-reserve&prev=/search%3Fq%3Dold%2Bpeat%2Broad%26hl%3Dde&rurl=translate.google.de&usg=ALkJrhi7EtPyGkD-_602XtObBcbpZTiYzQ" "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.4; de; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8" "-"
+EOL
+  def test_search_terms_2
+    Analytics::LogParser.new.parse(LOG_TEST_9) do |record|
+      Analytics::TrackEvent.analyse(record) do |track|
+        assert_equal track.search_terms, "test"
+      end
+    end
+  end
+  
+end
 
  
 
