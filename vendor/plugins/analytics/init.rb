@@ -14,6 +14,7 @@ AttributeNormalizer.configure do |config|
   end
   
   config.normalizers[:upcase] = lambda do |value, options|
+    return nil unless value
     value.strip.upcase
   end
 end
