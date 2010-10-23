@@ -47,6 +47,10 @@ class ReportsController < ApplicationController
     @report = resource.event_stream(params)
     report :action => 'stream'
   end
+  
+  def visit_overview
+    # default render
+  end
 
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can

@@ -64,6 +64,9 @@
   </style>
 
 <style>
+body {
+	margin-bottom: 20px;
+}
 .tooltip {
 	background: rgba(0,0,0,0.6);
 	color: white;
@@ -74,12 +77,35 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	text-align: left;
 	
 }
+#trackster-banner {
+	background: rgba(0,0,0,0.6);
+	font-family:Arial,Helvetica,sans-serif;
+	font-size: 13px;
+	color: white;
+	padding: 5px;
+	margin: 0;
+	width: 100%;
+	top: 0;
+	left: 0;
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+@media print {
+	.tooltip {
+		display: inline-block;
+	}
+}
+
 </style>
 </head>
 
 <body>
+<div id='trackster-banner'>This is the banner bits to create spacing and summary and instructions and stuff</div>
 <table width="600" border=" 0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td><div align="center"><p><font face="Arial, sans-serif" style="font-size:10px; color:#666666;">If you cannot view this email please <a href="http://www.mih-events.com.au/avaya/ccc_program/edm/edm_leadvideo_ol.html" style="color:#666666">click here</a></font></p>
@@ -225,11 +251,24 @@ var totalViews = 1245;
 var totalClicks = 558;
 
 $(document).ready(function() {
+	bodyMarginLeft = $('body').css('margin-left');
+	console.log(parseInt($('#trackster-banner').css('padding-left') + bodyMarginLeft));
+	if ( parseInt(bodyMarginLeft) != 0) {
+		$('#trackster-banner').css({
+			"margin-left": "-" + bodyMarginLeft, 
+			"width": $(document).width(),
+			"padding-left": (parseInt($('#trackster-banner').css('padding-left')) + parseInt(bodyMarginLeft)) + "px"
+		});
+	}
+
 	$('a').each(function (index, anchor) {
 		clicks = hrefClicks[hrefPath(anchor.href)]
-		$(anchor).after("<div class='tooltip'>Clicks: " + clicks + "<br>" +
-			"CTR: " + (clicks / totalViews* 100).toFixed(1) + "%<br>" +
-		"</div>");		
+		anchor.title = '';
+		if (clicks) {
+			$(anchor).after("<div class='tooltip'>Clicks: " + clicks + "<br>" +
+				"CTR: " + (clicks / totalViews* 100).toFixed(1) + "%<br>" +
+				"</div>");		
+		}
 	});
 	$('a').tooltip();
 });
