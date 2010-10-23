@@ -41,7 +41,7 @@ module Analytics
     def search_terms
       if search_engine 
         @search_terms = @url.params[search_engine.query_param]
-        if search_engine.query_param == 'prev'
+        if search_engine.query_param == 'prev' && @search_terms
           # Hack for google images.  Search terms are the q param within the prev param.
           revised_terms = params_to_hash(@search_terms.sub(/\A.*\?/,''))
           @search_terms = revised_terms['q']
