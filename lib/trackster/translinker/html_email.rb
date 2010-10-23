@@ -36,7 +36,7 @@
 # 
 # # This usage only links - it doesn't merge
 # linker = Trackster::Translinker.new(options)
-# linker.translink(html)
+# linker.translink
 # if linker.errors?
 #   puts "Woops, there were errors"
 #   linker.errors.each {|e| puts e}
@@ -80,14 +80,14 @@ module Trackster
     class HtmlEmail < Trackster::Translinker::Base
       include Trackster::Translinker::HtmlTagsWithUrls
       
-      def translink_parsed_document(html, options = {})
-        make_anchors_into_redirects(html)
-        make_links_absolute(html, TAGS_WITH_URLS - ['a', 'img'])
-        copy_images? ? copy_images_to_cloud(html) : make_image_links_absolute(html)
-        move_css_files_inline(html) if move_css_files_inline?
-        add_tracker_link(html)      if add_tracker?
-        add_web_view_link(html)     if add_web_view_link?
-        add_unsubscribe_link(html)  if add_unsubscribe_link?
+      def translink_parsed_document
+        make_anchors_into_redirects
+        make_links_absolute(TAGS_WITH_URLS - ['a', 'img'])
+        copy_images? ? copy_images_to_cloud : make_image_links_absolute
+        move_css_files_inline if move_css_files_inline?
+        add_tracker_link      if add_tracker?
+        add_web_view_link     if add_web_view_link?
+        add_unsubscribe_link  if add_unsubscribe_link?
         return unfix_entities(html.to_html)
       end
 
@@ -106,7 +106,7 @@ module Trackster
       end
 
     protected    
-      def make_anchors_into_redirects(html)  
+      def make_anchors_into_redirects  
         (html/"a").each do |link|
           next unless url = link_attribute?(link, 'href')
           begin
@@ -125,17 +125,17 @@ module Trackster
         end
       end
       
-      def make_all_links_absolute(html)
-        make_links_absolute(html, TAGS_WITH_URLS)
+      def make_all_links_absolute
+        make_links_absolute(TAGS_WITH_URLS)
       end
       
-      def make_image_links_absolute(html)
+      def make_image_links_absolute
         html.search("img").each do |link|
           make_link_absolute(link)
         end
       end
 
-      def make_links_absolute(html, tags_with_urls)
+      def make_links_absolute(tags_with_urls)
         html.search(*tags_with_urls).each do |link|
           make_link_absolute(link)
         end
@@ -143,10 +143,10 @@ module Trackster
 
       # Move CSS files into the document. Most email readers don't support
       # external CSS files.
-      def move_css_files_inline(html)
-        css_file_links(html).each do |css_link|
+      def move_css_files_inline
+        css_file_links.each do |css_link|
           begin
-            move_css_file_inline(html, css_link)
+            move_css_file_inline(css_link)
             remove_css_file_link(css_link)
           rescue URI::InvalidURIError => e
             errors << e
@@ -162,7 +162,7 @@ module Trackster
       # and adjust the image references to suit.
       # Mutually exclusive of #make_image_links_absolute
       # We put the images in a container called #{account_name}
-      def copy_images_to_cloud(html) 
+      def copy_images_to_cloud 
         cf = CloudFiles::Connection.new(:username => Trackster::Config.cloudfiles_user, :api_key => Trackster::Config.cloudfiles_api, :snet => (Rails.env == 'production'))
         container = get_or_create_container(cf, Account.current_account, :make_public => true)
         html.search('img').each do |image|
@@ -183,7 +183,7 @@ module Trackster
       # Adds an image link at the end of the body of the document whose
       # purpose is to create a tracking entry in the log that we use to
       # detect an email being opened.
-      def add_tracker_link(html)
+      def add_tracker_link
         tracking_node = Nokogiri::XML::Node.new('img', html)
         tracking_node['src'] = [Trackster::Config.tracker_url, open_parameters].join('?')
         tracking_node['style'] = "display:none"
@@ -197,7 +197,7 @@ module Trackster
       # Tag format:
       # => <webview>Link text for the forward</webview>
       #
-      def add_web_view_link(html)
+      def add_web_view_link
   
       end
 
@@ -207,7 +207,7 @@ module Trackster
       # Tag format:
       # => <forward>Link text for the forward</forward>
       #
-      def add_forward_link(html)
+      def add_forward_link
   
       end
 
@@ -216,7 +216,7 @@ module Trackster
       # Tag format:
       # => <unscubscribe>Link text for unsubscribing</forward>
       #
-      def add_unsubscribe_link(html)  
+      def add_unsubscribe_link  
   
       end
 
@@ -304,16 +304,16 @@ module Trackster
       end
       
       # Return all the CSS links in the document
-      def css_file_links(html)
+      def css_file_links
         html.search("link[rel=stylesheet]")
       end 
       
       # Move one CSS file inline
-      def move_css_file_inline(html, link)
+      def move_css_file_inline(link)
         css = open(link['href']) {|f| f.read }
         style_tag = Nokogiri::XML::Node.new('style', html)
         style_tag.content = css
-        find_or_create_head(html).add_child(style_tag)
+        find_or_create_head.add_child(style_tag)
       end
       
       # Delete a CSS file link after we've moved the contents
@@ -322,7 +322,7 @@ module Trackster
         link.remove
       end
       
-      def find_or_create_head(html)
+      def find_or_create_head
         if (head = html.css("head")).empty?
           head_tag = Nokogiri::XML::Node.new('head', html)
           html_doc = css("html").first

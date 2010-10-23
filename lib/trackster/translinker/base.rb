@@ -46,7 +46,7 @@ module Trackster
       UNSAFE_CHARS     = ' '
   
       attr_accessor :errors, :output
-      attr_reader   :base_url, :campaign, :options, :records
+      attr_reader   :base_url, :campaign, :options, :records, :html
   
       #
       # Translink the html code and optionally intepolation data into
@@ -66,7 +66,7 @@ module Trackster
   
       def initialize(options)
         @errors   = []
-        @options  = DEFAULT_OPTIONS.merge(options)
+        @options  = DEFAULT_OPTIONS.merge(options).symbolize_keys
         @records  = options[:merge]
         @records  = [@records].compact unless @records.respond_to?(:each)
         @campaign = options.delete(:campaign)
@@ -77,8 +77,8 @@ module Trackster
         if document.blank?
           errors << I18n.t('translink.no_source_document')
         else
-          parsed_document = parse_document(document)
-          output = translink_parsed_document(parsed_document, options) unless errors?
+          @html = parse_document(document)
+          output = translink_parsed_document unless errors?
         end
         return errors? ? errors : output
       end

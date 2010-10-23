@@ -1,19 +1,19 @@
-<style>
+<style type="text/css">
 body {
 	margin: 0 0 20px 0;
 }
-tooltip {
-	background: #333;
-	background: rgba(0,0,0,0.6);
-	color: white;
+.tooltip {
+	background: #333 !important;
+	background: rgba(0,0,0,0.6) !important;
+	color: white !important;
 	display: none;
-	font-family:Arial,Helvetica,sans-serif;
-	font-size: 11px;
-	padding: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	text-align: left;
+	font-family:Arial,Helvetica,sans-serif !important;
+	font-size: 11px !important;
+	padding: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	border-radius: 5px !important;
+	text-align: left !important;
 }
 #trackster-banner {
 	background: #333;
@@ -32,29 +32,29 @@ tooltip {
     height: 20px;
 }
 .click-tagged {
-
+	
 }
-.click-0 {
-	border: 1px solid red;
+a.click-0 {
+	border: 1px solid red !important;
 }
-.click-1 {
-	border: 1px dotted red;
+a.click-1 {
+	border: 2px dotted red !important;
 }
-.click-2, .click-3 {
-	border: 1px dotted yellow;
+a.click-2, a.click-3 {
+	border: 2px dotted yellow !important;
 }
-.click-4, .click-5, .click-6 {
-	border: 1px dotted orange;	
+a.click-4, a.click-5, a.click-6 {
+	border: 2px dotted orange !important;	
 }
-.click-7, .click-8 {
-	border: 1px dotted blue;	
+a.click-7, a.click-8 {
+	border: 2px dotted blue !important;	
 }
-.click-9 {
-	border: 1px dotted green;	
+a.click-9, a.click-10 {
+	border: 2px dotted green !important;	
 }
 @media print {
 	.tooltip {
-		display: inline-block;
+		display: inline-block !important;
 	}
 }
 </style>
