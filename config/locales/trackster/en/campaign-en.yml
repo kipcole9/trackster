@@ -20,6 +20,7 @@ en:
           landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
 
     campaigns:
+      has_no_content:     "Campaign has not content to be mapped."
       hash_link_problem:  "Link {{url}} should point to a landing page."
       no_email_html:      "There is no email html to preview"
       campaign_for_property: "Campaign '{{campaign}}' for '{{property}}'"
@@ -61,6 +62,7 @@ en:
           campaign_clicks_by_link_text:         Clicks by Link Text
           campaign_clicks_by_email_client:      Clicks by Email Client
           campaign_contacts_summary:            Contact Response Summary
+          campaign_click_map:                   Click Map
     
     panels:
       campaign_navigation:        Metrics

@@ -20,6 +20,11 @@ class CampaignsController < TracksterResources
     end
   end
   
+  def click_map
+    map = resource.click_map(params)
+    render :text => map
+  end
+  
   def show
     redirect_to campaign_report_path(resource, 'campaign_summary', :period => 'last_30_days')
   end

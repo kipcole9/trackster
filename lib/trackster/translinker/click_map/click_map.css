@@ -1,0 +1,60 @@
+<style>
+body {
+	margin: 0 0 20px 0;
+}
+tooltip {
+	background: #333;
+	background: rgba(0,0,0,0.6);
+	color: white;
+	display: none;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size: 11px;
+	padding: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-align: left;
+}
+#trackster-banner {
+	background: #333;
+	background: rgba(0,0,0,0.6);
+	font-family:Arial,Helvetica,sans-serif;
+	font-size: 13px;
+	color: white;
+	padding: 5px;
+	margin: 0;
+	margin-bottom: 10px;
+	width: 100%;
+	top: 0;
+	left: 0;
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+.click-tagged {
+
+}
+.click-0 {
+	border: 1px solid red;
+}
+.click-1 {
+	border: 1px dotted red;
+}
+.click-2, .click-3 {
+	border: 1px dotted yellow;
+}
+.click-4, .click-5, .click-6 {
+	border: 1px dotted orange;	
+}
+.click-7, .click-8 {
+	border: 1px dotted blue;	
+}
+.click-9 {
+	border: 1px dotted green;	
+}
+@media print {
+	.tooltip {
+		display: inline-block;
+	}
+}
+</style>

@@ -59,7 +59,7 @@ module Trackster
       #
       def self.translink(document, options = {}, &block)
         linker = new(options)
-        output = linker.translink(document)
+        output = linker.translink(document, options)
         output = linker.merge_records_into_template(output, linker.records, &block) unless linker.errors?
         linker.errors? ? linker.errors : output
       end
@@ -73,12 +73,12 @@ module Trackster
         @base_url = options.delete(:base_url) || ''     
       end
   
-      def translink(document)
+      def translink(document, options = {})
         if document.blank?
           errors << I18n.t('translink.no_source_document')
         else
           parsed_document = parse_document(document)
-          output = translink_parsed_document(parsed_document) unless errors?
+          output = translink_parsed_document(parsed_document, options) unless errors?
         end
         return errors? ? errors : output
       end

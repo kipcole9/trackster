@@ -1,0 +1,68 @@
+<script>
+	function parseURL(url) {
+	    var a =  document.createElement('a');
+	    a.href = url;
+	    return {
+	        source: url,
+	        protocol: a.protocol.replace(':',''),
+	        host: a.hostname,
+	        port: a.port,
+	        query: a.search,
+	        params: (function(){
+	            var ret = {},
+	                seg = a.search.replace(/^\?/,'').split('&'),
+	                len = seg.length, i = 0, s;
+	            for (;i<len;i++) {
+	                if (!seg[i]) { continue; }
+	                s = seg[i].split('=');
+	                ret[s[0]] = s[1];
+	            }
+	            return ret;
+	        })(),
+	        file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+	        hash: a.hash.replace('#',''),
+	        path: a.pathname.replace(/^([^\/])/,'/$1'),
+	        relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+	        segments: a.pathname.replace(/^\//,'').split('/')
+	    };
+	};
+
+	function hrefPath(url) {
+		return parseURL(url).path.replace(/\/$/,'');
+	};
+
+	var hrefClicks 	= <%= @url_clicks.to_json %>;
+	var totalViews 	= <%= @total_impressions %>;
+	var totalClicks = <%= @total_clicks %>;
+
+	function clickColor(clicks) {
+		click_percent = (clicks/totalClicks*100/10).toFixed(0);
+		return "click-" + click_percent;
+	}
+
+	$(document).ready(function() {
+		bodyMarginLeft = $('body').css('margin-left');
+		if ( parseInt(bodyMarginLeft) != 0) {
+			$('#trackster-banner').css({
+				"margin-left": "-" + bodyMarginLeft, 
+				"width": $(document).width(),
+				"padding-left": (parseInt($('#trackster-banner').css('padding-left')) + parseInt(bodyMarginLeft)) + "px"
+			});
+		}
+
+		$('a').each(function (index, anchor) {
+			if (!anchor.href.match(/^mailto:/)) {
+				path = hrefPath(anchor.href);
+				clicks = hrefClicks[path];
+				anchor.title = '';
+				if (clicks) {
+					$(anchor).addClass('click-tagged').addClass(clickColor(clicks));
+					$(anchor).after("<div class='tooltip'>Clicks: " + clicks + "<br>" + "CTR: " + (clicks / totalViews* 100).toFixed(1) + "%" + "</div>");		
+				} else {
+					$(anchor).addClass('click-0');
+				}
+			}
+		});
+		$('a.click-tagged').tooltip();
+	});
+</script>

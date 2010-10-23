@@ -47,6 +47,15 @@ class ReportsController < ApplicationController
     @report = resource.event_stream(params)
     report :action => 'stream'
   end
+
+  def campaign_click_map
+    if map = resource.click_map(params)
+      render :text => map
+    else
+      flash[:alert] = I18n.t('campaigns.has_no_content')
+      redirect_back_or_default
+    end
+  end
   
   def visit_overview
     # default render

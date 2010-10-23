@@ -58,6 +58,15 @@ class Campaign < ActiveRecord::Base
     )
   end
   
+  def click_map(params = {})
+    return nil if (email_content = self.email_content.content).blank?
+    Trackster::Translinker::ClickMap.translink(email_content, 
+        {:campaign       => self, 
+        :base_url       => self.email_content.base_url,
+        :image_location => params[:image_location]}.merge(params)
+    )
+  end
+  
 private
   def create_campaign_code
     token = nil

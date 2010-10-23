@@ -80,7 +80,7 @@ module Trackster
     class HtmlEmail < Trackster::Translinker::Base
       include Trackster::Translinker::HtmlTagsWithUrls
       
-      def translink_parsed_document(html)
+      def translink_parsed_document(html, options = {})
         make_anchors_into_redirects(html)
         make_links_absolute(html, TAGS_WITH_URLS - ['a', 'img'])
         copy_images? ? copy_images_to_cloud(html) : make_image_links_absolute(html)
