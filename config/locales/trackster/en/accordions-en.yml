@@ -1,0 +1,15 @@
+en:
+    accordions:
+        exports:                    Exports
+        streams:                    Streams
+        visitors:                   Visitors
+        loyalty:                    Loyalty
+        traffic_sources:            Traffic Sources
+        campaigns:                  Campaigns
+        content:                    Content
+        events:                     Events
+        internal_search:            Internal Search
+        devices:                    Devices
+        time_period:                Time Period
+        time_summarised_by:         Time Summarized By
+        

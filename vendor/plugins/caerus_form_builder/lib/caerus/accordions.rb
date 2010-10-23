@@ -30,7 +30,8 @@ module Caerus
     def formatted_accordion_item(heading)
       icon_file = "#{heading.downcase.gsub(' ','_')}.png"
       icon_path = "#{Trackster::Theme.current_theme_path}/icons/#{icon_file}"
-      heading_text = I18n.t(heading, :default => heading)
+      heading_key = "accordions.#{heading.gsub(' ','_').downcase}"
+      heading_text = I18n.t(heading_key, :default => heading)
       if File.exist?("#{Rails.root}/public#{icon_path}")
         "#{image_tag icon_path, :class => 'accordion_item_image'} #{heading_text}"
       else
