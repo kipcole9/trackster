@@ -169,7 +169,7 @@ module Analytics
             :select => 'avg(events.duration) as duration'
 
           named_scope :deliveries,
-            :select => 'avg(distribution - bounces - unsubscribes) as deliveries',
+            :select => 'avg(if(distribution,distribution,0) - if(bounces,bounces,0) - if(unsubscribes, unsubscribes, 0)) as deliveries',
             :joins => :campaign
 
           named_scope :cost_per_impression,

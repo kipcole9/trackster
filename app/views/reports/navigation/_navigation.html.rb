@@ -25,8 +25,6 @@
         end
         accordion_item "Campaigns" do
           nav report_link("campaign_summary")
-          nav report_link("campaign_impressions")
-          nav report_link("campaign_clicks")
         end if current_user.admin?
         accordion_item "Content" do 
           nav report_link("content_overview") if current_user.admin?

@@ -25,7 +25,7 @@ col.events, col.max_play_time, col.video_views {
 col.bounce_rate, col.value, col.traffic_source {
 	width: 7.5em;
 }
-col.url {
+col.url, col.open_rate, col.click_through_rate {
 	width: 25%;
 }
 .pageview_top_10 col.url, .campaign_clicks col.page_title, .campaign_clicks col.url, {
@@ -34,7 +34,7 @@ col.url {
 col.entry_rate {
 	width: 6.5em;
 }
-col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate, col.percent_of_video_views {
+col.percent_of_page_views, col.percent_of_visits, col.percent_of_video_views {
 	width: 35%;
 }
 div.sixcol col.percent_of_impressions {
