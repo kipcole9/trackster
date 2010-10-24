@@ -304,3 +304,8 @@ $(document).ready(function() {
 		return false;
 	});
 });
+
+/* Initialize sparklines */
+$(document).ready(function() {
+	$('.sparkline').sparkline();
+});

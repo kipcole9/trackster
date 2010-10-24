@@ -11,6 +11,7 @@ javascripts:
     - jquery-tablesorter.min
     - jquery-searchbox
     - jquery-autocomplete.min
+    - jquery-sparkline
     - textboxlist
     - application
     - highcharts.src

@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resource :site
-  map.resource :dashboard     # Home paged for logged_in users
+  map.resource :dashboard, :member => {:trythis => :get}    # Home paged for logged_in users
   
   # Reporting for analytics
   map.property_report '/properties/:property_id/reports/:action.:format', :controller => 'reports'
