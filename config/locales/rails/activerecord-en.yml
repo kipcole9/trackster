@@ -31,4 +31,7 @@ en:
                 os_name:                System
                 percent_of_clicks_through: "% Clicks Through"
                 first_impression_distance: Time to first impression
+                percent_of_video_views: % Video Views
+                video_views:            Views
+                max_play_time:          Max Play
                 

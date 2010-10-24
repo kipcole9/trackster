@@ -9,17 +9,17 @@ col.page_views, col.event_count, col.page_views_per_visit {
 col.depth_of_visit, col.length_of_visit,
 col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
 col.flash_version, col.page_title, col.contact_code,
-col.language {
+col.language  {
 	width: 8em;
 }
-col.country, col.video_views {
+col.country{
 	width: 11em;
 }
 col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
-col.events {
+col.events, col.max_play_time, col.video_views {
 	width: 6em; /* 13%; */
 }
 col.bounce_rate, col.value, col.traffic_source {
@@ -34,7 +34,7 @@ col.url {
 col.entry_rate {
 	width: 6.5em;
 }
-col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate,{
+col.percent_of_page_views, col.percent_of_visits, col.open_rate, col.click_through_rate, col.percent_of_video_views {
 	width: 35%;
 }
 div.sixcol col.percent_of_impressions {
