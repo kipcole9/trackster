@@ -1,6 +1,7 @@
 html do
   head do
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
+    meta :name => "apple-mobile-web-app-capable", :content => "yes"    
     meta :name => "csrf-token", :content => form_authenticity_token
     meta :name => "csrf-param", :content => request_forgery_protection_token
   	header_link :rel => "icon", :type => "image/vnd.microsoft.icon", :href => Trackster::Theme.favicon_path
