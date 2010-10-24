@@ -9,7 +9,8 @@ class Track < ActiveRecord::Base
   NON_METRIC_KEYS = [:scoped, :source, :between, :by, :duration, :order, :label, :filter, :limit, :having, :active, :ip_filter]
   
   # Dimensions here will automatically have IS NOT NULL appended to their conditions
-  NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name, :local_hour, :url, :contact_code, :clicks_through]
+  NON_NULL_DIMENSIONS = [:referrer, :search_terms, :referrer_host, :campaign_name, :local_hour, :url, :contact_code, 
+                        :clicks_through, :date, :day_of_month, :hour, :day_of_week, :month, :year]
     
   include Analytics::Model::Filters  
   include Analytics::Model::Metrics
