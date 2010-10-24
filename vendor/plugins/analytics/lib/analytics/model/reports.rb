@@ -117,7 +117,7 @@ module Analytics
         end
       
         def one_event_summary(params = {})
-          tracks.event_count(:with_events).value.by(:action).filters(self, params)
+          tracks.event_count(:with_events).value.by(:action)
         end
       
         # page_views_by_* methods
@@ -238,13 +238,14 @@ module Analytics
           tracks.find(:all, :select => "DISTINCT label", :conditions => conditions, :order => 'label', :joins => :events).map(&:label)
         end
       
-        def video_summary(video, params = {})
-          one_event_summary(params).filter(["label = ?", video]).having('event_count > 0').filters(self, params)
+        def video_summary(params = {})
+          # @one_event_summary(params).filter(["label = ?", video]).having('event_count > 0').filters(self, params)
+          tracks.video_views.video_playtime.by(:label).filters(self, params)
         end
       
         def video_play_time(params = {})
           conditions = params['video'] ? ["label = ?", params['video']] : ''
-          tracks.video_views.filter(conditions).by(:max_play_time).having('event_count > 0')
+          tracks.video_views.filter(conditions).filter('event_count > 0').by(:max_play_time).filters(self, params)
         end
       end
     

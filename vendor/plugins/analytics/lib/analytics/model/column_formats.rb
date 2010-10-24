@@ -22,6 +22,9 @@ module Analytics
           column_format :first_impression, :order => 5
           column_format :contact_code,    :order => 1, :formatter => :unknown_on_blank
           
+          column_format :max_play_time,   :order => 10, :class => 'center', :formatter => :seconds_to_time
+          column_format :video_views,     :order => 8,  :class => 'right', :formatter => :integer_with_delimiter
+          
           column_format :campaign_name,  :order => -1
           column_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
           column_format :impressions,    :total => :sum, :order => 20, :class => 'right', :formatter => :integer_with_delimiter 

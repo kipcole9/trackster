@@ -24,7 +24,7 @@ class ReportsController < ApplicationController
   # Reports that have their own view template
   # Most reports are managed by method_missing below
   def new_v_returning;    end
-  def video;              end
+  def visit_overview;     end
     
   def events
     @report = resource.events_summary(params)
@@ -47,6 +47,11 @@ class ReportsController < ApplicationController
     @report = resource.event_stream(params)
     report :action => 'stream'
   end
+  
+  def video
+    @report = resource.video_summary(params)
+    report :action => 'video'
+  end
 
   def campaign_click_map
     if map = resource.click_map(params)
@@ -56,10 +61,7 @@ class ReportsController < ApplicationController
       redirect_back_or_default
     end
   end
-  
-  def visit_overview
-    # default render
-  end
+
 
   # Here's where we implement most of the reporting.  Since reporting
   # is quite consistent but based upon different dimensions we can

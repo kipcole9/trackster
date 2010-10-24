@@ -801,6 +801,10 @@ div.block table thead th {
 	text-align: right;
 }
 
+.center {
+	text-align: center;
+}
+
 /* Horizontal Bar Graph */
 div.hbar {
 	float: left;

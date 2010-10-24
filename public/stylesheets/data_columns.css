@@ -12,7 +12,7 @@ col.flash_version, col.page_title, col.contact_code,
 col.language {
 	width: 8em;
 }
-col.country {
+col.country, col.video_views {
 	width: 11em;
 }
 col.count, col.visits, col.exit_rate,
@@ -28,7 +28,7 @@ col.bounce_rate, col.value, col.traffic_source {
 col.url {
 	width: 25%;
 }
-.pageview_top_10 col.url, .campaign_clicks col.page_title, .campaign_clicks col.url {
+.pageview_top_10 col.url, .campaign_clicks col.page_title, .campaign_clicks col.url, {
 	width: 50%;
 }
 col.entry_rate {
