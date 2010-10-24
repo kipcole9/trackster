@@ -30,11 +30,11 @@ module Analytics
         end
         
         def campaign_clicks_by_url(params = {})
-          tracks.clicks_through.by(:url).order('clicks_through DESC').filters(self, params)
+          tracks.clicks_through.by(:url).order('clicks_through DESC').only_entry_page.filters(self, params)
         end
         
         def campaign_clicks_by_link_text(params = {})
-          tracks.clicks_through.by(:page_title).order('clicks_through DESC').filters(self, params)
+          tracks.clicks_through.by(:page_title).order('clicks_through DESC').only_entry_page.filters(self, params)
         end
         
         def campaign_clicks_by_email_client(params = {})

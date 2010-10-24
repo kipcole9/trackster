@@ -108,6 +108,9 @@ module Analytics
             :select => 'count(if(exit_page=1 AND entry_page = 0,1,NULL)) / count(*) * 100 as exit_rate',
             :joins => :events
           
+          named_scope :only_entry_page,
+            :conditions => 'entry_page = 1'
+            
           # Landing page is the same as an entry page - but in a campaign
           # context
           named_scope :landing_pages,
