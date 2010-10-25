@@ -12,14 +12,21 @@ module ApplicationHelper
   def tracking_script
     case Rails.env 
     when "development"
-      # store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"
-      # store "<script>tracker = new _tks; tracker.trackPageview();</script>"
+      store "<script src='http://trackster.local/javascripts/tracker_debug.js' type='text/javascript' ></script>"
+      store tracker_call
     when "staging"
       store "<script src='http://traphos.com:8080/_tks.js' type='text/javascript' ></script>"
     else
       store "<script src='http://traphos.com/_tks.js' type='text/javascript' ></script>"
+      store tracker_call
     end
   end
+  
+  def tracker_call
+    user_identity = User.current_user['id'] if User.current_user
+    set_user = user_identity ? "tracker.setId(#{user_identity});" : ""
+    return "<script>tracker = new _tks;#{set_user}tracker.trackPageview();</script>"
+  end  
 
   def time_group
     params[:time_group] || 'date'
