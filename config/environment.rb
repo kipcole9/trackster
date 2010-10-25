@@ -80,4 +80,5 @@ Rails::Initializer.run do |config|
   end
 
   config.action_mailer.delivery_method = :sendmail
+  
 end

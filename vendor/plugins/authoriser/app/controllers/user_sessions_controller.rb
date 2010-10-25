@@ -12,6 +12,7 @@ class UserSessionsController < ApplicationController
     @user_session = admin_session || account_user_session || agent_account_user_session || nil_session
     
     if @user_session.save
+      raise "WHERE IS IT" unless @user_session.remember_me
       flash[:notice] = I18n.t('authorizer.logged_in_as', :name => user && user.name)
       redirect_to root_path
     else
