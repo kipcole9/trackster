@@ -6,7 +6,7 @@ function tracksterChart() {
    	var template = "<div style='display:none;width=1em'><p id=highcharts>&nbsp</p>" + 
 				  "<p id=highcharts-text>&npsb</p><p id=highcharts-area>&npsb</p>" +
 				  "<p id=highcharts-line>&npsb</p><p id=highcharts-gridlines>&npsb</p>" + 
-				  "<p id=highcharts-axis>&npsb</p></div>";
+				  "<p id=highcharts-axis>&npsb</p><p id=highcharts-xbands>&npsb</p></div>";
    	$('body').append(template);
    
 	this.font = {
@@ -28,11 +28,20 @@ function tracksterChart() {
 		gridLines:   $('#highcharts-gridlines').css('color'),
 		lineColor:   $('#highcharts-line').css('color'),
 		xAxisLine:   $('#highcharts-axis').css('color'),
-		yAxisLine: 	 $('#highcharts-axis').css('color')
+		yAxisLine: 	 $('#highcharts-axis').css('color'),
+		plotBands: 	 $('#highcharts-xbands').css('color')  
    	};
 
 	// Render an Area chart with one or more data series
    	this.render = function(container, categories, series_data, options) {
+
+		/* Put colors into plotbands */
+		if (options.x_plot_bands) {
+			$(options.x_plot_bands).each(function(index, item) {
+				item.color = self.colors.plotBands;
+			});
+		};
+
 		return chart = new Highcharts.Chart({
 			chart: {
 				credits: 			{ enabled: false }, 
@@ -71,7 +80,8 @@ function tracksterChart() {
 	            	formatter: function() {
 						return this.value; 
 	            	}
-	         	}                  
+	         	},
+	            plotBands: options.x_plot_bands
 	      	},
 	      	yAxis: {
 				gridLineColor: self.colors.gridLines,
