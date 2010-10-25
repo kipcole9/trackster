@@ -13,7 +13,7 @@ module Charting
         @category_column  = category_column
         @data_columns     = data_columns
         @options          = DEFAULT_OPTIONS.merge(options)
-        @options[:x_step] ||= data_source.size / MAX_X_LABELS
+        @options[:x_step] ||= (data_source.size.to_f / MAX_X_LABELS.to_f).round
       end
     
       def chart_options
