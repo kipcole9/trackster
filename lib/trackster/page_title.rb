@@ -6,10 +6,16 @@ module Trackster
     end
 
     def page_title
-      resource_name = (resource rescue nil) ? resource.name.strip_tags.titleize : ''
-      action_name = resource_name.blank? ? action : "#{action}_resource"
+      resource_name = (resource rescue nil) ? h(resource.name) : ''
+      action_name = if resource_name.blank?
+        action
+      elsif resource == current_account
+        "#{action}_account"
+      else
+        "#{action}_resource"
+      end
       key = "page_title.#{controllername}.#{action_name}"
-      I18n.t(key,:default  => default_page_title, :resource => resource_name, :account  => current_account.name)
+      I18n.t(key,:default  => default_page_title, :resource => resource_name, :account  => current_account.name, :period => Period.in_text_from_params(params))
     end
 
     
