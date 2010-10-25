@@ -31,6 +31,14 @@ protected
     self
   end
   
+  def action
+    params[:action]
+  end
+  
+  def controllername
+    params[:controller]
+  end
+  
   def template_exists?(template = nil)
     # Rails.logger.debug "Find Template: Asked to find #{template}"
     begin

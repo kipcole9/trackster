@@ -51,9 +51,6 @@ protected
   def nil_session
     UserSession.new
   end
-  
-  def _page_title
-    ''
-  end
+
   
 end

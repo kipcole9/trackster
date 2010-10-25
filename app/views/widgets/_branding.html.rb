@@ -4,7 +4,8 @@ cache "branding/#{current_account['id']}/#{current_user ? current_user['id'] : '
       if current_account && current_account.logo?
         store image_tag(current_account.logo(:banner))
       else
-  	    h1 link_to(Trackster::Config.banner, root_path)
+  	     h1 "#{page_title}"
+  	    # h1 link_to(Trackster::Config.banner, root_path)
       end
     end
   end

@@ -76,6 +76,22 @@ en:
         time_dimension:             Time dimension
         reports:                    Metrics
 
+    page_title:
+        campaigns:
+            edit_resource:          "Edit {{account}}'s {{resource}} Campaign"
+            edit:                   "{{acount}}: Edit Campaign"
+            index:                  "{{account}}'s Campaign Index"
+        accounts:
+            edit_resource:          "Edit {{account}}'s Account"
+        properties:
+            edit_resource:          "Edit {{account}}'s {{resource}} Web Property"
+            edit:                   "{{acount}}: Edit Property"
+            index:                  "{{account}}'s Web Property Index"
+        reports:
+            visit_overview_resource:    "{{account}}'s {{resource}} Visit Overview"
+            country_resource:           "{{resource}} Visits by Country"
+            language_resource:          "Visits by Language for {{resource}}"            
+                
 
                 
                 

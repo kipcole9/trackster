@@ -50,7 +50,7 @@ module Trackster
 
       def current_account
         unless @current_account 
-          @current_account = (Account.find_by_name(account_subdomain) || Account.find_by_custom_domain(request.host))
+          @current_account = (Account.find_by_subdomain(account_subdomain) || Account.find_by_custom_domain(request.host))
           Account.current_account = @current_account
         end
         @current_account

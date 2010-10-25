@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101018071213) do
+ActiveRecord::Schema.define(:version => 20101025073314) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20101018071213) do
   add_index "account_users", ["account_id", "user_id"], :name => "index_account_users_on_account_id_and_user_id", :unique => true
 
   create_table "accounts", :force => true do |t|
-    t.string   "name",                :limit => 20
+    t.string   "name",                  :limit => 20
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -29,26 +29,29 @@ ActiveRecord::Schema.define(:version => 20101018071213) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.string   "theme"
-    t.string   "tracker",             :limit => 15
+    t.string   "tracker",               :limit => 15
     t.integer  "agent_id"
-    t.string   "email_from",          :limit => 50
-    t.string   "email_from_name",     :limit => 50
-    t.string   "email_reply_to",      :limit => 50
-    t.string   "email_reply_to_name", :limit => 50
+    t.string   "email_from",            :limit => 50
+    t.string   "email_from_name",       :limit => 50
+    t.string   "email_reply_to",        :limit => 50
+    t.string   "email_reply_to_name",   :limit => 50
     t.string   "unsubscribe_url"
-    t.string   "kind",                :limit => 10
-    t.string   "custom_domain",       :limit => 100
-    t.string   "timezone",            :limit => 20
-    t.string   "salutation",          :limit => 100
-    t.string   "currency_code",       :limit => 3
-    t.string   "default_locale",      :limit => 10
+    t.string   "kind",                  :limit => 10
+    t.string   "custom_domain",         :limit => 100
+    t.string   "timezone",              :limit => 20
+    t.string   "salutation",            :limit => 100
+    t.string   "currency_code",         :limit => 3
+    t.string   "default_locale",        :limit => 10
     t.string   "ip_filter"
     t.string   "ip_filter_sql"
+    t.string   "subdomain",             :limit => 20
+    t.integer  "default_campaign_days"
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
   add_index "accounts", ["custom_domain"], :name => "index_accounts_on_custom_domain", :unique => true
   add_index "accounts", ["name"], :name => "index_accounts_on_name", :unique => true
+  add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
   add_index "accounts", ["tracker"], :name => "index_accounts_on_tracker", :unique => true
 
   create_table "addresses", :force => true do |t|
@@ -104,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20101018071213) do
     t.string   "email_reply_to_name", :limit => 50
     t.string   "unsubscribe_url"
     t.integer  "content_id"
+    t.datetime "inactive_at"
   end
 
   add_index "campaigns", ["account_id"], :name => "index_campaigns_on_account_id"
