@@ -960,4 +960,4 @@ attributes in JS and apply them to charts.
 #highcharts-axis		{ color: #777; }
 
 /* X-Axis plotbands color */
-#highcharts-xbands		{ color: rgb(48,48,48) }
+#highcharts-xbands		{ color: #ccc }
