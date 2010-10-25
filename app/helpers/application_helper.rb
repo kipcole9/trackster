@@ -25,7 +25,7 @@ module ApplicationHelper
   def tracker_call
     user_identity = User.current_user['id'] if User.current_user
     set_user = user_identity ? "tracker.setId(#{user_identity});" : ""
-    return "<script>tracker = new _tks('tks_0befd3-1');#{set_user}tracker.trackPageview();</script>"
+    return "<script>tracker = new _tks('tks-0befd3-1');#{set_user}tracker.trackPageview();</script>"
   end  
 
   def time_group
