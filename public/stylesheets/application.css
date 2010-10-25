@@ -368,6 +368,15 @@ p {
 	margin: 0;
 }
 
+input.subdomain {
+	width: 10em;
+}
+
+input.tracker {
+	width: 10em;
+	display: block;
+}
+
 .help p, .help li {
 	margin-top: 1em;
 	margin-bottom: 0;

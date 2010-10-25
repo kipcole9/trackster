@@ -16,4 +16,12 @@ module CampaignsHelper
     end
     new_impressions << Track.new(:email_client => I18n.t('reports.other_email_client'), :impressions => other)
   end
+  
+  def default_concludes_at
+    if resource && resource.effective_at
+      resource.effective_at + current_account.default_campaign_days.days
+    else
+      Time.now.days.from_now
+    end
+  end
 end

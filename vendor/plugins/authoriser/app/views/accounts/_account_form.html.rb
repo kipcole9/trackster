@@ -2,12 +2,13 @@ form_for @account, :html => { :multipart => true } do |account|
   tab "account" do
     tab_item t('accounts.account') do
       if @account.new_record?
-        account.text_field   :name, :validate => :validations
+        account.text_field   :subdomain, :validate => :validations, :class => 'subdomain'
       else
-        account.text_field   :name, :disabled => 'disabled'
+        account.text_field   :subdomain, :disabled => 'disabled', :class => 'subdomain', :before => '<div>http://', :after => ".#{Trackster::Config.host}</div>"
       end
+      account.text_field     :name
       account.text_area      :description
-      account.text_field     :tracker, :disabled => 'disabled' unless @account.new_record?
+      account.text_field     :tracker, :disabled => 'disabled', :class => 'tracker' unless @account.new_record?
     end
     tab_item t('accounts.email_config') do
       account.text_field    :email_from_name
@@ -27,6 +28,7 @@ form_for @account, :html => { :multipart => true } do |account|
       account.text_field    :currency_code
       account.text_field    :custom_domain, :validate => :validations
       account.text_field    :ip_filter
+      account.text_field    :default_campaign_days
     end
   end
   submit_combo

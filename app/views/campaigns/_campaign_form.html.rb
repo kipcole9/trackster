@@ -2,7 +2,8 @@ form_for campaign, :html => {:multipart => true} do |campaign|
   tab "campaign" do
     tab_item campaign.object.new_record? ? t('.new_campaign') : t('.edit_campaign', :name => campaign.object.name) do
       campaign.text_field     :name
-      campaign.datetime_select  :effective_at
+      campaign.datetime_select :effective_at
+      campaign.datetime_select :concludes_at, :default => default_concludes_at
       campaign.text_area      :description
       if current_account.contents.empty?
         flash.now[:alert] = t('.no_content_defined', :link => new_content_path)
@@ -20,8 +21,8 @@ form_for campaign, :html => {:multipart => true} do |campaign|
     end
     tab_item t('.parameters') do
       campaign.text_field     :source
-      campaign.text_field     :content
-      campaign.text_field     :medium, :disabled => true
+      # campaign.text_field     :content
+      # campaign.text_field     :medium, :disabled => true
       campaign.text_field     :contact_code
     end
     tab_item t('.list') do

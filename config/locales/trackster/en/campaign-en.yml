@@ -3,6 +3,9 @@ en:
         attributes:
             campaign:
                 email:            Campaign Content
+                effective_at:     Effective from Date/Time
+                concludes_at:     Concludes at Date/Time
+                name:             Campaign Name
                     
     column_descriptions:            
       campaign:
@@ -18,7 +21,10 @@ en:
           code:           "This is your campaign code.  It's used to tag links so that campaign tracking data is correctly assigned. This code is automatically generated and cannot be changed."
           email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  
           landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
-
+          effective_at:   "The date and time the campaign is considered 'live'.  This only affects analytics and reporting; it does not affect any underlying data and you can change this attribute at any time."
+          concludes_at:   "The date and time the campaign is considered concluded.  The only affects analytics and reporting; it does not affect anu underlying data and you can change this attribute at any time."
+          name:             Your campaign name.  It is used to identify campaigns in analytics and reports so make the name distinct and clear.          
+    
     campaigns:
       has_no_content:     "Campaign has not content to be mapped."
       hash_link_problem:  "Link {{url}} should point to a landing page."

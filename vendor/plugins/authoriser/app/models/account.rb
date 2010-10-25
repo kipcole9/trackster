@@ -29,11 +29,11 @@ class Account < ActiveRecord::Base
   has_many        :clients, :class_name => "Account", :foreign_key => :agent_id
   belongs_to      :agent,   :class_name => "Account", :foreign_key => :agent_id
   
-  validates_presence_of     :name
-  validates_uniqueness_of   :name  
-  validates_length_of       :name,            :within => 3..20
-  validates_format_of       :name,            :with => /\A[a-zA-Z0-9-]+\Z/
-  validates_exclusion_of    :name,            :in => %w( support blog www billing help api video map )
+  validates_presence_of     :subdomain
+  validates_uniqueness_of   :subdomain  
+  validates_length_of       :subdomain,       :within => 3..20
+  validates_format_of       :subdomain,       :with => /\A[a-zA-Z0-9-]+\Z/
+  validates_exclusion_of    :subdomain,       :in => %w( support blog www billing help api video map )
 
   validates_format_of       :custom_domain,   :with => Property::DOMAIN_REGEX, :allow_blank => true
   validates_uniqueness_of   :custom_domain,   :allow_nil => true

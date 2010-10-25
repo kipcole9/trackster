@@ -1,10 +1,10 @@
 class AddSubdomainToAccounts < ActiveRecord::Migration
   def self.up
     add_column :accounts, :subdomain, :string, :limit => 20
-    add_column :accounts, :default_campaign_days, :integer
+    add_column :accounts, :default_campaign_days, :integer, :default => 30
     add_index :accounts, :subdomain, :unique => true
     
-    add_column :campaigns, :inactive_at, :datetime
+    add_column :campaigns, :concludes_at, :datetime
     
     Account.all.each do |account|
       account.subdomain = account.name
@@ -17,6 +17,6 @@ class AddSubdomainToAccounts < ActiveRecord::Migration
     remove_column :accounts, :default_campaign_days
     remove_column :accounts, :subdomain
     
-    remove_column :campaigns, :inactive_at
+    remove_column :campaigns, :concludes_at
   end
 end

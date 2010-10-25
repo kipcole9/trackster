@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20101025073314) do
     t.string   "ip_filter"
     t.string   "ip_filter_sql"
     t.string   "subdomain",             :limit => 20
-    t.integer  "default_campaign_days"
+    t.integer  "default_campaign_days",                :default => 30
   end
 
   add_index "accounts", ["agent_id"], :name => "index_accounts_on_agent_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20101025073314) do
     t.string   "email_reply_to_name", :limit => 50
     t.string   "unsubscribe_url"
     t.integer  "content_id"
-    t.datetime "inactive_at"
+    t.datetime "concludes_at"
   end
 
   add_index "campaigns", ["account_id"], :name => "index_campaigns_on_account_id"
