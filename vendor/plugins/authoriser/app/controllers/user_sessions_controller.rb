@@ -5,19 +5,27 @@ class UserSessionsController < ApplicationController
   
   def new
     @user_session = UserSession.new
+    set_test_cookie
   end
 
   def create
-    user = User.find_by_email(params[:user_session][:email])
-    @user_session = admin_session || account_user_session || agent_account_user_session || nil_session
-    
-    if @user_session.save
-      raise "WHERE IS IT" unless @user_session.remember_me
-      flash[:notice] = I18n.t('authorizer.logged_in_as', :name => user && user.name)
-      redirect_to root_path
-    else
-      flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => params[:user_session][:email])
+    if cookies_cannot_be_set?
+      flash[:alert] = I18n.t('authorizer.could_not_set_cookie')
+      @user_session = UserSession.new
       render :action => :new
+    else
+      delete_test_cookie
+      user = User.find_by_email(params[:user_session][:email])
+      @user_session = admin_session || account_user_session || agent_account_user_session || nil_session
+    
+      if @user_session.save
+        flash[:notice] = I18n.t('authorizer.logged_in_as', :name => user && user.name)
+        redirect_to root_path
+      else
+        flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => params[:user_session][:email])
+        render :action => :new
+      end
+
     end
   end
   
@@ -51,6 +59,18 @@ protected
   def nil_session
     UserSession.new
   end
-
   
+  def set_test_cookie
+    cookies[:trackster_test] = "set?"
+    Rails.logger.debug "Cookie set to value '#{cookies[:trackster_test]}'"
+  end
+  
+  def cookies_cannot_be_set?
+    Rails.logger.debug "Cookie can be set? value is '#{cookies[:trackster_test]}'"
+    cookies[:trackster_test].blank?
+  end
+
+  def delete_test_cookie
+    cookies.delete :trackster_test
+  end
 end

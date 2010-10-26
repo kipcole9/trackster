@@ -29,6 +29,7 @@ en:
         new_user_created:       The new user has been created and has been notified.
         user_already_on_account: That user is already authorized on this account.
         user_activated:         Your account has now been activated. Please update your profile.
+        could_not_set_cookie:   "Please enable cookies in your browser in order to continue"
     
     column_descriptions:
         account:
