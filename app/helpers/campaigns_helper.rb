@@ -21,7 +21,7 @@ module CampaignsHelper
     if resource && resource.effective_at
       resource.effective_at + current_account.default_campaign_days.days
     else
-      Time.now.days.from_now
+      Time.now.to_date.days.from_now
     end
   end
 end
