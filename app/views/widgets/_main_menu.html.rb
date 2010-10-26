@@ -35,7 +35,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
     menu_item t('menu.accounts_list'), {}, {:class => :secondary } do
       current_user.accounts.each do |account|
         menu_item  account.name,                    {:href => "http://#{account.subdomain}.#{Trackster::Config.host}"}
-      end
+      end  
     end
   end
 end
