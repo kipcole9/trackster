@@ -11,8 +11,7 @@ class UserSessionsController < ApplicationController
   def create
     if cookies_cannot_be_set?
       flash[:alert] = I18n.t('authorizer.could_not_set_cookie')
-      @user_session = UserSession.new
-      render :action => :new
+      redirect_to login_path
     else
       delete_test_cookie
       user = User.find_by_email(params[:user_session][:email])
