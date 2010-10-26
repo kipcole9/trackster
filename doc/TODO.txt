@@ -18,6 +18,12 @@ unknown_on_blank as arguments to numeric formatters
 *	Add linkability to formatters.  Need to work out how to specify the url such that can plug in 
 relevant parameters?
 
+Charts
+
+*	Multiseries for charts as standard
+
+*	Series gap filling in result sets
+
 
 Templates
 
@@ -25,6 +31,9 @@ Templates
 
 *	Ajax loading of page content (hijack links and ajax load)
 
+Navigation
+
+*	Navigation should be a popover on touch devices and content should fill the whole screen
 
 Issues
 

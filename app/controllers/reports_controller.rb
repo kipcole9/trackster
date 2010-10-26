@@ -25,6 +25,7 @@ class ReportsController < ApplicationController
   # Most reports are managed by method_missing below
   def new_v_returning;    end
   def visit_overview;     end
+  def device_overview;    end
     
   def events
     @report = resource.events_summary(params)
