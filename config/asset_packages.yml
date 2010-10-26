@@ -15,6 +15,7 @@ javascripts:
     - textboxlist
     - application
     - highcharts.src
+    - highcharts.funnel.src
     - trackster_charts    
 - tracker_debug:
     - tracker_debug

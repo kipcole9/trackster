@@ -5,6 +5,7 @@ panel t('panels.campaign_navigation') do
         nav report_link("campaign_summary")
         nav report_link("campaign_contacts_summary")
         nav report_link("campaign_click_map")
+        nav report_link("campaign_funnel")
       end
       accordion_item "Clicks" do
         nav report_link("campaign_clicks_by_url")

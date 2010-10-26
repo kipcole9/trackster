@@ -9,7 +9,7 @@ module Charting
       DEFAULT_OPTIONS = {
 
       }
-      
+
       def initialize(data_source, category_column, data_columns, options = {})
         @data_source      = data_source
         @category_column  = category_column
@@ -26,7 +26,7 @@ module Charting
           :x_plot_bands => weekend_plot_bands
         }
       end
-    
+
       # Define in concrete subclass
       def series
         {}
@@ -70,6 +70,27 @@ module Charting
           );
         EOF
       end
+      
+      # When we retrieve datat from the data base it may have gaps where not
+      # results are available. For charting we want to have a linearized
+      # series of data so here we plug the gaps.
+      # 
+      # Punt that the categeory column tells us enough to know what the data
+      # should be.
+      #
+      # 
+      # def linearize(column)
+      #         klass = data_source.first.class
+      #         data_source.inject_with_index([]) do |rows, row, index|
+      #           previous_row = data_source[index - 1] unless index == 0
+      #           if index == 0 || previous_row.date + 1 == row.date
+      #             puts "#{row.date}: copying at index #{index}"
+      #             # rows << row
+      #           else
+      #             puts "#{row.date}: inserting a row at index #{index}"
+      #           end 
+      #         end
+      #       end
     end
   end
 end

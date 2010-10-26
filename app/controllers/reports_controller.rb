@@ -62,6 +62,11 @@ class ReportsController < ApplicationController
       redirect_back_or_default
     end
   end
+  
+  def campaign_funnel
+    @report = resource.campaign_summary(params).all
+    report 'campaigns/reports/campaign_funnel'
+  end
 
 
   # Here's where we implement most of the reporting.  Since reporting

@@ -59,6 +59,7 @@ en:
             campaign_clicks_by_email_client:      Clicks by Email Client {{time_period}}
             campaign_contacts_summary:            Contact Response Summary  {{time_period}}
             campaign_no_response_summary:         Contact Non-response Summary {{time_period}}
+            campaign_funnel:                      Campaign Funnel {{time_period}}
 
     reports:
         name:
@@ -69,6 +70,7 @@ en:
           campaign_clicks_by_email_client:      Clicks by Email Client
           campaign_contacts_summary:            Contact Response Summary
           campaign_click_map:                   Click Map
+          campaign_funnel:                      Campaign Funnel
     
     panels:
       campaign_navigation:        Metrics

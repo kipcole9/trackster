@@ -24,10 +24,9 @@ Charts
 
 *	Series gap filling in result sets
 
-Account Popdown
+* 	Spline, regression, average lines
 
-*	Go to a different account
-
+*	Plotband for campaign start and finish
 
 Templates
 

@@ -5,11 +5,16 @@ module Analytics
         base.class_eval do
           column_format :count,          :total => :sum, :order => 99
           column_format :event_count,    :order => 20
-          column_format :impressions,    :total => :sum, :order => 1, :class => 'right', :formatter => :number_with_delimiter
-          column_format :clicks_through, :total => :sum, :order => 2, :class => 'right', :formatter => :number_with_delimiter
-          column_format :distribution,   :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
-          column_format :bounces,        :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
-          column_format :unsubscribes,   :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+
+          column_format :distribution,   :order => 10, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :bounces,        :order => 15, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :unsubscribes,   :order => 20, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :deliveries,     :order => 25, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :impressions,    :order => 30, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter 
+          column_format :clicks_through, :order => 35, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :click_through_rate, :total => :avg, :order => 36, :formatter => :bar_and_percentage
+          column_format :open_rate,       :total => :sum, :order => 32, :class => 'page_views', :formatter => :bar_and_percentage 
+
           column_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
           column_format :visits,         :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
           column_format :page_views,     :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
@@ -27,13 +32,9 @@ module Analytics
           column_format :percent_of_video_views, :order => 9, :formatter => :bar_and_percentage
           
           column_format :campaign_name,  :order => -1
-          column_format :deliveries,     :total => :sum, :order => 10, :class => 'right', :formatter => :integer_with_delimiter
-          column_format :impressions,    :total => :sum, :order => 20, :class => 'right', :formatter => :integer_with_delimiter 
           column_format :cost,           :total => :sum, :order => 30, :class => 'right', :formatter => :integer_with_delimiter 
           column_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_without_sign
 
-          column_format :clicks_through,  :total => :sum, :order => 22, :class => 'right', :formatter => :integer_with_delimiter
-          column_format :click_through_rate, :total => :avg, :order => 25, :formatter => :bar_and_percentage
           column_format :percent_of_clicks_through,  :total => :sum, :order => 96, :class => 'clicks_through', :formatter => :bar_and_percentage 
 
           column_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
@@ -53,7 +54,6 @@ module Analytics
 
           column_format :percent_of_visits,      :total => :sum, :order => 97, :formatter => :bar_and_percentage
           column_format :percent_of_page_views,  :total => :sum, :order => 96, :class => 'page_views', :formatter => :bar_and_percentage 
-          column_format :open_rate,              :total => :sum, :order => 22, :class => 'page_views', :formatter => :bar_and_percentage 
           column_format :percent_of_impressions, :total => :sum, :order => 23, :class => 'page_views', :formatter => :bar_and_percentage 
           column_format :bounce_rate,            :total => :avg, :order => 101,:class => 'right', :formatter => :percentage
           column_format :exit_rate,              :total => :avg, :order => 98, :class => 'right', :formatter => :percentage  
