@@ -33,7 +33,7 @@ function tracksterChart() {
    	};
 
 	// Render an Area chart with one or more data series
-   	this.render = function(container, categories, series_data, options) {
+   	this.area = function(container, categories, series_data, options) {
 
 		/* Put colors into plotbands */
 		if (options.x_plot_bands) {
@@ -139,11 +139,61 @@ function tracksterChart() {
 		               formatter: function() {
 		                  if (this.y > 0) return this.point.name + ": " + Highcharts.numberFormat(this.percentage, 1) +'%';
 		               },
-		               color: self.font.color,
+		               color: self.font.color
 		            }
-		         }
+		        }
 	      	},
 	      	series: series_data
 	   	});
+	};
+	
+	// Render a Pie chart
+	this.pie = function(container, categories, series_data, options) {
+		this.area(container, categories, series_data, options);
+	}
+	
+	// Render Funnel chart
+   	this.funnel = function(container, categories, series_data, options) {
+		return chart = new Highcharts.Chart({
+			chart: {
+				backgroundColor: self.colors.background,
+				renderTo: container,
+				defaultSeriesType: 'funnel',
+				margin: [20, 100, 40, 180]
+			},
+			title: {
+				text: options.title || ''
+			},
+			subtitle: {
+	        	text: options.subtitle || ''
+	      	},
+			plotArea: {
+				shadow: null,
+				borderWidth: null,
+				backgroundColor: null
+			},
+			tooltip: {
+				formatter: function() {
+					return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y, 0);
+				}
+			},
+			plotOptions: {
+				series: {
+					dataLabels: {
+						align: 'left',
+						x: -300,
+						enabled: true,
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b> ('+ Highcharts.numberFormat(this.point.y, 0) +')';
+						},
+						color: self.font.color
+					}
+				}
+			},
+			legend: {
+				enabled: false
+			},
+		    series: series_data
+		});
 	};
 };

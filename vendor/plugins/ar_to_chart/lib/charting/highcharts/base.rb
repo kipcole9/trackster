@@ -20,9 +20,11 @@ module Charting
 
       def chart_options
         {
-          :x_axis => options[:x_axis_title], 
-          :y_axis => options[:y_axis_title], 
-          :x_step => options[:x_step],
+          :title        => options[:title],
+          :subtitle     => options[:subtitle],
+          :x_axis       => options[:x_axis_title], 
+          :y_axis       => options[:y_axis_title], 
+          :x_step       => options[:x_step],
           :x_plot_bands => weekend_plot_bands
         }
       end
@@ -63,7 +65,7 @@ module Charting
     
       def to_js
         <<-EOF
-          chart.render('#{container}', 
+          chart.#{chart_type}('#{container}', 
             #{categories.to_json}, 
             #{series.to_json},
             #{chart_options.to_json}

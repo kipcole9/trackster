@@ -69,6 +69,11 @@ module Analytics
                          return val if options[:cell_type] == :th
                          I18n.t("reports.visit_types.#{val}", :default => val) 
                        }
+                       
+          column_format :attribute, :formatter => lambda {|val, options| 
+                         return val if options[:cell_type] == :th
+                         I18n.t("activerecord.attributes.track.#{val}", :default => val) 
+                       }             
           
           column_format :first_impression_distance, :order => 5, :total => :avg,
                       :formatter => lambda {|val, options|
@@ -103,10 +108,10 @@ module Analytics
                        }
                                      
           column_format :category,
-                       :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val) }
+                       :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.categories.#{val}", :default => val.titleize) }
           
           column_format :action,
-                       :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.actions.#{val}", :default => val) }
+                       :formatter => lambda {|val, options| options[:cell_type] == :th ? val : I18n.t("reports.actions.#{val}", :default => val.titleize) }
         
           column_format :language, :order => -1,
                        :formatter => lambda {|val, options|

@@ -7,7 +7,7 @@ module Charting
         extend ClassMethods
         include InstanceMethods
         const_set(:DEFAULT_PIVOT_COLUMNS, {
-          :category => :category, :value => :value
+          :attribute => :attribute, :value => :value
         })
       end
     end
@@ -35,8 +35,8 @@ module Charting
         klass = self.class
         return attributes.inject([]) do |rows, arg|
           row = klass.new
-          row[options[:category]] = arg.to_s
-          row[options[:value]]    = self[arg].to_i
+          row[options[:attribute]]  = arg.to_s
+          row[options[:value]]      = self[arg].to_i
           rows << row
           rows
         end
