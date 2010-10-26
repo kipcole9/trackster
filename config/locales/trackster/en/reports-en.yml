@@ -116,6 +116,8 @@ en:
             pause:                  Pause
             resume:                 Resume
             max_play:               Max. Play
+            seek:                   Seek
+            fullscreen:             Full Screen
         export:
             exports:                Export to a file
             csv:                    To CSV

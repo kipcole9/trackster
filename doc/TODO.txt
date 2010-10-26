@@ -4,35 +4,36 @@ Building a new server.
 2.  Building the hosts file fails the first time.  Fix that.
 3.  Building nginx from source starts the nginx service.  We don't always want that - fix it.
 
-Shared stuff
-
-1. Do 'exportfs -a' after updating exports
-2. Template /etc/init.d/nfs-kernel-server since its not right (fails startup test)
-3. Use this directory for tmp uploaded files so they can be shared.  Store in an account-based directory
 
 App stuff
 
-1.  Set sessions cookies to the domain (not subdomain) since users can access multiple accounts
 2.	After login (forced) should redirect back to the page they requested
 
-Graphing
 
-1.  Highcharts 2.1 beta implementation - use css_rule to drive colours
+Table formatter
 
-Rules
-====
-var sheet= document.styleSheets[0];
-alert(sheet.cssRules[0].cssText);
-//var rules= 'cssRules' in sheet ? sheet.cssRules : sheet.rules;
-//for (var i= 0; i<rules.length; i++) {
-//    var rule= rules[i];
-//   var text= 'cssText' in rule? rule.cssText : rule.selectorText+' //{'+rule.style.cssText+'}';
-//    alert(text);
-//}
+*	Arguments to formatters that are merged into options at execution.  Add no_set_on_blank and
+unknown_on_blank as arguments to numeric formatters
+
+*	Add linkability to formatters.  Need to work out how to specify the url such that can plug in 
+relevant parameters?
 
 
-ERC
-Sales Certification
-Audit volume/India 2011
-Mobility GTM
-Lenovo
+Templates
+
+*	Collapse into one template for the site
+
+*	Ajax loading of page content (hijack links and ajax load)
+
+
+Issues
+
+*	Print button in IE7 (looks like javascript not working)
+
+*	Click map - better way to highlight no links?
+
+*	Graphs not appears in IE (javascript)
+
+*	Account dropdown
+
+*	Documentation
