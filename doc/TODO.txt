@@ -7,7 +7,7 @@ Building a new server.
 
 App stuff
 
-2.	After login (forced) should redirect back to the page they requested
+2.	After login (forced) should redirect back to the page they requested - set redirect cookie
 
 
 Table formatter
@@ -23,6 +23,10 @@ Charts
 *	Multiseries for charts as standard
 
 *	Series gap filling in result sets
+
+Account Popdown
+
+*	Go to a different account
 
 
 Templates

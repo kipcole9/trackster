@@ -44,6 +44,7 @@
 @chart_area:			rgb(0,101,131);
 @chart_area_alpha:		rgba(0,101,131, 0.7);
 @gridlines:				#777;
+@plotband-color:		rgb(48,48,48);
 
 // Pagination
 @pagination_colour: 	#ccc;
@@ -189,7 +190,7 @@ tbody tr.even td {
 	background: 		@even_row;
 }
 
-/* Menu */
+/* Main Menu Bar */
 ul.nav.main,
 ul.nav.main li a,
 ul.nav.main li:hover a:active,
@@ -199,26 +200,29 @@ ul.nav.main li.secondary a {
 	background: -moz-gradient(linear, 0% 41%, 0% 86%, from(#EC8851), to(#B74E00));
 }
 
-ul.nav.main li.secondary, ul.nav.main li.secondary a,
-ul.nav.main li.secondary:hover,
-ul.nav.main li.secondary {
+ul.nav.main li.secondary, 
+ul.nav.main li.secondary a,
+ul.nav.main li.secondary:hover  {
 	background:			transparent !important;
 }
+
+/* This one is the background color of the drop down of the secondary list 
+ul.nav.main li.secondary ul li { background-color: green !important; } */
 
 ul.nav.main li a:hover {
 	color: 				@menu_hover_colour;
 }
 
 /* Drop down menu items */
-ul.nav.main li ul li a {
-	background: 		@menu_background;
+ul.nav.main li ul li a, ul.nav.main li.secondary ul li  {
+	background: 		@menu_background !important; 
 }
 
 ul.nav.main li ul li a:hover {
-	background: 		@submenu_hover_colour;
+	background: 		@submenu_hover_colour !important;
 }
 
-// Basic Boxes
+/* Basic Boxes */
 div.box, legend {
 	.box_borders;
 }
@@ -467,9 +471,18 @@ attributes in JS and apply them to charts.
 }
 
 /* Gridlines color */
-#highcharts-gridlines	{ color: @gridlines;}
+#highcharts-gridlines { 
+	color: @gridlines;
+}
 
 /* Axis line color */
-#highcharts-axis		{ color: @base_border_color; }
+#highcharts-axis { 
+	color: @base_border_color; 
+}
+
+/* X-Axis plotbands color */
+#highcharts-xbands { 
+	color: @plotband-color; 
+}
 
 

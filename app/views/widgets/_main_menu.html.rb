@@ -32,7 +32,11 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
     menu_item (print_button),                       {}, {:class => :secondary }
     menu_item t('menu.logout'),                     {:href => logout_path}, :class => :secondary
     menu_item t('menu.profile'),                    {:href => edit_user_path(current_user)}, :class => :secondary             
-    
+    menu_item t('menu.accounts_list'), {}, {:class => :secondary } do
+      current_user.accounts.each do |account|
+        menu_item  account.name,                    {:href => "http://#{account.subdomain}.#{Trackster::Config.host}"}
+      end
+    end
   end
 end
 clear

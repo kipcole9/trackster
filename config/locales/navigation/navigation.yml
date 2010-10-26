@@ -9,6 +9,7 @@ en:
         profile:            Profile
         logout:             Logout
         sites:              Site
+        accounts_list:      Go to...
         
         property:
             define:         Define a Web Property

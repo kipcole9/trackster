@@ -93,10 +93,10 @@ ul.nav.main li.secondary a {
 ul.nav.main li.secondary { background: transparent !important; }
 ul.nav.main li.secondary a { background: transparent !important; }
 ul.nav.main li.secondary:hover { background: transparent !important; }
-ul.nav.main li.secondary { background: transparent !important; }
 ul.nav.main li a:hover { color: #212121; }
-ul.nav.main li ul li a { background: #212121; }
-ul.nav.main li ul li a:hover { background: #343434; }
+ul.nav.main li ul li a { background: #212121 !important; }
+ul.nav.main li.secondary ul li { background: #212121 !important; }
+ul.nav.main li ul li a:hover { background: #343434 !important; }
 div.box, legend {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -293,6 +293,4 @@ label { color: white; }
 }
 #highcharts-line { color: #006583; }
 #highcharts-gridlines, #highcharts-axis { color: #777777; }
-
-/* X-Axis plotbands color */
-#highcharts-xbands		{ color: rgb(48,48,48); }
+#highcharts-xbands { color: #303030; }
