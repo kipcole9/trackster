@@ -22,7 +22,7 @@ en:
           email_html:     "You may upload a copy of your email html.  It can then be automatically link tagged."  
           landing_page_html: "You may upload a copy of your email html.  It can then be automatically link tagged."
           effective_at:   "The date and time the campaign is considered 'live'.  This only affects analytics and reporting; it does not affect any underlying data and you can change this attribute at any time."
-          concludes_at:   "The date and time the campaign is considered concluded.  The only affects analytics and reporting; it does not affect anu underlying data and you can change this attribute at any time."
+          concludes_at:   "The date and time the campaign is considered concluded.  This only affects analytics and reporting; it does not affect any underlying data and you can change this attribute at any time."
           name:             Your campaign name.  It is used to identify campaigns in analytics and reports so make the name distinct and clear.          
     
     campaigns:
