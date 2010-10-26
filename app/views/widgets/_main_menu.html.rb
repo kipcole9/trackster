@@ -36,7 +36,7 @@ with_tag :div, :class => "grid_12", :id => 'menu' do
       current_user.accounts.each do |account|
         menu_item  account.name,                    {:href => "http://#{account.subdomain}.#{Trackster::Config.host}"}
       end  
-    end
+    end if current_user.accounts.size > 1
   end
 end
 clear
