@@ -1,5 +1,6 @@
 html do
   head do
+    save_page_load_start
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
     meta :name => "apple-mobile-web-app-capable", :content => "yes"
     meta :name => "csrf-token", :content => form_authenticity_token

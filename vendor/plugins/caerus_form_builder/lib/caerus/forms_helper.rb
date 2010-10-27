@@ -145,6 +145,7 @@ module Caerus
   
     def javascript(content)
       @template.concat @template.content_tag(:script, content, :type => 'text/javascript')
+      @template.concat "\n"
     end
   
     def associated_template_for_new(form_builder, association)
