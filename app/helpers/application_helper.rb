@@ -3,8 +3,8 @@ module ApplicationHelper
   def tracking_script
     case Rails.env 
     when "development"
-      store "<script src='http://admin.trackster.local/_tks.js' type='text/javascript' ></script>"
-      store tracker_call
+      # store "<script src='http://admin.trackster.local/_tks.js' type='text/javascript' ></script>"
+      # store tracker_call
     when "staging"
       store "<script src='http://traphos.com:8080/_tks.js' type='text/javascript' ></script>"
     else

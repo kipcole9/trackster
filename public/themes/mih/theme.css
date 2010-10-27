@@ -270,8 +270,6 @@ div.autocomplete ul { background: #333333; }
 div.flash_notice, div.flash_error, div.flash_alert {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  -webkit-box-shadow: 4px 4px 6px #2b221b;
-  -moz-box-shadow: 4px 4px 6px #2b221b;
 }
 div.box.flash_alert { background-color: #ffbbbb; }
 div.box.flash_notice { background-color: #bbffbb; }
