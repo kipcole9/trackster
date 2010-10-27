@@ -1,5 +1,5 @@
 /** 
- * @license Highcharts JS v2.0.5 (modified)
+ * @license Highcharts JS v2.1 alpha (merged changes from master 2010-09-28)
  * Exporting module
  * 
  * (c) 2010 Torstein Hønsi
@@ -209,7 +209,6 @@ extend (Chart.prototype, {
 		});
 		options.exporting.enabled = false; // hide buttons in print
 		options.chart.plotBackgroundImage = null; // the converter doesn't handle images
-		
 		// prepare for replicating the chart
 		options.series = [];
 		each (chart.series, function(serie) {
@@ -390,7 +389,6 @@ extend (Chart.prototype, {
 			menuItemStyle = navOptions.menuItemStyle,
 			chartWidth = chart.chartWidth,
 			chartHeight = chart.chartHeight,
-			exportMenuHeight,
 			cacheName = 'cache-'+ name,
 			menu = chart[cacheName],
 			menuPadding = mathMax(width, height), // for mouse leave detection
@@ -457,8 +455,7 @@ extend (Chart.prototype, {
 			menuStyle.left = (x - menuPadding) + PX;
 		}
 		// if outside bottom, bottom align it
-		exportMenuHeight = chart.exportMenuHeight;
-		if (y + height + exportMenuHeight > chartHeight && exportMenuHeight < y) {
+		if (y + height + chart.exportMenuHeight > chartHeight) {
 			menuStyle.bottom = (chartHeight - y - menuPadding)  + PX;
 		} else {
 			menuStyle.top = (y + height - menuPadding) + PX;
@@ -476,9 +473,9 @@ extend (Chart.prototype, {
 			btnOptions = merge(chart.options.navigation.buttonOptions, options),
 			onclick = btnOptions.onclick,
 			menuItems = btnOptions.menuItems,
-			position = chart.getAlignment(btnOptions),
+			/*position = chart.getAlignment(btnOptions),
 			buttonLeft = position.x,
-			buttonTop = position.y,
+			buttonTop = position.y,*/
 			buttonWidth = btnOptions.width,
 			buttonHeight = btnOptions.height,
 			box,
@@ -513,7 +510,8 @@ extend (Chart.prototype, {
 			btnOptions.borderRadius,
 			borderWidth
 		)
-		.translate(buttonLeft, buttonTop) // to allow gradients
+		//.translate(buttonLeft, buttonTop) // to allow gradients
+		.align(btnOptions, true)
 		.attr(extend({
 			fill: btnOptions.backgroundColor,
 			'stroke-width': borderWidth,
@@ -522,12 +520,14 @@ extend (Chart.prototype, {
 		
 		// the invisible element to track the clicks
 		button = renderer.rect( 
-			buttonLeft,
-			buttonTop,
+			0,
+			0,
 			buttonWidth,
 			buttonHeight,
 			0
-		).attr({
+		)
+		.align(btnOptions)
+		.attr({
 			fill: 'rgba(255, 255, 255, 0.001)',
 			title: HC.getOptions().lang[btnOptions._titleKey],
 			zIndex: 21
@@ -551,7 +551,8 @@ extend (Chart.prototype, {
 		// add the click event
 		if (menuItems) {
 			onclick = function(e) {
-				chart.contextMenu('export-menu', menuItems, buttonLeft, buttonTop, buttonWidth, buttonHeight);
+				var bBox = button.getBBox();
+				chart.contextMenu('export-menu', menuItems, bBox.x, bBox.y, buttonWidth, buttonHeight);
 			};
 		}
 		addEvent(button.element, 'click', function() {
@@ -561,10 +562,11 @@ extend (Chart.prototype, {
 		// the icon
 		symbol = renderer.symbol(
 				btnOptions.symbol, 
-				buttonLeft + btnOptions.symbolX, 
-				buttonTop + btnOptions.symbolY, 
+				btnOptions.symbolX, 
+				btnOptions.symbolY, 
 				(btnOptions.symbolSize || 12) / 2
 			)
+			.align(btnOptions, true)
 			.attr(extend(symbolAttr, {
 				'stroke-width': btnOptions.symbolStrokeWidth || 1,
 				zIndex: 20		
@@ -629,10 +631,11 @@ HC.Chart = function(options, callback) {
 	return new Chart(options, function(chart) {
 		var n,
 			exportingOptions = chart.options.exporting,
-			buttons = exportingOptions.buttons;		
+			buttons = exportingOptions.buttons;
 		
 		// add buttons
 		if (exportingOptions.enabled !== false) {	
+
 			for (n in buttons) {
 				chart.addButton(buttons[n]);
 			}

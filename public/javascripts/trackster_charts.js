@@ -44,7 +44,9 @@ function tracksterChart() {
 
 		return chart = new Highcharts.Chart({
 			chart: {
-				credits: 			{ enabled: false }, 
+				credits: 			{ 
+					enabled: false
+				}, 
 	         	renderTo: 			container, 
 	         	defaultSeriesType: 'area',
 			 	backgroundColor: 	self.colors.background,

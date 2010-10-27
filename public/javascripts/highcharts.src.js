@@ -3887,7 +3887,7 @@ function Chart (options, callback) {
 						x, 
 						y, 
 						L, 
-						x + (horiz ? 0 : tickLength), 
+						x + (horiz ? 0 : -tickLength), 
 						y + (horiz ? tickLength : 0)
 					], tickWidth);
 					
@@ -7329,7 +7329,8 @@ function Chart (options, callback) {
 		// VML namespaces can't be added until after complete. Listening
 		// for Perini's doScroll hack is not enough.
 		var onreadystatechange = 'onreadystatechange';
-		if (!hasSVG && doc.readyState != 'complete') {
+		
+		if (!hasSVG && !win.parent && doc.readyState != 'complete') {
 			doc.attachEvent(onreadystatechange, function() {
 				doc.detachEvent(onreadystatechange, arguments.callee);
 				firstRender();
@@ -7798,7 +7799,7 @@ Point.prototype = {
 				);
 			}
 			
-			stateMarkerGraphic[state ? 'show' : 'hide']();
+			stateMarkerGraphic && stateMarkerGraphic[state ? 'show' : 'hide']();
 		}
 		
 		point.state = state;
