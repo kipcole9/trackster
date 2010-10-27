@@ -3,6 +3,6 @@
   <%= @set_user -%>tracker.trackPageview();
   if (startLoad) {
     loadTime = (new Date).getTime() - startLoad;
-    _tks.trackEvent('page','load',null,loadTime);
+    tracker.trackEvent('page','load',null,loadTime);
   }
 </script>"
