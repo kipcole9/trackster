@@ -31,12 +31,12 @@ module Charting
 
       # Define in concrete subclass
       def series
-        {}
+        nil
       end
       
       # Define in concrete subclass
       def categories
-        {}
+        nil
       end
       
       # Returns a plotbands definition for the data source

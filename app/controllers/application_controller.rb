@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   end
   
 protected
+
   def controller
     self
   end

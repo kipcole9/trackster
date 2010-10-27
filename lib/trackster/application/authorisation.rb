@@ -40,7 +40,7 @@ module Trackster
               redirect_back_or_default('/')
             else
               flash[:alert] = t('must_login') unless flash[:alert]
-              store_location
+              save_location_for_after_login
               redirect_to login_path
             end
           end
@@ -52,6 +52,10 @@ module Trackster
             request_http_basic_authentication 'Web Password'
           end
         end
+      end
+      
+      def save_location_for_after_login
+        cookies[:sloc] = request.request_uri
       end
     end
   end

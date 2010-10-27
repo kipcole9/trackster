@@ -19,7 +19,7 @@ class UserSessionsController < ApplicationController
     
       if @user_session.save
         flash[:notice] = I18n.t('authorizer.logged_in_as', :name => user && user.name)
-        redirect_to root_path
+        saved_location? ? redirect_to_saved_location : redirect_to(root_path)
       else
         flash[:alert] = I18n.t('authorizer.could_not_login_as', :name => params[:user_session][:email])
         render :action => :new
@@ -34,6 +34,16 @@ class UserSessionsController < ApplicationController
   end
 
 protected
+  def saved_location
+    cookies[:sloc]
+  end
+  alias :saved_location? :saved_location
+  
+  def redirect_to_saved_location
+    redirect_to saved_location
+    cookies.delete :sloc
+  end
+  
   def admin_session
     if (u = User.find_by_email(params[:user_session][:email])) && u.admin?
       @user_session = UserSession.new(params[:user_session])
