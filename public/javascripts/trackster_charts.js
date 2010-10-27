@@ -53,6 +53,11 @@ function tracksterChart() {
 			 	marginTop: 			15,
 			 	zoomType: 		    'x' 
 	      	},
+		    navigation: {
+		        buttonOptions: {
+		            backgroundColor: self.colors.background
+		        }
+		    },
 	      	title: {
 	        	text: options.title || ''
 	      	},
@@ -163,6 +168,11 @@ function tracksterChart() {
 				defaultSeriesType: 'funnel',
 				margin: [20, 100, 40, 180]
 			},
+			navigation: {
+		        buttonOptions: {
+		            backgroundColor: self.colors.background
+		        }
+		    },
 			title: {
 				text: options.title || ''
 			},
