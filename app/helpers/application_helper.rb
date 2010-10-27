@@ -9,7 +9,7 @@ module ApplicationHelper
       store "<script src='http://traphos.com:8080/_tks.js' type='text/javascript' ></script>"
     else
       store "<script src='http://traphos.com/_tks.js' type='text/javascript' ></script>"
-      store tracker_call
+      tracker_call
     end
   end
   
