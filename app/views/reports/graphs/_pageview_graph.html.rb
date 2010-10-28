@@ -9,7 +9,6 @@ panel t('reports.name.page_views', :time_group => time_group_t, :time_period => 
             :regression         => true,
             :time_group         => time_group,
             :period             => params[:period],
-            :linearize          => true,
             :weekend_plot_bands => true)
     end
   end
