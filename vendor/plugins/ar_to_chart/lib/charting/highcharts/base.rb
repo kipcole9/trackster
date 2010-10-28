@@ -86,17 +86,18 @@ module Charting
         index = 0
         range.inject(Array.new) do |linear_data, data_point|
           if data_source[index] && data_source[index][category_column] == data_point
-            # Rails.logger.debug "#{data_point}: Copying data (index is #{index})"
-            linear_data << (data_source[index])
+            Rails.logger.info "Range: #{data_point}: Index[#{index}]: #{data_source[index][category_column]}[#{data_source[index][data_columns.first]}]: Copying"
+            linear_data << data_source[index]
             index += 1
-            linear_data
           else
-            # Rails.logger.debug "#{data_point}: Inserting new row "
+            ds = data_source[index] ? " #{data_source[index][category_column]}[#{data_source[index][data_columns.first]}]: " : ''
+            Rails.logger.info "Range: #{data_point}: Index[#{index}]:#{ds} Inserting"
             new_row = klass.new(category_column => data_point)
             data_columns.each {|column| new_row[column] = 0 }
             yield new_row if block_given?
             linear_data << new_row
           end
+          linear_data
         end
       end
     end
