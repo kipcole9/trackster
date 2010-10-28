@@ -23,9 +23,17 @@ class ReportsController < ApplicationController
     
   # Reports that have their own view template
   # Most reports are managed by method_missing below
-  def new_v_returning;    end
-  def visit_overview;     end
-  def device_overview;    end
+  def new_v_returning
+    report :action => 'new_v_returning'
+  end
+  
+  def visit_overview
+    report :action => 'visit_overview'
+  end
+  
+  def device_overview
+    report :action => 'device_overview'
+  end
     
   def events
     @report = resource.events_summary(params)

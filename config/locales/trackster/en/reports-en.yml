@@ -124,6 +124,7 @@ en:
             xml:                    To XML
             xcelsius:               To Xcelsius
             json:                   To JSON
+            pdf:                    To PDF
         stream:
             streams:                Streams
             
