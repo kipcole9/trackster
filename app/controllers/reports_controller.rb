@@ -121,6 +121,7 @@ private
     set_disposition_header
     respond_to do |format|
       format.html     { render *render_args }
+      format.pdf      { render_pdf(*render_args) }
       format.all      { format_not_found }
       if template_exists?(*render_args)
         format.xml      { render *render_args }

@@ -29,7 +29,6 @@ module Charting
         @options = DEFAULT_OPTIONS.merge(options)
         @options[:container] ||= generate_container_name
         @options[:charting_object] ||= self.class.charting_object || DEFAULT_CHARTING_OBJECT
-        
         @data_columns = data_columns.respond_to?(:each) ? data_columns : [data_columns]
         @chart = chart_class.new(data_source, category_column, @data_columns, @options)
       end

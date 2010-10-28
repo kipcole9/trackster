@@ -11,7 +11,6 @@ module ActiveRecord
       module InstanceMethods
         def sum(column = nil)
           return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
-          column = column.to_sym unless column.is_a?(Symbol)
           inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + x[column] }
         end
         
@@ -24,48 +23,67 @@ module ActiveRecord
         
         # Count the number of non-nil rows
         def count(column = nil)
-          return super unless column && first && first.class.respond_to?(:descends_from_active_record?)
-          column = column.to_sym unless column.is_a?(Symbol)          
+          return super unless column && first && first.class.respond_to?(:descends_from_active_record?)         
           inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + 1 }
         end
         
         def max(column = nil)
-          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
-          column = column.to_sym unless column.is_a?(Symbol)   
-          self.map(&column).max
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)  
+          map(&column.to_sym).max
         end
         alias :maximum :max
         
         def min(column = nil)
-          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
-          column = column.to_sym unless column.is_a?(Symbol)   
-          self.map(&column).min
+          return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)  
+          map(&column.to_sym).min
         end
         alias :minimum :min
         
         def regression(column = nil)
-          if column && first && first.class.respond_to?(:descends_from_active_record?)
-            column = column.to_sym unless column.is_a?(Symbol)   
-            series = inject([]) { |array, x| array << x[column] }
+          unless is_numeric?(first)
+            raise ArgumentError, "Regression needs an array of ActiveRecord objects" unless column && first && first.class.respond_to?(:descends_from_active_record?)  
+            series = map { |x| x[column] }
           end
           Array::LinearRegression.new(series || self).fit
         end
         
+        def slope(column = nil)
+          unless is_numeric?(first)
+            column ||= first_numeric_column
+            series = map { |x| x[column] }
+          end
+          Array::LinearRegression.new(series || self).slope
+        end
+        alias :trend :slope
+        
         def make_numeric(column)
           return self unless column && first && first.class.respond_to?(:descends_from_active_record?)
           each do |row|
-            next if row[column].is_a?(Fixnum) || row[column].is_a?(Float) || row[column].is_a?(Integer) || row[column].is_a?(Bignum)
-            if row[column] =~ /[-+]?[0-9]+(\.[0-9]+)/
-              row[column] = row[column].to_f
-            else
-              row[column] = row[column].to_i
-            end
+            next if is_numeric?(row[column])
+            row[column] = row[column] =~ /[-+]?[0-9]+(\.[0-9]+)/ ? row[column].to_f : row[column].to_i
           end
           self
-        end        
+        end   
+        
+      private
+        def first_numeric_column
+          raise ArgumentError, "Slope needs an array of ActiveRecord objects" unless first && first.class.respond_to?(:descends_from_active_record?)  
+          first.attributes.each {|attribute, value| return attribute if is_numeric?(value) }
+          raise ArgumentError, "Slope could not detect a numberic attribute.  Please provide an attribute name as an argument"
+        end
+        
+        def is_numeric?(val)
+          is_integer?(val) || is_float?(val)
+        end
+        
+        def is_integer?(val)
+          val.is_a?(Fixnum) || val.is_a?(Integer) || val.is_a?(Bignum)
+        end
+        
+        def is_float?(val)
+          val.is_a?(Float) || val.is_a?(Rational)
+        end
       end
-      
-
       
       module ClassMethods
         # Courtesy of http://blog.internautdesign.com/2008/4/21/simple-linear-regression-best-fit
@@ -75,7 +93,7 @@ module ActiveRecord
           def initialize dx, dy=nil
             @size = dx.size
             dy,dx = dx,axis() unless dy  # make 2D if given 1D
-            raise ArgumentError, "arguments not same length!" unless @size == dy.size
+            raise ArgumentError, "[regression] Arguments are not same length!" unless @size == dy.size
             sxx = sxy = sx = sy = 0
             dx.zip(dy).each do |x,y|
               sxy += x*y
@@ -83,8 +101,8 @@ module ActiveRecord
               sx  += x
               sy  += y
             end
-            @slope = ( @size * sxy - sx*sy ) / ( @size * sxx - sx * sx ) rescue 0
-            @offset = (sy - @slope*sx) / @size
+            @slope = ( @size * sxy - sx * sy ) / ( @size * sxx - sx * sx ) rescue 0
+            @offset = (sy - @slope * sx) / @size
           end
 
           def fit

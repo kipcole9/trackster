@@ -11,11 +11,12 @@ module Charting
       }
 
       def initialize(data_source, category_column, data_columns, options = {})
-        @data_source      = data_source
+        @options          = DEFAULT_OPTIONS.merge(options)
         @category_column  = category_column
         @data_columns     = data_columns
-        @options          = DEFAULT_OPTIONS.merge(options)
-        @options[:x_step] ||= (data_source.size.to_f / MAX_X_LABELS.to_f).round
+        @data_source      = data_source
+        @data_source      = linearize if @options.delete(:linearize)       
+        @options[:x_step] ||= (@data_source.size.to_f / MAX_X_LABELS.to_f).round
       end
 
       def chart_options
@@ -79,20 +80,25 @@ module Charting
       # 
       # Punt that the categeory column tells us enough to know what the data
       # should be.
-      #
-      # 
-      # def linearize(column)
-      #         klass = data_source.first.class
-      #         data_source.inject_with_index([]) do |rows, row, index|
-      #           previous_row = data_source[index - 1] unless index == 0
-      #           if index == 0 || previous_row.date + 1 == row.date
-      #             puts "#{row.date}: copying at index #{index}"
-      #             # rows << row
-      #           else
-      #             puts "#{row.date}: inserting a row at index #{index}"
-      #           end 
-      #         end
-      #       end
+      def linearize
+        range = Period.range_from(options)
+        klass = data_source.first.class
+        index = 0
+        range.inject(Array.new) do |linear_data, data_point|
+          if data_source[index] && data_source[index][category_column] == data_point
+            # Rails.logger.debug "#{data_point}: Copying data (index is #{index})"
+            linear_data << (data_source[index])
+            index += 1
+            linear_data
+          else
+            # Rails.logger.debug "#{data_point}: Inserting new row "
+            new_row = klass.new(category_column => data_point)
+            data_columns.each {|column| new_row[column] = 0 }
+            yield new_row if block_given?
+            linear_data << new_row
+          end
+        end
+      end
     end
   end
 end

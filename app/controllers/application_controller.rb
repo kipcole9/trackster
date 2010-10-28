@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include Trackster::Application::UserSettings
   include Trackster::Application::Session
   include Trackster::Application::Authorisation
-  include Trackster::Application::Exceptions
+  #include Trackster::Application::Exceptions
   
   helper            :all # include all helpers, all the time
 
@@ -51,6 +51,14 @@ protected
       return false
     end
   end
+  
+  def render_pdf(url = nil)
+    new_request = url_for(params.merge(:api_key => current_user.single_access_token, :print => true)).sub('.pdf','')
+    pdf_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.pdf"
+    command = "/usr/local/bin/wkhtmltopdf \"#{new_request}\" #{pdf_file}"
+    raise "Can't execute: '#{command}'" unless system(command)
+    send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
+  end
 
 private
   def login_status_ok?
@@ -60,19 +68,5 @@ private
   def protect_against_forgery?
     request.xhr? ? false : super
   end
-
-  # Scope to controller for translation keys
-  # that start with a '.'
-  #def t(symbol, options = {})
-  #  key = symbol.to_s.match(/\A\.(.*)/) ? "#{params[:controller]}.#{$1}" : symbol
-  #  super key, options
-  #end  
-
-  
-  # Scope any finder with the appropriate constraints
-  # based upon user's role
-  #def current_scope(klass)
-  #  current_account.send(klass.to_s)
-  #end
 
 end

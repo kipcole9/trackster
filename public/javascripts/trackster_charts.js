@@ -32,6 +32,22 @@ function tracksterChart() {
 		plotBands: 	 $('#highcharts-xbands').css('color')  
    	};
 
+	function will_print() {
+		return window.location.href.match(/print=/);
+	}
+	
+	function pdf_export() {
+		return window.location.href.match(/\.pdf\?/) || window.location.href.match(/pdf=/);
+	}
+	
+	function getLineWidth(series) {
+		if (pdf_export) {
+			return 1; 
+		} else {
+			return (series.length > 50) ? 1 : self.lineWeight.axis;
+		}
+	}
+
 	// Render an Area chart with one or more data series
    	this.area = function(container, categories, series_data, options) {
 
@@ -46,17 +62,22 @@ function tracksterChart() {
 			chart: {
 				credits: 			{ 
 					enabled: false
-				}, 
+				},
+				borderWidth: 		0,
+				borderColor: 		self.colors.background,
 	         	renderTo: 			container, 
 	         	defaultSeriesType: 'area',
 			 	backgroundColor: 	self.colors.background,
 			 	marginTop: 			15,
-			 	zoomType: 		    'x' 
+			 	zoomType: 		    'x'
 	      	},
 		    navigation: {
 		        buttonOptions: {
 		            backgroundColor: self.colors.background
 		        }
+			},
+			exporting: {
+				enabled: !will_print()
 		    },
 	      	title: {
 	        	text: options.title || ''
@@ -69,9 +90,9 @@ function tracksterChart() {
 			 	categories:    	categories,
 	         	//maxZoom: 	14 * 24 * 3600000, // fourteen days
 			 	gridLineColor: 	self.colors.gridLines,
-			 	gridLineWidth: 	self.lineWeight.grid,
+			 	gridLineWidth: 	(series_data[0].data.length > 50) ? 0 : self.lineWeight.grid,
 			 	lineColor:     	self.colors.xAxisLine,
-			 	lineWidth:     	self.lineWeight.axis,
+			 	lineWidth:     	getLineWidth(series_data[0].data),
 			 	title: {
 					text: options.x_axis || ''
 			 	},
@@ -123,6 +144,11 @@ function tracksterChart() {
 				enabled: (series_data.size > 1)
 		  	},
 	      	plotOptions: {
+				series: {
+					enableMouseTracking: !will_print(), 
+					shadow: 			false, 
+					animation: 			!will_print()
+				},
 	        	area: {
 			    	fillColor: self.colors.areaFill,
 			    	color: 	   self.colors.lineColor,
@@ -164,6 +190,8 @@ function tracksterChart() {
 		return chart = new Highcharts.Chart({
 			chart: {
 				backgroundColor: self.colors.background,
+				borderWidth: 		0,
+				borderColor: 		self.colors.background,
 				renderTo: container,
 				defaultSeriesType: 'funnel',
 				margin: [20, 100, 40, 180]

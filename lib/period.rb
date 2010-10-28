@@ -76,6 +76,24 @@ class Period
   end
   memoize :from_param
   
+  def range_from(params)
+    period = self.from_params(params)
+    case params[:time_group]
+    when 'date'
+      period.first.to_date..period.last.to_date
+    when 'day_of_week'
+      0..6
+    when 'day_of_month'
+      1..31
+    when 'hour'
+      0..24
+    when 'month'
+      1..12
+    when 'year'
+      period.first.to_date.year..period.last.to_date.year
+    end
+  end
+  
   # Basic markers
   def today
     Time.zone.now.to_date
