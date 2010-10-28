@@ -82,7 +82,7 @@ module Charting
       # should be.
       def linearize
         range = Period.range_from(options)
-        range.first = data_source.first[category_column] if range.first > data_source.first[category_column]
+        range = data_source.first[category_column]..range.last if range.first > data_source.first[category_column]
         klass = data_source.first.class
         index = 0
         range.inject(Array.new) do |linear_data, data_point|
