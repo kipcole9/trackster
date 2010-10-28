@@ -81,7 +81,7 @@ module Charting
       # Punt that the categeory column tells us enough to know what the data
       # should be.
       def linearize
-        range = Period.range_from(options)
+        return data_source unless range = Period.range_from(options)
         range = data_source.first[category_column]..range.last if range.first > data_source.first[category_column]
         klass = data_source.first.class
         index = 0

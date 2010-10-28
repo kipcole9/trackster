@@ -21,6 +21,20 @@ div#custom-branding {
   padding: 0;
   width: 98%;
 }
+#custom-branding div {
+  float: left;
+  width: 20%;
+}
+#custom-branding h1 {
+  text-align: center;
+  margin: 0;
+  line-height: 1em;
+  float: left;
+  padding-top: 0.9em;
+  font-size: 130%;
+  width: 59.9%;
+}
+#logo { padding-top: 5px; }
 #mih-branding {
   padding-top: 3px;
   height: 3em;

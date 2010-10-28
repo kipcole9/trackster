@@ -4,9 +4,12 @@ panel t('reports.name.visits', :time_group => time_group_t, :time_period => time
     if @visits_graph.empty?
       h3 t('reports.no_visits_recorded')
     else
-      store @visits_graph.to_chart(:visits, time_group, 
+      store @visits_graph.to_chart(:visits, time_group,
+        :time_group => time_group,
+        :period => params[:period],
         :tooltip => "At: #x_label#\nVisits: #val#", 
         :regression => true,
+        :linearize  => true,
         :weekend_plot_bands => true)
     end
   end
