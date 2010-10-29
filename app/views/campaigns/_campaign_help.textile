@@ -1,0 +1,19 @@
+h4. Campaign Definition
+
+A Campaign defines the delivery of content (such as email) to an audience (one of more lists of people) which can then be tracked and measured.
+
+h6. Profile Tab
+
+Basic information necessary to execute a campaign.  A name and description help identify the campaign within the system.  Specify the content that will be used in this campaign.  Content is defined in the system *here*.
+
+h6. Measures Tab
+
+Here you can define basic delivery and cost measures that are then used to calculate campaign performance.  These fields are optional.  However it is recommended you include this data to enhance your analytics.
+
+h6. Segmentation Tab
+
+For each campaign a number of standard parameters can be applied.  This helps measure relative performance amongst campaigns and also be used to establish relative performance of different email lists.  Some guidelines to the use of these fields is *here*.
+
+h6. Lists Tab
+
+Select one or more lists to whom this campaign will be delivered.  If you don't specify a *Source* parameter in the Measures tab then the list identifier will be used by default.

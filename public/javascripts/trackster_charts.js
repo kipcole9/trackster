@@ -33,11 +33,11 @@ function tracksterChart() {
    	};
 
 	function will_print() {
-		return window.location.href.match(/print=/);
+		return window.location.href.match(/print=/) || pdf_export();
 	}
 	
 	function pdf_export() {
-		return window.location.href.match(/\.pdf\?/) || window.location.href.match(/pdf=/);
+		return $('meta[name=pdf-output]').length > 0;
 	}
 	
 	function getLineWidth(series) {
@@ -146,8 +146,8 @@ function tracksterChart() {
 	      	plotOptions: {
 				series: {
 					enableMouseTracking: !will_print(), 
-					shadow: 			false, 
-					animation: 			!will_print()
+					shadow: 			 false, 
+					animation: 			 !will_print()
 				},
 	        	area: {
 			    	fillColor: self.colors.areaFill,

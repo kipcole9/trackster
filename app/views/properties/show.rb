@@ -1,0 +1,1 @@
+store render(:file => 'reports/overview')

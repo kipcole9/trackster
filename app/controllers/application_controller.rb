@@ -52,13 +52,25 @@ protected
     end
   end
   
-  def render_pdf(url = nil)
-    new_request = url_for(params.merge(:api_key => current_user.single_access_token, :print => true)).sub('.pdf','')
+#  def render_pdf(url = nil)
+#    new_request = url_for(params.merge(:api_key => current_user.single_access_token, :print => true)).sub('.pdf','')
+#    pdf_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.pdf"
+#    command = "/usr/local/bin/wkhtmltopdf \"#{new_request}\" #{pdf_file}"
+#    raise "Can't execute: '#{command}'" unless system(command)
+#    send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
+#  end
+  
+  def render_pdf(*render_args)
+    params[:print] = true
     pdf_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.pdf"
-    command = "/usr/local/bin/wkhtmltopdf \"#{new_request}\" #{pdf_file}"
+    html_file = "#{Rails.root}/tmp/html-#{current_user[:id]}.html"
+    html = render_to_string(*render_args)
+    html.gsub!("<head>","<head>\n<base href=\"http://#{request.host}\" />")
+    File.open(html_file, 'w') {|f| f.write(html) }
+    command = "/usr/local/bin/wkhtmltopdf #{html_file} #{pdf_file}"
     raise "Can't execute: '#{command}'" unless system(command)
     send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
-  end
+  end  
 
 private
   def login_status_ok?
