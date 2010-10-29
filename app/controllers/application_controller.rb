@@ -33,7 +33,7 @@ protected
   end
   
   def action
-    params[:action]
+    params[:original_action] || params[:action]
   end
   
   def controllername
