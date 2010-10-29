@@ -72,6 +72,19 @@ protected
     send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
   end  
 
+  
+  def render_jpg(*render_args)
+    params[:print] = true
+    jpg_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.jpg"
+    html_file = "#{Rails.root}/tmp/html-#{current_user[:id]}.html"
+    html = render_to_string(*render_args)
+    html.gsub!("<head>","<head>\n<base href=\"http://#{request.host}\" />")
+    File.open(html_file, 'w') {|f| f.write(html) }
+    command = "/usr/local/bin/wkhtmltoimage #{html_file} #{jpg_file}"
+    raise "Can't execute: '#{command}'" unless system(command)
+    send_file(jpg_file, :filename => page_title, :type => 'application/jpeg')
+  end
+  
 private
   def login_status_ok?
     (logged_in? && current_account) || resetting_password? || logging_in? || activating? || validating?

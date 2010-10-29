@@ -25,6 +25,6 @@ html do
     column(:width => 12, :id => 'site_info') { include 'widgets/footer' }
     
     javascript yield(:javascript)
-    tracking_script
+    tracking_script unless request.format == :pdf || request.format == :jpg
   end
 end

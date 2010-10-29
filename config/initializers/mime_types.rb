@@ -13,3 +13,6 @@ Mime::Type.register_alias "text/x-vcard", :vcf
 
 # For PDF output
 Mime::Type.register_alias "text/html", :pdf
+
+# For Jpegs
+Mime::Type.register       "image/jpeg", :jpg
