@@ -3,7 +3,7 @@ html do
     save_page_load_start
     meta :"http-equiv" => "content-type", :content => "text/html;charset=utf-8"
     meta :name => "apple-mobile-web-app-capable", :content => "yes"
-    meta :name => "pdf-output", :content => "yes" #if request.format == :pdf
+    meta :name => "pdf-output", :content => "yes" if request.format == :pdf
     meta :name => "jpg-output", :content => "yes" if request.format == :jpg
     meta :name => "csrf-token", :content => form_authenticity_token
     meta :name => "csrf-param", :content => request_forgery_protection_token
