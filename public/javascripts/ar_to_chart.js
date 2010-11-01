@@ -1,4 +1,4 @@
-function tracksterChart() {
+function arToChart() {
    // Set up the various colours we want to use here
 	var self = this;
 
@@ -86,19 +86,18 @@ function tracksterChart() {
 	        	text: options.subtitle || ''
 	      	},
 	      	xAxis: {
-			 	type: 			(categories ? 'linear' : 'datetime'),
-			 	categories:    	categories,
-	         	//maxZoom: 	14 * 24 * 3600000, // fourteen days
-			 	gridLineColor: 	self.colors.gridLines,
-			 	gridLineWidth: 	(series_data[0].data.length > 50) ? 0 : self.lineWeight.grid,
-			 	lineColor:     	self.colors.xAxisLine,
-			 	lineWidth:     	getLineWidth(series_data[0].data),
+			 	type: 				(categories ? 'linear' : 'datetime'),
+			 	categories:    		categories,
+			 	gridLineColor: 		self.colors.gridLines,
+			 	gridLineWidth: 		(series_data[0].data.length > 50) ? 0 : self.lineWeight.grid,
+			 	lineColor:     		self.colors.xAxisLine,
+			 	lineWidth:     		getLineWidth(series_data[0].data),
 			 	title: {
 					text: options.x_axis || ''
 			 	},
 				labels: {
-					step: options.x_step || 1,
-					staggerLines: options.staggerLines || 1, 
+					step: 			options.x_step || 1,
+					staggerLines: 	options.staggerLines || 1, 
 					style: {
 						fontSize: 	self.font.size,
 						fontFamily: self.font.family,
@@ -189,12 +188,12 @@ function tracksterChart() {
    	this.funnel = function(container, categories, series_data, options) {
 		return chart = new Highcharts.Chart({
 			chart: {
-				backgroundColor: self.colors.background,
+				backgroundColor: 	self.colors.background,
 				borderWidth: 		0,
 				borderColor: 		self.colors.background,
-				renderTo: container,
-				defaultSeriesType: 'funnel',
-				margin: [20, 100, 40, 180]
+				renderTo: 			container,
+				defaultSeriesType: 	'funnel',
+				margin: 			[20, 100, 40, 180]
 			},
 			navigation: {
 		        buttonOptions: {
@@ -208,9 +207,9 @@ function tracksterChart() {
 	        	text: options.subtitle || ''
 	      	},
 			plotArea: {
-				shadow: null,
-				borderWidth: null,
-				backgroundColor: null
+				shadow: 			null,
+				borderWidth: 		null,
+				backgroundColor: 	null
 			},
 			tooltip: {
 				formatter: function() {
@@ -220,13 +219,13 @@ function tracksterChart() {
 			plotOptions: {
 				series: {
 					dataLabels: {
-						align: 'left',
-						x: -300,
-						enabled: true,
+						align: 		'left',
+						x: 			-300,
+						enabled: 	true,
+						color: 		self.font.color,
 						formatter: function() {
 							return '<b>'+ this.point.name +'</b> ('+ Highcharts.numberFormat(this.point.y, 0) +')';
-						},
-						color: self.font.color
+						}
 					}
 				}
 			},

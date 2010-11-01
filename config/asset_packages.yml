@@ -17,7 +17,7 @@ javascripts:
     - highcharts.src
     - highcharts.funnel.src
     - highcharts.exporting.src
-    - trackster_charts    
+    - ar_to_chart   
 - tracker_debug:
     - tracker_debug
 - tracker:
@@ -37,6 +37,7 @@ stylesheets:
     - textboxlist
     - application
     - data_columns
+    - ar_to_chart
     - contacts
     - media_transforms
 - ie: 
@@ -53,6 +54,7 @@ stylesheets:
     - textboxlist
     - application
     - data_columns
+    - ar_to_chart
     - contacts
     - media_transforms
     - ie_fixes
