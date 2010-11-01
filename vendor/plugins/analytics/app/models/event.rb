@@ -140,7 +140,7 @@ private
     # For email openings we treat the request_time as the amount of
     # time in seconds that the email was being read.  Relies upon
     # streaming the tracking image.
-    event.duration = track.request_time if track.request_time && event.email_opening?
+    event.duration = track.request_time.round if track.request_time && event.email_opening?
     
     event
   end
