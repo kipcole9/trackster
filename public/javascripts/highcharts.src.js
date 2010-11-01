@@ -5262,7 +5262,8 @@ function Chart (options, callback) {
 		
 		// create the elements
 		var group = renderer.g('tooltip')
-			.attr({ zIndex: 8 })
+			.attr({	zIndex: 8 })
+			.hide()
 			.add(),
 			
 			box = renderer.rect(boxOffLeft, boxOffLeft, 0, 0, options.borderRadius, borderWidth).
@@ -5285,21 +5286,25 @@ function Chart (options, callback) {
 				points = pThis.points || splat(pThis.point),
 				xAxis = points[0].series.xAxis,				
 				x = pThis.x,
+				isDateTime = xAxis && xAxis.options.type == 'datetime',
+				useHeader = isString(x) || isDateTime,
+				series,
 				s;
 			
 			// build the header	
-			s = defined(x) ? 
-				['<span style="font-size: 10px">'+
-				(xAxis && xAxis.options.type == 'datetime' ? 
-				dateFormat('%A, %b %e, %Y', x) : x) +
-				'</span>'] : [];
+			s = useHeader ? 
+				['<span style="font-size: 10px">',
+				(isDateTime ? dateFormat('%A, %b %e, %Y', x) :  x),
+				'</span><br/>'] : [];
 						
 			// build the values
 			each (points, function(point) {
-				s.push('<span style="color:'+ point.series.color +'">'+
-				point.series.name +'</span>: <b>'+ point.y +'</b>');
+				series = point.series;
+				s.push('<span style="color:'+ series.color +'">', series.name, '</span>: ',
+					(!useHeader ? ('<b>'+ (point.name || point.x) + ',</b> ') : ''), 
+					'<b>', point.y, '</b><br/>');
 			})
-			return s.join('<br/>');
+			return s.join('');
 		};
 		
 		/**
@@ -7282,7 +7287,7 @@ function Chart (options, callback) {
 				0,
 				credits.style,
 				0,
-				'right'
+				credits.position.align
 			)
 			.on('click', function() {
 				location.href = credits.href;
@@ -9189,7 +9194,9 @@ var SplineSeries = extendClass( Series, {
 				rightContY = (smoothing * plotY + nextY) / denom,
 		
 			// have the two control points make a straight line through main point
-				correction = plotY - (leftContY + rightContY) / 2;
+				correction = ((rightContY - leftContY) * (rightContX - plotX)) / (rightContX - leftContX)
+					+ plotY - rightContY;
+				
 			leftContY += correction;
 			rightContY += correction;
 			
@@ -9209,8 +9216,6 @@ var SplineSeries = extendClass( Series, {
 				rightContY = mathMin(nextY, plotY);
 				leftContY = 2 * plotY - rightContY;
 			}
-			
-			
 			
 			// record for drawing in next point
 			point.rightContX = rightContX;
