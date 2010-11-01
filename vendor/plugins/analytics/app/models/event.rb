@@ -140,7 +140,7 @@ private
     # For email openings we treat the request_time as the amount of
     # time in seconds that the email was being read.  Relies upon
     # streaming the tracking image.
-    event.duration = track.request_time.round if track.request_time && event.email_opening?
+    event.duration = track.request_time.round if event.email_opening? && valid_request_time?(track)
     
     event
   end
@@ -188,5 +188,11 @@ private
   
   def self.logger
     Trackster::Logger
+  end
+  
+  # We ignore 0 request time because that means its old style 
+  # tracking with non-streaming GIF.
+  def valid_request_time?(track)
+    track.request_time && track.request_time > 0 
   end
 end
