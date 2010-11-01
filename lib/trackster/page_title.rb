@@ -5,6 +5,7 @@ module Trackster
       base.memoize :page_title if base.respond_to? :memoize
     end
 
+  protected
     def page_title
       resource_name = (resource rescue nil) ? h(resource.name) : ''
       action_name = if resource_name.blank?

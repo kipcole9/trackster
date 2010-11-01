@@ -81,7 +81,6 @@ class ReportsController < ApplicationController
   # is quite consistent but based upon different dimensions we can
   # generalise the solutions
   def method_missing(method, *args)
-    
     if Track.session_dimensions.include?(params[:action])
       # Platform/device metrics and main visitor metrics (country,language, new/returning)
       visit_summary 

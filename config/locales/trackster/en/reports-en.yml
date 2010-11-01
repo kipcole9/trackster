@@ -2,6 +2,8 @@ en:
     reports:
         no_visits_recorded:         No visits currently recorded.
         no_clicks_through_yet:      No clicks through have been recorded.
+        
+        # Time period navigation
         today:                      Today
         yesterday:                  Yesterday
         this_week:                  This Week
@@ -13,69 +15,77 @@ en:
         last_year:                  Last Year
         last_12_months:             Last 12 Months
         lifetime:                   Lifetime
+        
+        # Time dimension navigation
         date:                       Date
         day_of_week:                Day of Week
         month:                      Month
         hour:                       Hour of Day
         year:                       Year
         day_of_month:               Day of Month
+        
+        # 'Other' translations for pie charts less than
+        # a defined percentage
         other_device:               Other Devices
         other_os_name:              Other OS
         other_email_client:         Other Clients
         other_os_version:           Other Versions
+        
+        # Time period translations for page titles
         period:
-            time_period:                "from {{from}} to {{to}}"
-            today:                      "for today"
-            yesterday:                  "for yesterday"
-            last_30_days:               "for the last 30 days"
-            this_month:                 "for this month"
-            this_week:                  "for this week"
-            last_week:                  "for last week"
-            last_month:                 "for last month"
-            last_12_months:             "for the last 12 months"
-            last_year:                  "for last year"
-            this_year:                  "for this year"
-            lifetime:                   "since account creation"
+            time_period:            "from {{from}} to {{to}}"
+            today:                  "for today"
+            yesterday:              "for yesterday"
+            last_30_days:           "for the last 30 days"
+            this_month:             "for this month"
+            this_week:              "for this week"
+            last_week:              "for last week"
+            last_month:             "for last month"
+            last_12_months:         "for the last 12 months"
+            last_year:              "for last year"
+            this_year:              "for this year"
+            lifetime:               "since account creation"
+        
+        # Panel names
         name:                 
             visit_overview:         Visit Overview
             loyalty_overview:       Loyalty Overview
             device_overview:        Device Overview
             traffic_source_overview: Traffic Source Overview
-        
-            country:                "Countries {{time_period}}"
-            locality:               "Localities {{time_period}}"            
-            loyalty:                "Loyalty {{time_period}}"
-            recency:                "Recency {{time_period}}"
-            browser:                "Browsers {{time_period}}"
-            language:               "Languages {{time_period}}"
-            os_name:                "Operating Systems {{time_period}}"
-            device:                 "Device Types {{time_period}}"
-            color_depth:            "Color Depth {{time_period}}"
-            screen_size:            "Screen Sizes {{time_period}}"
+            country:                "Countries"
+            locality:               "Localities"            
+            loyalty:                "Loyalty"
+            recency:                "Recency"
+            browser:                "Browsers"
+            language:               "Languages"
+            os_name:                "Operating Systems"
+            device:                 "Device Types"
+            color_depth:            "Color Depth"
+            screen_size:            "Screen Sizes"
             new_v_returning:        "New & Returning Visitors"
-            traffic_source:         "Traffic Sources {{time_period}}"
-            search_engines:         "Search Engines {{time_period}}"
+            traffic_source:         "Traffic Sources"
+            search_engines:         "Search Engines"
             referrer_host:          Source
-            referrer_category:      "Traffic Source Categories {{time_period}}"
+            referrer_category:      "Traffic Source Categories"
             email:                  Email
-            keywords:               "Keywords {{time_period}}"
-            entry_page:             "Entry pages {{time_period}}"
-            exit_page:              "Exit pages {{time_period}}"
-            bounce_page:            "Bounce pages {{time_period}}"
-            flash_version:          "Flash Version {{time_period}}"
-            page_titles:            "Page title {{time_period}}"
-            localityregioncountry:  "Locality with Region and Country {{time_period}}"
-            url:                    "URL (web page address) {{time_period}}"   
-            visits:                 "Visits by {{time_group}} {{time_period}}"
+            keywords:               "Keywords"
+            entry_page:             "Entry pages"
+            exit_page:              "Exit pages"
+            bounce_page:            "Bounce pages"
+            flash_version:          "Flash Version"
+            page_titles:            "Page title"
+            localityregioncountry:  "Locality with Region and Country"
+            url:                    "URL (web page address)"   
+            visits:                 "Visits by {{time_group}}"
             page_views:             "Page views by {{time_group}}"
-            length_of_visit:        "Length of Visit {{time_period}}"
-            depth_of_visit:         "Depth of Visit {{time_period}}"
+            length_of_visit:        "Length of Visit"
+            depth_of_visit:         "Depth of Visit"
             referrer_top_10:        "Top 10 Referrers"
             search_terms_top_10:    "Top 10 Search Terms"
             page_views_top_10:      "Top 10 Pages Viewed"
-            device_pie_graph:       "Common Device Types {{time_period}}"
-            os_pie_graph:           "Operating Systems {{time_period}}"
-            windows_version_graph:  "Windows Versions {{time_period}}"
+            device_pie_graph:       "Common Device Types"
+            os_pie_graph:           "Operating Systems"
+            windows_version_graph:  "Windows Versions"
             pageview_graph:         Page Views Trend
             events_summary:         Events Summary
             video_summary:          "Video Summary for {{name}}"
@@ -96,10 +106,10 @@ en:
             referral:               Referral
             
         referrer_categories:
-            organic search:         Organic Search
-            image search:           Image Search
-            blog search:            Blog Search
-            map search:             Map Search
+            "organic search":       Organic Search
+            "image search":         Image Search
+            "blog search":          Blog Search
+            "map search":           Map Search
             directory:              Directory Search
         visit_types:
             new:                    New
@@ -125,13 +135,95 @@ en:
             xcelsius:               To Xcelsius
             json:                   To JSON
             pdf:                    To PDF
+            jpg:                    To JPEG
         stream:
             streams:                Streams
             
     navigation:
         exports:                Export
-            
-            
-                 
-
         
+    
+    # Page titles for reports
+    page_title:
+        reports:
+            visit_overview_account:     "{{account}}'s Visit Overview {{period}}"
+            visit_overview_resource:    "{{account}}'s {{resource}} Visit Overview {{period}}"
+
+            country_account:            "{{account}}'s Visits by Country {{period}}"
+            country_resource:           "{{resource}} Visits by Country {{period}}"
+
+            locality_account:            "{{account}}'s Visits by Locality {{period}}"
+            locality_resource:           "{{resource}} Visits by Locality {{period}}"
+                        
+            language_account:           "{{account}}'s Visits by Language for {{period}}"
+            language_resource:          "Visits by Language for {{resource}} {{period}}"
+            
+            new_v_returning_account:    "{{account}}'s New & Returning Visitors {{period}}"
+            new_v_returning_resource:   "{{resource}} New & Returning Visitors {{period}}"
+            
+            depth_of_visit_account:     "{{account}}'s Visit Depth for {{period}}"
+            depth_of_visit__resource:   "Visit Depth for {{resource}} {{period}}"
+            
+            length_of_visit_account:    "{{account}}'s Visit Length for {{period}}"
+            length_of_visit_resource:   "Visit Length for {{resource}} {{period}}"       
+
+            traffic_source_account:     "{{account}}'s Traffic Sources for {{period}}"
+            traffic_source_resource:    "Traffic Sources for {{resource}} {{period}}"
+            
+            referrer_category_account:  "{{account}}'s Traffic Source Categories for {{period}}"
+            referrer_category_resource: "Traffic Source Categories for {{resource}} {{period}}" 
+            
+            search_engines_account:     "{{account}}'s Search Engines for {{period}}"
+            search_engines_resource:    "Search Engines for {{resource}} {{period}}"
+            
+            keywords_account:           "{{account}}'s Keywords for {{period}}"
+            keywords_resource:          "Keywords for {{resource}} {{period}}"  
+            
+            campaign_summary_account:   "{{account}}'s Campaign Summary for {{period}}"
+            campaign_summary_resource:  "Campaign Summary for {{resource}} {{period}}"  
+            
+            url_account:                "{{account}}'s Visits by URL for {{period}}"
+            url_resource:               "Visits by URL for {{resource}} {{period}}"  
+            
+            page_title_account:         "{{account}}'s Visits by Page Title for {{period}}"
+            page_title_resource:        "Visits by Page Title for {{resource}} {{period}}"   
+            
+            entry_page_account:         "{{account}}'s Visits by Entry Page for {{period}}"
+            entry_page_resource:        "Visits by Entry Page for {{resource}} {{period}}"
+            
+            exit_page_account:          "{{account}}'s Visits by Exit Page for {{period}}"
+            exit_page_resource:         "Visits by Exit Page for {{resource}} {{period}}"
+            
+            bounce_page_account:        "{{account}}'s Visits by Bounce Page for {{period}}"
+            bounce_page_resource:       "Visits by Bounce Page for {{resource}} {{period}}"  
+            
+            events_account:             "{{account}}'s Events for {{period}}"
+            events_resource:            "Events for {{resource}} {{period}}"
+            
+            video_account:              "{{account}}'s Video Views for {{period}}"
+            video_resource:             "Video Views for {{resource}} {{period}}" 
+            
+            internal_search_overview_account:   "{{account}}'s Internal Search for {{period}}"
+            internal_search_overview_resource:  "Internal Search for {{resource}} {{period}}"
+            
+            device_overview_account:    "{{account}}'s Device Overview for {{period}}"
+            device_overview_resource:   "Device Overview for {{resource}} {{period}}"
+            
+            deivce_account:             "{{account}}'s Visits by Device for {{period}}"
+            device_resource:            "Visits by Device for {{resource}} {{period}}"
+            
+            browser_account:            "{{account}}'s Visits by Browser for {{period}}"
+            browser_resource:           "Visits by Browser for {{resource}} {{period}}"
+            
+            os_name_account:            "{{account}}'s Visits by Operating System for {{period}}"
+            os_name_resource:           "Visits by Operating System for {{resource}} {{period}}"
+            
+            color_depth_account:        "{{account}}'s Visits by Color Depth for {{period}}"
+            color_depth_resource:       "Visits by Color Depth for {{resource}} {{period}}"
+            
+            screen_size_account:        "{{account}}'s Visits by Screen Size for {{period}}"
+            screen_size_resource:       "Visits by Screen Size for {{resource}} {{period}}"
+            
+            flash_version_account:      "{{account}}'s Visits by Flash Version for {{period}}"
+            flash_version_resource:     "Visits by Flash Version for {{resource}} {{period}}"
+                       

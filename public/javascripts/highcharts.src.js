@@ -4,7 +4,7 @@
 /**
  * @license Highcharts JS v2.1 alpha (merged changes from master 2010-09-28)
  * 
- * (c) 2009-2010 Torstein HÃ¸nsi
+ * (c) 2009-2010 Torstein Hønsi
  * 
  * License: www.highcharts.com/license
  */
@@ -1762,20 +1762,27 @@ SVGElement.prototype = {
 	/**
 	 * Get the bounding box (width, height, x and y) for the element
 	 */
-	getBBox: function() {
-		var bBox = this.element.getBBox(),
-			width = bBox.width,
-			height = bBox.height,
+	getBBox: function() {		
+		var	bBox,
+			width,
+			height,
 			rotation = this.rotation,
-			rad = rotation * deg2rad,
-			h = bBox.height;
+			rad = rotation * deg2rad;
+			
+		try { // fails in Firefox if the container has display: none
+			// use extend because IE9 is not allowed to change width and height in case 
+			// of rotation (below)
+			bBox = extend({}, this.element.getBBox());
+		} catch(e) {
+			bBox = { width: 0, height: 0 }
+		}
+		width = bBox.width;
+		height = bBox.height;
 			
 		// adjust for rotated text
 		if (rotation) {
-			try {
 			bBox.width = mathAbs(height * mathSin(rad)) + mathAbs(width * mathCos(rad));
 			bBox.height = mathAbs(height * mathCos(rad)) + mathAbs(width * mathSin(rad));
-			} catch(e) { console.log(e.message) }
 		}
 		
 		return bBox;
@@ -2624,6 +2631,14 @@ var VMLElement = extendClass( SVGElement, {
 		// append it
 		parentNode.appendChild(element);
 		
+		// align text after adding to be able to read offset
+		wrapper.added = true;
+		if (wrapper.alignOnAdd) {
+			wrapper.attr({
+				x: wrapper.x,
+				y: wrapper.y
+			})
+		}
 		
 		return wrapper;
 	},
@@ -2758,7 +2773,12 @@ var VMLElement = extendClass( SVGElement, {
 
 					this[key] = value; // used in getter
 					if (nodeName == 'SPAN') {
-
+						// aligning non added elements is expensive
+						if (!this.added) {
+							this.alignOnAdd = true;
+							continue;
+						}
+						
 						// Adjust for alignment and rotation.
 						// Test case: http://highcharts.com/tests/?file=text-rotation
 						bBox = bBox || this.getBBox();
@@ -2787,7 +2807,6 @@ var VMLElement = extendClass( SVGElement, {
 									* costheta;
 							}
 						}
-						
 						
 					}
 					elemStyle[{ x: 'left', y: 'top' }[key]] = value;
@@ -2930,30 +2949,29 @@ var VMLElement = extendClass( SVGElement, {
 	},
 	
 	/**
-	 * Calculate the bounding box based on offsets
+	 * VML override for calculating the bounding box based on offsets
 	 * 
 	 * @return {Object} A hash containing values for x, y, width and height
 	 */
 	
 	getBBox: function() {
-		var element = this.element,
-			bBox,
+		var element = this.element;
+			/*bBox,
 			hasOffsetWidth = element.offsetWidth,
 			origParentNode = element.parentNode;
 			
-		
 		if (!hasOffsetWidth) {
 			doc.body.appendChild(element);
 		}
-		
-		bBox = {
+		*/
+		return {
 			x: element.offsetLeft,
 			y: element.offsetTop,
 			width: element.offsetWidth,
 			height: element.offsetHeight
 		};
 		
-		if (!hasOffsetWidth) {
+		/*if (!hasOffsetWidth) {
 			if (origParentNode) {
 				origParentNode.appendChild(element);
 			} else {
@@ -2961,7 +2979,7 @@ var VMLElement = extendClass( SVGElement, {
 			}
 		}
 
-		return bBox;
+		return bBox;*/
 			
 	},
 	
@@ -5590,7 +5608,7 @@ function Chart (options, callback) {
 				index = inverted ? e.chartY : e.chartX - plotLeft // wtf?;
 				
 			// shared tooltip
-			if (options.shared) {
+			if (tooltip && options.shared) {
 				points = [];
 				
 				// loop over all series and find the ones with points closest to the mouse
@@ -6766,13 +6784,13 @@ function Chart (options, callback) {
 		
 		// add title and subtitle
 		each([
-			[chart.title, titleOptions, chartTitleOptions, 'title'],
-			[chart.subtitle, subtitleOptions, chartSubtitleOptions, 'subtitle']
+			['title', titleOptions, chartTitleOptions],
+			['subtitle', subtitleOptions, chartSubtitleOptions]
 		], function(arr) {
-			var title = arr[0],
+			var name = arr[0],
+				title = chart[name],
 				titleOptions = arr[1],
-				chartTitleOptions = arr[2],
-				name = arr[3];
+				chartTitleOptions = arr[2];
 				
 			if (title && titleOptions) {
 				title.destroy(); // remove old
@@ -6788,11 +6806,12 @@ function Chart (options, callback) {
 					0,
 					chartTitleOptions.align
 				)
-				.align(chartTitleOptions)
 				.attr({
 					'class': 'highcharts-'+ name,
 					zIndex: 1
-				}).add();
+				})
+				.add()
+				.align(chartTitleOptions);
 			}
 		});
 		
@@ -6983,18 +7002,22 @@ function Chart (options, callback) {
 	 * 
 	 */
 	function initReflow() {
+		var reflowTimeout;
 		function reflow() {
 			var width = renderTo.offsetWidth,
 				height = renderTo.offsetHeight;
 				
 			if (width != containerWidth || height != containerHeight) {
-				if (defined(width) && !isResizing) {
+				/*if (defined(width) && !isResizing) {
 					resize(width, height, false);
-				}
-				
-				containerWidth = width;
-				containerHeight = height;				
+				}*/
+				clearTimeout(reflowTimeout);
+				reflowTimeout = setTimeout(function() {
+					resize(width, height, false);
+				}, 100);
 			}
+			containerWidth = width;
+			containerHeight = height;
 		}
 		addEvent(window, 'resize', reflow);
 		addEvent(chart, 'destroy', function() {
@@ -7259,12 +7282,12 @@ function Chart (options, callback) {
 				0,
 				'right'
 			)
-			.align(credits.position)
 			.on('click', function() {
 				location.href = credits.href;
 			})
 			.attr({ zIndex: 8 })
-			.add(); 
+			.add()
+			.align(credits.position); 
 		}
 		
 		placeTrackerGroup();
@@ -7329,8 +7352,7 @@ function Chart (options, callback) {
 		// VML namespaces can't be added until after complete. Listening
 		// for Perini's doScroll hack is not enough.
 		var onreadystatechange = 'onreadystatechange';
-		
-		if (!hasSVG && !win.parent && doc.readyState != 'complete') {
+		if (!hasSVG && doc.readyState != 'complete') {
 			doc.attachEvent(onreadystatechange, function() {
 				doc.detachEvent(onreadystatechange, arguments.callee);
 				firstRender();
@@ -7545,10 +7567,14 @@ Point.prototype = {
 	 */
 	destroy: function() {
 		var point = this,
+			series = point.series,
 			prop;
 			
-		if (point == point.series.chart.hoverPoint) {
+		if (point == series.chart.hoverPoint) {
 			point.onMouseOut();
+		}
+		if (point == series.hoverPoint) {
+			series.hoverPoint = null;
 		}
 		
 		// remove all events
@@ -9417,7 +9443,7 @@ var ColumnSeries = extendClass(Series, {
 		each (series.data, function(point) {
 			tracker = point.tracker;
 			shapeArgs = point.trackerArgs || point.shapeArgs;
-			//if (!isNaN(point.plotY)) {
+			if (!isNaN(point.plotY)) {
 				if (tracker) {// update
 					tracker.attr(shapeArgs);
 					
@@ -9449,7 +9475,7 @@ var ColumnSeries = extendClass(Series, {
 						.css(css)
 						.add(chart.trackerGroup);
 				}
-			//}
+			}
 		});				
 	},
 	

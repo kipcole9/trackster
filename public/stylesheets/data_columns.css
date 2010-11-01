@@ -8,11 +8,10 @@ col.page_views, col.event_count, col.page_views_per_visit {
 }
 col.depth_of_visit, col.length_of_visit,
 col.device, col.browser, col.os_name, col.color_depth, col.screen_size,
-col.flash_version, col.page_title, col.contact_code,
-col.language  {
+col.flash_version, col.contact_code, col.language  {
 	width: 8em;
 }
-col.country{
+col.country {
 	width: 11em;
 }
 col.count, col.visits, col.exit_rate,
@@ -28,7 +27,7 @@ col.bounce_rate, col.value, col.traffic_source {
 col.url, col.open_rate, col.click_through_rate {
 	width: 25%;
 }
-.pageview_top_10 col.url, .campaign_clicks col.page_title, .campaign_clicks col.url, {
+.pageview_top_10 col.url, col.page_title, .campaign_clicks col.url {
 	width: 50%;
 }
 col.entry_rate {

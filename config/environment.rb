@@ -42,9 +42,9 @@ Rails::Initializer.run do |config|
   config.gem 'hoptoad_notifier'
   config.gem 'cloudfiles'
   config.gem 'attribute_normalizer'
+  config.gem 'ar_result_calculations'
   config.gem 'ar_to_html_table'
   config.gem "ip"
-  config.gem 'rest-client'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

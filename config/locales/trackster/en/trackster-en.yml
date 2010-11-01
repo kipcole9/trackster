@@ -87,13 +87,7 @@ en:
             edit_resource:          "Edit {{account}}'s {{resource}} Web Property"
             edit:                   "{{acount}}: Edit Property"
             index:                  "{{account}}'s Web Property Index"
-        reports:
-            visit_overview_account:     "{{account}}'s Visit Overview {{period}}"
-            country_account:            "{{account}} Visits by Country {{period}}"
-            language_account:           "Visits by Language for {{account}} {{period}}"
-            visit_overview_resource:    "{{account}}'s {{resource}} Visit Overview {{period}}"
-            country_resource:           "{{resource}} Visits by Country {{period}}"
-            language_resource:          "Visits by Language for {{resource}} {{period}}"            
+        
                 
 
                 

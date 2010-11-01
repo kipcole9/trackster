@@ -47,20 +47,23 @@ en:
           parameters:     Segmentation
           list:           Lists
           no_content_defined: No content defined.  Campaign cannot be delivered until you <a href={{link}}>define content</a> and add it to the campaign.
+      
+      # Panel headings for reports
       reports:
-            impressions_by_browser:               Email client {{time_period}}
-            impressions_graph_by_browser:         Email client {{time_period}}        
-            impressions_graph:                    Impressions by {{time_group}} {{time_period}}
-            campaign_summary:                     Campaign Summary {{time_period}}
-            campaign_impressions:                 Campaign Impressions {{time_period}}
-            campaign_clicks:                      Campaign Clicks {{time_period}}
-            campaign_clicks_by_url:               Clicks by URL {{time_period}}
-            campaign_clicks_by_link_text:         Clicks by Link Text {{time_period}}
-            campaign_clicks_by_email_client:      Clicks by Email Client {{time_period}}
-            campaign_contacts_summary:            Contact Response Summary  {{time_period}}
-            campaign_no_response_summary:         Contact Non-response Summary {{time_period}}
-            campaign_funnel:                      Campaign Funnel {{time_period}}
+            impressions_by_browser:               Email client
+            impressions_graph_by_browser:         Email client   
+            impressions_graph:                    Impressions by {{time_group}}
+            campaign_summary:                     Campaign Summary
+            campaign_impressions:                 Campaign Impressions
+            campaign_clicks:                      Campaign Clicks
+            campaign_clicks_by_url:               Clicks by URL
+            campaign_clicks_by_link_text:         Clicks by Link Text
+            campaign_clicks_by_email_client:      Clicks by Email Client
+            campaign_contacts_summary:            Contact Response Summary
+            campaign_no_response_summary:         Contact Non-response Summary
+            campaign_funnel:                      Campaign Funnel
 
+    # Navigation sidebar
     reports:
         name:
           campaign_summary:                     Campaign Summary

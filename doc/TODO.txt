@@ -4,35 +4,52 @@ Building a new server.
 2.  Building the hosts file fails the first time.  Fix that.
 3.  Building nginx from source starts the nginx service.  We don't always want that - fix it.
 
-
-App stuff
-
-2.	After login (forced) should redirect back to the page they requested - set redirect cookie
-
-
 Table formatter
 
-*	Arguments to formatters that are merged into options at execution.  Add no_set_on_blank and
-unknown_on_blank as arguments to numeric formatters
+*	Add no_set_on_blank and unknown_on_blank as arguments to numeric formatters; :options => ....
 
 *	Add linkability to formatters.  Need to work out how to specify the url such that can plug in 
 relevant parameters?
+
+Missing Reports
+
+*	Content Overview
+
+*	Traffic Source Overview
+
+*	Loyalty Overview
+
+*	Internal Search Overview
 
 Charts
 
 *	Multiseries for charts as standard
 
-*	Series gap filling in result sets
-
 * 	Spline, regression, average lines
 
 *	Plotband for campaign start and finish
+
+Navigation
+
+*	overflow: none on navigation divs to prevent scroll bars ever
+
+Reports
+
+*	Finish up new report translations for report headings
+
+*	Remove time groups and period from panel headings
+
+*	Default translation for period and time group should be blank (avoid translation error)
+
+Campaign Reports
+
+*	Add additional dimensions like device in campaign reporting. 
 
 Templates
 
 *	Collapse into one template for the site
 
-*	Ajax loading of page content (hijack links and ajax load)
+*	Ajax loading of page content (hijack links and ajax load) so works as "Web App" on iPad
 
 Navigation
 
@@ -44,8 +61,6 @@ Issues
 
 *	Click map - better way to highlight no links?
 
-*	Graphs not appears in IE (javascript)
-
-*	Account dropdown
+*	Graphs not appears in IE 7 (javascript)
 
 *	Documentation
