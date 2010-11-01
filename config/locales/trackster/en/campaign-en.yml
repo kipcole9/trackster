@@ -75,6 +75,7 @@ en:
           campaign_click_map:                   Click Map
           campaign_funnel:                      Campaign Funnel
     
+    # Panel headings for navigation
     panels:
       campaign_navigation:        Metrics
       campaign_index:             Campaigns

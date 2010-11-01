@@ -33,11 +33,9 @@ Navigation
 
 *	overflow: none on navigation divs to prevent scroll bars ever
 
+*	<li> items overflow: elipsis
+
 Reports
-
-*	Finish up new report translations for report headings
-
-*	Remove time groups and period from panel headings
 
 *	Default translation for period and time group should be blank (avoid translation error)
 

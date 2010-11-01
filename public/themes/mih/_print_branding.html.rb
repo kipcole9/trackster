@@ -9,7 +9,7 @@ clear do
           h1 page_title
         end
         with_tag :td, :id => 'company-logo' do
-          img "#{Trackster::Theme.current_theme_path}/logo.png", :id => "logo"
+          img "#{Trackster::Theme.current_theme_path}/logo_print.gif", :id => "logo"
         end
       end
     end
