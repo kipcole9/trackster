@@ -138,6 +138,14 @@ module Trackster
         [campaign_parameters, "utcat=email", "utact=open"].compress.join('&')
       end
 
+      def print_parameters
+        [campaign_parameters, "utcat=email", "utact=print"].compress.join('&')
+      end
+      
+      def forward_parameters
+        [campaign_parameters, "utcat=email", "utact=forward"].compress.join('&')
+      end
+      
       def campaign_parameters
         params = ''
         if campaign

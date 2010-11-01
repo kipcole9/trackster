@@ -80,12 +80,15 @@ module Trackster
     class HtmlEmail < Trackster::Translinker::Base
       include Trackster::Translinker::HtmlTagsWithUrls
       
+      STYLES_FILE     = "#{File.dirname(__FILE__)}/templates/email_styles.erb"
+      DIV_FILE        = "#{File.dirname(__FILE__)}/templates/email_body_div.erb"
+      
       def translink_parsed_document
         make_anchors_into_redirects
         make_links_absolute(TAGS_WITH_URLS - ['a', 'img'])
         copy_images? ? copy_images_to_cloud : make_image_links_absolute
         move_css_files_inline if move_css_files_inline?
-        add_tracker_link      if add_tracker?
+        add_trackers         if add_tracker?
         add_web_view_link     if add_web_view_link?
         add_unsubscribe_link  if add_unsubscribe_link?
         return unfix_entities(html.to_html)
@@ -105,7 +108,12 @@ module Trackster
         !errors.empty?
       end
 
-    protected    
+    protected
+      def add_trackers
+        add_view_tracker
+        add_print_and_forward_trackers
+      end
+      
       def make_anchors_into_redirects  
         (html/"a").each do |link|
           next unless url = link_attribute?(link, 'href')
@@ -183,7 +191,7 @@ module Trackster
       # Adds an image link at the end of the body of the document whose
       # purpose is to create a tracking entry in the log that we use to
       # detect an email being opened.
-      def add_tracker_link
+      def add_view_tracker
         tracking_node = Nokogiri::XML::Node.new('img', html)
         tracking_node['src'] = [Trackster::Config.email_open_tracker_url, open_parameters].join('?')
         tracking_node['style'] = "display:none"
@@ -191,6 +199,19 @@ module Trackster
         body.add_child(tracking_node)
       end
       
+      # Some trickery to try to detect prints and forwards.
+      def add_print_and_forward_trackers
+        print_tracking_url = [Trackster::Config.tracker_url, print_parameters].join('?')
+        forward_tracking_url = [Trackster::Config.tracker_url, forward_parameters].join('?')
+        styles = ERB.new(File.read(STYLES_FILE)).result(binding)
+
+        styles_node = Nokogiri::XML::CDATA.new(html, styles)
+        html.css("head").first.add_child(styles_node)
+
+        div = ERB.new(File.read(DIV_FILE)).result(binding)
+        div_node = Nokogiri::XML::CDATA.new(html, div)
+        html.css("body").first.add_child(div_node)
+      end
 
       # Links to a web page for people who can't otherwise view the message
       #
