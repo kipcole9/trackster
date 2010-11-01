@@ -1,0 +1,16 @@
+en:
+    doctypes:
+        pdf:            ['document', 'download']
+        xls:            ['document', 'download']
+        xlsx:           ['document', 'download']
+        ppt:            ['document', 'download']
+        pptx:           ['document', 'download']
+        doc:            ['document', 'download']
+        docx:           ['document', 'download']
+        wmv:            ['video', 'play']
+        avi:            ['video', 'play']
+        mp4:            ['video', 'play']
+        m4v:            ['video', 'play']
+        ogg:            ['video', 'play']
+        mp3:            ['audio', 'play']
+        
