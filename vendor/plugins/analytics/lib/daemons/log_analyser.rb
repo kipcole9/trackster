@@ -17,9 +17,11 @@ require "#{rails_root}/config/environment"
 # Include support methods for the analyser
 include Daemons::AnalyserSupport
 
+TRACKER_LOG_FORMAT = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for, :request_time]
+
 logger.info "[Log Analyser] Starting at #{Time.now}."
 tailer = LogTailer.new
-parser = Analytics::LogParser.new
+parser = Analytics::LogParser.new(:format => TRACKER_LOG_FORMAT)
 
 # This is where the real work begins. Tail the log, parse each entry into
 # a hash and pass the hash to the analyser.  The analyser builds an object

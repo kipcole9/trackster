@@ -129,16 +129,33 @@ module Analytics
           @@impressions = "sum(impressions)"
           named_scope :impressions,
             :select => "#{@@impressions} as impressions"
+            
+          @@unique_impressions = "min(impressions)"
+          named_scope :unique_impressions,
+            :select => "#{@@unique_impressions} as unique_impressions"
+            :having => "unique_impressions is not null"
                              
           @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
           named_scope :clicks_through,
             :select => "#{@@clicks_through} as clicks_through"
-          
+
+          @@unique_clicks_through = "min(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"  
+          named_scope :unique_clicks_through,
+            :select => "#{@@unique_clicks_through} as unique_clicks_through",
+            :having => "unique_clicks_through is not null"
+                        
           named_scope :click_through_rate,
             :select => "(#{@@clicks_through} / #{@@impressions} * 100) as click_through_rate"
+
+          named_scope :unique_click_through_rate,
+            :select => "(#{@@unique_clicks_through} / #{@@impressions} * 100) as unique_click_through_rate"
           
           named_scope :open_rate,
             :select => "(#{@@impressions} / distribution * 100) as open_rate",
+            :joins => :campaign
+          
+          named_scope :unique_open_rate,
+            :select => "(#{@@unique_impressions} / distribution * 100) as unique_open_rate",
             :joins => :campaign
 
           @@cost =  'avg(cost)'    

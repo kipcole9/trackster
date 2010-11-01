@@ -217,6 +217,10 @@ module Analytics
       log[:forwarded_for]
     end
     
+    def request_time
+      log[:request_time] ? log[:request_time].to_f : nil
+    end
+    
     def referrer_category
       email? ? Event::EMAIL_CATEGORY : _referrer.category
     end

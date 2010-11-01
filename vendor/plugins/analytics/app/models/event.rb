@@ -39,14 +39,23 @@ class Event < ActiveRecord::Base
     event = new_from_track(session, track)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       previous_event.exit_page = false
-      previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i
+      previous_event.duration ||= (event.tracked_at - previous_event.tracked_at).to_i 
       event.entry_page = false
       previous_event.save!
     else
       event.entry_page = true
     end
     event.exit_page = true
-    session.ended_at = track.tracked_at
+    
+    # If its an email open then force the end of session time
+    # to match the duration of the opening (Session calculates
+    # duration on save)
+    if event.email_opening? && event.duration && !previous_event
+      session.ended_at = session.started_at + event.duration.seconds
+    else
+      session.ended_at = track.tracked_at
+    end
+    
     event.save!
   end
  
@@ -127,6 +136,12 @@ private
       event.action    = VIEW_ACTION
       event.label     = event.page_title
     end
+    
+    # For email openings we treat the request_time as the amount of
+    # time in seconds that the email was being read.  Relies upon
+    # streaming the tracking image.
+    event.duration = track.request_time if track.request_time && event.email_opening?
+    
     event
   end
   

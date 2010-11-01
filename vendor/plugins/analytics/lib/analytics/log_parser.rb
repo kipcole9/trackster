@@ -10,7 +10,8 @@ module Analytics
       :size           => "(\\S*)",
       :referer        => "\"(.+?)\"",
       :user_agent     => "\"(.+?)\"",
-      :forwarded_for  => "\"(.+?)\""
+      :forwarded_for  => "\"(.+?)\"",
+      :request_time   => "(\\S*)"
     }
   
     COMMON_LOG_FORMAT = [:ip_address, :remote, :user, :time, :request, :status, :size, :referer, :user_agent, :forwarded_for]
