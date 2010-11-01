@@ -41,7 +41,7 @@ class Redirect < ActiveRecord::Base
     redirect
   end
   
-  def category_and_action_from(url)
+  def self.category_and_action_from(url)
     path = parsed_url(url).path
     defaults = ['page', 'view']
     doctype = path.split('/').last.split('.').last
@@ -64,16 +64,16 @@ class Redirect < ActiveRecord::Base
     link_content.try(:strip).blank? ? name_from_url(url) : link_content.strip
   end
   
-  def parsed_url(url)
+  def self.parsed_url(url)
     URI.parse(url)
   end
   
   def self.name_from_url(url)
-    path = parsed_url.path
+    path = parsed_url(url).path
   end
   
   def self.get_absolute_url(base_url, url)
-    if parsed_url.scheme
+    if parsed_url(url).scheme
       url
     else
       [base_url, url.without_slash].compact.join('/').gsub('//','/')
