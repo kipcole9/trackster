@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
     event = new_from_track(session, track)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
       previous_event.exit_page = false
-      previous_event.duration ||= (event.tracked_at - previous_event.tracked_at).to_i 
+      previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i if !previous_event.duration || previous_event.duration == 0
       event.entry_page = false
       previous_event.save!
     else

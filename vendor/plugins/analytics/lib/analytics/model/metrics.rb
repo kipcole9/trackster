@@ -132,7 +132,7 @@ module Analytics
             
           @@unique_impressions = "min(impressions)"
           named_scope :unique_impressions,
-            :select => "#{@@unique_impressions} as unique_impressions"
+            :select => "#{@@unique_impressions} as unique_impressions",
             :having => "unique_impressions is not null"
                              
           @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
