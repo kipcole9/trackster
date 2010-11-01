@@ -2,7 +2,7 @@ module Analytics
   class TrackEvent
     include Analytics::Params
     REDIRECT_URL = /\A\/r\//
-    TRACKER_URL  = /\A\/_tks.gif\?/
+    TRACKER_URL  = /\A\/_(tks|tk2).gif\?/
     VALID_PARAMS = {
       # The tracking code, linked to an account
       # Needs to be on each tracking request or URL
