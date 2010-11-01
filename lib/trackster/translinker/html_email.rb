@@ -185,7 +185,7 @@ module Trackster
       # detect an email being opened.
       def add_tracker_link
         tracking_node = Nokogiri::XML::Node.new('img', html)
-        tracking_node['src'] = [Trackster::Config.tracker_url, open_parameters].join('?')
+        tracking_node['src'] = [Trackster::Config.email_open_tracker_url, open_parameters].join('?')
         tracking_node['style'] = "display:none"
         body = html.css("body").first
         body.add_child(tracking_node)
