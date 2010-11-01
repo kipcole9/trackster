@@ -192,7 +192,7 @@ private
   
   # We ignore 0 request time because that means its old style 
   # tracking with non-streaming GIF.
-  def valid_request_time?(track)
+  def self.valid_request_time?(track)
     track.request_time && track.request_time > 0 
   end
 end
