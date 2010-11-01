@@ -1472,8 +1472,10 @@ SVGElement.prototype = {
 							attr(child, 'x', value);
 						}
 					}
+					
 					if (this.rotation) {
-						attr(element, 'transform', 'rotate('+ this.rotation +' '+ value +' '+ (hash.y || attr(element, 'y')) +')');
+						attr(element, 'transform', 'rotate('+ this.rotation +' '+ value +' '+
+							pInt(hash.y || attr(element, 'y')) +')');
 					}
 					
 				// apply gradients
@@ -3262,7 +3264,7 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 		var vmlStyle = 'display:inline-block;behavior:url(#default#VML);',
 			isIE8 = this.isIE8;
 	
-		try { // bug in IE9 Beta 1, quirks mode - check this again with later upgrades
+		try { // bug in IE9 Beta 2, quirks mode - check this again with later upgrades
 			markup = markup.join('');
 		} catch (e) {
 			var s = '', i = 0;
@@ -8055,17 +8057,15 @@ Series.prototype = {
 	 * Replace the series data with a new set of data
 	 * @param {Object} data
 	 * @param {Object} redraw
-	 * @param {Boolean|Object} animation Whether to apply animation, and optionally animation
-	 *    configuration
 	 */
-	setData: function(data, redraw, animation) {
+	setData: function(data, redraw) {
 		var series = this,
 			oldData = series.data,
 			initialColor = series.initialColor,
 			chart = series.chart,
 			i = oldData && oldData.length || 0;
 		
-		globalAnimation = animation;
+		globalAnimation = false;
 		series.xIncrement = null; // reset for new data
 		if (defined(initialColor)) { // reset colors for pie
 			colorCounter = initialColor;
