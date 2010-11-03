@@ -33,6 +33,7 @@ var doc = document,
 	// some variables
 	userAgent = navigator.userAgent,
 	isIE = /msie/i.test(userAgent) && !win.opera,
+	docMode8 = doc.documentMode == 8,
 	isWebKit = /AppleWebKit/.test(userAgent),
 	hasSVG = win.SVGAngle || doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
 	colorCounter,
@@ -840,7 +841,7 @@ defaultOptions = {
 		labelFormatter: function() {
 			return this.name;
 		},
-		// lineHeight: 16,
+		// lineHeight: 16, // docs: deprecated
 		borderWidth: 1,
 		borderColor: '#909090',
 		borderRadius: 5,
@@ -977,7 +978,7 @@ var defaultXAxisOptions =  {
 	//offset: 0,
 	//plotBands: [{
 	//	events: {},
-	//	zIndex: null,
+	//	zIndex: 1,
 	//	labels: { align, x, verticalAlign, y, style, rotation, textAlign }
 	//}],
 	//plotLines: [{
@@ -2067,6 +2068,7 @@ SVGRenderer.prototype = {
 						// Firefox ignores spaces at the front or end of the tspan
 						attributes.dx = 3; // space
 					}
+					
 					if (lineNo && !spanNo) { // first span on subsequent line, add the line height
 						attributes.dy = 16;
 					}
@@ -2585,6 +2587,10 @@ var VMLElement = extendClass( SVGElement, {
 		if (nodeName == 'shape' || nodeName == DIV) {
 			style.push('left:0;top:0;width:10px;height:10px;');
 		}
+		if (docMode8) {
+			style.push('visibility: ', nodeName == DIV ? HIDDEN : VISIBLE);
+		}
+		
 		markup.push(' style="', style.join(''), '"/>');
 		
 		// create element with default attributes and style
@@ -2662,7 +2668,6 @@ var VMLElement = extendClass( SVGElement, {
 			hasSetSymbolSize,
 			shadows = this.shadows,
 			bBox,
-			documentMode = doc.documentMode,
 			skipAttr,
 			ret = this;
 			
@@ -2677,8 +2682,7 @@ var VMLElement = extendClass( SVGElement, {
 		if (isString(hash)) {
 			key = hash;
 			if (key == 'strokeWidth' || key == 'stroke-width') {
-				ret = element.strokeweight;
-				
+				ret = this.strokeweight;
 			} else {
 				ret = this[key];
 			}
@@ -2742,16 +2746,22 @@ var VMLElement = extendClass( SVGElement, {
 	
 				// directly mapped to css
 				} else if (key == 'zIndex' || key == 'visibility') {
+					
+					// issue 61 workaround
+					if (docMode8 && key == 'visibility' && nodeName == 'DIV') {
+						each(element.childNodes, function(childNode) {
+							css(childNode, { visibility: value });
+						});
+						if (value == VISIBLE) { // issue 74
+							value = null;
+						}
+					}
+					
 					if (value) {
 						elemStyle[key] = value;
 					}
 					
-					// issue 61 workaround
-					if (documentMode == 8 && key == 'visibility' && nodeName == 'DIV') {
-						each(element.childNodes, function(childNode) {
-							css(childNode, { visibility: value });
-						});
-					}
+					
 					
 					skipAttr = true;
 				
@@ -2829,6 +2839,7 @@ var VMLElement = extendClass( SVGElement, {
 				} else if (key == 'stroke-width' || key == 'strokeWidth') {
 					element.stroked = value ? true : false;
 					key = 'strokeweight';
+					this[key] = value; // used in getter, issue #113
 					if (isNumber(value)) {
 						value += PX;
 					}
@@ -2882,7 +2893,7 @@ var VMLElement = extendClass( SVGElement, {
 				
 				
 				if (!skipAttr) {
-					if (documentMode == 8) { // IE8 setAttribute bug
+					if (docMode8) { // IE8 setAttribute bug
 						element[key] = value;
 					} else {
 						attr(element, key, value);
@@ -3160,12 +3171,13 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 					};
 					
 				// issue 74 workaround
-				if (!inverted && doc.documentMode == 8) {
+				if (!inverted && docMode8) {
 					extend(ret, {
 						width: right +PX,
 						height: bottom +PX
 					});
 				}
+				
 				return ret;
 			},
 			
@@ -3340,7 +3352,6 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 					', M12=', -sintheta, ', M21=', sintheta, ', M22=', costheta, 
 					', sizingMethod=\'auto expand\')'].join('')
 			});
-
 			elemWrapper.costheta = costheta;
 			elemWrapper.sintheta = sintheta;
 		}
@@ -3394,7 +3405,7 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 		if (name) {
 			attribs = { 'className': PREFIX + name, 'class': PREFIX + name };
 		}
-			
+		
 		// the div to hold HTML and clipping	
 		wrapper = this.createElement(DIV).attr(attribs);
 		
@@ -3648,7 +3659,8 @@ function Chart (options, callback) {
 		isInsidePlot, // function
 		tooltip,
 		mouseIsDown,
-		loadingLayer,
+		loadingDiv,
+		loadingSpan,
 		loadingShown,
 		plotHeight,
 		plotWidth,
@@ -4040,7 +4052,6 @@ function Chart (options, callback) {
 			} else {
 				return;
 			}
-			
 			// zIndex 
 			if (defined(zIndex)) {
 				attribs.zIndex = zIndex;
@@ -4821,7 +4832,9 @@ function Chart (options, callback) {
 		 * @param options {Object} The plotBand or plotLine configuration object
 		 */
 		function addPlotBandOrLine(options) {
-			var obj = new PlotLineOrBand(options).render();
+			var obj = new PlotLineOrBand(
+				extend({ zIndex: 1 }, options)
+			).render();
 			plotLinesAndBands.push(obj);
 			return obj;
 		}
@@ -4963,16 +4976,19 @@ function Chart (options, callback) {
 				}
 				
 				// custom plot bands (behind grid lines)
-				if (!hasRendered) { // only first time
+				/*if (!hasRendered) { // only first time
 					each (options.plotBands || [], function(plotBandOptions) {
-						plotLinesAndBands.push(new PlotLineOrBand(plotBandOptions).render());
+						plotLinesAndBands.push(new PlotLineOrBand(
+							extend({ zIndex: 1 }, plotBandOptions)
+						).render());
 					});
-				}
+				}*/
 				
 				
 				// minor ticks and grid lines
 				if (minorTickInterval && !categories) {
-					for (var pos = min; pos <= max; pos += minorTickInterval) {
+					var pos = min + (tickPositions[0] - min) % minorTickInterval;
+					for (pos; pos <= max; pos += minorTickInterval) {
 						if (!minorTicks[pos]) {
 							minorTicks[pos] = new Tick(pos, true);
 						}
@@ -5000,10 +5016,12 @@ function Chart (options, callback) {
 				});
 			
 				
-				// custom plot lines (in front of grid lines)
+				// custom plot lines and bands
 				if (!hasRendered) { // only first time
-					each (options.plotLines || [], function(plotLineOptions) {
-						plotLinesAndBands.push(new PlotLineOrBand(plotLineOptions).render());
+					each ((options.plotLines || []).concat(options.plotBands || []), function(plotLineOptions) {
+						plotLinesAndBands.push(new PlotLineOrBand(
+							extend({ zIndex: 1 }, plotLineOptions)
+						).render());
 					});
 				}
 				
@@ -5139,8 +5157,9 @@ function Chart (options, callback) {
 				
 				// optionally redraw
 				axis.isDirty = true;
+				
 				if (pick(doRedraw, true)) {
-					redraw();  // redraw axis
+					chart.redraw();
 				}
 		}
 		
@@ -5263,7 +5282,6 @@ function Chart (options, callback) {
 		// create the elements
 		var group = renderer.g('tooltip')
 			.attr({	zIndex: 8 })
-			.hide()
 			.add(),
 			
 			box = renderer.rect(boxOffLeft, boxOffLeft, 0, 0, options.borderRadius, borderWidth).
@@ -5277,6 +5295,8 @@ function Chart (options, callback) {
 				attr({ zIndex: 1 }).
 				css(style).
 				add(group);
+				
+		group.hide();
 				
 		/**
 		 * In case no user defined formatter is given, this will be used
@@ -5419,7 +5439,7 @@ function Chart (options, callback) {
 				
 				
 			// hide tooltip if the point falls outside the plot
-			show = isInsidePlot(x, y);
+			show = !point.series.isCartesian || isInsidePlot(x, y);
 			
 			// update the inner HTML
 			if (text === false || !show) { 
@@ -6014,12 +6034,13 @@ function Chart (options, callback) {
 			itemHiddenStyle = options.itemHiddenStyle,
 			padding = pInt(style.padding),
 			rightPadding = 20,
-			lineHeight = options.lineHeight || 16,
+			//lineHeight = options.lineHeight || 16,
 			y = 18,
 			initialItemX = 4 + padding + symbolWidth + symbolPadding,
 			itemX,
 			itemY,
 			lastItemY,
+			lastItemHeight,
 			box,
 			legendBorderWidth = options.borderWidth,
 			legendBackgroundColor = options.backgroundColor,
@@ -6259,6 +6280,7 @@ function Chart (options, callback) {
 			// calculate the positions for the next line
 			bBox = li.getBBox();
 			lastItemY = itemY;
+			lastItemHeight = bBox.height;
 			
 			item.legendItemWidth = itemWidth = 
 				options.itemWidth || symbolWidth + symbolPadding + bBox.width + rightPadding;
@@ -6269,11 +6291,11 @@ function Chart (options, callback) {
 				if (itemX - initialItemX + itemWidth > 
 						(widthOption || (chartWidth - 2 * padding - initialItemX))) { // new line
 					itemX = initialItemX;
-					itemY += lineHeight;
+					itemY += lastItemHeight;
 				}
 				
 			} else {
-				itemY += lineHeight;
+				itemY += lastItemHeight;
 				// the width of the widest item
 				offsetWidth = widthOption || mathMax(itemWidth, offsetWidth);			
 			}		
@@ -6324,7 +6346,7 @@ function Chart (options, callback) {
 			
 			// Draw the border
 			legendWidth = widthOption || offsetWidth;
-			legendHeight = lastItemY - y + lineHeight;
+			legendHeight = lastItemY - y + lastItemHeight;
 			
 			if (legendBorderWidth || legendBackgroundColor) {
 				legendWidth += 2 * padding;
@@ -6597,8 +6619,8 @@ function Chart (options, callback) {
 		var loadingOptions = options.loading;
 
 		// create the layer at the first call
-		if (!loadingLayer) {
-			loadingLayer = createElement(DIV, {
+		if (!loadingDiv) {
+			loadingDiv = createElement(DIV, {
 				className: 'highcharts-loading'
 			}, extend(loadingOptions.style, {
 				left: plotLeft + PX,
@@ -6609,16 +6631,22 @@ function Chart (options, callback) {
 				display: NONE
 			}), container);
 			
-			createElement('span', null, loadingOptions.labelStyle, loadingLayer);
+			loadingSpan = createElement(
+				'span', 
+				null, 
+				loadingOptions.labelStyle, 
+				loadingDiv
+			);
 
 		}
 		
+		// update text
+		loadingSpan.innerHTML = str || options.lang.loading;
 		
 		// show it
 		if (!loadingShown) {
-			css(loadingLayer, { opacity: 0, display: '' });
-			loadingLayer.getElementsByTagName('span')[0].innerHTML = str || options.lang.loading;
-			animate(loadingLayer, {
+			css(loadingDiv, { opacity: 0, display: '' });
+			animate(loadingDiv, {
 				opacity: loadingOptions.style.opacity
 			}, {
 				duration: loadingOptions.showDuration
@@ -6630,12 +6658,12 @@ function Chart (options, callback) {
 	 * Hide the loading layer
 	 */
 	function hideLoading() {
-		animate(loadingLayer, {
+		animate(loadingDiv, {
 			opacity: 0
 		}, {
 			duration: options.loading.hideDuration, 
 			complete: function() {
-				css(loadingLayer, { display: NONE });
+				css(loadingDiv, { display: NONE });
 			}
 		});
 		loadingShown = false;
@@ -7314,7 +7342,8 @@ function Chart (options, callback) {
 	 * Clean up memory usage
 	 */
 	function destroy() {
-		var i = series.length;
+		var i = series.length,
+			parentNode = container.parentNode;
 		
 		// fire the chart.destoy event
 		fireEvent(chart, 'destroy');
@@ -7335,7 +7364,7 @@ function Chart (options, callback) {
 		// remove container and all SVG
 		container.innerHTML = '';
 		removeEvent(container);
-		container.parentNode.removeChild(container);
+		parentNode && parentNode.removeChild(container);
 		
 		// IE6 leak 
 		container =	null;
@@ -9344,7 +9373,7 @@ var ColumnSeries = extendClass(Series, {
 				(reversedXAxis ? -1 : 1),
 			threshold = options.threshold || 0,
 			translatedThreshold = series.yAxis.getThreshold(threshold),
-			minPointLength = options.minPointLength;
+			minPointLength = pick(options.minPointLength, 5);
 			
 		// record the new values
 		each (data, function(point) {
@@ -9357,10 +9386,13 @@ var ColumnSeries = extendClass(Series, {
 				trackerY;
 			
 			// handle options.minPointLength and tracker for small points
-			if (mathAbs(barH) < (minPointLength || 5)) { 
+			if (mathAbs(barH) < minPointLength) { 
 				if (minPointLength) {
 					barH = minPointLength;
-					barY = translatedThreshold - (plotY <= translatedThreshold ? minPointLength : 0);
+					barY = 
+						mathAbs(barY - translatedThreshold) > minPointLength ? // stacked
+							yBottom - minPointLength : // keep position
+							translatedThreshold - (plotY <= translatedThreshold ? minPointLength : 0);
 				}
 				trackerY = barY - 3;
 			}
@@ -9382,7 +9414,7 @@ var ColumnSeries = extendClass(Series, {
 			
 			// make small columns responsive to mouse
 			point.trackerArgs = defined(trackerY) && merge(point.shapeArgs, {
-				height: 6,
+				height: mathMax(6, barH + 3),
 				y: trackerY
 			});
 		});
@@ -9448,7 +9480,7 @@ var ColumnSeries = extendClass(Series, {
 		each (series.data, function(point) {
 			tracker = point.tracker;
 			shapeArgs = point.trackerArgs || point.shapeArgs;
-			if (!isNaN(point.plotY)) {
+			if (point.y !== null) {
 				if (tracker) {// update
 					tracker.attr(shapeArgs);
 					
@@ -9680,11 +9712,13 @@ var PiePoint = extendClass(Point, {
 	 * @param {Boolean} sliced When undefined, the slice state is toggled 
 	 * @param {Boolean} redraw Whether to redraw the chart. True by default.
 	 */
-	slice: function(sliced, redraw) {
+	slice: function(sliced, redraw, animation) {
 		var point = this,
 			series = point.series,
 			chart = series.chart,
 			slicedTranslation = point.slicedTranslation;
+			
+		globalAnimation = animation;
 		
 		// redraw is true by default
 		redraw = pick(redraw, true);
@@ -9695,7 +9729,7 @@ var PiePoint = extendClass(Point, {
 		point.group.animate({
 			translateX: (sliced ? slicedTranslation[0] : chart.plotLeft),
 			translateY: (sliced ? slicedTranslation[1] : chart.plotTop)
-		}, 100);
+		});
 		
 	}
 });
@@ -9951,7 +9985,7 @@ var PieSeries = extendClass(Series, {
 			data = series.data,
 			chart = series.chart,
 			options = series.options.dataLabels,
-			connectorPadding = options.connectorPadding || 10,
+			connectorPadding = pick(options.connectorPadding, 10),
 			connectorWidth = pick(options.connectorWidth, 1),
 			connector,
 			connectorPath,
@@ -10066,12 +10100,15 @@ var PieSeries = extendClass(Series, {
 						if (secondPass) {
 						
 							// move or place the data label
-							dataLabel.animate({
-								x: x + options.x 
-									+ ({ left: connectorPadding, right: -connectorPadding }[labelPos[6]] || 0),
-								y: y + options.y							
-							});
-							dataLabel.attr('visibility', visibility);
+							dataLabel
+								.attr({
+									visibility: visibility								
+								})
+								.animate({
+									x: x + options.x 
+										+ ({ left: connectorPadding, right: -connectorPadding }[labelPos[6]] || 0),
+									y: y + options.y
+								});
 							
 							// draw the connector
 							if (outside && connectorWidth) {

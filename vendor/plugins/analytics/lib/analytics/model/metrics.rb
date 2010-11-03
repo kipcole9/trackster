@@ -135,13 +135,19 @@ module Analytics
           # This is only doing uniques on campaign_name
           # when we also want to do uniques on other dimensions
           # like content - needs work
+          #
+          # Also note all uniques_ have to be chained AFTER the between()
+          # call since it supplied the started_at_id and ended_at_id columns
+          # and forward references are not permitted in MySQL
           @@unique_impressions = <<-EOF
             (select count(distinct contact_code) from sessions s 
           		where s.campaign_id = sessions.campaign_id
+          		and contact_code IS NOT NULL
           		and impressions > 0
+          		and started_at BETWEEN started_at_id AND ended_at_id          		
           	)
           EOF
-          named_scope :unique_impressions,
+          named_scope :unique_impressions, 
             :select => "#{@@unique_impressions} as unique_impressions"
                              
           @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
@@ -154,11 +160,13 @@ module Analytics
           @@unique_clicks_through = <<-EOF
             (select count(distinct contact_code) from sessions s 
           		where s.campaign_id = sessions.campaign_id
+          		and contact_code IS NOT NULL
           		and campaign_medium = 'email'
+          		and started_at BETWEEN started_at_id AND ended_at_id
           		and page_views > 0
           	)
           EOF
-          named_scope :unique_clicks_through,
+          named_scope :unique_clicks_through, 
             :select => "#{@@unique_clicks_through} as unique_clicks_through"
                         
           named_scope :click_through_rate,
@@ -186,9 +194,13 @@ module Analytics
           named_scope :cost_per_unique_click,
             :select => "(#{@@cost} / #{@@unique_clicks_through}) as cost_per_unique_click"
           
-          named_scope :first_impression_distance,
-            :select => "if(first_impression = 1,((unix_timestamp(started_at) - unix_timestamp(campaigns.effective_at)),NULL) as first_impression_distance",
-            :joins => :campaign
+          @@first_impression = "min(started_at)"
+          named_scope :first_impression,	 	
+            :select => "#{@@first_impression} as first_impression"
+
+          named_scope :first_impression_distance,	
+            :select => "(unix_timestamp(#{@@first_impression}) - unix_timestamp(campaigns.effective_at)) as first_impression_distance",
+            :joins => :campaign       
             
           named_scope :campaign_effective_at,
             :select => "campaigns.effective_at as campaign_effective_at",
@@ -228,6 +240,7 @@ module Analytics
             :select => "CAST(AVG(abs(timestampdiff(second, events.created_at, tracked_at))) AS signed) AS latency",
             :conditions => 'events.created_at IS NOT NULL AND events.tracked_at IS NOT NULL',
             :joins => :events
+              
         end
       end
     end

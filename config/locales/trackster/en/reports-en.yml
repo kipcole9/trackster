@@ -227,3 +227,5 @@ en:
             flash_version_account:      "{{account}}'s Visits by Flash Version {{period}}"
             flash_version_resource:     "Visits by Flash Version for {{resource}} {{period}}"
                        
+            campaign_contacts_summary_account:      "{{account}}'s Campaign Contact Response {{period}}"
+            campaign_contacts_summary_resource:     "Campaign Contact Response for {{resource}} {{period}}"           
