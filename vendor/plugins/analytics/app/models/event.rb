@@ -64,20 +64,6 @@ class Event < ActiveRecord::Base
     else
       session.ended_at = track.tracked_at
     end
-    
-    # If this is an click through, then check if its the first
-    # for this campaign and this contact - if so mark first_impression
-    # in the session as true.
-    if event.email_opening? && session.campaign && event.contact_code && !session.first_click
-      session.first_impression = !session.campaign.sessions.first_impression_for_contact(contact_code).first
-    end
-    
-    # If this is an page view, then check if its the first
-    # for this campaign and this contact - if so mark first_click
-    # in the session as true.
-    if event.click_through? && session.campaign && event.contact_code && !session.first_click
-      session.first_click = !session.campaign.sessions.first_click_through_for_contact(contact_code).first
-    end
         
     session.save!
     event.save!

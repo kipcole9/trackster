@@ -14,7 +14,7 @@ module Analytics
       # #by method build the dimension we're reporting (see Analytics::Dimensions)
       module InstanceMethods
         def campaign_summary(params = {})
-          tracks.distribution.deliveries.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(self, params)
+          tracks.distribution.deliveries.unique_impressions.unique_clicks_through.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(self, params)
         end
         
         def campaign_impressions(params = {})

@@ -15,6 +15,9 @@ module Analytics
           column_format :click_through_rate, :total => :avg, :order => 36, :formatter => :bar_and_percentage
           column_format :open_rate,       :total => :sum, :order => 32, :class => 'page_views', :formatter => :bar_and_percentage 
 
+          column_format :unique_impressions, :order => 32, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter 
+          column_format :unique_clicks_through, :order => 37, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+
           column_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
           column_format :visits,         :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
           column_format :page_views,     :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter

@@ -25,8 +25,9 @@ en:
                 unsubscribes:           Unsubs.
                 cost_per_click:         CPC
                 clicks_through:         Clicks
+                unique_clicks_through:  Unique Clicks
                 click_through_rate:     CTR
-                impressions:            Viewed
+                impressions:            Views
                 value:                  Avg. value
                 os_name:                System
                 percent_of_clicks_through: "% Clicks Through"
@@ -34,4 +35,6 @@ en:
                 percent_of_video_views: % Video Views
                 video_views:            Views
                 max_play_time:          Max Play
+                unique_impressions:     Unique Views
+
                 

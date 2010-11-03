@@ -42,6 +42,7 @@ module Analytics
                 conditions << scope_options[:conditions] if scope_options[:conditions]
                 joins << scope_options[:joins]    if scope_options[:joins]
               else
+                # It's a column name
                 dimension = dim.to_s
                 select << dimension
                 group << dimension

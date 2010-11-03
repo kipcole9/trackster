@@ -132,15 +132,32 @@ module Analytics
           named_scope :impressions,
             :select => "#{@@impressions} as impressions"
             
-          @@unique_impressions = 'count(first_impression) as unique_impressions'  
+          # This is only doing uniques on campaign_name
+          # when we also want to do uniques on other dimensions
+          # like content - needs work
+          @@unique_impressions = <<-EOF
+            (select count(distinct contact_code) from sessions s 
+          		where s.campaign_id = sessions.campaign_id
+          		and impressions is not null
+          	)
+          EOF
           named_scope :unique_impressions,
-            :select => @@unique_impressions
+            :select => "#{@@unique_impressions} as unique_impressions"
                              
           @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
           named_scope :clicks_through,
             :select => "#{@@clicks_through} as clicks_through"
 
-          @@unique_clicks_through = 'count(first_click)'
+          # This is only doing uniques on campaign_name
+          # when we also want to do uniques on other dimensions
+          # like content - needs work
+          @@unique_clicks_through = <<-EOF
+            (select count(distinct contact_code) from sessions s 
+          		where s.campaign_id = sessions.campaign_id
+          		and campaign_medium IS NOT NULL
+          		and page_views > 0
+          	)
+          EOF
           named_scope :unique_clicks_through,
             :select => "#{@@unique_clicks_through} as unique_clicks_through"
                         
