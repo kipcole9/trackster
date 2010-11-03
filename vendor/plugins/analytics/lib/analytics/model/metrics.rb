@@ -167,8 +167,7 @@ module Analytics
             :select => "(#{@@cost} / #{@@clicks_through}) as cost_per_click"
             
           named_scope :first_impression_distance,
-            :select => "(unix_timestamp(started_at) - unix_timestamp(campaigns.effective_at)) as first_impression_distance",
-            :conditions => 'first_impression = 1',
+            :select => "if(first_impression = 1,((unix_timestamp(started_at) - unix_timestamp(campaigns.effective_at)),NULL) as first_impression_distance",
             :joins => :campaign
             
           named_scope :campaign_effective_at,

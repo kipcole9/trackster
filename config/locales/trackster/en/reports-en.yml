@@ -155,75 +155,75 @@ en:
             locality_account:            "{{account}}'s Visits by Locality {{period}}"
             locality_resource:           "{{resource}} Visits by Locality {{period}}"
                         
-            language_account:           "{{account}}'s Visits by Language for {{period}}"
+            language_account:           "{{account}}'s Visits by Language {{period}}"
             language_resource:          "Visits by Language for {{resource}} {{period}}"
             
             new_v_returning_account:    "{{account}}'s New & Returning Visitors {{period}}"
             new_v_returning_resource:   "{{resource}} New & Returning Visitors {{period}}"
             
-            depth_of_visit_account:     "{{account}}'s Visit Depth for {{period}}"
+            depth_of_visit_account:     "{{account}}'s Visit Depth {{period}}"
             depth_of_visit__resource:   "Visit Depth for {{resource}} {{period}}"
             
-            length_of_visit_account:    "{{account}}'s Visit Length for {{period}}"
+            length_of_visit_account:    "{{account}}'s Visit Length {{period}}"
             length_of_visit_resource:   "Visit Length for {{resource}} {{period}}"       
 
-            traffic_source_account:     "{{account}}'s Traffic Sources for {{period}}"
+            traffic_source_account:     "{{account}}'s Traffic Sources {{period}}"
             traffic_source_resource:    "Traffic Sources for {{resource}} {{period}}"
             
-            referrer_category_account:  "{{account}}'s Traffic Source Categories for {{period}}"
+            referrer_category_account:  "{{account}}'s Traffic Source Categories {{period}}"
             referrer_category_resource: "Traffic Source Categories for {{resource}} {{period}}" 
             
-            search_engines_account:     "{{account}}'s Search Engines for {{period}}"
+            search_engines_account:     "{{account}}'s Search Engines {{period}}"
             search_engines_resource:    "Search Engines for {{resource}} {{period}}"
             
-            keywords_account:           "{{account}}'s Keywords for {{period}}"
+            keywords_account:           "{{account}}'s Keywords {{period}}"
             keywords_resource:          "Keywords for {{resource}} {{period}}"  
             
-            campaign_summary_account:   "{{account}}'s Campaign Summary for {{period}}"
+            campaign_summary_account:   "{{account}}'s Campaign Summary {{period}}"
             campaign_summary_resource:  "Campaign Summary for {{resource}} {{period}}"  
             
-            url_account:                "{{account}}'s Visits by URL for {{period}}"
+            url_account:                "{{account}}'s Visits by URL {{period}}"
             url_resource:               "Visits by URL for {{resource}} {{period}}"  
             
-            page_title_account:         "{{account}}'s Visits by Page Title for {{period}}"
+            page_title_account:         "{{account}}'s Visits by Page Title {{period}}"
             page_title_resource:        "Visits by Page Title for {{resource}} {{period}}"   
             
-            entry_page_account:         "{{account}}'s Visits by Entry Page for {{period}}"
+            entry_page_account:         "{{account}}'s Visits by Entry Page {{period}}"
             entry_page_resource:        "Visits by Entry Page for {{resource}} {{period}}"
             
-            exit_page_account:          "{{account}}'s Visits by Exit Page for {{period}}"
+            exit_page_account:          "{{account}}'s Visits by Exit Page {{period}}"
             exit_page_resource:         "Visits by Exit Page for {{resource}} {{period}}"
             
-            bounce_page_account:        "{{account}}'s Visits by Bounce Page for {{period}}"
+            bounce_page_account:        "{{account}}'s Visits by Bounce Page {{period}}"
             bounce_page_resource:       "Visits by Bounce Page for {{resource}} {{period}}"  
             
-            events_account:             "{{account}}'s Events for {{period}}"
+            events_account:             "{{account}}'s Events {{period}}"
             events_resource:            "Events for {{resource}} {{period}}"
             
-            video_account:              "{{account}}'s Video Views for {{period}}"
+            video_account:              "{{account}}'s Video Views {{period}}"
             video_resource:             "Video Views for {{resource}} {{period}}" 
             
-            internal_search_overview_account:   "{{account}}'s Internal Search for {{period}}"
+            internal_search_overview_account:   "{{account}}'s Internal Search {{period}}"
             internal_search_overview_resource:  "Internal Search for {{resource}} {{period}}"
             
-            device_overview_account:    "{{account}}'s Device Overview for {{period}}"
+            device_overview_account:    "{{account}}'s Device Overview {{period}}"
             device_overview_resource:   "Device Overview for {{resource}} {{period}}"
             
-            deivce_account:             "{{account}}'s Visits by Device for {{period}}"
+            deivce_account:             "{{account}}'s Visits by Device {{period}}"
             device_resource:            "Visits by Device for {{resource}} {{period}}"
             
-            browser_account:            "{{account}}'s Visits by Browser for {{period}}"
+            browser_account:            "{{account}}'s Visits by Browser {{period}}"
             browser_resource:           "Visits by Browser for {{resource}} {{period}}"
             
-            os_name_account:            "{{account}}'s Visits by Operating System for {{period}}"
+            os_name_account:            "{{account}}'s Visits by Operating System {{period}}"
             os_name_resource:           "Visits by Operating System for {{resource}} {{period}}"
             
-            color_depth_account:        "{{account}}'s Visits by Color Depth for {{period}}"
+            color_depth_account:        "{{account}}'s Visits by Color Depth {{period}}"
             color_depth_resource:       "Visits by Color Depth for {{resource}} {{period}}"
             
-            screen_size_account:        "{{account}}'s Visits by Screen Size for {{period}}"
+            screen_size_account:        "{{account}}'s Visits by Screen Size {{period}}"
             screen_size_resource:       "Visits by Screen Size for {{resource}} {{period}}"
             
-            flash_version_account:      "{{account}}'s Visits by Flash Version for {{period}}"
+            flash_version_account:      "{{account}}'s Visits by Flash Version {{period}}"
             flash_version_resource:     "Visits by Flash Version for {{resource}} {{period}}"
                        
