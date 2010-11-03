@@ -138,7 +138,7 @@ module Analytics
           @@unique_impressions = <<-EOF
             (select count(distinct contact_code) from sessions s 
           		where s.campaign_id = sessions.campaign_id
-          		and impressions is not null
+          		and impressions > 0
           	)
           EOF
           named_scope :unique_impressions,
@@ -154,7 +154,7 @@ module Analytics
           @@unique_clicks_through = <<-EOF
             (select count(distinct contact_code) from sessions s 
           		where s.campaign_id = sessions.campaign_id
-          		and campaign_medium IS NOT NULL
+          		and campaign_medium = 'email'
           		and page_views > 0
           	)
           EOF
