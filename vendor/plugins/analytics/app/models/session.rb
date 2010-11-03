@@ -3,6 +3,7 @@ class Session < ActiveRecord::Base
   normalize_attributes  :campaign_medium, :campaign_content, :campaign_source, :campaign_name
   normalize_attributes  :referrer, :flash_version, :forwarded_for, :with => :log_entry
   normalize_attribute   :country, :with => :upcase
+  normalize_attributes  :first_impression, :first_click, :with => :true_or_null
   
   acts_as_taggable_on :tags
   belongs_to    :property
@@ -25,7 +26,17 @@ class Session < ActiveRecord::Base
   before_save   :update_event_count
   
   attr_accessor   :logger
+  
+  named_scope :first_impression_for_contact, lambda { |contact_code|
+    {:conditions => ['contact_code = ? and first_impression = 1', contact_code],
+      :limit => 1}
+  }
 
+  named_scope :first_click_through_for_contact, lambda { |contact_code|
+    {:conditions => ['contact_code = ? and first_click = 1', contact_code],
+      :limit => 1}
+  }
+  
   def self.find_or_create_from(track)
     raise ArgumentError, "Tracked_at is nil" unless track.tracked_at
     session = find_by_visitor_and_visit_and_session(track.visitor, track.visit, track.session) if have_visitor?(track)

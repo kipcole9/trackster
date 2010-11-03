@@ -93,7 +93,7 @@ module Analytics
 
           # Entry page is marked in the events table
           named_scope :entry_pages,
-            :select => 'count(if(entry_page=1,1,null)) as entry_pages',
+            :select => 'count(entry_page) as entry_pages',
             :joins => :events
           
           named_scope :entry_rate,
@@ -101,7 +101,7 @@ module Analytics
             :joins => :events      
     
           named_scope :exit_pages,
-            :select => 'count(if(exit_page=1,1,null)) as exit_pages',
+            :select => 'count(exit_page) as exit_pages',
             :joins => :events
 
           named_scope :exit_rate,
@@ -118,31 +118,31 @@ module Analytics
             :conditions => "entry_page = 1 and url IS NOT NULL and campaign_name IS NOT NULL",
             :joins => :events
         
-          @@bounces = "if(sessions.duration=0,1,null))"
+          @@bounces = "count(if(sessions.duration=0,1,null))"
           named_scope :bounces,
-            :select => "count(#{@@bounces}) AS bounces"
+            :select => "#{@@bounces} as bounces",
+            :conditions => 'visit is NOT NULL'
                   
           named_scope :bounce_rate,
-            :select => "count(#{@@bounces}/ count(visit) * 100 as bounce_rate"
+            :select => "#{@@bounces} / count(visit) * 100 as bounce_rate",
+            :conditions => 'visit IS NOT NULL'
 
           # For email deliveries
           @@impressions = "sum(impressions)"
           named_scope :impressions,
             :select => "#{@@impressions} as impressions"
             
-          @@unique_impressions = "min(impressions)"
+          @@unique_impressions = 'count(first_impression) as unique_impressions'  
           named_scope :unique_impressions,
-            :select => "#{@@unique_impressions} as unique_impressions",
-            :having => "unique_impressions is not null"
+            :select => @@unique_impressions
                              
           @@clicks_through =  "count(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"                    
           named_scope :clicks_through,
             :select => "#{@@clicks_through} as clicks_through"
 
-          @@unique_clicks_through = "min(if(campaign_medium IS NOT NULL AND page_views > 0,1,NULL))"  
+          @@unique_clicks_through = 'count(first_click)'
           named_scope :unique_clicks_through,
-            :select => "#{@@unique_clicks_through} as unique_clicks_through",
-            :having => "unique_clicks_through is not null"
+            :select => "#{@@unique_clicks_through} as unique_clicks_through"
                         
           named_scope :click_through_rate,
             :select => "(#{@@clicks_through} / #{@@impressions} * 100) as click_through_rate"
@@ -158,7 +158,7 @@ module Analytics
             :select => "(#{@@unique_impressions} / distribution * 100) as unique_open_rate",
             :joins => :campaign
 
-          @@cost =  'avg(cost)'    
+          @@cost = 'avg(cost)'    
           named_scope :cost,
             :select => "#{@@cost} as cost",
             :joins => :campaign
@@ -166,12 +166,9 @@ module Analytics
           named_scope :cost_per_click,
             :select => "(#{@@cost} / #{@@clicks_through}) as cost_per_click"
             
-          @@first_impression = "min(started_at)"
-          named_scope :first_impression,
-            :select => "#{@@first_impression} as first_impression"
-            
           named_scope :first_impression_distance,
-            :select => "(unix_timestamp(#{@@first_impression}) - unix_timestamp(campaigns.effective_at)) as first_impression_distance",
+            :select => "(unix_timestamp(started_at) - unix_timestamp(campaigns.effective_at)) as first_impression_distance",
+            :conditions => 'first_impression = 1',
             :joins => :campaign
             
           named_scope :campaign_effective_at,

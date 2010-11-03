@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
   skip_time_zone_conversion_for_attributes = :tracked_at
+  normalize_attributes :entry_page, :exit_page, :with => :true_or_null
+  
   belongs_to        :session
   belongs_to        :redirect
   
@@ -33,14 +35,21 @@ class Event < ActiveRecord::Base
   PAGE_VIEW       = "category = '#{PAGE_CATEGORY}' AND action = '#{VIEW_ACTION}' AND url IS NOT NULL"
   IMPRESSIONS     = "(#{EMAIL_OPENING}) || (#{AD_VIEW})"
   
+  named_scope :email_opening,
+    :conditions => EMAIL_OPENING
+    
+  named_scope :for_contact, lambda { |contact_code|
+    { :conditions => ['contact_code = ?', contact_code] }
+  }
+  
   def self.create_from(session, track)
     return nil if !session?(session) || unknown_event?(track) || duplicate_event?(session, track)
     
     event = new_from_track(session, track)
     if previous_event = session.events.find(:first, :conditions => 'sequence IS NOT NULL', :order => 'sequence DESC')
-      previous_event.exit_page = false
+      previous_event.exit_page = nil
       previous_event.duration = (event.tracked_at - previous_event.tracked_at).to_i if !previous_event.duration || previous_event.duration == 0
-      event.entry_page = false
+      event.entry_page = nil
       previous_event.save!
     else
       event.entry_page = true
@@ -56,9 +65,25 @@ class Event < ActiveRecord::Base
       session.ended_at = track.tracked_at
     end
     
+    # If this is an click through, then check if its the first
+    # for this campaign and this contact - if so mark first_impression
+    # in the session as true.
+    if event.email_opening? && session.campaign && event.contact_code && !session.first_click
+      session.first_impression = !session.campaign.sessions.first_impression_for_contact(contact_code).first
+    end
+    
+    # If this is an page view, then check if its the first
+    # for this campaign and this contact - if so mark first_click
+    # in the session as true.
+    if event.click_through? && session.campaign && event.contact_code && !session.first_click
+      session.first_click = !session.campaign.sessions.first_click_through_for_contact(contact_code).first
+    end
+        
+    session.save!
     event.save!
+    event
   end
- 
+
   def url=(uri)
     parsed_uri = URI.parse(uri) rescue nil
     if parsed_uri
@@ -86,6 +111,10 @@ class Event < ActiveRecord::Base
 
   def email_opening?
     self.category == EMAIL_CATEGORY && self.action == OPEN_ACTION
+  end
+  
+  def click_through?
+    self.session.campaign_medium == EMAIL_CATEGORY  
   end
     
 private

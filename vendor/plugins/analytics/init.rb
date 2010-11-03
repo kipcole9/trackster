@@ -17,6 +17,11 @@ AttributeNormalizer.configure do |config|
     return nil unless value
     value.strip.upcase
   end
+  
+  config.normalizers[:true_or_null] = lambda do |value, options|
+    return nil if value == nil || value == false || value.to_s.first == '0'
+    return true 
+  end
 end
 
 # daemons/log_analyser.rb is the entry point for the

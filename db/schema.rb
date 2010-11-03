@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101025073314) do
+ActiveRecord::Schema.define(:version => 20101102015455) do
 
   create_table "account_users", :force => true do |t|
     t.integer "account_id"
@@ -250,8 +250,8 @@ ActiveRecord::Schema.define(:version => 20101025073314) do
     t.string   "url"
     t.string   "page_title"
     t.datetime "tracked_at"
-    t.boolean  "entry_page",                           :default => true
-    t.boolean  "exit_page",                            :default => true
+    t.boolean  "entry_page"
+    t.boolean  "exit_page"
     t.datetime "created_at"
     t.string   "category",              :limit => 20
     t.string   "action",                :limit => 20
@@ -546,6 +546,8 @@ ActiveRecord::Schema.define(:version => 20101025073314) do
     t.string   "forwarded_for",     :limit => 100
     t.integer  "ip_integer"
     t.integer  "content_id"
+    t.boolean  "first_impression"
+    t.boolean  "first_click"
   end
 
   add_index "sessions", ["account_id"], :name => "index_sessions_on_account_id"
