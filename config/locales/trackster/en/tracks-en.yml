@@ -19,22 +19,27 @@ en:
                 depth_of_visit:         Depth of visit (pages)
                 event_count:            Events
                 cost_per_impression:    CPI
+                cost_per_unique_impression: uCPI
                 campaign_name:          Campaign
                 deliveries:             Delivered
                 distribution:           Sent
                 unsubscribes:           Unsubs.
                 cost_per_click:         CPC
+                cost_per_unique_click:  uCPC
                 clicks_through:         Clicks
-                unique_clicks_through:  Unique Clicks
+                unique_clicks_through:  uClicks
                 click_through_rate:     CTR
+                unique_click_through_rate: uCTR
                 impressions:            Views
                 value:                  Avg. value
                 os_name:                System
+                open_rate:              Open Rate
+                unique_open_rate:       uOpen Rate
                 percent_of_clicks_through: "% Clicks Through"
-                first_impression_distance: Time to first impression
+                first_impression_distance: Time to first view
                 percent_of_video_views: % Video Views
                 video_views:            Views
                 max_play_time:          Max Play
-                unique_impressions:     Unique Views
+                unique_impressions:     uViews
 
                 

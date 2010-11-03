@@ -18,7 +18,8 @@ col.count, col.visits, col.exit_rate,
 col.new_visit_rate, col.duration, col.deliveries, col.impressions,
 col.distribution, col.clicks_through, col.unsubscribes,
 col.bounces,  col.cost, col.cost_per_impression,  col.cost_per_click, col.category, col.action,
-col.events, col.max_play_time, col.video_views, col.unique_impressions, col.unique_clicks_through {
+col.events, col.max_play_time, col.video_views, col.unique_impressions, col.unique_clicks_through,
+col.cost_per_unique_impression, col.cost_per_unique_click {
 	width: 6em; /* 13%; */
 }
 col.bounce_rate, col.value, col.traffic_source {

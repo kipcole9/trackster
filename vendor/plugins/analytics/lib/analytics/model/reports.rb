@@ -18,11 +18,11 @@ module Analytics
         end
         
         def campaign_impressions(params = {})
-          tracks.impressions.open_rate.deliveries.cost.cost_per_impression.by(:campaign_name).filters(self, params)
+          tracks.unique_impressions.impressions.unique_open_rate.deliveries.cost.cost_per_unique_impression.by(:campaign_name).filters(self, params)
         end
         
         def campaign_clicks(params = {})
-          tracks.impressions.clicks_through.cost.click_through_rate.cost_per_click.by(:campaign_name).filters(self, params)
+          tracks.impressions.unique_clicks_through.clicks_through.cost.unique_click_through_rate.cost_per_unique_click.by(:campaign_name).filters(self, params)
         end
         
         def total_clicks_through(params = {})

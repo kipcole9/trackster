@@ -183,6 +183,9 @@ module Analytics
           named_scope :cost_per_click,
             :select => "(#{@@cost} / #{@@clicks_through}) as cost_per_click"
             
+          named_scope :cost_per_unique_click,
+            :select => "(#{@@cost} / #{@@unique_clicks_through}) as cost_per_unique_click"
+          
           named_scope :first_impression_distance,
             :select => "if(first_impression = 1,((unix_timestamp(started_at) - unix_timestamp(campaigns.effective_at)),NULL) as first_impression_distance",
             :joins => :campaign
@@ -204,6 +207,9 @@ module Analytics
 
           named_scope :cost_per_impression,
             :select => "(#{@@cost}/#{@@impressions}) as cost_per_impression"
+
+          named_scope :cost_per_unique_impression,
+            :select => "(#{@@cost}/#{@@unique_impressions}) as cost_per_unique_impression"
 
           named_scope :campaign_bounces,
             :select => 'avg(bounces) as bounces',

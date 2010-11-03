@@ -12,11 +12,14 @@ module Analytics
           column_format :deliveries,     :order => 25, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
           column_format :impressions,    :order => 30, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter 
           column_format :clicks_through, :order => 35, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
-          column_format :click_through_rate, :total => :avg, :order => 36, :formatter => :bar_and_percentage
-          column_format :open_rate,       :total => :sum, :order => 32, :class => 'page_views', :formatter => :bar_and_percentage 
+          
+          column_format :click_through_rate, :total => :avg, :order => 37, :formatter => :bar_and_percentage
+          column_format :open_rate,       :total => :sum, :order => 33, :class => 'page_views', :formatter => :bar_and_percentage 
+          column_format :unique_click_through_rate, :total => :avg, :order => 37, :formatter => :bar_and_percentage
+          column_format :unique_open_rate,:total => :sum, :order => 33, :class => 'page_views', :formatter => :bar_and_percentage 
 
           column_format :unique_impressions, :order => 32, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter 
-          column_format :unique_clicks_through, :order => 37, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
+          column_format :unique_clicks_through, :order => 36, :total => :sum, :class => 'right', :formatter => :integer_with_delimiter
 
           column_format :page_views,     :total => :sum, :order => 99, :class => 'page_views right'
           column_format :visits,         :total => :sum, :order => 50, :class => 'right', :formatter => :integer_with_delimiter
@@ -36,12 +39,13 @@ module Analytics
           
           column_format :campaign_name,  :order => -1
           column_format :cost,           :total => :sum, :order => 30, :class => 'right', :formatter => :integer_with_delimiter 
+
           column_format :cost_per_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_without_sign
+          column_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
+          column_format :cost_per_unique_impression,  :total => :avg, :order => 40, :class => 'right', :formatter => :currency_without_sign
+          column_format :cost_per_unique_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
 
           column_format :percent_of_clicks_through,  :total => :sum, :order => 96, :class => 'clicks_through', :formatter => :bar_and_percentage 
-
-          column_format :cost_per_click, :total => :avg, :order => 50, :class => 'right', :formatter => :currency_without_sign
-
           column_format :label,          :order => -1,       :formatter => :not_set_on_blank 
           column_format :value,          :class => 'right',  :formatter => :integer_with_delimiter
           column_format :events,         :class => 'right',  :formatter => :integer_with_delimiter
