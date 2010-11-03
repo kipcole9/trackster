@@ -45,6 +45,7 @@
 @chart_area_alpha:		rgba(0,101,131, 0.7);
 @gridlines:				#777;
 @plotband-color:		rgb(48,48,48);
+@plotband-color-alpha:	rgba(48,48,48,0.6);
 
 // Pagination
 @pagination_colour: 	#ccc;
@@ -498,7 +499,7 @@ attributes in JS and apply them to charts.
 
 /* X-Axis plotbands color */
 #highcharts-xbands { 
-	color: @plotband-color; 
+	color: @plotband-color;
+	color: @plotband-color-alpha;
 }
-
 

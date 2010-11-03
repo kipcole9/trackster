@@ -301,4 +301,7 @@ label { color: white; }
 }
 #highcharts-line { color: #006583; }
 #highcharts-gridlines, #highcharts-axis { color: #777777; }
-#highcharts-xbands { color: #303030; }
+#highcharts-xbands {
+  color: #303030;
+  color: rgba(48, 48, 48, 0.6);
+}
