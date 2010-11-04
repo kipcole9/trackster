@@ -1,4 +1,7 @@
 en:
+    # When the translinker is creating redirect links for emails
+    # it decides which category/action to code the link as based upon
+    # any suffix on the URL.  The default is page/view.
     doctypes:
         pdf:            ['document', 'download']
         xls:            ['document', 'download']
@@ -7,10 +10,35 @@ en:
         pptx:           ['document', 'download']
         doc:            ['document', 'download']
         docx:           ['document', 'download']
+        zip:            ['document', 'download']
+        csv:            ['document', 'download']   
+             
         wmv:            ['video', 'play']
+        mpg:            ['video', 'play']
+        mpeg:           ['video', 'play']            
         avi:            ['video', 'play']
+        asf:            ['video', 'play']
+        asx:            ['video', 'play'] 
+        3gp:            ['video', 'play']
+        3gpp:           ['video', 'play']                               
         mp4:            ['video', 'play']
         m4v:            ['video', 'play']
+        flv:            ['video', 'play']    
         ogg:            ['video', 'play']
+        mov:            ['video', 'play'] 
+                   
         mp3:            ['audio', 'play']
+        mid:            ['audio', 'play']
+        midi:           ['audio', 'play']  
         
+        psd:            ['image', 'view']
+        jpeg:           ['image', 'view']
+        png:            ['image', 'view']
+        bmp:            ['image', 'view']
+        ico:            ['image', 'view']
+        svg:            ['image', 'view']
+        tif:            ['image', 'view']
+        tiff:           ['image', 'view']
+        ico:            ['image', 'view']
+        
+
