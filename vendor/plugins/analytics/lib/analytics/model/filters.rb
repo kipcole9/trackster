@@ -16,7 +16,7 @@ module Analytics
                parent_scope == self.return_visits.proxy_options
               this_scope += " AND previous_visit_at < '#{range.first.to_s(:db)}'"
             end
-            {:select => "'#{range.first.to_s(:db)}' as started_at_id, '#{range.last.to_s(:db)}' as ended_at_id", :conditions => this_scope}
+            {:conditions => this_scope}
           }
 
           named_scope :by, lambda {|*args|
@@ -77,9 +77,8 @@ module Analytics
             conditions = []
             conditions << self.active(resource).proxy_options[:conditions]
             conditions << self.ip_filter.proxy_options[:conditions]
-            period_proxy = self.between(Period.from_params(params)).proxy_options
-            conditions << period_proxy[:conditions]
-            {:select => period_proxy[:select], :conditions => self.merge_conditions(*conditions)}
+            conditions << self.between(Period.from_params(params)).proxy_options[:conditions]
+            {:conditions => self.merge_conditions(*conditions)}
           }
         end
       end

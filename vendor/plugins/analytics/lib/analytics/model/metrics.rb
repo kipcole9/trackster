@@ -132,21 +132,7 @@ module Analytics
           named_scope :impressions,
             :select => "#{@@impressions} as impressions"
             
-          # This is only doing uniques on campaign_name
-          # when we also want to do uniques on other dimensions
-          # like content - needs work
-          #
-          # Also note all uniques_ have to be chained AFTER the between()
-          # call since it supplied the started_at_id and ended_at_id columns
-          # and forward references are not permitted in MySQL
-          @@unique_impressions = <<-EOF
-            (select count(distinct contact_code) from sessions s 
-          		where s.campaign_id = sessions.campaign_id
-          		and contact_code IS NOT NULL
-          		and impressions > 0
-          		and started_at BETWEEN started_at_id AND ended_at_id          		
-          	)
-          EOF
+          @@unique_impressions = "count(distinct if(impressions>0,sessions.contact_code,null))"
           named_scope :unique_impressions, 
             :select => "#{@@unique_impressions} as unique_impressions"
                              
@@ -154,18 +140,7 @@ module Analytics
           named_scope :clicks_through,
             :select => "#{@@clicks_through} as clicks_through"
 
-          # This is only doing uniques on campaign_name
-          # when we also want to do uniques on other dimensions
-          # like content - needs work
-          @@unique_clicks_through = <<-EOF
-            (select count(distinct contact_code) from sessions s 
-          		where s.campaign_id = sessions.campaign_id
-          		and contact_code IS NOT NULL
-          		and campaign_medium = 'email'
-          		and started_at BETWEEN started_at_id AND ended_at_id
-          		and page_views > 0
-          	)
-          EOF
+          @@unique_clicks_through = "count(distinct if(campaign_medium is not null and page_views > 0,sessions.contact_code, null))"
           named_scope :unique_clicks_through, 
             :select => "#{@@unique_clicks_through} as unique_clicks_through"
                         

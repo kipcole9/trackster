@@ -296,12 +296,10 @@ label { color: white; }
 #highcharts-area {
   color: #006583;
   color: rgba(0, 101, 131, 0.7);
-  opacity: 0.6;
-  filter: alpha(opacity=50);
 }
 #highcharts-line { color: #006583; }
 #highcharts-gridlines, #highcharts-axis { color: #777777; }
 #highcharts-xbands {
   color: #303030;
-  color: rgba(48, 48, 48, 0.6);
+  color: rgba(60, 60, 60, 0.6);
 }

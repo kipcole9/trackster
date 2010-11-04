@@ -14,15 +14,15 @@ module Analytics
       # #by method build the dimension we're reporting (see Analytics::Dimensions)
       module InstanceMethods
         def campaign_summary(params = {})
-          tracks.distribution.deliveries.impressions.clicks_through.campaign_bounces.unsubscribes.by(:campaign_name).filters(self, params).unique_impressions.unique_clicks_through
+          tracks.distribution.deliveries.impressions.clicks_through.campaign_bounces.unsubscribes.unique_impressions.unique_clicks_through.by(:campaign_name).filters(self, params)
         end
         
         def campaign_impressions(params = {})
-          tracks.impressions.deliveries.cost.by(:campaign_name).filters(self, params).unique_impressions.unique_open_rate.cost_per_unique_impression
+          tracks.impressions.deliveries.cost.unique_impressions.unique_open_rate.cost_per_unique_impression.by(:campaign_name).filters(self, params)
         end
         
         def campaign_clicks(params = {})
-          tracks.impressions.clicks_through.cost.by(:campaign_name).filters(self, params).unique_clicks_through.unique_click_through_rate.cost_per_unique_click
+          tracks.impressions.clicks_through.cost.unique_clicks_through.unique_click_through_rate.cost_per_unique_click.by(:campaign_name).filters(self, params)
         end
         
         def total_clicks_through(params = {})
