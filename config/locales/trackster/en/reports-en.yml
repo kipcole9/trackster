@@ -98,7 +98,8 @@ en:
             page_title:             Page Title
             events:                 Events
             video:                  Video
-            internal_search_overview: Internal Search Overview  
+            internal_search_overview: Internal Search Overview 
+            campaign_content:       Content Summary 
 
         traffic_sources:
             direct:                 Direct
@@ -229,3 +230,6 @@ en:
                        
             campaign_contacts_summary_account:      "{{account}}'s Campaign Contact Response {{period}}"
             campaign_contacts_summary_resource:     "Campaign Contact Response for {{resource}} {{period}}"           
+            
+            campaign_content_account:      "{{account}}'s Content by Campaign {{period}}"
+            campaign_content_resource:     "Content by Campaign for {{resource}} {{period}}"

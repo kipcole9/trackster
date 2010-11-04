@@ -31,6 +31,10 @@ class Campaign < ActiveRecord::Base
     search = "%#{criteria}%"
     {:conditions => ['name like ? or description like ?', search, search ]}
   }
+  
+  named_scope :active, lambda {
+    {:conditions => "'#{Time.now.to_s(:db)}' between effective_at and concludes_at"}
+  }
 
   def email=(c)
     self.content_id = c

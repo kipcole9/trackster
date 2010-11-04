@@ -62,6 +62,7 @@ en:
             campaign_contacts_summary:            Contact Response Summary
             campaign_no_response_summary:         Contact Non-response Summary
             campaign_funnel:                      Campaign Funnel
+            campaign_content:                     Campaign Content
 
     # Navigation sidebar
     reports:

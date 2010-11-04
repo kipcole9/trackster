@@ -75,6 +75,11 @@ class ReportsController < ApplicationController
     @report = resource.campaign_summary(params).all
     report 'campaigns/reports/campaign_funnel'
   end
+  
+  def campaign_content
+    @report = resource.campaign_content(params).all
+    report 'campaigns/reports/campaign_content'    
+  end
 
 
   # Here's where we implement most of the reporting.  Since reporting

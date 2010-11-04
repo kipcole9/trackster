@@ -25,6 +25,10 @@ module Analytics
           tracks.impressions.clicks_through.cost.unique_clicks_through.unique_click_through_rate.cost_per_unique_click.by(:campaign_name).filters(self, params)
         end
         
+        def campaign_content(params = {})
+          tracks.impressions.open_rate.unique_open_rate.unique_clicks_through.unique_click_through_rate.page_views.by(:campaign_name, :content_name).filters(self, params)
+        end
+        
         def total_clicks_through(params = {})
           tracks.clicks_through.filters(self, params).first.clicks_through
         end

@@ -72,9 +72,14 @@ module Analytics
           }
 
           named_scope   :campaign_name,
-            :select => 'name as campaign_name',
+            :select => 'campaigns.name as campaign_name',
             :joins => :campaign,
             :group => 'campaign_name'
+                      
+          named_scope :content_name,
+            :select => 'contents.name as content_name',
+            :joins => :content,
+            :group => 'content_name' 
           
           named_scope   :contact_code,
             :select => 'sessions.contact_code as contact_code',
@@ -123,7 +128,8 @@ module Analytics
           def self.campaign_dimensions
             unless defined?(@@campaign_dimensions)
               @@campaign_dimensions = ['campaign_summary', 'campaign_impressions', 'campaign_clicks_by_url',
-                'campaign_clicks_by_link_text', 'campaign_clicks_by_email_client', 'campaign_contacts_summary']     
+                'campaign_clicks_by_link_text', 'campaign_clicks_by_email_client', 'campaign_contacts_summary',
+                'campaign_content']     
             end
             @@campaign_dimensions          
           end        
