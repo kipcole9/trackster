@@ -26,7 +26,7 @@
         accordion_item "Campaigns" do
           nav report_link("campaign_summary")
           nav report_link("campaign_content")
-        end if current_user.admin?
+        end if current_user.has_role?(:campaign_manager)
         accordion_item "Content" do 
           nav report_link("content_overview") if current_user.admin?
           nav report_link('url')

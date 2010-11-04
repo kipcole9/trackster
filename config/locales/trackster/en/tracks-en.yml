@@ -3,7 +3,7 @@ en:
         attributes:
             track:
                 ip_address:             IP Address
-                page_views:             Views
+                page_views:             pViews
                 url:                    Page
                 percent_of_page_views:  % Views
                 percent_of_visits:      % Visits

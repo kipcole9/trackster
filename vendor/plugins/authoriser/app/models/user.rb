@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
   end
   
   def has_role?(role)
-    roles.include?(role.to_s)
+    roles.include?(role.to_s) || admin?
   end
   
   # Defines the tags that scope permitted access to
