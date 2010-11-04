@@ -37,7 +37,7 @@
         end
         accordion_item "Events" do
           nav report_link('events')
-          nav report_link('video') if current_user.admin?
+          nav report_link('video')
           # Very database inefficient to scan for
           # video names so we won't do this for now
           #resource.video_labels.each do |video|
