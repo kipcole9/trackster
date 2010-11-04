@@ -12,7 +12,7 @@ else
         if campaign_content.empty?
           h3 t('no_data_yet')
         else
-          store campaign_content.to_table :exclude => [:campaign_name]
+          store campaign_content.to_table(:exclude => [:campaign_name])
         end
       end
     end
