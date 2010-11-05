@@ -7,6 +7,11 @@ module Analytics
             return {} unless args.last
             range = args.last
             this_scope = "started_at BETWEEN '#{range.first.to_s(:db)}' AND '#{range.last.to_s(:db)}'"
+            
+            # This won't work since scoped_methods isn't set up for chained named_scope calls.
+            # Call stack doesn't helpe either since method invocation is linear, not tail
+            # recursive.  So we will need another way.  Perhaps we can force:
+            # << self.scoped_methods
             parent_scope = self.scoped_methods.last[:find] unless self.scoped_methods.last.nil?
             if parent_scope == self.repeat_visitors.proxy_options ||
                parent_scope == self.repeat_visits.proxy_options
@@ -63,15 +68,11 @@ module Analytics
           }
           
           named_scope :ip_filter, lambda {
-            if Account.current_account.ip_filter_sql.blank?
-              {}
-            else
-              {:conditions => Account.current_account.ip_filter_sql}
-            end
+            Account.current_account.ip_filter_sql.blank? ? {} : {:conditions => Account.current_account.ip_filter_sql}
           }
           
           # Composing three filters; a buit ugly but helps DRY a lot.
-          # Assumes these names_scopes only apply conditions
+          # Assumes these named_scopes only apply conditions
           # See also http://stackoverflow.com/questions/1482940/combine-two-named-scopes-with-or-instead-of-and
           named_scope :filters, lambda {|resource, params|
             conditions = []

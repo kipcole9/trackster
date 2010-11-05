@@ -36,6 +36,7 @@ var doc = document,
 	docMode8 = doc.documentMode == 8,
 	isWebKit = /AppleWebKit/.test(userAgent),
 	hasSVG = win.SVGAngle || doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
+	hasTouch = 'ontouchstart' in doc.documentElement,
 	colorCounter,
 	symbolCounter,
 	symbolSizes = {},
@@ -1519,7 +1520,13 @@ SVGElement.prototype = {
 				// special
 				} else if (key == 'isTracker') {
 					this[key] = value;
+				
+				// IE9/MooTools combo: MooTools returns objects instead of numbers and IE9 Beta 2
+				// is unable to cast them. Test again with final IE9.
+				} else if (key == 'width') {
+					value = pInt(value);
 				}
+				
 				
 				// jQuery animate changes case
 				if (key == 'strokeWidth') {
@@ -2069,13 +2076,16 @@ SVGRenderer.prototype = {
 						attributes.dx = 3; // space
 					}
 					
-					if (lineNo && !spanNo) { // first span on subsequent line, add the line height
-						attributes.dy = 16;
-					}
-					
+					// add attributes
 					attr(tspan, attributes);
 					
+					// append it
 					textNode.appendChild(tspan);
+					
+					// first span on subsequent line, add the line height
+					if (lineNo && !spanNo) {
+						attr(tspan, 'dy', pInt(window.getComputedStyle(tspan, null).getPropertyValue('line-height')));
+					}
 					
 					spanNo++;
 				}
@@ -2533,13 +2543,12 @@ SVGRenderer.prototype = {
 		
 		// prepare attributes
 		attribs = {
-				x: x,
-				y: y,
-				text: str,
-				fill: fill,
-				style: css.replace(/"/g, "'")
-				
-			};
+			x: x,
+			y: y,
+			style: css.replace(/"/g, "'"),
+			text: str,
+			fill: fill				
+		};
 			
 		if (rotation || align != 'left') {
 			attribs = extend(attribs, {
@@ -4589,6 +4598,7 @@ function Chart (options, callback) {
 		 */
 		function setTickPositions(secondPass) {
 			var length,
+				catPad,
 				maxZoom = options.maxZoom || (
 					isXAxis ? 
 						mathMin(chart.smallestInterval * 5, dataMax - dataMin) : 
@@ -4615,8 +4625,8 @@ function Chart (options, callback) {
 			if (max - min < maxZoom) { 
 				zoomOffset = (maxZoom - max + min) / 2;
 				// if min and max options have been set, don't go beyond it
-				min = mathMax(min - zoomOffset, pick(options.min, min - zoomOffset));
-				max = mathMin(min + maxZoom, pick(options.max, min + maxZoom));
+				min = mathMax(min - zoomOffset, pick(options.min, min - zoomOffset), dataMin);
+				max = mathMin(min + maxZoom, pick(options.max, min + maxZoom), dataMax);
 			}
 			
 				
@@ -4632,13 +4642,14 @@ function Chart (options, callback) {
 			}
 
 			// get tickInterval
-			if (categories || min == max) {
+			if (min == max) {
 				tickInterval = 1;
 			} else {
 				tickInterval = pick(
-					//secondPass && tickInterval || null,
 					options.tickInterval,
-					(max - min) * options.tickPixelInterval / axisLength
+					categories ? // for categoried axis, 1 is default, for linear axis use tickPix 
+						1 : 
+						(max - min) * options.tickPixelInterval / axisLength
 				);
 			}
 			
@@ -4659,8 +4670,9 @@ function Chart (options, callback) {
 			
 			// pad categorised axis to nearest half unit
 			if (!isLinked && (categories || (isXAxis && chart.hasColumn))) {
-				 min -= tickInterval * 0.5;
-				 max += tickInterval * 0.5;
+				catPad = (categories ? 1 : tickInterval) * 0.5;
+				min -= catPad;
+				max += catPad;
 			}
 			
 			// reset min/max or remove extremes based on start/end on tick
@@ -4779,14 +4791,14 @@ function Chart (options, callback) {
 				max: newMax
 			}, function() { // the default event handler
 				// make sure categorized axes are not exceeded
-				if (categories) {
+				/*if (categories) {
 					if (newMin < 0) {
 						newMin = 0;
 					}
 					if (newMax > categories.length - 1) {
 						newMax = categories.length - 1;
 					}
-				}
+				}*/
 				
 				userSetMin = newMin;
 				userSetMax = newMax;
@@ -5235,10 +5247,10 @@ function Chart (options, callback) {
 					y: plotTop + 30
 				})
 				.on('click', fn)
-				.on('touchstart', function(e) {
+				/*.on('touchstart', function(e) {
 					e.stopPropagation(); // don't fire the container event
 					fn();
-				})
+				})*/
 				.attr({ zIndex: 20 })
 				.add();
 				buttons[id] = button;
@@ -5743,7 +5755,7 @@ function Chart (options, callback) {
 								max: mathMax(selectionMin, selectionMax)
 							});
 							
-						});
+					});
 					fireEvent(chart, 'selection', selectionData, zoom);
 
 				}
@@ -5751,8 +5763,7 @@ function Chart (options, callback) {
 			}
 			
 			chart.mouseIsDown = mouseIsDown = hasDragged = false;
-			removeEvent(doc, 'mouseup', drop);
-			removeEvent(doc, 'touchend', drop);
+			removeEvent(doc, hasTouch ? 'touchend' : 'mouseup', drop);
 
 		}
 		
@@ -5769,14 +5780,13 @@ function Chart (options, callback) {
 				e = normalizeMouseEvent(e);
 				
 				// record the start position
-				e.preventDefault && e.preventDefault();
+				//e.preventDefault && e.preventDefault();
 				
 				chart.mouseIsDown = mouseIsDown = true;
 				mouseDownX = e.chartX;
 				mouseDownY = e.chartY;
 				
-				addEvent(doc, 'mouseup', drop);
-				addEvent(doc, 'touchend', drop);
+				addEvent(doc, hasTouch ? 'touchend' : 'mouseup', drop);
 			};
 						
 			// The mousemove, touchmove and touchstart event handler
@@ -5790,11 +5800,10 @@ function Chart (options, callback) {
 				
 				// normalize
 				e = normalizeMouseEvent(e);
-				e.returnValue = false;
-				
+				//e.returnValue = false;
 				
 				// stop touch devices from performing pseudo mouse events
-				e.preventDefault && e.preventDefault();
+				//e.preventDefault && e.preventDefault();
 				
 				
 				var chartX = e.chartX,
@@ -6783,7 +6792,7 @@ function Chart (options, callback) {
 		
 		// if zoom is called with no arguments, reset the axes
 		if (!event || event.resetSelection) {
-			each(axes, function(axis) { 
+			each(axes, function(axis) {
 				axis.setExtremes(null, null, false);
 			});
 		}
@@ -6792,7 +6801,7 @@ function Chart (options, callback) {
 		else {
 			each (event.xAxis.concat(event.yAxis), function(axisData) {
 				var axis = axisData.axis;
-					
+				
 				// don't zoom more than maxZoom
 				if (chart.tracker[axis.isXAxis ? 'zoomX' : 'zoomY']) {
 					axis.setExtremes(axisData.min, axisData.max, false);
@@ -6802,7 +6811,6 @@ function Chart (options, callback) {
 		
 		// redraw chart
 		redraw();
-		
 	};
 	
 	/**
@@ -7472,6 +7480,7 @@ function Chart (options, callback) {
 	chart.setSize = resize;
 	chart.setTitle = setTitle;
 	chart.showLoading = showLoading;	
+	chart.pointCount = 0;
 	
 	
 	/*
@@ -7550,6 +7559,7 @@ Point.prototype = {
 			}
 		}
 		
+		series.chart.pointCount++;
 		return point;
 	},
 	/**
@@ -7606,6 +7616,8 @@ Point.prototype = {
 			series = point.series,
 			prop;
 			
+		series.chart.pointCount--;
+			
 		if (point == series.chart.hoverPoint) {
 			point.onMouseOut();
 		}
@@ -7629,6 +7641,7 @@ Point.prototype = {
 		for (prop in point) {
 			point[prop] = null;
 		}
+		
 		
 	},	
 	
@@ -7813,7 +7826,7 @@ Point.prototype = {
 		var point = this,
 			series = point.series,
 			stateOptions = series.options.states,
-			markerOptions = series.options.marker,
+			markerOptions = defaultPlotOptions[series.type].marker && series.options.marker,
 			normalDisabled = markerOptions && !markerOptions.enabled,
 			markerStateOptions = markerOptions && markerOptions.states[state],
 			stateDisabled = markerStateOptions && markerStateOptions.enabled === false,
@@ -8462,7 +8475,7 @@ Series.prototype = {
 	 */
 	getAttribs: function() {
 		var series = this, 
-			normalOptions = series.options.marker || series.options,
+			normalOptions = defaultPlotOptions[series.type].marker ? series.options.marker : series.options,
 			stateOptions = normalOptions.states,
 			stateOptionsHover = stateOptions[HOVER_STATE],
 			pointStateOptionsHover,
@@ -9156,7 +9169,7 @@ Series.prototype = {
 					visibility: series.visible ? VISIBLE : HIDDEN,
 					zIndex: 1
 				})
-				.on('mouseover', function() {
+				.on(hasTouch ? 'touchstart' : 'mouseover', function() {
 					if (chart.hoverSeries != series) {
 						series.onMouseOver();
 					}

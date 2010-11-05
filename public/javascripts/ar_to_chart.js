@@ -1,6 +1,8 @@
 function arToChart() {
    // Set up the various colours we want to use here
 	var self = this;
+	
+	var no_grid_after = 50;
 
    	// Add some hidden structure that we can then use to get color and style information from
    	var template = "<div style='display:none;width=1em'><p id=highcharts>&nbsp</p>" + 
@@ -49,16 +51,18 @@ function arToChart() {
 	}
 
 	// Render an Area chart with one or more data series
-   	this.area = function(container, categories, series_data, options) {
-
-		/* Put colors into plotbands */
+   	this.area = function(container, categories, series_data, chart_options) {
+		// Keep a copy of the options
+		var options = chart_options;
+		
+		// Put colors into plotbands
 		if (options.x_plot_bands) {
 			$(options.x_plot_bands).each(function(index, item) {
 				item.color = self.colors.plotBands;
 			});
 		};
 
-		return chart = new Highcharts.Chart({
+		var chart = new Highcharts.Chart({
 			chart: {
 				credits: 			{ 
 					enabled: false
@@ -66,7 +70,7 @@ function arToChart() {
 				borderWidth: 		0,
 				borderColor: 		self.colors.background,
 	         	renderTo: 			container, 
-	         	defaultSeriesType: 'area',
+	         	defaultSeriesType:  'area',
 			 	backgroundColor: 	self.colors.background,
 			 	marginTop: 			15,
 			 	zoomType: 		    'x'
@@ -77,26 +81,27 @@ function arToChart() {
 		        }
 			},
 			exporting: {
-				enabled: !will_print()
+				enabled: 			!will_print()
 		    },
 	      	title: {
-	        	text: options.title || ''
+	        	text: 				options.title || ''
 	      	},
 	      	subtitle: {
-	        	text: options.subtitle || ''
+	        	text: 				options.subtitle || ''
 	      	},
 	      	xAxis: {
 			 	type: 				(categories ? 'linear' : 'datetime'),
 			 	categories:    		categories,
+				tickInterval: 		options.x_step || 1,
+				tickmarkPlacement: 	'on',
 			 	gridLineColor: 		self.colors.gridLines,
-			 	gridLineWidth: 		(series_data[0].data.length > 50) ? 0 : self.lineWeight.grid,
+			 	gridLineWidth: 		self.lineWeight.grid,
 			 	lineColor:     		self.colors.xAxisLine,
 			 	lineWidth:     		getLineWidth(series_data[0].data),
 			 	title: {
-					text: options.x_axis || ''
+					text: 			options.x_axis || ''
 			 	},
 				labels: {
-					step: 			options.x_step || 1,
 					staggerLines: 	options.staggerLines || 1, 
 					style: {
 						fontSize: 	self.font.size,
@@ -108,15 +113,15 @@ function arToChart() {
 						return this.value; 
 	            	}
 	         	},
-	            plotBands: options.x_plot_bands
+	            plotBands: 			options.x_plot_bands
 	      	},
 	      	yAxis: {
-				gridLineColor: self.colors.gridLines,
-			 	gridLineWidth: self.lineWeight.grid,
-			 	lineColor:     self.colors.yAxisLine,
-			 	lineWidth:     self.lineWeight.axis,
+				gridLineColor: 		self.colors.gridLines,
+			 	gridLineWidth: 		self.lineWeight.grid,
+			 	lineColor:     		self.colors.yAxisLine,
+			 	lineWidth:     		self.lineWeight.axis,
 	         	title: {
-	            	text: options.y_axis || ''
+	            	text: 			options.y_axis || ''
 	         	},
 	         	labels: {
 					style: {
@@ -149,13 +154,13 @@ function arToChart() {
 					animation: 			 !will_print()
 				},
 	        	area: {
-			    	fillColor: self.colors.areaFill,
-			    	color: 	   self.colors.lineColor,
-					lineWidth: 3,
+			    	fillColor: 			self.colors.areaFill,
+			    	color: 	   			self.colors.lineColor,
+					lineWidth: 			3,
 					marker: {
-	               		enabled: false,
-	               		symbol: 'circle',
-	               		radius: 2,
+	               		enabled: 		false,
+	               		symbol: 		'circle',
+	               		radius: 		2,
 	               		states: {
 	                  		hover: {
 	                     		enabled: true
@@ -171,12 +176,14 @@ function arToChart() {
 		               formatter: function() {
 		                  if (this.y > 0) return this.point.name + ": " + Highcharts.numberFormat(this.percentage, 1) +'%';
 		               },
-		               color: self.font.color
+		               color: 			self.font.color
 		            }
 		        }
 	      	},
 	      	series: series_data
 	   	});
+		console.log(chart.options.xAxis);
+		return chart;
 	};
 	
 	// Render a Pie chart

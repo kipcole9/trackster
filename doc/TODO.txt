@@ -11,12 +11,6 @@ Table formatter
 *	Add linkability to formatters.  Need to work out how to specify the url such that can plug in 
 relevant parameters?
 
-Metrics
-
-*	Set entry_page and exit_page to NULL if they are not set (so count() works)
-
-*	Add first_impression and first_click to make it efficient to work out unique clicks and views
-
 Missing Reports
 
 *	Content Overview
@@ -44,6 +38,8 @@ Navigation
 Reports
 
 *	Default translation for period and time group should be blank (avoid translation error)
+
+*	Start adding in reporting for Reading Time, Forwards and Prints
 
 Campaign Reports
 
