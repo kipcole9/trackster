@@ -7314,8 +7314,8 @@ function Chart (options, callback) {
 		// Credits
 		
 		// beta mark
-		credits.enabled = true;
-		credits.text = 'Highcharts v2.1 Beta';
+		//credits.enabled = true;
+		//credits.text = 'Highcharts v2.1 Beta';
 		if (credits.enabled && !chart.credits) {
 			renderer.text(
 				credits.text,

@@ -64,9 +64,6 @@ function arToChart() {
 
 		var chart = new Highcharts.Chart({
 			chart: {
-				credits: 			{ 
-					enabled: false
-				},
 				borderWidth: 		0,
 				borderColor: 		self.colors.background,
 	         	renderTo: 			container, 
@@ -75,6 +72,9 @@ function arToChart() {
 			 	marginTop: 			15,
 			 	zoomType: 		    'x'
 	      	},
+			credits: { 
+				enabled: 			false
+			},
 		    navigation: {
 		        buttonOptions: {
 		            backgroundColor: self.colors.background
