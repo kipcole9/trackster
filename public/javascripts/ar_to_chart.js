@@ -2,7 +2,7 @@ function arToChart() {
    // Set up the various colours we want to use here
 	var self = this;
 	
-	var no_grid_after = 50;
+	var noGridAfter = 50;
 
    	// Add some hidden structure that we can then use to get color and style information from
    	var template = "<div style='display:none;width=1em'><p id=highcharts>&nbsp</p>" + 
@@ -34,19 +34,19 @@ function arToChart() {
 		plotBands: 	 $('#highcharts-xbands').css('color')  
    	};
 
-	function will_print() {
-		return window.location.href.match(/print=/) || pdf_export();
+	function willPrint() {
+		return window.location.href.match(/print=/) || pdfExport();
 	}
 	
-	function pdf_export() {
+	function pdfExport() {
 		return $('meta[name=pdf-output]').length > 0;
 	}
 	
 	function getLineWidth(series) {
-		if (pdf_export) {
+		if (pdfExport) {
 			return 1; 
 		} else {
-			return (series.length > 50) ? 1 : self.lineWeight.axis;
+			return (series.length > noGridAfter) ? 1 : self.lineWeight.axis;
 		}
 	}
 
@@ -81,7 +81,7 @@ function arToChart() {
 		        }
 			},
 			exporting: {
-				enabled: 			!will_print()
+				enabled: 			!willPrint()
 		    },
 	      	title: {
 	        	text: 				options.title || ''
@@ -94,6 +94,7 @@ function arToChart() {
 			 	categories:    		categories,
 				tickInterval: 		options.x_step || 1,
 				tickmarkPlacement: 	'on',
+				endOnTick: 			true, 
 			 	gridLineColor: 		self.colors.gridLines,
 			 	gridLineWidth: 		self.lineWeight.grid,
 			 	lineColor:     		self.colors.xAxisLine,
@@ -149,9 +150,9 @@ function arToChart() {
 		  	},
 	      	plotOptions: {
 				series: {
-					enableMouseTracking: !will_print(), 
+					enableMouseTracking: !willPrint(), 
 					shadow: 			 false, 
-					animation: 			 !will_print()
+					animation: 			 !willPrint()
 				},
 	        	area: {
 			    	fillColor: 			self.colors.areaFill,
@@ -182,7 +183,6 @@ function arToChart() {
 	      	},
 	      	series: series_data
 	   	});
-		console.log(chart.options.xAxis);
 		return chart;
 	};
 	
