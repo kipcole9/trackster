@@ -70,7 +70,7 @@ protected
   end
   
   def set_test_cookie
-    cookies[:trackster_test] = "set?"
+    cookies[:trackster_test] = "set"
     Rails.logger.debug "Cookie set to value '#{cookies[:trackster_test]}'"
   end
   
