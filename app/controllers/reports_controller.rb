@@ -130,7 +130,7 @@ private
   end
   
   def report(*render_args)
-    set_disposition_header
+    set_disposition_header unless html_format?
     respond_to do |format|
       format.html     { render *render_args }
       format.pdf      { render_pdf(*render_args) }
@@ -167,15 +167,8 @@ private
   end
   
   def set_disposition_header
-    filename = case params['format']
-      when 'xml'
-        "#{download_filename}.xml"
-      when 'csv'
-        "#{download_filename}.csv"
-      when 'xcelsius'
-        "#{download_filename}.xcelcius.xml"
-      end
-    headers['Content-disposition'] = "attachment; filename=#{filename}" unless filename.blank?
+    filename = "#{download_filename}.#{params[:format]}"
+    headers['Content-disposition'] = "attachment; filename=#{filename}"
   end
   
   def download_filename

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include Trackster::Application::UserSettings
   include Trackster::Application::Session
   include Trackster::Application::Authorisation
-  #include Trackster::Application::Exceptions
+  include Trackster::Application::Exceptions
   
   helper            :all # include all helpers, all the time
 
@@ -51,15 +51,7 @@ protected
       return false
     end
   end
-  
-#  def render_pdf(url = nil)
-#    new_request = url_for(params.merge(:api_key => current_user.single_access_token, :print => true)).sub('.pdf','')
-#    pdf_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.pdf"
-#    command = "/usr/local/bin/wkhtmltopdf \"#{new_request}\" #{pdf_file}"
-#    raise "Can't execute: '#{command}'" unless system(command)
-#    send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
-#  end
-  
+
   def render_pdf(*render_args)
     params[:print] = true
     pdf_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.pdf"
@@ -72,7 +64,6 @@ protected
     send_file(pdf_file, :filename => page_title, :type => 'application/pdf')
   end  
 
-  
   def render_jpg(*render_args)
     params[:print] = true
     jpg_file = "#{Rails.root}/tmp/pdf-#{current_user[:id]}.jpg"

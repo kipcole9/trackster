@@ -72,4 +72,7 @@ Rails::Initializer.run do |config|
 
   config.action_mailer.delivery_method = :sendmail
   
+  # IE sends bad accept-headers so ignore them
+  config.action_controller.use_accept_header = false
+  
 end
