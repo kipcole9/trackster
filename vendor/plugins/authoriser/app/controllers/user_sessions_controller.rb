@@ -70,16 +70,16 @@ protected
   end
   
   def set_test_cookie
-    cookies[:trackster_test] = "set"
-    Rails.logger.debug "Cookie set to value '#{cookies[:trackster_test]}'"
+    cookies[:trackstertest] = "set"
+    Rails.logger.debug "Cookie set to value '#{cookies[:trackstertest]}'"
   end
   
   def cookies_cannot_be_set?
-    Rails.logger.debug "Cookie can be set? value is '#{cookies[:trackster_test]}'"
-    cookies[:trackster_test].blank?
+    Rails.logger.debug "Cookie can be set? value is '#{cookies[:trackstertest]}'"
+    cookies[:trackstertest].blank?
   end
 
   def delete_test_cookie
-    cookies.delete :trackster_test
+    cookies.delete :trackstertest
   end
 end
