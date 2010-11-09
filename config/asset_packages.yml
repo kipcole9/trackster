@@ -45,6 +45,7 @@ stylesheets:
     - text
     - "960" 
     - "960_shim"
+    - ie_fixes
     - nested_grids
     - layout
     - nav
@@ -57,7 +58,7 @@ stylesheets:
     - ar_to_chart
     - contacts
     - media_transforms
-    - ie_fixes
+
 
 
     

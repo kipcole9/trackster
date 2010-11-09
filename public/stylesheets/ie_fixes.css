@@ -44,10 +44,13 @@ textarea {
 }
 
 input[type="text"] {
-	padding: 5px 3px 2px;
+	padding: 2px 3px 2px;
 }
 input[type="file"] {
 	padding: 2px 4px 7px;
+}
+input[type="password"] {
+	padding: 2px 3px 5px;
 }
 
 /* Courtesy of http://archivist.incutio.com/viewlist/css-discuss/71085
@@ -56,8 +59,8 @@ fieldset {
 	margin: 1em 0px 30px;
 	padding: 1em;
 	position: relative;
-	padding-top: 20px;
-	padding-bottom: 10px;
+	padding-top: 20px !important;
+	padding-bottom: 10px !important;
 	display: block;
 }
 fieldset legend {
