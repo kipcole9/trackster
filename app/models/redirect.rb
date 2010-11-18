@@ -15,10 +15,9 @@ class Redirect < ActiveRecord::Base
   validates_format_of       :url,     :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix
   
   validates_numericality_of :value, :allow_nil => true
-  
-  DOWNLOAD_TYPES           = /\.(pdf|doc|xls|ppt|xlsx|pptx)\Z/
-  VIDEO_TYPES              = /\.(wmv|avi|mp4|m4v|ogg)\Z/
-  DEFAULT_CATEGORY_ACTION  = ['page', 'view']
+
+  DEFAULT_CATEGORY_ACTION   = ['page', 'view']
+  DEFAULT_DOCTYPE           = 'html'
   
   attr_reader              :parsed_url
 
@@ -43,7 +42,7 @@ class Redirect < ActiveRecord::Base
   end
   
   def self.category_and_action_from(url)
-    doctype = (docpath = parsed_url(url).path.split('/').last) ? docpath.split('.').last : 'html'
+    doctype = (docpath = parsed_url(url).path.split('/').last) ? docpath.split('.').last : DEFAULT_DOCTYPE
     return I18n.t("doctypes.#{doctype}", :default => lambda{|z, y| DEFAULT_CATEGORY_ACTION})
   end
   
