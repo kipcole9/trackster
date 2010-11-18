@@ -18,6 +18,7 @@ class Redirect < ActiveRecord::Base
   
   DOWNLOAD_TYPES           = /\.(pdf|doc|xls|ppt|xlsx|pptx)\Z/
   VIDEO_TYPES              = /\.(wmv|avi|mp4|m4v|ogg)\Z/
+  DEFAULT_CATEGORY_ACTION  = ['page', 'view']
   
   attr_reader              :parsed_url
 
@@ -42,11 +43,8 @@ class Redirect < ActiveRecord::Base
   end
   
   def self.category_and_action_from(url)
-    path = parsed_url(url).path
-    defaults = ['page', 'view']
-    doctype = path.split('/').last.split('.').last
-    doctype = 'html' if doctype.blank?
-    return I18n.t("doctypes.#{doctype}", :default => lambda{|z, y| defaults})
+    doctype = (docpath = parsed_url(url).path.split('/').last) ? docpath.split('.').last : 'html'
+    return I18n.t("doctypes.#{doctype}", :default => lambda{|z, y| DEFAULT_CATEGORY_ACTION})
   end
   
   # Create a random token for the redirect url
