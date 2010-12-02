@@ -4,7 +4,7 @@
 /**
  * @license Highcharts JS v2.1 alpha (merged changes from master 2010-09-28)
  * 
- * (c) 2009-2010 Torstein Hønsi
+ * (c) 2009-2010 Torstein HÃ¸nsi
  * 
  * License: www.highcharts.com/license
  */
@@ -45,7 +45,7 @@ var doc = document,
 	garbageBin,
 	defaultOptions,
 	dateFormat, // function
-	globalMouseMove,
+	globalMouseMove,	
 	globalAnimation,
 	
 	
@@ -513,6 +513,7 @@ var pathAnim = {
 	 * Prepare start and end values so that the path can be animated one to one
 	 */
 	init: function(elem, fromD, toD) {
+		fromD = fromD || '';
 		var shift = elem.shift,
 			bezier = fromD.indexOf('C') > -1,
 			numParams = bezier ? 7 : 3,
@@ -532,7 +533,6 @@ var pathAnim = {
 					}
 				}
 			};
-			
 		
 		if (bezier) {
 			sixify(start);
@@ -744,7 +744,7 @@ defaultOptions = {
 		// margin: 15,
 		// x: 0,
 		// verticalAlign: 'top',
-		y: 25,
+		y: 15, // docs
 		style: {
 			color: '#3E576F',
 			fontSize: '16px'
@@ -757,7 +757,7 @@ defaultOptions = {
 		// floating: false
 		// x: 0,
 		// verticalAlign: 'top',
-		y: 40,
+		y: 30, // docs
 		style: {
 			color: '#6D869F'
 		}
@@ -874,8 +874,8 @@ defaultOptions = {
 		symbolPadding: 5,
 		verticalAlign: 'bottom',
 		// width: undefined,
-		x: 15,
-		y: -15
+		x: 0, // docs
+		y: 0 // docs
 	},
 	
 	loading: {
@@ -953,7 +953,7 @@ var defaultXAxisOptions =  {
 	},
 	endOnTick: false,
 	gridLineColor: '#C0C0C0',
-	// gridLineDashStyle: 'shortdot',
+	// gridLineDashStyle: 'solid', // docs
 	// gridLineWidth: 0,
 	// reversed: false,
 	
@@ -1452,6 +1452,7 @@ SVGElement.prototype = {
 		} else {
 		
 			for (key in hash) {
+				skipAttr = false; // reset
 				value = hash[key];
 				
 				// paths
@@ -1485,11 +1486,11 @@ SVGElement.prototype = {
 					value = renderer.color(value, element, key);
 				
 				// circle x and y
-				} else if (nodeName == 'circle') {
+				} else if (nodeName == 'circle' && (key == 'x' || key == 'y')) {
 					key = { x: 'cx', y: 'cy' }[key] || key;
 					
-				// translation
-				} else if (key == 'translateX' || key == 'translateY') {
+				// translation and text rotation
+				} else if (key == 'translateX' || key == 'translateY' || key == 'rotation') {
 					this[key] = value;
 					this.updateTransform();
 					skipAttr = true;
@@ -1525,7 +1526,13 @@ SVGElement.prototype = {
 				// is unable to cast them. Test again with final IE9.
 				} else if (key == 'width') {
 					value = pInt(value);
+				
+				// Text alignment
+				} else if (key == 'align') {
+					key = 'text-anchor';
+					value = { left: 'start', center: 'middle', right: 'end' }[value];
 				}
+				
 				
 				
 				// jQuery animate changes case
@@ -1554,8 +1561,7 @@ SVGElement.prototype = {
 					i = shadows.length;
 					while (i--) {
 						attr(shadows[i], key, value);
-					}
-					
+					}					
 				}
 				
 					
@@ -1657,11 +1663,10 @@ SVGElement.prototype = {
 	 * @param {Number} y
 	 */
 	translate: function(x, y) {
-		var wrapper = this;
-		wrapper.translateX = x;
-		wrapper.translateY = y;
-		wrapper.updateTransform();
-		return wrapper;
+		return this.attr({
+			translateX: x,
+			translateY: y
+		});
 	},
 	
 	/**
@@ -1683,6 +1688,7 @@ SVGElement.prototype = {
 			translateX = wrapper.translateX || 0,
 			translateY = wrapper.translateY || 0,
 			inverted = wrapper.inverted,
+			rotation = wrapper.rotation,
 			transform = [];
 			
 		// flipping affects translate as adjustment for flipping around the group's axis
@@ -1699,6 +1705,8 @@ SVGElement.prototype = {
 		// apply rotation
 		if (inverted) {
 			transform.push('rotate(90) scale(-1,1)');
+		} else if (rotation) { // text rotation
+			transform.push('rotate('+ rotation +' '+ wrapper.x +' '+ wrapper.y +')');
 		}
 		
 		if (transform.length) {
@@ -2035,6 +2043,7 @@ SVGRenderer.prototype = {
 			styleRegex = /style="([^"]+)"/,
 			hrefRegex = /href="([^"]+)"/,
 			parentX = attr(textNode, 'x'),
+			lastLine,
 			i = childNodes.length;
 			
 			
@@ -2076,16 +2085,22 @@ SVGRenderer.prototype = {
 						attributes.dx = 3; // space
 					}
 					
+					
+					// first span on subsequent line, add the line height
+					if (!spanNo) {						
+						if (lineNo) {
+							attr(tspan, 'dy', lastLine.offsetHeight || 
+								pInt(window.getComputedStyle(lastLine, null).getPropertyValue('line-height')))
+						}
+						lastLine = tspan; // record for use in next line						
+					}
+					
 					// add attributes
 					attr(tspan, attributes);
 					
 					// append it
 					textNode.appendChild(tspan);
 					
-					// first span on subsequent line, add the line height
-					if (lineNo && !spanNo) {
-						attr(tspan, 'dy', pInt(window.getComputedStyle(tspan, null).getPropertyValue('line-height')));
-					}
 					
 					spanNo++;
 				}
@@ -2253,13 +2268,22 @@ SVGRenderer.prototype = {
 	 * @param {Number} height
 	 */
 	image: function(src, x, y, width, height) {
-		var elemWrapper = this.createElement('image').attr({
-			x: x,
-			y: y,
-			width: width,
-			height: height,
-			preserveAspectRatio: NONE
-		});		
+		var attribs = {
+				preserveAspectRatio: NONE	
+			},
+			elemWrapper;
+			
+		// optional properties
+		if (arguments.length > 1) {
+			extend(attribs, {
+				x: x,
+				y: y,
+				width: width,
+				height: height
+			});
+		}
+		
+		elemWrapper = this.createElement('image').attr(attribs);		
 		
 		// set the href in the xlink namespace
 		elemWrapper.element.setAttributeNS('http://www.w3.org/1999/xlink', 
@@ -2315,22 +2339,21 @@ SVGRenderer.prototype = {
 			
 			imageSrc = symbol.match(imageRegex)[1];
 			
-			// create the image
-			obj = this.image(imageSrc).attr({
-				visibility: HIDDEN
-			});
+			// create the image synchronously, add attribs async
+			obj = this.image(imageSrc)
+				.attr({
+					x: x,
+					y: y
+				});
 			
 			// create a dummy JavaScript image to get the width and height  
 			createElement('img', {
 				onload: function() {
 					var img = this,
 						size = symbolSizes[img.src] || [img.width, img.height];
-					obj.attr({
-						x: x,
-						y: y,
+					obj.attr({						
 						width: size[0],
-						height: size[1],
-						visibility: 'inherit'
+						height: size[1]
 					}).translate(
 						-mathRound(size[0] / 2),
 						-mathRound(size[1] / 2)
@@ -2518,47 +2541,55 @@ SVGRenderer.prototype = {
 	 * @param {Nubmer} rotation Rotation in degrees
 	 * @param {String} align Left, center or right
 	 */
-	text: function(str, x, y, style, rotation, align) {
-		style = style || {};
-		align = align || 'left';
-		rotation = rotation || 0;
+	text: function(str, x, y/*, style, rotation, align*/) {
+		//style = style || {};
+		//align = align || 'left';
+		//rotation = rotation || 0;
 		
 		// declare variables
 		var attribs,
 			css, 
-			fill = style.color || '#000000',
+			//fill = style.color || '#000000',
 			defaultChartStyle = defaultOptions.chart.style,
 			wrapper;
 	
 		x = mathRound(pick(x, 0));
 		y = mathRound(pick(y, 0));
 		
-		extend(style, {
+		/*extend(style, {
 			fontFamily: style.fontFamily || defaultChartStyle.fontFamily,
 			fontSize: style.fontSize || defaultChartStyle.fontSize
-		});
+		});*/
 		
 		// prepare style
-		css = serializeCSS(style);
+		//css = serializeCSS(style);
 		
 		// prepare attributes
-		attribs = {
-			x: x,
-			y: y,
-			style: css.replace(/"/g, "'"),
-			text: str,
-			fill: fill				
-		};
+		//attribs = ;
 			
-		if (rotation || align != 'left') {
+		/*if (rotation || align != 'left') {
 			attribs = extend(attribs, {
 				'text-anchor': { left: 'start', center: 'middle', right: 'end' }[align],
 				transform: 'rotate('+ rotation +' '+ x +' '+ y +')'
 			});
-		}
+		}*/
 
-		wrapper = this.createElement('text').attr(attribs);
-		wrapper.rotation = rotation; // used when setting x and y later
+		wrapper = this.createElement('text')
+			.attr({
+				x: x,
+				y: y,
+				//style: css.replace(/"/g, "'"),
+				text: str//,
+				//fill: fill				
+			})
+			.css({
+				'font-family': defaultChartStyle.fontFamily,
+				'font-size': defaultChartStyle.fontSize
+			});
+			
+		wrapper.x = x;
+		wrapper.y = y;
+		//wrapper.rotation = rotation; // used when setting x and y later
 		return wrapper;
 	}
 }; // end SVGRenderer
@@ -2633,16 +2664,7 @@ var VMLElement = extendClass( SVGElement, {
 			
 		// if the parent group is inverted, apply inversion on all children
 		if (inverted) { // only on groups
-			
-			parentStyle = parentNode.style;
-			
-			css(element, { 
-				flip: 'x',
-				left: pInt(parentStyle.width) - 10,
-				top: pInt(parentStyle.height) - 10,
-				rotation: -90
-			});
-			
+			renderer.invertChild(element, parentNode);			
 		}
 		
 		// append it
@@ -2651,10 +2673,7 @@ var VMLElement = extendClass( SVGElement, {
 		// align text after adding to be able to read offset
 		wrapper.added = true;
 		if (wrapper.alignOnAdd) {
-			wrapper.attr({
-				x: wrapper.x,
-				y: wrapper.y
-			})
+			wrapper.updateTransform();
 		}
 		
 		return wrapper;
@@ -2670,13 +2689,10 @@ var VMLElement = extendClass( SVGElement, {
 			element = this.element || {},
 			elemStyle = element.style,
 			nodeName = element.nodeName,
-			lineHeight = element.lineHeight,
-			align = element.align,
 			renderer = this.renderer,
 			symbolName = this.symbolName,
 			hasSetSymbolSize,
 			shadows = this.shadows,
-			bBox,
 			skipAttr,
 			ret = this;
 			
@@ -2718,7 +2734,7 @@ var VMLElement = extendClass( SVGElement, {
 					skipAttr = true;
 					
 				} else if (key == 'd') {
-					
+					value = value || [];
 					this.d = value.join(' '); // used in getter for animation
 					
 					// convert paths 
@@ -2780,6 +2796,7 @@ var VMLElement = extendClass( SVGElement, {
 										
 					// clipping rectangle special
 					if (this.updateClipping) {
+						this[key] = value;
 						this.updateClipping();
 						
 					} else {
@@ -2793,44 +2810,13 @@ var VMLElement = extendClass( SVGElement, {
 				} else if (/^(x|y)$/.test(key)) {
 
 					this[key] = value; // used in getter
-					if (nodeName == 'SPAN') {
-						// aligning non added elements is expensive
-						if (!this.added) {
-							this.alignOnAdd = true;
-							continue;
-						}
-						
-						// Adjust for alignment and rotation.
-						// Test case: http://highcharts.com/tests/?file=text-rotation
-						bBox = bBox || this.getBBox();
-						
-						var sintheta = this.sintheta || 0,
-							costheta = this.costheta || 1,
-							width = bBox.width,
-							height = bBox.height,
-							nonLeft = align && align != 'left';
-						
-						if (key == 'y') {
-							value += height * mathMin(sintheta, 0)
-								- mathMax(costheta, 0) * lineHeight;
-								
-							if (nonLeft) {
-								value -= height / { right: 1, center: 2 }[align]
-									* sintheta;
-							}
-						}
-						if (key == 'x') {
-							value += width * mathMin(costheta, 0)
-								+ mathMin(sintheta, 0) * lineHeight;
-								
-							if (nonLeft) {
-								value -= width / { right: 1, center: 2 }[align]
-									* costheta;
-							}
-						}
-						
+					
+					if (element.tagName == 'SPAN') {
+						this.updateTransform();
+					
+					} else {
+						elemStyle[{ x: 'left', y: 'top' }[key]] = value;
 					}
-					elemStyle[{ x: 'left', y: 'top' }[key]] = value;
 					
 				// class name
 				} else if (key == 'class') {
@@ -2874,10 +2860,12 @@ var VMLElement = extendClass( SVGElement, {
 						
 						key = 'fillcolor';
 					}
-				}
 				
 				// translation for animation
-				else if (key == 'translateX' || key == 'translateY') {
+				} else if (key == 'translateX' || key == 'translateY' || key == 'rotation' || key == 'align') {
+					if (key == 'align') {
+						key = 'textAlign';
+					}
 					this[key] = value;
 					this.updateTransform();
 					
@@ -3025,17 +3013,72 @@ var VMLElement = extendClass( SVGElement, {
 	 * Private method to update elements based on internal 
 	 * properties based on SVG transform
 	 */
-	updateTransform: function() {
+	updateTransform: function(hash) {
+		// aligning non added elements is expensive
+		if (!this.added) {
+			this.alignOnAdd = true;
+			return;
+		}
+		
+		
 		var wrapper = this,
+			elem = wrapper.element,
 			translateX = wrapper.translateX || 0,
-			translateY = wrapper.translateY || 0;
-			
+			translateY = wrapper.translateY || 0,
+			x = wrapper.x || 0,
+			y = wrapper.y || 0,
+			rotation = wrapper.rotation || 0,
+			radians = rotation * deg2rad, // deg to rad
+			costheta = mathCos(radians),
+			sintheta = mathSin(radians), 
+			align = wrapper.textAlign || 'left',
+			alignCorrection = { right: 1, center: 2 }[align],
+			nonLeft = align && align != 'left';			
+		
+		
 		// apply translate
 		if (translateX || translateY) {
 			wrapper.css({
 				marginLeft: translateX,
 				marginTop: translateY
 			});
+		}
+		
+		// apply inversion
+		if (wrapper.inverted) { // wrapper is a group
+			each(elem.childNodes, function(child) {
+				wrapper.renderer.invertChild(child, elem);
+			});
+		}
+		
+		if (elem.tagName == 'SPAN') {
+			// Adjust for alignment and rotation.
+			// Test case: http://highcharts.com/tests/?file=text-rotation
+			css (elem, {
+				filter: rotation ? ['progid:DXImageTransform.Microsoft.Matrix(M11=', costheta, 
+					', M12=', -sintheta, ', M21=', sintheta, ', M22=', costheta, 
+					', sizingMethod=\'auto expand\')'].join('') : NONE
+			});
+			
+			var width = elem.offsetWidth,
+				height = elem.offsetHeight,
+				lineHeight = mathRound(pInt(elem.style.fontSize || 12) * 1.2);
+			
+			// correct x and y
+			x += width * mathMin(costheta, 0) + mathMin(sintheta, 0) * lineHeight;
+			y += height * mathMin(sintheta, 0) - mathMax(costheta, 0) * lineHeight;
+				
+			if (nonLeft) {
+				x -= width / alignCorrection * costheta;
+				y -= height / alignCorrection * sintheta;
+			}
+			
+			css(elem, {
+				textAlign: align,
+				left: x,
+				top: y
+			});
+			
 		}
 	},
 	
@@ -3186,7 +3229,6 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 						height: bottom +PX
 					});
 				}
-				
 				return ret;
 			},
 			
@@ -3315,64 +3357,22 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 	 * @param {String} str
 	 * @param {Number} x
 	 * @param {Number} y
-	 * @param {Object} style
-	 * @param {Number} rotation
-	 * @param {String} align
 	 */
-	text: function(str, x, y, style, rotation, align) {
-		//if (str || str === 0) {
-		style = style || {};
-		align = align || 'left';
-		rotation = rotation || 0;
+	text: function(str, x, y) {
 		
-		// declare variables
-		var elemWrapper, 
-			elem, 
-			spanWidth,
-			lineHeight = mathRound(pInt(style.fontSize || 12) * 1.2),
-			defaultChartStyle = defaultOptions.chart.style; 
-	
-		x = mathRound(x);
-		y = mathRound(y);
-		
-		// set styles
-		extend(style, {
-			color: style.color || '#000000',
-			whiteSpace: 'nowrap',
-			// get font metrics for correct sizing
-			fontFamily: style.fontFamily || defaultChartStyle.fontFamily,
-			fontSize: style.fontSize || defaultChartStyle.fontSize
-		});
+		var defaultChartStyle = defaultOptions.chart.style; 
 			
-		elemWrapper = this.createElement('span');
-		elem = elemWrapper.element;
-		elem.lineHeight = lineHeight; // used in attr
-		elem.align = align; // internal prop used in attr
-			
-		
-		// apply rotation
-		if (rotation) {	
-			var radians = rotation * deg2rad, // deg to rad
-				costheta = mathCos(radians),
-				sintheta = mathSin(radians);
-			
-			css (elem, {
-				filter: ['progid:DXImageTransform.Microsoft.Matrix(M11=', costheta, 
-					', M12=', -sintheta, ', M21=', sintheta, ', M22=', costheta, 
-					', sizingMethod=\'auto expand\')'].join('')
+		return this.createElement('span')
+			.attr({
+				text: str,
+				x: mathRound(x),
+				y: mathRound(y)
+			})
+			.css({
+				whiteSpace: 'nowrap',
+				fontFamily: defaultChartStyle.fontFamily,
+				fontSize: defaultChartStyle.fontSize
 			});
-			elemWrapper.costheta = costheta;
-			elemWrapper.sintheta = sintheta;
-		}
-		
-		css(elem, style);
-		elemWrapper.attr({
-			text: str,
-			x: x,
-			y: y
-		});			
-			
-		return elemWrapper;
 	},
 	
 	/**
@@ -3471,6 +3471,22 @@ VMLRenderer.prototype = merge( SVGRenderer.prototype, { // inherit SVGRenderer
 			width: width || 0,
 			height: height || 0
 		});		
+	},
+	
+	/**
+	 * In the VML renderer, each child of an inverted div (group) is inverted
+	 * @param {Object} element
+	 * @param {Object} parentNode
+	 */
+	invertChild: function(element, parentNode) {
+		var parentStyle = parentNode.style;
+			
+		css(element, { 
+			flip: 'x',
+			left: pInt(parentStyle.width) - 10,
+			top: pInt(parentStyle.height) - 10,
+			rotation: -90
+		});
 	},
 	
 	/**
@@ -3658,6 +3674,8 @@ function Chart (options, callback) {
 		containerHeight,
 		chartWidth,
 		chartHeight,
+		oldChartWidth,
+		oldChartHeight,
 		chartBackground,
 		plotBackground,
 		plotBGImage,
@@ -3725,8 +3743,8 @@ function Chart (options, callback) {
 			offset = options.offset || 0,
 			xOrY = isXAxis ? 'x' : 'y',
 			axisLength,
-		
 			transA, // translation factor
+			oldTransA, // used for prerendering
 			transB = horiz ? plotLeft : marginBottom, // translation addend
 			axisGroup,
 			gridGroup,
@@ -3827,14 +3845,16 @@ function Chart (options, callback) {
 					this.label =  
 						defined(str) && withLabel && labelOptions.enabled ?
 							renderer.text(
-								str,
-								0,
-								0,
-								labelOptions.style, 
-								labelOptions.rotation,
-								labelOptions.align
-							)
-							.add(axisGroup):
+									str,
+									0,
+									0
+								)
+								.attr({
+									align: labelOptions.align,
+									rotation: labelOptions.rotation
+								})
+								.css(labelOptions.style)
+								.add(axisGroup):
 							null;
 				
 				// update
@@ -3856,8 +3876,9 @@ function Chart (options, callback) {
 			 * Put everything in place
 			 * 
 			 * @param index {Number}
+			 * @param old {Boolean} Use old coordinates to prepare an animation into new position
 			 */
-			render: function(index) {
+			render: function(index, old) {
 				var tick = this,
 					major = !tick.minor,
 					label = tick.label,
@@ -3867,7 +3888,7 @@ function Chart (options, callback) {
 					gridLineWidth = major ? options.gridLineWidth : options.minorGridLineWidth,
 					gridLineColor = major ? options.gridLineColor : options.minorGridLineColor,
 					dashStyle = major ? 
-						options.gridLineDashStyle || 'shortdot' : 
+						options.gridLineDashStyle : 
 						options.minorGridLineDashStyle,
 					gridLinePath,
 					mark = tick.mark,
@@ -3876,20 +3897,23 @@ function Chart (options, callback) {
 					tickWidth = major ? options.tickWidth : options.minorTickWidth,
 					tickColor = major ? options.tickColor : options.minorTickColor,
 					step = labelOptions.step,
+					cHeight = old && oldChartHeight || chartHeight,
 					attribs,
 					x,
 					y;
 					
+				// get x and y position for ticks and labels
 				x = horiz ? 
-					translate(pos + tickmarkOffset) + transB : 
-					plotLeft + offset + (opposite ? plotWidth : 0);
+					translate(pos + tickmarkOffset, null, null, old) + transB : 
+					plotLeft + offset + (opposite ? (old && oldChartWidth || chartWidth) - marginRight - plotLeft : 0);
+					
 				y = horiz ?
-					chartHeight - marginBottom + offset - (opposite ? plotHeight : 0) :
-					chartHeight - translate(pos + tickmarkOffset) - transB;
+					cHeight - marginBottom + offset - (opposite ? plotHeight : 0) :
+					cHeight - translate(pos + tickmarkOffset, null, null, old) - transB;
 					
 				// create the grid line
 				if (gridLineWidth) {
-					gridLinePath = getPlotLinePath(pos + tickmarkOffset, gridLineWidth);
+					gridLinePath = getPlotLinePath(pos + tickmarkOffset, gridLineWidth, old);
 					
 					if (gridLine === UNDEFINED) {
 						attribs = {
@@ -4102,12 +4126,14 @@ function Chart (options, callback) {
 					plotLine.label = label = renderer.text(
 							optionsLabel.text,
 							0,
-							0,
-							optionsLabel.style,
-							optionsLabel.rotation,
-							optionsLabel.textAlign || optionsLabel.align
+							0
 						)
-						.attr({ zIndex: zIndex })
+						.attr({
+							align: optionsLabel.textAlign || optionsLabel.align,
+							rotation: optionsLabel.rotation,
+							zIndex: zIndex
+						})
+						.css(optionsLabel.style)
 						.add();
 				}
 				
@@ -4298,11 +4324,16 @@ function Chart (options, callback) {
 		 * Translate from axis value to pixel position on the chart, or back
 		 * 
 		 */
-		function translate(val, backwards, cvsCoord) {
+		function translate(val, backwards, cvsCoord, old) {
 			var sign = 1,
 				cvsOffset = 0,
+				localA = old && oldTransA || transA,
 				returnValue;
-			
+				
+			if (!localA) {
+				localA = transA;
+			}
+				
 			if (cvsCoord) {
 				sign *= -1; // canvas coordinates inverts the value
 				cvsOffset = axisLength;
@@ -4316,10 +4347,10 @@ function Chart (options, callback) {
 				if (reversed) {
 					val = axisLength - val;
 				}
-				returnValue = val / transA + min; // from chart pixel to value				
+				returnValue = val / localA + min; // from chart pixel to value				
 			
 			} else { // normal translation
-				returnValue = sign * (val - min) * transA + cvsOffset; // from value to chart pixel
+				returnValue = sign * (val - min) * localA + cvsOffset; // from value to chart pixel
 			}
 			
 			return returnValue;
@@ -4330,31 +4361,34 @@ function Chart (options, callback) {
 		 * this axis, across the plot to the opposite side
 		 * @param {Number} value
 		 * @param {Number} lineWidth Used for calculation crisp line
+		 * @param {Number] old Use old coordinates (for resizing and rescaling)
 		 */
-		function getPlotLinePath(value, lineWidth) {
+		function getPlotLinePath(value, lineWidth, old) {
 			var x1, 
 				y1, 
 				x2, 
 				y2,
-				translatedValue = translate(value),
+				translatedValue = translate(value, null, null, old),
+				cHeight = old && oldChartHeight || chartHeight,
+				cWidth = old && oldChartWidth || chartWidth,
 				path,
 				skip;
 				
 			x1 = x2 = mathRound(translatedValue + transB);
-			y1 = y2 = mathRound(chartHeight - translatedValue - transB);
+			y1 = y2 = mathRound(cHeight - translatedValue - transB);
 			
 			if (isNaN(translatedValue)) { // no min or max
 				skip = true;
 			
 			} else if (horiz) { 
 				y1 = plotTop;
-				y2 = chartHeight - marginBottom;
+				y2 = cHeight - marginBottom;
 				if (x1 < plotLeft || x1 > plotLeft + plotWidth) {
 					skip = true;
 				}
 			} else {
 				x1 = plotLeft;
-				x2 = chartWidth - marginRight;
+				x2 = cWidth - marginRight;
 				if (y1 < plotTop || y1 > plotTop + plotHeight) {
 					skip = true;
 				}
@@ -4589,7 +4623,8 @@ function Chart (options, callback) {
 			while (i <= roundedMax) {
 				tickPositions.push(i);
 				i = correctFloat(i + tickInterval);
-			}			
+			}
+			
 		}
 		
 		/**
@@ -4599,6 +4634,10 @@ function Chart (options, callback) {
 		function setTickPositions(secondPass) {
 			var length,
 				catPad,
+				linkedParent,
+				linkedParentExtremes,
+				tickIntervalOption = options.tickInterval,
+				tickPixelIntervalOption = options.tickPixelInterval,
 				maxZoom = options.maxZoom || (
 					isXAxis ? 
 						mathMin(chart.smallestInterval * 5, dataMax - dataMin) : 
@@ -4609,16 +4648,18 @@ function Chart (options, callback) {
 			
 			axisLength = horiz ? plotWidth : plotHeight;
 			
-			// initial min and max from the extreme data values
-			min = pick(userSetMin, options.min, dataMin);
-			max = pick(userSetMax, options.max, dataMax);
-			
 			// linked axis gets the extremes from the parent axis
 			if (isLinked) {
-				var linkedParent = chart[isXAxis ? 'xAxis' : 'yAxis'][options.linkedTo],
-					linkedParentExtremes = linkedParent.getExtremes();
+				linkedParent = chart[isXAxis ? 'xAxis' : 'yAxis'][options.linkedTo];
+				linkedParentExtremes = linkedParent.getExtremes();
 				min = pick(linkedParentExtremes.min, linkedParentExtremes.dataMin);
-				max = pick(linkedParentExtremes.max, linkedParentExtremes.dataMax);			
+				max = pick(linkedParentExtremes.max, linkedParentExtremes.dataMax);
+			}
+			
+			// initial min and max from the extreme data values
+			else {
+				min = pick(userSetMin, options.min, dataMin);
+				max = pick(userSetMax, options.max, dataMax);
 			}
 			
 			// maxZoom exceeded, just center the selection
@@ -4644,17 +4685,20 @@ function Chart (options, callback) {
 			// get tickInterval
 			if (min == max) {
 				tickInterval = 1;
+			} else if (isLinked && !tickIntervalOption 
+					&& !tickPixelIntervalOption != linkedParent.options.tickPixelInterval) {
+				tickInterval = linkedParent.tickInterval;
 			} else {
 				tickInterval = pick(
-					options.tickInterval,
+					tickIntervalOption,
 					categories ? // for categoried axis, 1 is default, for linear axis use tickPix 
 						1 : 
-						(max - min) * options.tickPixelInterval / axisLength
+						(max - min) * tickPixelIntervalOption / axisLength
 				);
 			}
 			
 			if (!isDatetimeAxis && !defined(options.tickInterval)) { // linear
-				tickInterval = normalizeTickInterval(tickInterval);
+				axis.tickInterval = tickInterval = normalizeTickInterval(tickInterval);
 			}
 			
 			// get minorTickInterval
@@ -4679,16 +4723,18 @@ function Chart (options, callback) {
 			var roundedMin = tickPositions[0],
 				roundedMax = tickPositions[tickPositions.length - 1];
 			
-			if (options.startOnTick) {
-				min = roundedMin;
-			} else if (min > roundedMin) {
-				tickPositions.shift();
-			}
-			
-			if (options.endOnTick) {
-				max = roundedMax;
-			} else if (max < roundedMax) {
-				tickPositions.pop();
+			if (!isLinked) {
+				if (options.startOnTick) {
+					min = roundedMin;
+				} else if (min > roundedMin) {
+					tickPositions.shift();
+				}
+				
+				if (options.endOnTick) {
+					max = roundedMax;
+				} else if (max < roundedMax) {
+					tickPositions.pop();
+				}
 			}
 			
 			
@@ -4703,8 +4749,6 @@ function Chart (options, callback) {
 			if (!isDatetimeAxis && tickPositions.length > maxTicks[xOrY]) {
 				maxTicks[xOrY] = tickPositions.length;
 			}
-				
-			
 			
 		}
 		
@@ -4712,8 +4756,8 @@ function Chart (options, callback) {
 		 * When using multiple axes, adjust the number of ticks to match the highest
 		 * number of ticks in that group
 		 */ 
-		function adjustTickAmount() {
-			if (!isDatetimeAxis && !categories) { // only apply to linear scale
+		function adjustTickAmount() {			
+			if (!isDatetimeAxis && !categories && !isLinked) { // only apply to linear scale
 				var oldTickAmount = tickAmount,
 					calculatedTickAmount = tickPositions.length;
 					
@@ -4754,6 +4798,7 @@ function Chart (options, callback) {
 			setTickPositions();
 			
 			// the translation factor used in translate function
+			oldTransA = transA;
 			transA = axisLength / ((max - min) || 1);
 							
 			// reset stacks
@@ -4790,15 +4835,6 @@ function Chart (options, callback) {
 				min: newMin,
 				max: newMax
 			}, function() { // the default event handler
-				// make sure categorized axes are not exceeded
-				/*if (categories) {
-					if (newMin < 0) {
-						newMin = 0;
-					}
-					if (newMax > categories.length - 1) {
-						newMax = categories.length - 1;
-					}
-				}*/
 				
 				userSetMin = newMin;
 				userSetMax = newMax;
@@ -4855,6 +4891,7 @@ function Chart (options, callback) {
 		 * Render the tick labels to a preliminary position to get their sizes
 		 */
 		function getOffset() {
+			
 			var tickmarkPos,
 				hasData = associatedSeries.length && defined(min) && defined(max),
 				titleOffset = 0,
@@ -4888,9 +4925,10 @@ function Chart (options, callback) {
 						
 						// get the highest offset
 						labelOffset = mathMax(
-							ticks[pos].getLabelSize() +
+							ticks[pos].getLabelSize()// +
 								// on bottom axis, adjust for the line height when rotating labels
-								(side == 2 ? 16 * mathSin(rotation * deg2rad) : 0),
+								//(side == 2 ? 16 * mathAbs(mathSin(rotation * deg2rad)) : 0)
+								,
 							labelOffset
 						);
 					}
@@ -4912,12 +4950,16 @@ function Chart (options, callback) {
 					axis.axisTitle = renderer.text(
 						axisTitleOptions.text,
 						0,
-						0,
-						axisTitleOptions.style, 
-						axisTitleOptions.rotation || 0,
-						{ low: 'left', middle: 'center', high: 'right' }[axisTitleOptions.align]
+						0
 					)
-					.attr ({ zIndex: 7 })
+					.attr ({ 
+						zIndex: 7,
+						rotation: axisTitleOptions.rotation || 0,
+						align: 
+							axisTitleOptions.textAlign || 
+							{ low: 'left', middle: 'center', high: 'right' }[axisTitleOptions.align]
+					})
+					.css(axisTitleOptions.style)
 					.add();
 				}
 				
@@ -4963,6 +5005,35 @@ function Chart (options, callback) {
 			
 			// If the series has data draw the ticks. Else only the line and title
 			if (hasData || isLinked) {
+				
+				// first, add new ticks in positions translated from the old scale
+				if (hasRendered) {
+					each(tickPositions, function(pos, i) {
+						if (ticks[pos].isNew) {
+							ticks[pos].render(i, true);
+						}
+					});
+				}
+				oldTransA = null;
+				
+				// minor ticks and grid lines
+				if (minorTickInterval && !categories) {
+					var pos = min + (tickPositions[0] - min) % minorTickInterval;
+					for (pos; pos <= max; pos += minorTickInterval) {
+						if (!minorTicks[pos]) {
+							minorTicks[pos] = new Tick(pos, true);
+						}
+						minorTicks[pos].isActive = true;
+						minorTicks[pos].render();
+					}
+				}
+				
+				// move ticks to new positions
+				each(tickPositions, function(pos, i) {
+					ticks[pos].isActive = true;
+					ticks[pos].render(i);
+				});
+				
 				// alternate grid color
 				if (alternateGridColor) {
 					each(tickPositions, function(pos, i) {
@@ -4997,23 +5068,7 @@ function Chart (options, callback) {
 				}*/
 				
 				
-				// minor ticks and grid lines
-				if (minorTickInterval && !categories) {
-					var pos = min + (tickPositions[0] - min) % minorTickInterval;
-					for (pos; pos <= max; pos += minorTickInterval) {
-						if (!minorTicks[pos]) {
-							minorTicks[pos] = new Tick(pos, true);
-						}
-						minorTicks[pos].isActive = true;
-						minorTicks[pos].render();
-					}
-				}
 				
-				// major ticks, grid lines and tick marks
-				each(tickPositions, function(pos, i) {
-					ticks[pos].isActive = true;
-					ticks[pos].render(i);
-				});
 				
 				// remove inactive ticks
 				each([ticks, minorTicks, alternateBands], function(coll) {
@@ -5136,8 +5191,7 @@ function Chart (options, callback) {
 			}
 		
 			// render the axis
-			render();
-			
+			render();			
 			
 			// move plot lines and bands
 			each(plotLinesAndBands, function(plotLine) {
@@ -5218,7 +5272,6 @@ function Chart (options, callback) {
 		
 		// set min and max
 		setScale();
-			
 	
 	} // end Axis
 	
@@ -5236,11 +5289,9 @@ function Chart (options, callback) {
 				var button = renderer.text(
 					text,
 					0,
-					0,
-					options.toolbar.itemStyle,
-					0,
-					'right'
+					0
 				)
+				.css(options.toolbar.itemStyle)
 				.align({
 					align: 'right',
 					x: - marginRight - 20,
@@ -5251,7 +5302,10 @@ function Chart (options, callback) {
 					e.stopPropagation(); // don't fire the container event
 					fn();
 				})*/
-				.attr({ zIndex: 20 })
+				.attr({
+					align: 'right', 
+					zIndex: 20
+				})
 				.add();
 				buttons[id] = button;
 			}
@@ -6049,7 +6103,7 @@ function Chart (options, callback) {
 			itemX,
 			itemY,
 			lastItemY,
-			lastItemHeight,
+			lastItemHeight = 0,
 			box,
 			legendBorderWidth = options.borderWidth,
 			legendBackgroundColor = options.backgroundColor,
@@ -6107,8 +6161,10 @@ function Chart (options, callback) {
 				legendLine.translate(itemX, itemY - 4);
 			}
 			if (legendSymbol) {
-				legendSymbol
-					.translate(itemX, itemY);
+				legendSymbol.attr({
+					x: itemX + legendSymbol.xOff, 
+					y: itemY + legendSymbol.yOff
+				});
 			}
 			if (checkbox) {
 				checkbox.x = itemX;
@@ -6165,6 +6221,8 @@ function Chart (options, callback) {
 			var	bBox,
 				itemWidth,
 				legendSymbol,
+				symbolX,
+				symbolY,
 				simpleSymbol,
 				li = item.legendItem,
 				series = item.series || item;
@@ -6231,8 +6289,8 @@ function Chart (options, callback) {
 				if (simpleSymbol) { // bar|pie|area|column
 					//legendLayer.drawRect(
 					legendSymbol = renderer.rect(
-						-symbolWidth - symbolPadding,
-						-11,
+						(symbolX = -symbolWidth - symbolPadding),
+						(symbolY = -11),
 						symbolWidth,
 						12,
 						2
@@ -6246,14 +6304,21 @@ function Chart (options, callback) {
 				else if (item.options && item.options.marker && item.options.marker.enabled) {
 					legendSymbol = renderer.symbol(
 						item.symbol,
-						-symbolWidth / 2 - symbolPadding, 
-						-4, 
+						(symbolX = -symbolWidth / 2 - symbolPadding), 
+						(symbolY = -4),
 						item.options.marker.radius
 					)
 					.attr(item.pointAttr[NORMAL_STATE])
 					.attr({ zIndex: 3 })
 					.add(legendGroup);
+				
+					
 				}
+				if (legendSymbol) {
+					legendSymbol.xOff = symbolX;
+					legendSymbol.yOff = symbolY;
+				}
+				
 				item.legendSymbol = legendSymbol;
 					
 				// colorize the items
@@ -6396,11 +6461,11 @@ function Chart (options, callback) {
 					options[i < 2 ? 'x' : 'y'] = pInt(style[prop]) * (i % 2 ? -1 : 1);
 				}
 			}
-
+			
 			legendGroup.align(extend(options, {
 				width: legendWidth,
 				height: legendHeight
-			}), true);
+			}), true, spacingBox);
 			
 			if (!isResizing) {
 				positionCheckboxes();
@@ -6612,8 +6677,6 @@ function Chart (options, callback) {
 			tracker.resetTracker();
 		}
 		
-		
-		
 		// fire the event
 		fireEvent(chart, 'redraw');
 	}
@@ -6787,13 +6850,14 @@ function Chart (options, callback) {
 	zoom = function (event) {
 		
 		// add button to reset selection
-		var lang = defaultOptions.lang;
+		var lang = defaultOptions.lang,
+			animate = chart.pointCount < 100;
 		chart.toolbar.add('zoom', lang.resetZoom, lang.resetZoomTitle, zoomOut);
 		
 		// if zoom is called with no arguments, reset the axes
 		if (!event || event.resetSelection) {
 			each(axes, function(axis) {
-				axis.setExtremes(null, null, false);
+				axis.setExtremes(null, null, false, animate);
 			});
 		}
 			
@@ -6804,7 +6868,7 @@ function Chart (options, callback) {
 				
 				// don't zoom more than maxZoom
 				if (chart.tracker[axis.isXAxis ? 'zoomX' : 'zoomY']) {
-					axis.setExtremes(axisData.min, axisData.max, false);
+					axis.setExtremes(axisData.min, axisData.max, false, animate);
 				}
 			});
 		}
@@ -6844,18 +6908,18 @@ function Chart (options, callback) {
 				chart[name] = renderer.text(
 					chartTitleOptions.text, 
 					0,
-					0, 
-					chartTitleOptions.style, 
-					0,
-					chartTitleOptions.align
+					0
 				)
 				.attr({
+					align: chartTitleOptions.align,
 					'class': 'highcharts-'+ name,
 					zIndex: 1
 				})
+				.css(chartTitleOptions.style)
 				.add()
-				.align(chartTitleOptions);
+				.align(chartTitleOptions, false, spacingBox);
 			}
+			
 		});
 		
 	}
@@ -6975,26 +7039,27 @@ function Chart (options, callback) {
 		if ((chart.title || chart.subtitle) && !defined(optionsMarginTop)) {
 			titleOffset = mathMax(
 				chart.title && !chartTitleOptions.floating && !chartTitleOptions.verticalAlign && chartTitleOptions.y || 0, 
-				chart.subtitle && !chartSubtitleOptions.floating && !chartSubtitleOptions.verticalAlign && chartSubtitleOptions.y || 0
-			);
+				chart.subtitle && !chartSubtitleOptions.floating && !chartSubtitleOptions.verticalAlign && chartSubtitleOptions.y || 0				
+			) + spacingTop;
 			if (titleOffset) {
 				plotTop = mathMax(plotTop, titleOffset + pick(chartTitleOptions.margin, 15));
 			}
 		}
+		
 		// adjust for legend
 		if (legendOptions.enabled && !legendOptions.floating) {
 			if (align == 'right') { // horizontal alignment handled first
 				if (!defined(optionsMarginRight)) {
 					marginRight = mathMax(
 						marginRight,
-						legendWidth - legendX + legendMargin
+						legendWidth - legendX + legendMargin + spacingRight
 					);
 				}
 			} else if (align == 'left') {
 				if (!defined(optionsMarginLeft)) {
 					plotLeft = mathMax(
 						plotLeft,
-						legendWidth + legendX + legendMargin
+						legendWidth + legendX + legendMargin + spacingLeft
 					);
 				}
 				
@@ -7002,7 +7067,7 @@ function Chart (options, callback) {
 				if (!defined(optionsMarginTop)) {
 					plotTop = mathMax(
 						plotTop, 
-						legendHeight + legendY + legendMargin
+						legendHeight + legendY + legendMargin + spacingTop
 					);
 				}
 			
@@ -7010,7 +7075,7 @@ function Chart (options, callback) {
 				if (!defined(optionsMarginBottom)) {
 					marginBottom = mathMax(
 						marginBottom, 
-						legendHeight - legendY + legendMargin
+						legendHeight - legendY + legendMargin + spacingBottom
 					);
 				}
 			}
@@ -7047,13 +7112,10 @@ function Chart (options, callback) {
 	function initReflow() {
 		var reflowTimeout;
 		function reflow() {
-			var width = renderTo.offsetWidth,
-				height = renderTo.offsetHeight;
+			var width = optionsChart.width || renderTo.offsetWidth,
+				height = optionsChart.height || renderTo.offsetHeight;
 				
 			if (width != containerWidth || height != containerHeight) {
-				/*if (defined(width) && !isResizing) {
-					resize(width, height, false);
-				}*/
 				clearTimeout(reflowTimeout);
 				reflowTimeout = setTimeout(function() {
 					resize(width, height, false);
@@ -7075,16 +7137,23 @@ function Chart (options, callback) {
 	 * @param {Object|Boolean} animation
 	 */
 	function resize(width, height, animation) {
+		var chartTitle = chart.title,
+			chartSubtitle = chart.subtitle;
 		
 		isResizing += 1;
 		
 		// set the animation for the current process
 		globalAnimation = pick(animation, optionsChart.animation);
 		
-		
+		oldChartHeight = chartHeight;
+		oldChartWidth = chartWidth;
 		chartWidth = mathRound(width);
 		chartHeight = mathRound(height);
 		
+		css(container, {
+			width: chartWidth + PX,
+			height: chartHeight + PX
+		});
 		renderer.setSize(chartWidth, chartHeight);
 		
 		// update axis lengths for more correct tick intervals:
@@ -7108,9 +7177,14 @@ function Chart (options, callback) {
 		
 		getMargins();
 		 
+		// move titles
+		chartTitle && chartTitle.align(null, null, spacingBox);
+		chartSubtitle && chartSubtitle.align(null, null, spacingBox);
 		
 		redraw();
 		
+		
+		oldChartHeight = null;
 		fireEvent(chart, 'resize');
 		
 		// fire endResize and set isResizing back 
@@ -7297,10 +7371,10 @@ function Chart (options, callback) {
 				renderer.text(
 					this.html,
 					x,
-					y,
-					style
+					y
 				)
 				.attr({ zIndex: 2 })
+				.css(style)
 				.add();
 					
 			});
@@ -7320,15 +7394,16 @@ function Chart (options, callback) {
 			renderer.text(
 				credits.text,
 				0,
-				0,
-				credits.style,
-				0,
-				credits.position.align
+				0
 			)
 			.on('click', function() {
 				location.href = credits.href;
 			})
-			.attr({ zIndex: 8 })
+			.attr({
+				align: credits.position.align, 
+				zIndex: 8
+			})
+			.css(credits.style)
 			.add()
 			.align(credits.position); 
 		}
@@ -7433,7 +7508,12 @@ function Chart (options, callback) {
 		fireEvent(chart, 'load');
 		
 		globalAnimation = true;
-		callback && callback(chart);
+		
+		// run callbacks
+		callback && callback.apply(chart, [chart]);
+		each (chart.callbacks, function(fn) {
+			fn.apply(chart, [chart]);
+		});
 	}
 	
 	// Run chart
@@ -7482,7 +7562,6 @@ function Chart (options, callback) {
 	chart.showLoading = showLoading;	
 	chart.pointCount = 0;
 	
-	
 	/*
 	if ($) $(function() {
 		$container = $('#container');
@@ -7526,7 +7605,10 @@ function Chart (options, callback) {
 	firstRender();
 	
 	
-}
+} // end Chart
+
+// Hook for exporting module
+Chart.prototype.callbacks = [];
 
 /**
  * The Point object and prototype. Inheritable and used as base for PiePoint
@@ -8685,7 +8767,8 @@ Series.prototype = {
 				var plotX = pick(point.barX, point.plotX, -999),
 					plotY = pick(point.plotY, -999),
 					labelPos = point.labelPos,
-					dataLabel = point.dataLabel;
+					dataLabel = point.dataLabel,
+					align = options.align;
 					
 				// get the string
 				str = options.formatter.call({
@@ -8698,7 +8781,7 @@ Series.prototype = {
 				});
 				x = (inverted ? chart.plotWidth - plotY : plotX) + options.x;
 				y = (inverted ? chart.plotHeight - plotX : plotY) + options.y;
-				align = labelPos ? labelPos[6] : options.align;
+				//align = labelPos ? labelPos[6] : options.align;
 				
 				// in columns, align the string to the column
 				if (seriesType == 'column') {
@@ -8717,12 +8800,14 @@ Series.prototype = {
 					point.dataLabel = chart.renderer.text(
 						str, 
 						x, 
-						y, 
-						options.style, 
-						options.rotation, 
-						align
+						y
 					)
-					.attr({	zIndex: 1 })
+					.attr({
+						align: align,
+						rotation: options.rotation,
+						zIndex: 1
+					})
+					.css(options.style)
 					.add(dataLabelsGroup);
 				}
 				
@@ -10115,7 +10200,8 @@ var PieSeries = extendClass(Series, {
 							// move or place the data label
 							dataLabel
 								.attr({
-									visibility: visibility								
+									visibility: visibility,
+									align: labelPos[6]
 								})
 								.animate({
 									x: x + options.x 

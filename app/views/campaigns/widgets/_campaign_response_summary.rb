@@ -10,8 +10,3 @@ panel t("campaigns.reports.#{params[:action]}", :time_group => time_group_t, :ti
     end
   end
 end
-
-
-
-# Show when first opened and how long after campaign active that was
-# And last time clicked
