@@ -56,6 +56,25 @@ module Analytics
             SELECT
             {:select => visit_sql, :group => :length_of_visit, :order => :length_of_visit}
           }
+          
+          named_scope :read_time, lambda {
+            read_sql = <<-SELECT
+              if(duration > 0 and duration <= 1, '0-1',
+                if(duration > 1 or duration <= 2, '1-2',
+                  if(duration > 2 and duration <= 5, '2-5', 
+                    if(duration > 5 and duration <= 10, '6-10',
+                      if(duration > 10 and duration <= 30, '11-30',
+                        if(duration > 30 and duration <= 60, '31-60',
+                          if(duration > 60 and duration <= 120, '60-120', '120+')
+                        )
+                      )
+                    )
+                  )
+                )
+              )  as read_time
+            SELECT
+            {:select => read_sql, :group => :read_time, :order => :read_time}
+          }
         
           named_scope   :max_play_time, lambda{
             {
@@ -129,7 +148,7 @@ module Analytics
             unless defined?(@@campaign_dimensions)
               @@campaign_dimensions = ['campaign_summary', 'campaign_impressions', 'campaign_clicks_by_url',
                 'campaign_clicks_by_link_text', 'campaign_clicks_by_email_client', 'campaign_contacts_summary',
-                'campaign_content']     
+                'campaign_content', 'read_time']     
             end
             @@campaign_dimensions          
           end        
