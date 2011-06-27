@@ -47,9 +47,9 @@ class Browscap
         browser.is_syndication_reader = properties['isSyndicationReader'].downcase == 'true'
         browser.crawler = properties['Crawler'].downcase == 'true'
         browser.css_version = properties['CssVersion'].to_i
-        browser.supports_css = properties['supportsCSS'].downcase == 'true'
+        browser.supports_css = (properties['supportsCSS'].downcase == 'true') rescue 'false'
         browser.aol_version = properties['aolVersion'].to_i
-        browser.aol = properties['AOL'].downcase == 'true'
+        browser.aol = (properties['AOL'].downcase) == 'true' rescue 'false'
   		  
   		  @@user_agent_properties[section] = browser
   		  
