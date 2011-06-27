@@ -4,7 +4,7 @@ module Daemons
     class Trackster::InvalidEvent < Exception; end
     
     Signal.trap("TERM") do
-      logger.info "[Log analyser daemon] Termination requested (TERM signal received); terminating."  
+      Trackster::Logger.info "[Log analyser daemon] Termination requested (TERM signal received); terminating."  
       $RUNNING = false
     end
 
@@ -15,7 +15,7 @@ module Daemons
     end
 
     Signal.trap("HUP") do
-      logger.info "[Log analyser daemon] Reconfigure requested (HUP signal) but that's not yet available."  
+      Trackster::Logger.info "[Log analyser daemon] Reconfigure requested (HUP signal) but that's not yet available."  
     end
 
     def logger
